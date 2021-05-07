@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+  db: 
+    image: mysql:8.0.24
+    container_name: mseller-db
+    restart: always
+    env_file: .env
+    environment:
+      - MYSQL_DATABASE=wordpress
+    volumes:
+      - dbdata:/var/lib/mysql
+    command: '--default-authentication-plugin=mysql_native_password'
+    networks:
+      - app-network
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: mysql
+    ports:
+      - 8089:80    
+  wordpress:
+     depends_on: 
+      - db
+     image: wordpress:latest
+     container_name: mseller-wordpress
+     restart: always
+     env_file: .env
+     ports:
+      - 8088:80
+     environment:
+      - WORDPRESS_DB_HOST=db:3306
+      - WORDPRESS_DB_USER=$MYSQL_USER
+      - WORDPRESS_DB_PASSWORD=$MYSQL_PASSWORD
+      - WORDPRESS_DB_NAME=wordpress
+     volumes:
+       - ./wordpress:/var/www/html
+     networks:
+       - app-network
+  
+volumes:
+  wordpress:
+  dbdata:
+      
+networks:
+  app-network:
+    driver: bridge
