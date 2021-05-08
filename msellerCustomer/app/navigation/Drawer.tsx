@@ -9,6 +9,7 @@ import {
 } from '@react-navigation/drawer';
 
 import TabNavigator from './TabNavigator';
+import {Layout} from '@ui-kitten/components';
 
 function Notifications() {
   return (
@@ -18,11 +19,11 @@ function Notifications() {
   );
 }
 
-function CustomDrawerContent(props) {
+const HeaderOnList = props => {
   return (
     <DrawerContentScrollView {...props}>
       <DrawerItemList {...props} />
-      <CartList navigation={props.navigation} />
+
       <DrawerItem
         label="Close drawer"
         onPress={() => props.navigation.closeDrawer()}
@@ -33,6 +34,16 @@ function CustomDrawerContent(props) {
       />
     </DrawerContentScrollView>
   );
+};
+function CustomDrawerContent(props) {
+  return (
+    <Layout>
+      <CartList
+        navigation={props.navigation}
+        listHeader={React.createElement(HeaderOnList, props)}
+      />
+    </Layout>
+  );
 }
 
 const Drawer = createDrawerNavigator();
@@ -41,7 +52,7 @@ export const NavigationDrawer = () => {
   return (
     <Drawer.Navigator
       drawerPosition="right"
-      drawerType="back"
+      // drawerType="back"
       // openByDefault={true}
       drawerContent={props => <CustomDrawerContent {...props} />}>
       <Drawer.Screen name="Feed" component={TabNavigator} />

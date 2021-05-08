@@ -18,25 +18,39 @@ import {
   ImageBackground,
 } from 'react-native';
 import {useNavigation, Navigation} from '@react-navigation/core';
+import {useIsDrawerOpen} from '@react-navigation/drawer';
 
 interface Data {
   cart?: Cart;
 }
 interface Props {
   navigation: Navigation;
+  listHeader?: React.ComponentType<any> | React.ReactElement | null;
+  listFooter?: React.ComponentType<any> | React.ReactElement | null;
 }
-export const CartList: React.FC<Props> = ({navigation}) => {
+export const CartList: React.FC<Props> = ({
+  navigation,
+  listHeader,
+  listFooter,
+}) => {
   const styles = useStyleSheet(themedStyles);
+  const isDrawerOpen = useIsDrawerOpen();
   //const navigation = useNavigation();
 
-  const {loading: isLoading, data, error: categoriesError} = useQuery<Data>(
-    GET_CART,
-    {fetchPolicy: 'no-cache'},
-  ); // Use the type here for type safety
+  const {
+    loading: isLoading,
+    data,
+    error: categoriesError,
+    refetch,
+  } = useQuery<Data>(GET_CART, {fetchPolicy: 'no-cache'}); // Use the type here for type safety
 
   const {cart} = data || {};
 
-  console.log('data CART query', data, isLoading);
+  React.useEffect(() => {
+    if (isDrawerOpen) {
+      refetch();
+    }
+  }, [isDrawerOpen]);
 
   if (isLoading) {
     return (
@@ -87,14 +101,16 @@ export const CartList: React.FC<Props> = ({navigation}) => {
     </Card>
   );
 
-  return (
+  return isDrawerOpen ? (
     <List
+      ListHeaderComponent={listHeader}
+      ListFooterComponent={listFooter}
       contentContainerStyle={styles.CartList}
-      data={cart.contents?.nodes}
+      data={cart?.contents?.nodes}
       numColumns={1}
       renderItem={renderProductItem}
     />
-  );
+  ) : null;
 };
 
 const themedStyles = StyleService.create({
