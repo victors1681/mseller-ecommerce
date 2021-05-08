@@ -4,6 +4,22 @@ import {
   ApolloLink,
   HttpLink,
 } from '@apollo/client';
+import {setContext} from '@apollo/client/link/context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const sessionStorage = setContext(async () => {
+  try {
+    //get session
+    const wooSession = await AsyncStorage.getItem('woo-session');
+    const setSession = async (value: string) => {
+      console.log('Setting the session ', value);
+      await AsyncStorage.setItem('woo-session', value);
+    };
+    return {wooSession, setSession};
+  } catch (e) {
+    console.error('session', e);
+  }
+});
 
 /**
  * Middleware operation
@@ -13,11 +29,12 @@ export const middleware = new ApolloLink((operation, forward) => {
   /**
    * If session data exist in local storage, set value as session header.
    */
-  const session = window.localStorage.getItem('woo-session');
-  if (session) {
+  const {wooSession} = operation.getContext();
+  console.log('OPPPPPPP', wooSession);
+  if (wooSession) {
     operation.setContext(({headers = {}}) => ({
       headers: {
-        'woocommerce-session': `Session ${session}`,
+        'woocommerce-session': `Session ${wooSession}`,
       },
     }));
   }
@@ -37,14 +54,14 @@ export const afterware = new ApolloLink((operation, forward) => {
     const context = operation.getContext();
     const {
       response: {headers},
+      wooSession,
+      setSession,
     } = context;
     const session = headers.get('woocommerce-session');
+
     if (session) {
-      if (window.localStorage.getItem('woo-session') !== session) {
-        window.localStorage.setItem(
-          'woo-session',
-          headers.get('woocommerce-session'),
-        );
+      if (wooSession !== session) {
+        setSession(session); //sync woocommerce-session & woo-session to have same value
       }
     }
 
@@ -58,6 +75,9 @@ const httpLink = new HttpLink({
 
 // Initialize Apollo Client
 export const client = new ApolloClient({
-  link: middleware.concat(afterware.concat(httpLink)),
+  link: ApolloLink.from([
+    sessionStorage,
+    middleware.concat(afterware.concat(httpLink)),
+  ]),
   cache: new InMemoryCache(),
 });
