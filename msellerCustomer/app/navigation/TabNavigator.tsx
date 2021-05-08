@@ -10,7 +10,7 @@ import {
 import {View, Button} from 'react-native';
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-
+import HomeStackNavigator from '../navigation/HomeStackNavigator';
 const PersonIcon = props => <Icon {...props} name="cube-outline" />;
 
 const BellIcon = props => <Icon {...props} name="file-text-outline" />;
@@ -18,22 +18,6 @@ const BellIcon = props => <Icon {...props} name="file-text-outline" />;
 const EmailIcon = props => <Icon {...props} name="person-outline" />;
 
 const {Navigator, Screen} = createBottomTabNavigator();
-
-const UsersScreen = () => (
-  <Layout style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-    <Text category="h1">USERS</Text>
-  </Layout>
-);
-
-function Products({navigation}) {
-  return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>Products Screen</Text>
-      <Button title="Open drawer" onPress={() => navigation.openDrawer()} />
-      <Button title="Toggle drawer" onPress={() => navigation.toggleDrawer()} />
-    </View>
-  );
-}
 
 const OrdersScreen = () => (
   <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
@@ -57,7 +41,7 @@ export const BottomNavigationAccessoriesShowcase = ({navigation, state}) => {
 const TabNavigator = () => (
   <Navigator
     tabBar={props => <BottomNavigationAccessoriesShowcase {...props} />}>
-    <Screen name="Productos" component={Products} />
+    <Screen name="Home" component={HomeStackNavigator} />
     <Screen name="Orders" component={OrdersScreen} />
     <Screen name="Acc" component={OrdersScreen} />
   </Navigator>
