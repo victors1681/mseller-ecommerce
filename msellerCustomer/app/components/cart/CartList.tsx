@@ -1,15 +1,7 @@
 import React from 'react';
 import {useQuery} from '@apollo/client';
-import {
-  RootQueryToProductConnection,
-  RootQueryToProductConnectionWhereArgs,
-  ProductCategory,
-  SimpleProduct,
-} from '../../generated/graphql'; // Import
-import {CartIcon} from './extra/icons';
-import {GET_ALL_PRODUCTS} from '../../graphql/products';
-import {useCart} from '../cart/useCart';
-
+import {CartItem, Cart} from '../../generated/graphql'; // Import
+import {GET_CART, ADD_TO_CART} from '../../graphql/cart';
 import {
   Spinner,
   Button,
@@ -25,33 +17,26 @@ import {
   ListRenderItemInfo,
   ImageBackground,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/core';
+import {useNavigation, Navigation} from '@react-navigation/core';
 
 interface Data {
-  products?: RootQueryToProductConnection;
-}
-interface QueryArgs {
-  where: RootQueryToProductConnectionWhereArgs;
+  cart?: Cart;
 }
 interface Props {
-  categoryId: number;
-  search: string;
+  navigation: Navigation;
 }
-export const ProductList: React.FC<Props> = ({categoryId, search}) => {
+export const CartList: React.FC<Props> = ({navigation}) => {
   const styles = useStyleSheet(themedStyles);
-  const navigation = useNavigation();
+  //const navigation = useNavigation();
 
-  const {addToCart} = useCart();
-  const {loading: isLoading, data, error: categoriesError} = useQuery<
-    Data,
-    QueryArgs
-  >(GET_ALL_PRODUCTS, {
-    variables: {
-      where: {categoryId, search},
-    },
-  }); // Use the type here for type safety
+  const {loading: isLoading, data, error: categoriesError} = useQuery<Data>(
+    GET_CART,
+    {fetchPolicy: 'no-cache'},
+  ); // Use the type here for type safety
 
-  const {products} = data || {};
+  const {cart} = data || {};
+
+  console.log('data CART query', data, isLoading);
 
   if (isLoading) {
     return (
@@ -67,62 +52,46 @@ export const ProductList: React.FC<Props> = ({categoryId, search}) => {
       </View>
     );
   }
-  if (!products) {
-    return <Text>None</Text>;
+  if (cart.contents?.nodes?.length === 0) {
+    return (
+      <View style={styles.wrapper}>
+        <Text>No tiene productos por comprar</Text>
+      </View>
+    );
   }
 
   const onItemPress = (index: number): void => {
     navigation && navigation.navigate('ProductDetails3');
   };
 
-  const onItemCartPress = (index: number): void => {
-    //    navigation && navigation.navigate('ShoppingCart');
-    addToCart();
-  };
-
-  const renderItemFooter = (
-    info: ListRenderItemInfo<ProductCategory | SimpleProduct>,
-  ): React.ReactElement => (
-    <View style={styles.itemFooter}>
-      <Text category="s1">{info.item.price}</Text>
-      <Button
-        style={styles.iconButton}
-        size="small"
-        accessoryLeft={CartIcon}
-        onPress={() => onItemCartPress(info.index)}
-      />
-    </View>
-  );
-
   const renderItemHeader = (
-    info: ListRenderItemInfo<ProductCategory>,
+    info: ListRenderItemInfo<CartItem>,
   ): React.ReactElement => (
     <ImageBackground
       style={styles.itemHeader}
-      source={{uri: info.item.image?.sourceUrl || ''}}
+      source={{uri: info.item.product?.node?.image?.sourceUrl || ''}}
     />
   );
 
   const renderProductItem = (
-    info: ListRenderItemInfo<ProductCategory>,
+    info: ListRenderItemInfo<CartItem>,
   ): React.ReactElement => (
     <Card
       style={styles.productItem}
       header={() => renderItemHeader(info)}
-      footer={() => renderItemFooter(info)}
       onPress={() => onItemPress(info.index)}>
-      <Text category="s1">{info.item.name || ''}</Text>
+      <Text category="s1">{info.item.product?.node?.name || ''}</Text>
       <Text appearance="hint" category="c1">
-        {info.item.id}
+        {info.item.quantity || '0'}
       </Text>
     </Card>
   );
 
   return (
     <List
-      contentContainerStyle={styles.productList}
-      data={products.nodes}
-      numColumns={2}
+      contentContainerStyle={styles.CartList}
+      data={cart.contents?.nodes}
+      numColumns={1}
       renderItem={renderProductItem}
     />
   );
@@ -139,7 +108,7 @@ const themedStyles = StyleService.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  productList: {
+  CartList: {
     paddingHorizontal: 8,
     paddingVertical: 16,
   },
@@ -164,4 +133,4 @@ const themedStyles = StyleService.create({
   },
 });
 
-export default ProductList;
+export default CartList;

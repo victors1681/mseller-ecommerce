@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {View, Text, Button} from 'react-native';
-
+import {CartList} from '../components/cart/CartList';
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
@@ -22,6 +22,7 @@ function CustomDrawerContent(props) {
   return (
     <DrawerContentScrollView {...props}>
       <DrawerItemList {...props} />
+      <CartList navigation={props.navigation} />
       <DrawerItem
         label="Close drawer"
         onPress={() => props.navigation.closeDrawer()}
@@ -41,6 +42,7 @@ export const NavigationDrawer = () => {
     <Drawer.Navigator
       drawerPosition="right"
       drawerType="back"
+      // openByDefault={true}
       drawerContent={props => <CustomDrawerContent {...props} />}>
       <Drawer.Screen name="Feed" component={TabNavigator} />
       <Drawer.Screen name="Notifications" component={Notifications} />

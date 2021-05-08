@@ -1,7 +1,7 @@
 import React from 'react';
 import {useQuery} from '@apollo/client';
 import {RootQueryToProductCategoryConnection} from '../../generated/graphql'; // Import
-import {GET_ALL_CATEGORIES} from '../../graphql/queries/categories';
+import {GET_ALL_CATEGORIES} from '../../graphql/categories';
 import {Spinner, Text} from '@ui-kitten/components';
 import {
   StyleSheet,
