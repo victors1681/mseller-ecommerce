@@ -6,7 +6,7 @@ import AppNavigator from './app/navigation/Navigation';
 
 import {AppRegistry} from 'react-native';
 import {ApolloProvider} from '@apollo/client';
-
+import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
 import {client} from './app/services/apolloClient';
 
 const App: React.FC = () => (
@@ -17,6 +17,8 @@ const App: React.FC = () => (
     </ApplicationProvider>
   </ApolloProvider>
 );
-AppRegistry.registerComponent('MyApplication', () => App);
+AppRegistry.registerComponent('MyApplication', () =>
+  gestureHandlerRootHOC(App),
+);
 
 export default App;

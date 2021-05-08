@@ -32,7 +32,7 @@ export const middleware = new ApolloLink((operation, forward) => {
   const {wooSession} = operation.getContext();
   console.log('OPPPPPPP', wooSession);
   if (wooSession) {
-    operation.setContext(({headers = {}}) => ({
+    operation.setContext(() => ({
       headers: {
         'woocommerce-session': `Session ${wooSession}`,
       },

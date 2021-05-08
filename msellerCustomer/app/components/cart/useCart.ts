@@ -1,5 +1,4 @@
-import {useMutation, FetchResult} from '@apollo/client';
-import React from 'react';
+import {useMutation} from '@apollo/client';
 import {Cart, CartItemInput} from '../../generated/graphql'; // Import
 import {ADD_TO_CART} from '../../graphql/cart';
 
@@ -14,13 +13,8 @@ interface Args {
 export const useCart = () => {
   const [add, {data, loading, error}] = useMutation<Data, Args>(ADD_TO_CART);
 
-  React.useEffect(() => {
-    console.log('DATA Added', data, error);
-  }, [data]);
-
-  const addToCart = () => {
-    console.log('AADDING PRODUCT');
-    add({variables: {input: {productId: 23, quantity: 1}}});
+  const addToCart = (productId: number, quantity: number) => {
+    add({variables: {input: {productId, quantity}}});
   };
 
   return {

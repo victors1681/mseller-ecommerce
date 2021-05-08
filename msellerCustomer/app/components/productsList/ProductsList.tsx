@@ -75,11 +75,6 @@ export const ProductList: React.FC<Props> = ({categoryId, search}) => {
     navigation && navigation.navigate('ProductDetails3');
   };
 
-  const onItemCartPress = (index: number): void => {
-    //    navigation && navigation.navigate('ShoppingCart');
-    addToCart();
-  };
-
   const renderItemFooter = (
     info: ListRenderItemInfo<ProductCategory | SimpleProduct>,
   ): React.ReactElement => (
@@ -89,7 +84,7 @@ export const ProductList: React.FC<Props> = ({categoryId, search}) => {
         style={styles.iconButton}
         size="small"
         accessoryLeft={CartIcon}
-        onPress={() => onItemCartPress(info.index)}
+        onPress={() => addToCart(info.item.databaseId, 1)}
       />
     </View>
   );
