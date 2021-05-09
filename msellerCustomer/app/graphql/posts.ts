@@ -1,15 +1,15 @@
 import {gql} from '@apollo/client';
 
 export const GET_PROMO_POSTS = gql`
-  query PromoPosts {
-    posts(where: {categoryName: "promo", status: PUBLISH}) {
+  query PromoPosts($where: RootQueryToPostConnectionWhereArgs) {
+    posts(where: $where) {
       nodes {
         title
         status
         date
         featuredImage {
           node {
-            sourceUrl(size: MEDIUM)
+            sourceUrl(size: LARGE)
           }
         }
       }

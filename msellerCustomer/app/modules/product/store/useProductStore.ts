@@ -3,7 +3,7 @@ import {
   RootQueryToProductConnectionWhereArgs,
   RootQueryToProductConnection,
   RootQueryToProductCategoryConnection,
-} from 'app/generated/graphql'; // Import
+} from 'app/generated/graphql';
 import {
   useQuery,
   ApolloError,

@@ -1,22 +1,24 @@
 import React from 'react';
 import {SliderBox} from 'react-native-image-slider-box';
+import {useTheme} from '@ui-kitten/components';
+import {usePromoPosts} from 'app/hooks';
 
 export const ImageSlider = () => {
-  const images = [
-    'https://images.unsplash.com/photo-1496595351388-d74ec2c9c9cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1364&q=80',
-    'https://images.unsplash.com/photo-1500731753043-cbb4269ca2ac?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1385&q=80',
-    'https://images.unsplash.com/photo-1522262139463-236991a708cb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1406&q=80',
-    'https://images.unsplash.com/photo-1446059004666-8148312ba98b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-    'https://images.unsplash.com/photo-1540544660406-6a69dacb2804?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1431&q=80',
-  ];
+  const theme = useTheme();
+  const {images} = usePromoPosts();
 
+  const primaryColor = theme['color-primary-default'];
+  const disabled = theme['color-primary-disabled'];
+  const background = theme['background-basic-color-3'];
   return (
     <SliderBox
       images={images}
       sliderBoxHeight={200}
-      onCurrentImagePressed={index => console.warn(`image ${index} pressed`)}
-      dotColor="#FFEE58"
-      inactiveDotColor="#90A4AE"
+      onCurrentImagePressed={(index: number) =>
+        console.warn(`image ${index} pressed`)
+      }
+      dotColor={primaryColor}
+      inactiveDotColor={disabled}
       paginationBoxVerticalPadding={20}
       autoplay
       circleLoop
@@ -38,10 +40,10 @@ export const ImageSlider = () => {
         marginHorizontal: 0,
         padding: 0,
         margin: 0,
-        backgroundColor: 'rgba(128, 128, 128, 0.92)',
+        backgroundColor: {background},
       }}
       ImageComponentStyle={{borderRadius: 15, width: '97%', marginTop: 5}}
-      imageLoadingColor="#2196F3"
+      imageLoadingColor={primaryColor}
     />
   );
 };
