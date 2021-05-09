@@ -3,7 +3,7 @@ import {Icon, Input} from '@ui-kitten/components';
 import {StyleSheet} from 'react-native';
 import {useProduct} from 'app/hooks';
 
-const SearchIcon = () => <Icon name="search" />;
+const SearchIcon = props => <Icon {...props} name="search" />;
 
 interface Props {
   categoryId?: number;

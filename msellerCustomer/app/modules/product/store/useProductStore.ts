@@ -23,7 +23,7 @@ interface CategoriesResponseData {
 }
 
 export interface ProductStore {
-  handleSearch: (_search: string, _categoryId?: number | undefined) => void;
+  handleSearch: (_search: string, _categoryId?: number) => void;
   product: {
     data: ProductResponseData | undefined;
     isLoading: boolean;

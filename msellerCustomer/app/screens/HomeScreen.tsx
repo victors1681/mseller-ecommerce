@@ -1,8 +1,8 @@
 import React from 'react';
 import {SafeAreaView} from 'react-native';
-import {Button, Divider, Layout, TopNavigation} from '@ui-kitten/components';
+import {Button, Divider, Layout} from '@ui-kitten/components';
 import Categories from '../modules/categories/Categories';
-
+import {AutoComplete} from 'app/modules/product/components/autoComplete';
 export const HomeScreen = ({navigation}) => {
   const navigateDetails = () => {
     navigation.navigate('Products');
@@ -10,6 +10,7 @@ export const HomeScreen = ({navigation}) => {
 
   return (
     <SafeAreaView style={{flex: 1}}>
+      <AutoComplete />
       <Divider />
       <Categories />
       <Layout style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
