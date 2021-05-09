@@ -1,56 +1,40 @@
 import React from 'react';
-import {useQuery} from '@apollo/client';
 import {CartItem, Cart} from '../../generated/graphql'; // Import
-import {GET_CART, ADD_TO_CART} from '../../graphql/cart';
 import {
   Spinner,
-  Button,
-  Card,
   List,
   StyleService,
   Text,
   useStyleSheet,
+  Divider,
 } from '@ui-kitten/components';
-import {
-  View,
-  Dimensions,
-  ListRenderItemInfo,
-  ImageBackground,
-} from 'react-native';
-import {useNavigation, Navigation} from '@react-navigation/core';
-import {useIsDrawerOpen} from '@react-navigation/drawer';
+import {View, Dimensions, ListRenderItemInfo} from 'react-native';
 
+import {useIsDrawerOpen} from '@react-navigation/drawer';
+import {CartItemRow} from './CartItemRow';
+import {useCart} from 'app/hooks/useCart';
 interface Data {
   cart?: Cart;
 }
 interface Props {
-  navigation: Navigation;
+  //navigation: Navigation;
   listHeader?: React.ComponentType<any> | React.ReactElement | null;
   listFooter?: React.ComponentType<any> | React.ReactElement | null;
 }
-export const CartList: React.FC<Props> = ({
-  navigation,
-  listHeader,
-  listFooter,
-}) => {
+export const CartList: React.FC<Props> = ({listHeader, listFooter}) => {
   const styles = useStyleSheet(themedStyles);
   const isDrawerOpen = useIsDrawerOpen();
   //const navigation = useNavigation();
 
-  const {
-    loading: isLoading,
-    data,
-    error: categoriesError,
-    refetch,
-  } = useQuery<Data>(GET_CART, {fetchPolicy: 'no-cache'}); // Use the type here for type safety
+  const {data, refetch, isLoading, error} = useCart();
 
   const {cart} = data || {};
-
+  console.log('cart?.contents?.nodes', cart?.contents?.nodes);
   React.useEffect(() => {
     if (isDrawerOpen) {
       refetch();
     }
-  }, [isDrawerOpen]);
+  }, [isDrawerOpen, refetch]);
 
   if (isLoading) {
     return (
@@ -59,14 +43,14 @@ export const CartList: React.FC<Props> = ({
       </View>
     );
   }
-  if (categoriesError) {
+  if (error) {
     return (
       <View style={styles.wrapper}>
-        <Text>An error occurred {JSON.stringify(categoriesError)}</Text>
+        <Text>An error occurred {JSON.stringify(error)}</Text>
       </View>
     );
   }
-  if (cart.contents?.nodes?.length === 0) {
+  if (cart?.contents?.nodes?.length === 0) {
     return (
       <View style={styles.wrapper}>
         <Text>No tiene productos por comprar</Text>
@@ -74,32 +58,11 @@ export const CartList: React.FC<Props> = ({
     );
   }
 
-  const onItemPress = (index: number): void => {
-    navigation && navigation.navigate('ProductDetails3');
-  };
-
-  const renderItemHeader = (
-    info: ListRenderItemInfo<CartItem>,
-  ): React.ReactElement => (
-    <ImageBackground
-      style={styles.itemHeader}
-      source={{uri: info.item.product?.node?.image?.sourceUrl || ''}}
-    />
-  );
-
   const renderProductItem = (
     info: ListRenderItemInfo<CartItem>,
-  ): React.ReactElement => (
-    <Card
-      style={styles.productItem}
-      header={() => renderItemHeader(info)}
-      onPress={() => onItemPress(info.index)}>
-      <Text category="s1">{info.item.product?.node?.name || ''}</Text>
-      <Text appearance="hint" category="c1">
-        {info.item.quantity || '0'}
-      </Text>
-    </Card>
-  );
+  ): React.ReactElement => {
+    return <CartItemRow info={info} />;
+  };
 
   return isDrawerOpen ? (
     <List
@@ -109,6 +72,7 @@ export const CartList: React.FC<Props> = ({
       data={cart?.contents?.nodes}
       numColumns={1}
       renderItem={renderProductItem}
+      ItemSeparatorComponent={Divider}
     />
   ) : null;
 };

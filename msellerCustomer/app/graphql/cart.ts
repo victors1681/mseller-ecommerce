@@ -14,6 +14,7 @@ export const CART_FRAGMENT = gql`
       nodes {
         quantity
         total
+        key
         product {
           node {
             image {
@@ -46,6 +47,21 @@ export const ADD_TO_CART = gql`
     addToCart(input: $input) {
       cart {
         ...cartFields
+      }
+    }
+  }
+`;
+
+export const REMOVE_ITEM = gql`
+  mutation RemoveItem($input: RemoveItemsFromCartInput!) {
+    __typename
+    removeItemsFromCart(input: $input) {
+      cartItems {
+        product {
+          node {
+            databaseId
+          }
+        }
       }
     }
   }

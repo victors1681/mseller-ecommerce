@@ -5,10 +5,10 @@ import {
   RootQueryToProductConnectionWhereArgs,
   ProductCategory,
   SimpleProduct,
-} from '../../generated/graphql'; // Import
+} from 'app/generated/graphql'; // Import
 import {CartIcon} from './extra/icons';
-import {GET_ALL_PRODUCTS} from '../../graphql/products';
-import {useCart} from '../cart/useCart';
+import {GET_ALL_PRODUCTS} from 'app/graphql/products';
+import {useCart} from 'app/hooks';
 
 import {
   Spinner,
@@ -41,7 +41,7 @@ export const ProductList: React.FC<Props> = ({categoryId, search}) => {
   const styles = useStyleSheet(themedStyles);
   const navigation = useNavigation();
 
-  const {addToCart} = useCart();
+  const {addItem, isLoading: isCartLoading} = useCart();
   const {loading: isLoading, data, error: categoriesError} = useQuery<
     Data,
     QueryArgs
@@ -75,6 +75,12 @@ export const ProductList: React.FC<Props> = ({categoryId, search}) => {
     navigation && navigation.navigate('ProductDetails3');
   };
 
+  const LoadingIndicator = () => (
+    <View style={[styles.indicator]}>
+      <Spinner size="small" />
+    </View>
+  );
+
   const renderItemFooter = (
     info: ListRenderItemInfo<ProductCategory | SimpleProduct>,
   ): React.ReactElement => (
@@ -83,8 +89,9 @@ export const ProductList: React.FC<Props> = ({categoryId, search}) => {
       <Button
         style={styles.iconButton}
         size="small"
-        accessoryLeft={CartIcon}
-        onPress={() => addToCart(info.item.databaseId, 1)}
+        disable={isCartLoading}
+        accessoryLeft={isCartLoading ? LoadingIndicator : CartIcon}
+        onPress={() => addItem(info.item.databaseId, 1)}
       />
     </View>
   );
@@ -156,6 +163,10 @@ const themedStyles = StyleService.create({
   },
   iconButton: {
     paddingHorizontal: 0,
+  },
+  indicator: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
