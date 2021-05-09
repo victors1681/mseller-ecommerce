@@ -12,7 +12,6 @@ const sessionStorage = setContext(async () => {
     //get session
     const wooSession = await AsyncStorage.getItem('woo-session');
     const setSession = async (value: string) => {
-      console.log('Setting the session ', value);
       await AsyncStorage.setItem('woo-session', value);
     };
     return {wooSession, setSession};
@@ -30,7 +29,7 @@ export const middleware = new ApolloLink((operation, forward) => {
    * If session data exist in local storage, set value as session header.
    */
   const {wooSession} = operation.getContext();
-  console.log('OPPPPPPP', wooSession);
+
   if (wooSession) {
     operation.setContext(() => ({
       headers: {

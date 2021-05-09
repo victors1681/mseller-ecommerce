@@ -1,10 +1,12 @@
 import * as React from 'react';
-import {View, Text, Button} from 'react-native';
+import {View, Text} from 'react-native';
 import {CartList} from '../components/cart/CartList';
 import {
   createDrawerNavigator,
   DrawerItemList,
   DrawerItem,
+  DrawerContentComponentProps,
+  DrawerContentOptions,
 } from '@react-navigation/drawer';
 
 import TabNavigator from './TabNavigator';
@@ -18,7 +20,9 @@ function Notifications() {
   );
 }
 
-const HeaderOnList = props => {
+const HeaderOnList = (
+  props: DrawerContentComponentProps<DrawerContentOptions>,
+) => {
   return (
     <View {...props}>
       <DrawerItemList {...props} />
@@ -34,13 +38,12 @@ const HeaderOnList = props => {
     </View>
   );
 };
-function CustomDrawerContent(props) {
+function CustomDrawerContent(
+  props: DrawerContentComponentProps<DrawerContentOptions>,
+) {
   return (
     <Layout>
-      <CartList
-        navigation={props.navigation}
-        listHeader={React.createElement(HeaderOnList, props)}
-      />
+      <CartList listHeader={React.createElement(HeaderOnList, props)} />
     </Layout>
   );
 }
@@ -51,8 +54,6 @@ export const NavigationDrawer = () => {
   return (
     <Drawer.Navigator
       drawerPosition="right"
-      // drawerType="back"
-      // openByDefault={true}
       drawerContent={props => <CustomDrawerContent {...props} />}>
       <Drawer.Screen name="Feed" component={TabNavigator} />
       <Drawer.Screen name="Notifications" component={Notifications} />

@@ -17,7 +17,6 @@ interface Data {
   cart?: Cart;
 }
 interface Props {
-  //navigation: Navigation;
   listHeader?: React.ComponentType<any> | React.ReactElement | null;
   listFooter?: React.ComponentType<any> | React.ReactElement | null;
 }
@@ -26,15 +25,17 @@ export const CartList: React.FC<Props> = ({listHeader, listFooter}) => {
   const isDrawerOpen = useIsDrawerOpen();
   //const navigation = useNavigation();
 
-  const {data, refetch, isLoading, error} = useCart();
+  const {cart, refetch, isLoading, error, updateItemInfo} = useCart();
 
-  const {cart} = data || {};
-  console.log('cart?.contents?.nodes', cart?.contents?.nodes);
   React.useEffect(() => {
     if (isDrawerOpen) {
       refetch();
     }
-  }, [isDrawerOpen, refetch]);
+  }, [isDrawerOpen]);
+
+  /**
+   * Perform on update
+   */
 
   if (isLoading) {
     return (
@@ -64,17 +65,25 @@ export const CartList: React.FC<Props> = ({listHeader, listFooter}) => {
     return <CartItemRow info={info} />;
   };
 
-  return isDrawerOpen ? (
+  const renderFooter = () => {
+    return (
+      <View>
+        <Text>SubTotal: {cart?.subtotal || ''}</Text>
+      </View>
+    );
+  };
+  return (
     <List
       ListHeaderComponent={listHeader}
-      ListFooterComponent={listFooter}
+      ListFooterComponent={renderFooter}
       contentContainerStyle={styles.CartList}
       data={cart?.contents?.nodes}
       numColumns={1}
       renderItem={renderProductItem}
       ItemSeparatorComponent={Divider}
+      refreshing={isLoading}
     />
-  ) : null;
+  );
 };
 
 const themedStyles = StyleService.create({

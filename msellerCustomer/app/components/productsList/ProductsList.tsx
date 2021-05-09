@@ -88,16 +88,19 @@ export const ProductList: React.FC<Props> = ({categoryId, search}) => {
     info: ListRenderItemInfo<FullProduct>,
   ): React.ReactElement => {
     const item = info.item as SimpleProduct;
+
     return (
       <View style={styles.itemFooter}>
         <Text category="s1">{item.price || ''}</Text>
-        <Button
-          style={styles.iconButton}
-          size="small"
-          disabled={isCartLoading}
-          accessoryLeft={(isCartLoading ? LoadingIndicator : CartIcon) as any}
-          onPress={() => addItem(info.item.databaseId, 1)}
-        />
+        {item.purchasable && (
+          <Button
+            style={styles.iconButton}
+            size="small"
+            disabled={isCartLoading}
+            accessoryLeft={(isCartLoading ? LoadingIndicator : CartIcon) as any}
+            onPress={() => addItem(info.item.databaseId, 1)}
+          />
+        )}
       </View>
     );
   };

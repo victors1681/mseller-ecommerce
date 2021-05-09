@@ -15,12 +15,14 @@ interface Props {
 }
 export const CartItemRow: React.FC<Props> = ({info}): React.ReactElement => {
   const {item} = info;
-  const product = info?.item.product?.node as
-    | Product
-    | SimpleProduct
-    | undefined;
+  const product = info?.item.product?.node as Product;
+  const nodeSimple = info?.item.product?.node as SimpleProduct;
 
-  const {removeItem} = useCart();
+  const {removeItem, updateItem, updateItemInfo} = useCart();
+
+  const {loading: isLoading} = updateItemInfo;
+  const [qty, setQty] = React.useState<number>(item.quantity || 0);
+
   const decrementButtonEnabled = (): boolean => {
     return (item?.quantity || 0) > 1;
   };
@@ -29,9 +31,19 @@ export const CartItemRow: React.FC<Props> = ({info}): React.ReactElement => {
     removeItem(key);
   };
 
-  const onMinusButtonPress = (): void => {};
+  React.useEffect(() => {
+    if (item.quantity !== qty) {
+      updateItem(item.key, qty);
+    }
+  }, [qty, item]);
 
-  const onPlusButtonPress = (): void => {};
+  const onMinusButtonPress = (): void => {
+    setQty(prev => prev - 1);
+  };
+
+  const onPlusButtonPress = (): void => {
+    setQty(prev => prev + 1);
+  };
 
   return (
     <ListItem style={[styles.container]}>
@@ -44,23 +56,24 @@ export const CartItemRow: React.FC<Props> = ({info}): React.ReactElement => {
         <Text appearance="hint" category="c1">
           {product?.shortDescription || ''}
         </Text>
-        <Text category="c1">{product?.price || ''}</Text>
+        <Text category="c1">{nodeSimple?.price || ''}</Text>
         <View style={styles.amountContainer}>
           <Button
             style={[styles.iconButton, styles.amountButton]}
             size="tiny"
-            accessoryLeft={MinusIcon}
+            accessoryLeft={MinusIcon as any}
             onPress={onMinusButtonPress}
-            disabled={!decrementButtonEnabled()}
+            disabled={!decrementButtonEnabled() || isLoading}
           />
           <Text style={styles.amount} category="s2">
-            {`${item?.quantity || 0}`}
+            {`${qty}`}
           </Text>
           <Button
             style={[styles.iconButton, styles.amountButton]}
             size="tiny"
-            accessoryLeft={PlusIcon}
+            accessoryLeft={PlusIcon as any}
             onPress={onPlusButtonPress}
+            disabled={isLoading}
           />
         </View>
       </View>
@@ -68,7 +81,7 @@ export const CartItemRow: React.FC<Props> = ({info}): React.ReactElement => {
         style={[styles.iconButton, styles.removeButton]}
         appearance="ghost"
         status="basic"
-        accessoryLeft={CloseIcon}
+        accessoryLeft={CloseIcon as any}
         onPress={onRemoveButtonPress(item.key)}
       />
     </ListItem>

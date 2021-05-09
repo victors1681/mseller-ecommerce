@@ -53,15 +53,24 @@ export const ADD_TO_CART = gql`
 `;
 
 export const REMOVE_ITEM = gql`
+  ${CART_FRAGMENT}
   mutation RemoveItem($input: RemoveItemsFromCartInput!) {
     __typename
     removeItemsFromCart(input: $input) {
-      cartItems {
-        product {
-          node {
-            databaseId
-          }
-        }
+      cart {
+        ...cartFields
+      }
+    }
+  }
+`;
+
+export const UPDATE_QUANTITY = gql`
+  ${CART_FRAGMENT}
+  mutation UpdateItemQuantities($input: UpdateItemQuantitiesInput!) {
+    __typename
+    updateItemQuantities(input: $input) {
+      cart {
+        ...cartFields
       }
     }
   }
