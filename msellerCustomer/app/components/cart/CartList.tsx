@@ -25,7 +25,7 @@ export const CartList: React.FC<Props> = ({listHeader, listFooter}) => {
   const isDrawerOpen = useIsDrawerOpen();
   //const navigation = useNavigation();
 
-  const {cart, refetch, isLoading, error, updateItemInfo} = useCart();
+  const {cart, refetch, isLoading, error} = useCart();
 
   React.useEffect(() => {
     if (isDrawerOpen) {
@@ -65,17 +65,10 @@ export const CartList: React.FC<Props> = ({listHeader, listFooter}) => {
     return <CartItemRow info={info} />;
   };
 
-  const renderFooter = () => {
-    return (
-      <View>
-        <Text>SubTotal: {cart?.subtotal || ''}</Text>
-      </View>
-    );
-  };
   return (
     <List
       ListHeaderComponent={listHeader}
-      ListFooterComponent={renderFooter}
+      ListFooterComponent={listFooter}
       contentContainerStyle={styles.CartList}
       data={cart?.contents?.nodes}
       numColumns={1}

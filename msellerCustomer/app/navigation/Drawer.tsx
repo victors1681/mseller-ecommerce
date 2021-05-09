@@ -1,16 +1,15 @@
 import * as React from 'react';
 import {View, Text} from 'react-native';
-import {CartList} from '../components/cart/CartList';
+import {CartDrawerLayout} from '../components/cart';
 import {
   createDrawerNavigator,
-  DrawerItemList,
-  DrawerItem,
   DrawerContentComponentProps,
   DrawerContentOptions,
 } from '@react-navigation/drawer';
 
 import TabNavigator from './TabNavigator';
-import {Layout} from '@ui-kitten/components';
+
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 function Notifications() {
   return (
@@ -20,31 +19,13 @@ function Notifications() {
   );
 }
 
-const HeaderOnList = (
-  props: DrawerContentComponentProps<DrawerContentOptions>,
-) => {
-  return (
-    <View {...props}>
-      <DrawerItemList {...props} />
-
-      <DrawerItem
-        label="Close drawer"
-        onPress={() => props.navigation.closeDrawer()}
-      />
-      <DrawerItem
-        label="Toggle drawer"
-        onPress={() => props.navigation.toggleDrawer()}
-      />
-    </View>
-  );
-};
 function CustomDrawerContent(
   props: DrawerContentComponentProps<DrawerContentOptions>,
 ) {
   return (
-    <Layout>
-      <CartList listHeader={React.createElement(HeaderOnList, props)} />
-    </Layout>
+    <SafeAreaView style={{flex: 1}}>
+      <CartDrawerLayout navigation={props.navigation} />
+    </SafeAreaView>
   );
 }
 
