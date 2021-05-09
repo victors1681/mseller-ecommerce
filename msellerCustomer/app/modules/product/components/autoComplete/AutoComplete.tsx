@@ -25,7 +25,7 @@ export const AutoComplete = () => {
   const SearchIcon = (props: any) => <Icon {...props} name="search" />;
   const LoadingState = () => <Spinner size="tiny" />;
   const onChangeText = (query: string) => {
-    console.log('queyr', query);
+    setValue(undefined);
     handleSearch(query);
   };
   React.useEffect(() => {

@@ -42,7 +42,12 @@ export const ImageSlider = () => {
         margin: 0,
         backgroundColor: {background},
       }}
-      ImageComponentStyle={{borderRadius: 15, width: '97%', marginTop: 5}}
+      ImageComponentStyle={{
+        borderRadius: 15,
+        width: '97%',
+        marginTop: 8,
+        marginBottom: 8,
+      }}
       imageLoadingColor={primaryColor}
     />
   );
