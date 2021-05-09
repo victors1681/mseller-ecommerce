@@ -37,6 +37,9 @@ interface Props {
   categoryId: number;
   search: string;
 }
+
+type FullProduct = SimpleProduct | ProductCategory;
+
 export const ProductList: React.FC<Props> = ({categoryId, search}) => {
   const styles = useStyleSheet(themedStyles);
   const navigation = useNavigation();
@@ -71,8 +74,8 @@ export const ProductList: React.FC<Props> = ({categoryId, search}) => {
     return <Text>None</Text>;
   }
 
-  const onItemPress = (index: number): void => {
-    navigation && navigation.navigate('ProductDetails3');
+  const onItemPress = (productId: number): void => {
+    navigation && navigation.navigate('ProductDetails', {productId});
   };
 
   const LoadingIndicator = () => (
@@ -82,22 +85,25 @@ export const ProductList: React.FC<Props> = ({categoryId, search}) => {
   );
 
   const renderItemFooter = (
-    info: ListRenderItemInfo<ProductCategory | SimpleProduct>,
-  ): React.ReactElement => (
-    <View style={styles.itemFooter}>
-      <Text category="s1">{info.item.price}</Text>
-      <Button
-        style={styles.iconButton}
-        size="small"
-        disable={isCartLoading}
-        accessoryLeft={isCartLoading ? LoadingIndicator : CartIcon}
-        onPress={() => addItem(info.item.databaseId, 1)}
-      />
-    </View>
-  );
+    info: ListRenderItemInfo<FullProduct>,
+  ): React.ReactElement => {
+    const item = info.item as SimpleProduct;
+    return (
+      <View style={styles.itemFooter}>
+        <Text category="s1">{item.price || ''}</Text>
+        <Button
+          style={styles.iconButton}
+          size="small"
+          disabled={isCartLoading}
+          accessoryLeft={(isCartLoading ? LoadingIndicator : CartIcon) as any}
+          onPress={() => addItem(info.item.databaseId, 1)}
+        />
+      </View>
+    );
+  };
 
   const renderItemHeader = (
-    info: ListRenderItemInfo<ProductCategory>,
+    info: ListRenderItemInfo<FullProduct>,
   ): React.ReactElement => (
     <ImageBackground
       style={styles.itemHeader}
@@ -106,13 +112,13 @@ export const ProductList: React.FC<Props> = ({categoryId, search}) => {
   );
 
   const renderProductItem = (
-    info: ListRenderItemInfo<ProductCategory>,
+    info: ListRenderItemInfo<FullProduct>,
   ): React.ReactElement => (
     <Card
       style={styles.productItem}
       header={() => renderItemHeader(info)}
       footer={() => renderItemFooter(info)}
-      onPress={() => onItemPress(info.index)}>
+      onPress={() => onItemPress(info.item.databaseId)}>
       <Text category="s1">{info.item.name || ''}</Text>
       <Text appearance="hint" category="c1">
         {info.item.id}

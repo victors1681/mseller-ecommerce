@@ -3,7 +3,6 @@ import {View, Text, Button} from 'react-native';
 import {CartList} from '../components/cart/CartList';
 import {
   createDrawerNavigator,
-  DrawerContentScrollView,
   DrawerItemList,
   DrawerItem,
 } from '@react-navigation/drawer';
@@ -21,7 +20,7 @@ function Notifications() {
 
 const HeaderOnList = props => {
   return (
-    <DrawerContentScrollView {...props}>
+    <View {...props}>
       <DrawerItemList {...props} />
 
       <DrawerItem
@@ -32,7 +31,7 @@ const HeaderOnList = props => {
         label="Toggle drawer"
         onPress={() => props.navigation.toggleDrawer()}
       />
-    </DrawerContentScrollView>
+    </View>
   );
 };
 function CustomDrawerContent(props) {
