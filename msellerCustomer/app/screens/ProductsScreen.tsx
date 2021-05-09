@@ -1,54 +1,36 @@
 import React from 'react';
-import {SafeAreaView, StyleSheet, View} from 'react-native';
-import {
-  Divider,
-  Icon,
-  Layout,
-  Text,
-  TopNavigation,
-  TopNavigationAction,
-  Input,
-} from '@ui-kitten/components';
-import {ProductList} from '../components/productsList';
+import {SafeAreaView, StyleSheet} from 'react-native';
+import {Divider, Layout} from '@ui-kitten/components';
+import {ProductList} from '../modules/product';
 import {useRoute} from '@react-navigation/core';
-const SearchIcon = style => <Icon {...style} name="search" />;
-
-const SearchBar = ({handleSearch}) => (
-  <Input
-    style={styles.searchBar}
-    placeholder="Search"
-    accessoryRight={SearchIcon}
-    onChangeText={handleSearch}
-  />
-);
+import {SearchBar} from 'app/modules/product/components/searchBar';
 export const ProductsScreen = () => {
   const {params} = useRoute<any>();
-  const [search, setSearch] = React.useState('');
   const {categoryId} = params;
 
-  const handleSearch = (value: string) => setSearch(value);
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <View>
-        <Divider />
-        <SearchBar handleSearch={handleSearch} />
-        <ProductList categoryId={categoryId} search={search} />
-        <Layout
-          style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <Text category="h1">Products</Text>
-        </Layout>
-      </View>
+    <SafeAreaView style={styles.wrapper}>
+      <Layout style={styles.searchBar}>
+        <SearchBar categoryId={categoryId} />
+      </Layout>
+      <Divider />
+      <Layout style={styles.content}>
+        <ProductList />
+      </Layout>
     </SafeAreaView>
   );
 };
 
+export default ProductsScreen;
+
 const styles = StyleSheet.create({
-  searchBar: {
-    padding: 8,
+  wrapper: {
+    flex: 1,
   },
-  container: {
-    backgroundColor: 'red',
+  searchBar: {
+    height: 60,
+  },
+  content: {
+    flex: 1,
   },
 });
-
-export default ProductsScreen;

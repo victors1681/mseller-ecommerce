@@ -1,7 +1,7 @@
 import React from 'react';
 import {SafeAreaView} from 'react-native';
 import {Button, Divider, Layout, TopNavigation} from '@ui-kitten/components';
-import Categories from '../components/categories/Categories';
+import Categories from '../modules/categories/Categories';
 
 export const HomeScreen = ({navigation}) => {
   const navigateDetails = () => {

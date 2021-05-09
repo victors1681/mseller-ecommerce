@@ -1,30 +1,26 @@
 import React from 'react';
-import {useQuery} from '@apollo/client';
-import {RootQueryToProductCategoryConnection} from '../../generated/graphql'; // Import
-import {GET_ALL_CATEGORIES} from '../../graphql/categories';
 import {Spinner, Text} from '@ui-kitten/components';
 import {
   StyleSheet,
   FlatList,
   View,
-  SafeAreaView,
   Image,
   TouchableHighlight,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/core';
+import {useProduct} from 'app/hooks';
 
-interface Data {
-  productCategories?: RootQueryToProductCategoryConnection;
-}
 export default function Categories() {
-  const {loading: isLoading, data, error: categoriesError} = useQuery<Data>(
-    GET_ALL_CATEGORIES,
-  ); // Use the type here for type safety
+  const {
+    handleSearch,
+    categories: {error: categoriesError, isLoading, data},
+  } = useProduct();
 
   const navigation = useNavigation();
   const {productCategories} = data || {};
 
   const navigateToProducts = (categoryId?: number) => {
+    handleSearch('', categoryId);
     navigation.navigate('Products', {categoryId});
   };
 

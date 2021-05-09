@@ -3,7 +3,8 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {NavigationDrawer} from './Drawer';
 import {navigationRef, isReadyRef} from './RootNavigation';
-import {CartProvider} from 'app/components/cart/context';
+import {CartProvider} from 'app/modules/cart/context';
+import {ProductProvider} from 'app/modules/product/context';
 export const AppNavigator = () => {
   React.useEffect(() => {
     return () => {
@@ -17,9 +18,11 @@ export const AppNavigator = () => {
       onReady={() => {
         (isReadyRef as React.MutableRefObject<boolean>).current = true;
       }}>
-      <CartProvider>
-        <NavigationDrawer />
-      </CartProvider>
+      <ProductProvider>
+        <CartProvider>
+          <NavigationDrawer />
+        </CartProvider>
+      </ProductProvider>
     </NavigationContainer>
   );
 };

@@ -1,14 +1,7 @@
 import React from 'react';
-import {useQuery} from '@apollo/client';
-import {
-  RootQueryToProductConnection,
-  RootQueryToProductConnectionWhereArgs,
-  ProductCategory,
-  SimpleProduct,
-} from 'app/generated/graphql'; // Import
+import {ProductCategory, SimpleProduct} from 'app/generated/graphql'; // Import
 import {CartIcon} from './extra/icons';
-import {GET_ALL_PRODUCTS} from 'app/graphql/products';
-import {useCart} from 'app/hooks';
+import {useCart, useProduct} from 'app/hooks';
 
 import {
   Spinner,
@@ -27,34 +20,19 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/core';
 
-interface Data {
-  products?: RootQueryToProductConnection;
-}
-interface QueryArgs {
-  where: RootQueryToProductConnectionWhereArgs;
-}
-interface Props {
-  categoryId: number;
-  search: string;
-}
-
 type FullProduct = SimpleProduct | ProductCategory;
 
-export const ProductList: React.FC<Props> = ({categoryId, search}) => {
+export const ProductList: React.FC = () => {
   const styles = useStyleSheet(themedStyles);
   const navigation = useNavigation();
 
   const {addItem, isLoading: isCartLoading} = useCart();
-  const {loading: isLoading, data, error: categoriesError} = useQuery<
-    Data,
-    QueryArgs
-  >(GET_ALL_PRODUCTS, {
-    variables: {
-      where: {categoryId, search},
-    },
-  }); // Use the type here for type safety
 
-  const {products} = data || {};
+  const {
+    product: {isLoading, data, error: categoriesError},
+  } = useProduct();
+
+  const products = data?.products;
 
   if (isLoading) {
     return (

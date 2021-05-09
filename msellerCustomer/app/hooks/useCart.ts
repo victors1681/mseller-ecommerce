@@ -1,6 +1,6 @@
 import React from 'react';
-import {CartContext} from 'app/components/cart/context/CartContext';
-import {CartStore} from 'app/components/cart/store/useCartStore';
+import {CartContext} from 'app/modules/cart/context/CartContext';
+import {CartStore} from 'app/modules/cart/store/useCartStore';
 
 /**
  * For easy access to cart from any part of the app
