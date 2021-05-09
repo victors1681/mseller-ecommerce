@@ -4,9 +4,10 @@ import {Divider, Layout} from '@ui-kitten/components';
 import {ProductList} from '../modules/product';
 import {useRoute} from '@react-navigation/core';
 import {SearchBar} from 'app/modules/product/components/searchBar';
+
 export const ProductsScreen = () => {
   const {params} = useRoute<any>();
-  const {categoryId} = params;
+  const categoryId = params?.categoryId;
 
   return (
     <SafeAreaView style={styles.wrapper}>
