@@ -4,7 +4,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import Home from '../screens/HomeScreen';
 import Products from '../screens/ProductsScreen';
 import {Icon, useTheme} from '@ui-kitten/components';
-import {TouchableOpacity, View, StyleSheet} from 'react-native';
+import {TouchableOpacity, View, StyleSheet, Image} from 'react-native';
 
 const Stack = createStackNavigator();
 
@@ -23,7 +23,16 @@ const HomeStackNavigator = ({navigation}) => {
         name="Home"
         component={Home}
         options={{
-          title: 'Productos',
+          headerTitle: () => {
+            return (
+              <Image
+                style={{width: 200, height: 30}}
+                source={require('app/assets/images/logo-mseller-dark.png')}
+                resizeMode="contain"
+              />
+            );
+          },
+          //title: 'Productos',
           headerRight: () => (
             <TouchableOpacity
               activeOpacity={0.5}
