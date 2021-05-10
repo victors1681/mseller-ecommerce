@@ -9,7 +9,7 @@ import {
   Product,
 } from 'app/generated/graphql';
 import {useCart} from 'app/hooks/useCart';
-
+import {getSourceImage} from 'app/utils';
 interface Props {
   info: ListRenderItemInfo<CartItemInterface>;
 }
@@ -49,7 +49,7 @@ export const CartItemRow: React.FC<Props> = ({info}): React.ReactElement => {
     <ListItem style={[styles.container]}>
       <Image
         style={styles.image}
-        source={{uri: product?.image?.sourceUrl || ''}}
+        source={getSourceImage(product?.image?.sourceUrl as string)}
       />
       <View style={styles.detailsContainer}>
         <Text category="s2">{product?.name || ''}</Text>

@@ -1,16 +1,10 @@
 import React from 'react';
 import {Card, Spinner, Text, StyleService} from '@ui-kitten/components';
-import {
-  StyleSheet,
-  FlatList,
-  View,
-  Image,
-  Dimensions,
-  ImageBackground,
-} from 'react-native';
+import {FlatList, View, Dimensions, ImageBackground} from 'react-native';
 import {useNavigation} from '@react-navigation/core';
 import {useProduct} from 'app/hooks';
 import {ProductCategory} from 'app/generated/graphql';
+import {getSourceImage} from 'app/utils';
 
 export default function Categories() {
   const {
@@ -46,7 +40,7 @@ export default function Categories() {
   const renderItemHeader = (item?: ProductCategory): React.ReactElement => (
     <ImageBackground
       style={styles.itemHeader}
-      source={{uri: item?.image?.sourceUrl || ''}}
+      source={getSourceImage(item?.image?.sourceUrl as string)}
     />
   );
 
@@ -76,7 +70,7 @@ export default function Categories() {
         renderItem={({item}) => <CategoryCard item={item as ProductCategory} />}
         //Setting the number of column
         numColumns={3}
-        keyExtractor={(item, index) => index}
+        keyExtractor={item => item?.id as string}
       />
     </View>
   );

@@ -19,7 +19,7 @@ import {
   ImageBackground,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/core';
-
+import {getSourceImage} from 'app/utils';
 type FullProduct = SimpleProduct | ProductCategory;
 
 export const ProductList: React.FC = () => {
@@ -88,7 +88,7 @@ export const ProductList: React.FC = () => {
   ): React.ReactElement => (
     <ImageBackground
       style={styles.itemHeader}
-      source={{uri: info.item.image?.sourceUrl || ''}}
+      source={getSourceImage(info.item.image?.sourceUrl as string)}
     />
   );
 

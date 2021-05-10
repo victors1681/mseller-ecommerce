@@ -1,5 +1,5 @@
 import React from 'react';
-import {CartItem, Cart} from '../../generated/graphql'; // Import
+import {CartItem} from '../../generated/graphql'; // Import
 import {
   Spinner,
   List,
@@ -13,9 +13,6 @@ import {View, Dimensions, ListRenderItemInfo} from 'react-native';
 import {useIsDrawerOpen} from '@react-navigation/drawer';
 import {CartItemRow} from './CartItemRow';
 import {useCart} from 'app/hooks/useCart';
-interface Data {
-  cart?: Cart;
-}
 interface Props {
   listHeader?: React.ComponentType<any> | React.ReactElement | null;
   listFooter?: React.ComponentType<any> | React.ReactElement | null;
