@@ -7,7 +7,7 @@ import {ImageSlider} from 'app/modules/imageSlider';
 
 export const HomeScreen = () => {
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={styles.container}>
       <ImageSlider />
       <View style={styles.autoCOmplete}>
         <AutoComplete />
@@ -23,6 +23,7 @@ export const HomeScreen = () => {
 };
 
 const styles = StyleSheet.create({
+  container: {flex: 1},
   categoryHeader: {
     margin: 10,
     marginTop: 20,
