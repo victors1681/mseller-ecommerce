@@ -43,15 +43,6 @@ export default function Categories() {
   if (!productCategories) {
     return <Text>None</Text>;
   }
-
-  const renderItemFooter = (name: string): React.ReactElement => {
-    return (
-      <View style={styles.itemFooter}>
-        <Text category="s1">{name}</Text>
-      </View>
-    );
-  };
-
   const renderItemHeader = (item?: ProductCategory): React.ReactElement => (
     <ImageBackground
       style={styles.itemHeader}

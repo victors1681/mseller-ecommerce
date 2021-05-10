@@ -9,7 +9,9 @@ export const HomeScreen = () => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <ImageSlider />
-      <AutoComplete />
+      <View style={styles.autoCOmplete}>
+        <AutoComplete />
+      </View>
       <Divider />
       <View style={styles.categoryHeader}>
         <Text category="s2">Categorías</Text>
@@ -24,6 +26,10 @@ const styles = StyleSheet.create({
   categoryHeader: {
     margin: 10,
     marginTop: 20,
+  },
+  autoCOmplete: {
+    marginLeft: 10,
+    marginRight: 10,
   },
 });
 
