@@ -20,7 +20,7 @@ const HomeStackNavigator = ({navigation}) => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Home"
+        name="Inicio"
         component={Home}
         options={{
           headerTitle: () => {

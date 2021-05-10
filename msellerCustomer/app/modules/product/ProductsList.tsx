@@ -1,5 +1,5 @@
 import React from 'react';
-import {ProductCategory, SimpleProduct} from 'app/generated/graphql'; // Import
+import {ProductCategory, SimpleProduct, Product} from 'app/generated/graphql'; // Import
 import {CartIcon} from './extra/icons';
 import {useCart, useProduct} from 'app/hooks';
 
@@ -20,7 +20,7 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/core';
 import {getSourceImage} from 'app/utils';
-type FullProduct = SimpleProduct | ProductCategory;
+type FullProduct = SimpleProduct | ProductCategory | Product;
 
 export const ProductList: React.FC = () => {
   const styles = useStyleSheet(themedStyles);
@@ -102,7 +102,7 @@ export const ProductList: React.FC = () => {
       onPress={() => onItemPress(info.item.databaseId)}>
       <Text category="s1">{info.item.name || ''}</Text>
       <Text appearance="hint" category="c1">
-        {info.item.id}
+        {info.item.shortDescription}
       </Text>
     </Card>
   );
