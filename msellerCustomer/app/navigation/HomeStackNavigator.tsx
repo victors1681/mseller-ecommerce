@@ -3,47 +3,28 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import Home from '../screens/HomeScreen';
 import Products from '../screens/ProductsScreen';
-import {Icon, useTheme} from '@ui-kitten/components';
-import {TouchableOpacity, View, StyleSheet, Image} from 'react-native';
 
+import {TouchableOpacity, Image, StyleSheet} from 'react-native';
+import {useCart} from 'app/hooks';
+import {IconWithBadge} from 'app/modules/common/IconWithBadge';
 const Stack = createStackNavigator();
 
-const styles = StyleSheet.create({
-  icon: {
-    width: 24,
-    height: 24,
-  },
-});
+const HomeStackNavigator = ({navigation}: any) => {
+  const {cart} = useCart();
+  const productCount = cart?.contents?.productCount;
 
-const HomeStackNavigator = ({navigation}) => {
-  const theme = useTheme();
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="Inicio"
         component={Home}
         options={{
-          headerTitle: () => {
-            return (
-              <Image
-                style={{width: 200, height: 30}}
-                source={require('app/assets/images/logo-mseller-dark.png')}
-                resizeMode="contain"
-              />
-            );
-          },
-          //title: 'Productos',
+          headerTitle,
           headerRight: () => (
             <TouchableOpacity
               activeOpacity={0.5}
               onPress={() => navigation.toggleDrawer()}>
-              <View style={{paddingLeft: 20, paddingRight: 20}}>
-                <Icon
-                  fill={theme['color-primary-default']}
-                  name="shopping-cart-outline"
-                  style={styles.icon}
-                />
-              </View>
+              <IconWithBadge number={productCount as number} />
             </TouchableOpacity>
           ),
         }}
@@ -52,5 +33,18 @@ const HomeStackNavigator = ({navigation}) => {
     </Stack.Navigator>
   );
 };
+
+const headerTitle = () => {
+  return (
+    <Image
+      style={styles.image}
+      source={require('app/assets/images/logo-mseller-dark.png')}
+      resizeMode="contain"
+    />
+  );
+};
+const styles = StyleSheet.create({
+  image: {width: 200, height: 30},
+});
 
 export default HomeStackNavigator;

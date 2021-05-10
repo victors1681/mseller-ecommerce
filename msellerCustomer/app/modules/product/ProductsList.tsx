@@ -93,7 +93,7 @@ export const ProductList: React.FC = () => {
   );
 
   const renderProductItem = (
-    info: ListRenderItemInfo<FullProduct>,
+    info: ListRenderItemInfo<Product>,
   ): React.ReactElement => (
     <Card
       style={styles.productItem}
@@ -102,7 +102,7 @@ export const ProductList: React.FC = () => {
       onPress={() => onItemPress(info.item.databaseId)}>
       <Text category="s1">{info.item.name || ''}</Text>
       <Text appearance="hint" category="c1">
-        {info.item.shortDescription}
+        {info?.item?.shortDescription || ''}
       </Text>
     </Card>
   );

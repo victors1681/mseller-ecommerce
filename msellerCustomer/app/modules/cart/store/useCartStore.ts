@@ -89,7 +89,6 @@ export const useCartStore = (): CartStore => {
 
   React.useEffect(() => {
     if (!isLoading) {
-      console.log('CART', data?.cart);
       setCart(data?.cart);
     }
   }, [isLoading]);

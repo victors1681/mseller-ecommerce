@@ -11,6 +11,8 @@ export const CART_FRAGMENT = gql`
     total
     totalTax
     contents {
+      productCount
+      itemCount
       nodes {
         quantity
         total
