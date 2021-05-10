@@ -9,10 +9,12 @@ import {ApolloProvider} from '@apollo/client';
 import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
 import {client} from './app/services/apolloClient';
 
+import mapping from './custom-mapping.json';
+
 const App: React.FC = () => (
   <ApolloProvider client={client}>
     <IconRegistry icons={EvaIconsPack} />
-    <ApplicationProvider {...eva} theme={eva.light}>
+    <ApplicationProvider {...eva} theme={eva.light} customMapping={mapping}>
       <AppNavigator />
     </ApplicationProvider>
   </ApolloProvider>

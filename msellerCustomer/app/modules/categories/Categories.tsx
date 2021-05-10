@@ -1,14 +1,16 @@
 import React from 'react';
-import {Spinner, Text} from '@ui-kitten/components';
+import {Card, Spinner, Text, StyleService} from '@ui-kitten/components';
 import {
   StyleSheet,
   FlatList,
   View,
   Image,
-  TouchableHighlight,
+  Dimensions,
+  ImageBackground,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/core';
 import {useProduct} from 'app/hooks';
+import {ProductCategory} from 'app/generated/graphql';
 
 export default function Categories() {
   const {
@@ -42,22 +44,45 @@ export default function Categories() {
     return <Text>None</Text>;
   }
 
+  const renderItemFooter = (name: string): React.ReactElement => {
+    return (
+      <View style={styles.itemFooter}>
+        <Text category="s1">{name}</Text>
+      </View>
+    );
+  };
+
+  const renderItemHeader = (item?: ProductCategory): React.ReactElement => (
+    <ImageBackground
+      style={styles.itemHeader}
+      source={{uri: item?.image?.sourceUrl || ''}}
+    />
+  );
+
+  interface CategoryCardProps {
+    item: ProductCategory;
+  }
+  const CategoryCard = ({item}: CategoryCardProps) => {
+    return (
+      <Card
+        style={styles.categoryItem}
+        onPress={() => navigateToProducts(item?.databaseId)}
+        header={() => renderItemHeader(item)}>
+        <View>
+          <Text style={styles.cardText} category="s2">
+            {item.name || ''}
+          </Text>
+        </View>
+      </Card>
+    );
+  };
+
   return (
     <View style={styles.container}>
       <FlatList
+        contentContainerStyle={styles.list}
         data={productCategories?.nodes}
-        renderItem={({item}) => (
-          <View style={{flex: 1, flexDirection: 'column', margin: 1}}>
-            <Text>{item?.name || ''}</Text>
-            <TouchableHighlight
-              onPress={() => navigateToProducts(item?.databaseId)}>
-              <Image
-                style={styles.imageThumbnail}
-                source={{uri: item?.image?.sourceUrl || ''}}
-              />
-            </TouchableHighlight>
-          </View>
-        )}
+        renderItem={({item}) => <CategoryCard item={item as ProductCategory} />}
         //Setting the number of column
         numColumns={3}
         keyExtractor={(item, index) => index}
@@ -66,11 +91,21 @@ export default function Categories() {
   );
 }
 
-const styles = StyleSheet.create({
+const styles = StyleService.create({
   container: {
     flex: 1,
     width: '100%',
     justifyContent: 'center',
+  },
+  list: {
+    paddingHorizontal: 8,
+    paddingVertical: 16,
+  },
+  itemHeader: {
+    height: 80,
+  },
+  cardText: {
+    textAlign: 'center',
   },
   wrapper: {
     flex: 1,
@@ -78,9 +113,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  imageThumbnail: {
+  categoryItem: {
+    flex: 1,
+    margin: 2,
+    maxWidth: Dimensions.get('window').width / 3 - 8,
+
+    //backgroundColor: 'background-basic-color-1',
+  },
+  itemFooter: {
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    height: 100,
   },
 });

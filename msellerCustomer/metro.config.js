@@ -10,8 +10,10 @@ const MetroConfig = require('@ui-kitten/metro-config');
 /**
  * @see https://akveo.github.io/react-native-ui-kitten/docs/guides/improving-performance
  */
+
 const evaConfig = {
   evaPackage: '@eva-design/eva',
+  customMappingPath: './custom-mapping.json',
 };
 
 module.exports = MetroConfig.create(evaConfig, {

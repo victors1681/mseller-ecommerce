@@ -1,0 +1,147 @@
+{
+    "components": {
+      "Card": {
+        "meta": {
+            "scope": "all",
+            "parameters": {
+                "backgroundColor": {
+                    "type": "string"
+                },
+                "borderRadius": {
+                    "type": "number"
+                },
+                "borderColor": {
+                    "type": "string"
+                },
+                "borderWidth": {
+                    "type": "number"
+                },
+                "bodyPaddingHorizontal": {
+                    "type": "number"
+                },
+                "bodyPaddingVertical": {
+                    "type": "number"
+                },
+                "headerPaddingHorizontal": {
+                    "type": "number"
+                },
+                "headerPaddingVertical": {
+                    "type": "number"
+                },
+                "footerPaddingHorizontal": {
+                    "type": "number"
+                },
+                "footerPaddingVertical": {
+                    "type": "number"
+                },
+                "accentBackgroundColor": {
+                    "type": "string"
+                },
+                "accentHeight": {
+                    "type": "number"
+                }
+            },
+            "appearances": {
+                "filled": {
+                    "default": false
+                },
+                "outline": {
+                    "default": true
+                }
+            },
+            "variantGroups": {
+                "status": {
+                    "basic": {
+                        "default": false
+                    },
+                    "primary": {
+                        "default": false
+                    },
+                    "success": {
+                        "default": false
+                    },
+                    "info": {
+                        "default": false
+                    },
+                    "warning": {
+                        "default": false
+                    },
+                    "danger": {
+                        "default": false
+                    },
+                    "control": {
+                        "default": false
+                    }
+                }
+            },
+            "states": {
+                "active": {
+                    "default": false,
+                    "priority": 0,
+                    "scope": "all"
+                }
+            }
+        },
+        "appearances": {
+            "outline": {
+                "mapping": {
+                    "backgroundColor": "background-basic-color-1",
+                    "borderRadius": "border-radius",
+                    "borderColor": "border-basic-color-4",
+                    "borderWidth": 1,
+                    "accentHeight": 0,
+                    "bodyPaddingHorizontal": 12,
+                    "bodyPaddingVertical": 8,
+                    "headerPaddingHorizontal": 24,
+                    "headerPaddingVertical": 16,
+                    "footerPaddingHorizontal": 24,
+                    "footerPaddingVertical": 16,
+                    "state": {
+                        "active": {
+                            "backgroundColor": "background-basic-color-2"
+                        }
+                    }
+                },
+                "variantGroups": {
+                    "status": {
+                        "basic": {
+                            "accentHeight": 4,
+                            "accentBackgroundColor": "color-basic-default"
+                        },
+                        "primary": {
+                            "accentHeight": 4,
+                            "accentBackgroundColor": "color-primary-default"
+                        },
+                        "success": {
+                            "accentHeight": 4,
+                            "accentBackgroundColor": "color-success-default"
+                        },
+                        "info": {
+                            "accentHeight": 4,
+                            "accentBackgroundColor": "color-info-default"
+                        },
+                        "warning": {
+                            "accentHeight": 4,
+                            "accentBackgroundColor": "color-warning-default"
+                        },
+                        "danger": {
+                            "accentHeight": 4,
+                            "accentBackgroundColor": "color-danger-default"
+                        },
+                        "control": {
+                            "accentHeight": 4,
+                            "accentBackgroundColor": "color-control-default"
+                        }
+                    }
+                }
+            },
+            "filled": {
+                "mapping": {
+                    "borderWidth": 0,
+                    "borderColor": "transparent"
+                }
+            }
+        }
+    }
+    }
+  }
