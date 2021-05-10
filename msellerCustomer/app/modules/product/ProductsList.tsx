@@ -53,7 +53,7 @@ export const ProductList: React.FC = () => {
   }
 
   const onItemPress = (productId: number): void => {
-    navigation && navigation.navigate('ProductDetails', {productId});
+    navigation && navigation.navigate('ProductDetail', {productId});
   };
 
   const LoadingIndicator = () => (

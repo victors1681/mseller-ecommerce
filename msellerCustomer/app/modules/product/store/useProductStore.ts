@@ -1,8 +1,10 @@
-import {GET_ALL_PRODUCTS, GET_ALL_CATEGORIES} from 'app/graphql';
+import {GET_ALL_PRODUCTS, GET_ALL_CATEGORIES, GET_PRODUCT} from 'app/graphql';
 import {
   RootQueryToProductConnectionWhereArgs,
   RootQueryToProductConnection,
   RootQueryToProductCategoryConnection,
+  Product,
+  ProductIdTypeEnum,
 } from 'app/generated/graphql';
 import {
   useQuery,
@@ -18,6 +20,13 @@ interface QueryArgs {
 interface ProductResponseData {
   products: RootQueryToProductConnection;
 }
+interface QuerySingleProductArgs {
+  id: string | number;
+  idType: ProductIdTypeEnum;
+}
+interface SingleProductResponseData {
+  product: Product;
+}
 interface CategoriesResponseData {
   productCategories?: RootQueryToProductCategoryConnection;
 }
@@ -31,6 +40,11 @@ export interface ProductStore {
     refetch: (
       variables?: Partial<OperationVariables> | undefined,
     ) => Promise<ApolloQueryResult<ProductResponseData>>;
+  };
+  singleProduct: {
+    data: SingleProductResponseData | undefined;
+    isLoading: boolean;
+    error: ApolloError | undefined;
   };
   categories: {
     data: CategoriesResponseData | undefined;
@@ -68,6 +82,20 @@ export const useProductStore = (): ProductStore => {
   });
 
   /**
+   * Product
+   */
+  const {
+    loading: isSingleProductLoading,
+    data: singleProductData,
+    error: singleProductError,
+  } = useQuery<SingleProductResponseData, QuerySingleProductArgs>(GET_PRODUCT, {
+    variables: {
+      id: 25,
+      idType: ProductIdTypeEnum.DatabaseId,
+    },
+  });
+
+  /**
    * Category
    */
 
@@ -84,6 +112,11 @@ export const useProductStore = (): ProductStore => {
       isLoading: isProductLoading,
       error: productError,
       refetch: productRefetch,
+    },
+    singleProduct: {
+      isLoading: isSingleProductLoading,
+      data: singleProductData,
+      error: singleProductError,
     },
     categories: {
       data: categoriesData,

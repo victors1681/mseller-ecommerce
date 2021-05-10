@@ -3,7 +3,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import Home from '../screens/HomeScreen';
 import Products from '../screens/ProductsScreen';
-
+import ProductDetail from '../screens/ProductDetailScreen';
 import {TouchableOpacity, Image, StyleSheet} from 'react-native';
 import {useCart} from 'app/hooks';
 import {IconWithBadge} from 'app/modules/common/IconWithBadge';
@@ -30,6 +30,7 @@ const HomeStackNavigator = ({navigation}: any) => {
         }}
       />
       <Stack.Screen name="Products" component={Products} />
+      <Stack.Screen name="ProductDetail" component={ProductDetail} />
     </Stack.Navigator>
   );
 };
