@@ -3,22 +3,32 @@ import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {MinusIcon, PlusIcon} from 'app/modules/common/Icons';
 
-interface Props {}
-export const Loading: React.FC<Props> = () => {
-  const [qty, setQty] = useState(1);
-
+interface Props {
+  setQty: React.Dispatch<React.SetStateAction<string | number>>;
+  qty: string | number;
+}
+export const Stepper: React.FC<Props> = ({qty, setQty}) => {
   const decrementButtonEnabled = (): boolean => {
     return qty > 1;
   };
 
   const onMinusButtonPress = (): void => {
-    setQty(prev => prev - 1);
+    setQty(prev => (prev as number) - 1);
   };
 
   const onPlusButtonPress = (): void => {
-    setQty(prev => prev + 1);
+    setQty(prev => (prev as number) + 1);
   };
 
+  const handleInput = (value: string) => {
+    const parsed = parseInt(value as string, 16);
+    console.log(parsed);
+    if (isNaN(parsed)) {
+      setQty('');
+    } else {
+      setQty(parsed);
+    }
+  };
   return (
     <View style={styles.amountContainer}>
       <Button
@@ -29,9 +39,10 @@ export const Loading: React.FC<Props> = () => {
         disabled={!decrementButtonEnabled()}
       />
       <Input
+        style={styles.input}
         value={qty.toString()}
         size="small"
-        onChangeText={nextValue => setQty(parseInt(nextValue))}
+        onChangeText={handleInput}
       />
       <Button
         style={[styles.iconButton, styles.amountButton]}
@@ -43,40 +54,43 @@ export const Loading: React.FC<Props> = () => {
   );
 };
 
-export default Loading;
+export default Stepper;
 
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     paddingHorizontal: 0,
     paddingVertical: 0,
-    height: 100,
+    height: 40,
   },
   image: {
     width: 54,
     height: 54,
     margin: 5,
   },
-  detailsContainer: {
-    flex: 1,
-    height: '100%',
-    padding: 16,
+  input: {
+    width: 50,
+    textAlign: 'center',
+    justifyContent: 'center',
   },
   amountContainer: {
-    position: 'absolute',
+    //position: 'absolute',
     flexDirection: 'row',
-    left: 16,
-    bottom: 16,
+    alignItems: 'center',
+    height: 40,
   },
   amountButton: {
-    borderRadius: 12,
+    margin: 5,
+    width: 30,
+    height: 30,
+    borderRadius: 20,
   },
   amount: {
     textAlign: 'center',
     width: 40,
   },
   removeButton: {
-    position: 'absolute',
+    //position: 'absolute',
     right: 0,
   },
   iconButton: {

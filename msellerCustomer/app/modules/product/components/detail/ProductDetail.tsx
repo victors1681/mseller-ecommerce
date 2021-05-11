@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {ImageBackground, Platform, View} from 'react-native';
 import {
   Button,
@@ -12,10 +12,11 @@ import {
 } from '@ui-kitten/components';
 import {getSourceImage} from 'app/utils';
 import {Loading, Error} from 'app/modules/common';
-import {useProductDetail} from 'app/hooks';
+import {useCart, useProductDetail} from 'app/hooks';
 import {NavigationStackProp} from 'react-navigation-stack';
 import {NavigationRoute} from '@react-navigation';
 import {useRoute} from '@react-navigation/core';
+import {Stepper} from './Stepper';
 
 interface Props {
   navigation: NavigationStackProp<{productId: string}>;
@@ -23,10 +24,12 @@ interface Props {
 export const ProductDetail: React.FC<Props> = ({
   navigation,
 }): React.ReactElement => {
-  const {params} = useRoute<any>();
-  const productId = params?.productId as number;
-  console.log('productIdproductIdproductId', productId);
+  const [qty, setQty] = useState<number | string>(1);
 
+  const {params} = useRoute<any>();
+
+  const {addItem} = useCart();
+  const productId = params?.productId as number;
   const [comment, setComment] = React.useState<string>();
   //const [selectedColorIndex, setSelectedColorIndex] = React.useState<number>();
   const styles = useStyleSheet(themedStyles);
@@ -40,6 +43,10 @@ export const ProductDetail: React.FC<Props> = ({
 
   const onAddButtonPress = (): void => {
     navigation && navigation.navigate('ShoppingCart');
+  };
+
+  const handleAddItem = () => {
+    addItem(productId, qty as number);
   };
 
   const renderColorItem = (
@@ -87,6 +94,7 @@ export const ProductDetail: React.FC<Props> = ({
           onChange={setSelectedColorIndex}>
           {product.colors.map(renderColorItem)}
         </RadioGroup> */}
+        <Stepper qty={qty} setQty={setQty} />
         <View style={styles.actionContainer}>
           <Button
             style={styles.actionButton}
@@ -98,7 +106,7 @@ export const ProductDetail: React.FC<Props> = ({
             style={styles.actionButton}
             size="giant"
             status="control"
-            onPress={onAddButtonPress}>
+            onPress={handleAddItem}>
             ADD TO BAG
           </Button>
         </View>
