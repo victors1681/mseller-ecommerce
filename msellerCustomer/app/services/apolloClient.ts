@@ -69,7 +69,7 @@ export const afterware = new ApolloLink((operation, forward) => {
 });
 
 const httpLink = new HttpLink({
-  uri: 'http://localhost:8088/graphql',
+  uri: 'http://192.168.1.210:8088/graphql',
 });
 
 // Initialize Apollo Client

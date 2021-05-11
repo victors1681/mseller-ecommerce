@@ -11,16 +11,26 @@ import {
   useStyleSheet,
 } from '@ui-kitten/components';
 import {getSourceImage} from 'app/utils';
-import {useProduct} from 'app/hooks';
+import {Loading, Error} from 'app/modules/common';
+import {useProductDetail} from 'app/hooks';
+import {NavigationStackProp} from 'react-navigation-stack';
+import {NavigationRoute} from '@react-navigation';
 
-export const ProductDetail = ({navigation}): React.ReactElement => {
+interface Props {
+  navigation: NavigationStackProp<{productId: string}>;
+  route: NavigationRoute<{productId: number}>;
+}
+export const ProductDetail: React.FC<Props> = ({
+  navigation,
+  route,
+}): React.ReactElement => {
+  const productId = route?.params?.productId;
+
   const [comment, setComment] = React.useState<string>();
-  const [selectedColorIndex, setSelectedColorIndex] = React.useState<number>();
+  //const [selectedColorIndex, setSelectedColorIndex] = React.useState<number>();
   const styles = useStyleSheet(themedStyles);
 
-  const {
-    singleProduct: {data, isLoading, error},
-  } = useProduct();
+  const {data, isLoading, error} = useProductDetail(productId);
 
   const product = data?.product;
   const onBuyButtonPress = (): void => {
@@ -105,6 +115,13 @@ export const ProductDetail = ({navigation}): React.ReactElement => {
       />
     </Layout>
   );
+
+  if (isLoading) {
+    return <Loading />;
+  }
+  if (error) {
+    return <Error error={error} />;
+  }
 
   return renderHeader();
 };

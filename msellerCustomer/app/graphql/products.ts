@@ -63,12 +63,19 @@ export const GET_PRODUCT = gql`
       dateOnSaleFrom
       dateOnSaleTo
       totalSales
+      taxClass
+      taxStatus
       ... on SimpleProduct {
         price
         regularPrice
         salePrice
         dateOnSaleFrom
         dateOnSaleTo
+        metaData {
+          id
+          key
+          value
+        }
       }
     }
   }

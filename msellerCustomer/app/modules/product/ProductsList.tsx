@@ -2,7 +2,7 @@ import React from 'react';
 import {ProductCategory, SimpleProduct, Product} from 'app/generated/graphql'; // Import
 import {CartIcon} from './extra/icons';
 import {useCart, useProduct} from 'app/hooks';
-
+import {Loading, Error} from 'app/modules/common';
 import {
   Spinner,
   Button,
@@ -35,18 +35,10 @@ export const ProductList: React.FC = () => {
   const products = data?.products;
 
   if (isLoading) {
-    return (
-      <View style={styles.wrapper}>
-        <Spinner />
-      </View>
-    );
+    return <Loading />;
   }
   if (categoriesError) {
-    return (
-      <View style={styles.wrapper}>
-        <Text>An error occurred {JSON.stringify(categoriesError)}</Text>
-      </View>
-    );
+    return <Error error={categoriesError} />;
   }
   if (!products) {
     return <Text>None</Text>;

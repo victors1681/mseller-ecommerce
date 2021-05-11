@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {StyleSheet, View} from 'react-native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
-import {RkConfig, RkButton, RkText} from 'react-native-ui-kitten';
+import {Button, Text} from '@ui-kitten/components';
 
 export default class Toolbar extends Component {
   static height = 64;
@@ -14,15 +14,15 @@ export default class Toolbar extends Component {
   render() {
     return (
       <View style={[styles.barContainer, this.props.style]}>
-        <RkButton rkType="clear" onPress={() => this.props.onLeftClick()}>
+        <Button rkType="clear" onPress={() => this.props.onLeftClick()}>
           <Icon
             name={this.props.leftIcon}
             style={[styles.barIcon, this.props.textStyle]}
           />
-        </RkButton>
-        <RkText style={[styles.barTitle, this.props.textStyle]}>
+        </Button>
+        <Text style={[styles.barTitle, this.props.textStyle]}>
           {this.props.title}
-        </RkText>
+        </Text>
       </View>
     );
   }
@@ -32,7 +32,7 @@ var styles = StyleSheet.create({
   barContainer: {
     paddingTop: 20,
     height: Toolbar.height,
-    backgroundColor: RkConfig.colors.primary,
+    backgroundColor: 'red',
     flexDirection: 'row',
     alignItems: 'center',
     shadowColor: 'black',

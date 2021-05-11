@@ -1,7 +1,7 @@
 import React from 'react';
 import {Image, StyleSheet, View, ListRenderItemInfo} from 'react-native';
 import {Button, ListItem, Text} from '@ui-kitten/components';
-import {CloseIcon, MinusIcon, PlusIcon} from './extra/icons';
+import {CloseIcon, MinusIcon, PlusIcon} from 'app/modules/common/Icons';
 
 import {
   CartItem as CartItemInterface,
