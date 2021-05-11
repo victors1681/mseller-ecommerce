@@ -15,22 +15,23 @@ import {Loading, Error} from 'app/modules/common';
 import {useProductDetail} from 'app/hooks';
 import {NavigationStackProp} from 'react-navigation-stack';
 import {NavigationRoute} from '@react-navigation';
+import {useRoute} from '@react-navigation/core';
 
 interface Props {
   navigation: NavigationStackProp<{productId: string}>;
-  route: NavigationRoute<{productId: number}>;
 }
 export const ProductDetail: React.FC<Props> = ({
   navigation,
-  route,
 }): React.ReactElement => {
-  const productId = route?.params?.productId;
+  const {params} = useRoute<any>();
+  const productId = params?.productId as number;
+  console.log('productIdproductIdproductId', productId);
 
   const [comment, setComment] = React.useState<string>();
   //const [selectedColorIndex, setSelectedColorIndex] = React.useState<number>();
   const styles = useStyleSheet(themedStyles);
 
-  const {data, isLoading, error} = useProductDetail(productId);
+  const {data, isLoading, error} = useProductDetail({productId});
 
   const product = data?.product;
   const onBuyButtonPress = (): void => {

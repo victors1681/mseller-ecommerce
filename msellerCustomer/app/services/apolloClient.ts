@@ -67,7 +67,7 @@ export const afterware = new ApolloLink((operation, forward) => {
     return response;
   });
 });
-
+//Android is not working with localhost, use ip instead
 const httpLink = new HttpLink({
   uri: 'http://192.168.1.210:8088/graphql',
 });
