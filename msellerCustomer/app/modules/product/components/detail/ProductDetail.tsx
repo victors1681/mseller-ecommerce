@@ -79,13 +79,7 @@ export const ProductDetail: React.FC = (): React.ReactElement => {
           {product?.description || ''}
         </Text>
         <Text style={styles.sectionLabel} category="h6">
-          Size:
-        </Text>
-        <Text style={styles.size} appearance="hint">
-          {/* {product.size} */} size
-        </Text>
-        <Text style={styles.sectionLabel} category="h6">
-          Color:
+          Cantidad:
         </Text>
         {/* <RadioGroup
           style={styles.colorGroup}

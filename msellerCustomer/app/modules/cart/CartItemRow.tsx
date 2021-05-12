@@ -33,19 +33,19 @@ export const CartItemRow: React.FC<Props> = ({info}): React.ReactElement => {
 
   React.useEffect(() => {
     if (item.quantity !== qty) {
-      setQty(item.quantity);
+      setQty(item.quantity as number);
     }
   }, [qty, item]);
 
   const onMinusButtonPress = useCallback((): void => {
     setQty(prev => prev - 1);
     updateItem(item.key, qty - 1);
-  }, [qty]);
+  }, [qty, updateItem, setQty, item]);
 
   const onPlusButtonPress = useCallback((): void => {
     setQty(prev => prev + 1);
     updateItem(item.key, qty + 1);
-  }, [qty]);
+  }, [qty, updateItem, setQty, item]);
 
   return (
     <ListItem style={[styles.container]}>
