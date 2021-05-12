@@ -1,34 +1,34 @@
-import React, {useState} from 'react';
-import {ImageBackground, Platform, View} from 'react-native';
+import React, {useCallback, useState} from 'react';
+import {
+  Alert,
+  ImageBackground,
+  Platform,
+  useWindowDimensions,
+  View,
+} from 'react-native';
 import {
   Button,
   Input,
   Layout,
   Radio,
+  Spiner,
   RadioGroup,
   StyleService,
   Text,
   useStyleSheet,
 } from '@ui-kitten/components';
 import {getSourceImage} from 'app/utils';
-import {Loading, Error} from 'app/modules/common';
+import {Loading, Error, LoadingIndicator} from 'app/modules/common';
 import {useCart, useProductDetail} from 'app/hooks';
-import {NavigationStackProp} from 'react-navigation-stack';
-import {NavigationRoute} from '@react-navigation';
-import {useRoute} from '@react-navigation/core';
+import {useNavigation, useRoute} from '@react-navigation/core';
 import {Stepper} from './Stepper';
 
-interface Props {
-  navigation: NavigationStackProp<{productId: string}>;
-}
-export const ProductDetail: React.FC<Props> = ({
-  navigation,
-}): React.ReactElement => {
+export const ProductDetail: React.FC = (): React.ReactElement => {
   const [qty, setQty] = useState<number | string>(1);
-
+  const navigation = useNavigation();
   const {params} = useRoute<any>();
 
-  const {addItem} = useCart();
+  const {addItem, isLoading: isCartLoading} = useCart();
   const productId = params?.productId as number;
   const [comment, setComment] = React.useState<string>();
   //const [selectedColorIndex, setSelectedColorIndex] = React.useState<number>();
@@ -45,9 +45,9 @@ export const ProductDetail: React.FC<Props> = ({
     navigation && navigation.navigate('ShoppingCart');
   };
 
-  const handleAddItem = () => {
+  const handleAddItem = useCallback(() => {
     addItem(productId, qty as number);
-  };
+  }, [productId, qty, addItem]);
 
   const renderColorItem = (
     color: ProductColor,
@@ -74,7 +74,7 @@ export const ProductDetail: React.FC<Props> = ({
           {product?.shortDescription | ''}
         </Text>
         <Text style={styles.price} category="h4">
-          {product.price}
+          {product.price && product.price}
         </Text>
         <Text style={styles.description} appearance="hint">
           {product?.description || ''}
@@ -99,29 +99,20 @@ export const ProductDetail: React.FC<Props> = ({
           <Button
             style={styles.actionButton}
             size="giant"
+            appearance="filled"
             onPress={onBuyButtonPress}>
-            BUY
+            ORDENAR
           </Button>
           <Button
             style={styles.actionButton}
             size="giant"
-            status="control"
+            appearance="outline"
+            accessoryLeft={isCartLoading ? LoadingIndicator : null}
             onPress={handleAddItem}>
-            ADD TO BAG
+            AGREGAR
           </Button>
         </View>
       </Layout>
-      <Input
-        style={styles.commentInput}
-        label={evaProps => (
-          <Text {...evaProps} style={styles.commentInputLabel}>
-            Comments
-          </Text>
-        )}
-        placeholder="Write your comment"
-        value={comment}
-        onChangeText={setComment}
-      />
     </Layout>
   );
 

@@ -1,5 +1,5 @@
-import React from 'react';
-import {Image, StyleSheet, View, ListRenderItemInfo} from 'react-native';
+import React, {useCallback} from 'react';
+import {Image, StyleSheet, View, ListRenderItemInfo, Alert} from 'react-native';
 import {Button, ListItem, Text} from '@ui-kitten/components';
 import {CloseIcon, MinusIcon, PlusIcon} from 'app/modules/common/Icons';
 
@@ -33,17 +33,19 @@ export const CartItemRow: React.FC<Props> = ({info}): React.ReactElement => {
 
   React.useEffect(() => {
     if (item.quantity !== qty) {
-      updateItem(item.key, qty);
+      setQty(item.quantity);
     }
   }, [qty, item]);
 
-  const onMinusButtonPress = (): void => {
+  const onMinusButtonPress = useCallback((): void => {
     setQty(prev => prev - 1);
-  };
+    updateItem(item.key, qty - 1);
+  }, [qty]);
 
-  const onPlusButtonPress = (): void => {
+  const onPlusButtonPress = useCallback((): void => {
     setQty(prev => prev + 1);
-  };
+    updateItem(item.key, qty + 1);
+  }, [qty]);
 
   return (
     <ListItem style={[styles.container]}>

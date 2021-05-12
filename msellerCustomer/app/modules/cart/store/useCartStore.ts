@@ -25,6 +25,7 @@ import {
   FetchResult,
 } from '@apollo/client';
 import React from 'react';
+import {Alert} from 'react-native';
 interface Data {
   cart?: Cart;
 }
@@ -91,7 +92,7 @@ export const useCartStore = (): CartStore => {
     if (!isLoading) {
       setCart(data?.cart);
     }
-  }, [isLoading]);
+  }, [isLoading, data]);
 
   const [addToCart, addItemInfo] = useMutation<AddToCartData, Args>(
     ADD_TO_CART,
@@ -112,8 +113,12 @@ export const useCartStore = (): CartStore => {
     const response = await addToCart({
       variables: {input: {productId, quantity}},
     });
-    setCart(response.data?.addToCart.cart as Cart);
-    navigation?.dispatch(DrawerActions.openDrawer());
+    // Alert.alert(
+    //   `Q::::${productId} ${response?.data?.addToCart?.cart?.contents?.nodes[0]?.quantity}`,
+    // );
+    Promise.resolve()
+      .then(() => setCart(response.data?.addToCart.cart as Cart))
+      .then(() => navigation?.dispatch(DrawerActions.openDrawer()));
   };
 
   const removeItem = async (key: string): Promise<void> => {

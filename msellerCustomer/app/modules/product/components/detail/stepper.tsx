@@ -1,5 +1,5 @@
 import {Input, Button} from '@ui-kitten/components';
-import React, {useState} from 'react';
+import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {MinusIcon, PlusIcon} from 'app/modules/common/Icons';
 

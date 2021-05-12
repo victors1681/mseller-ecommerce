@@ -1,10 +1,7 @@
 import React from 'react';
 import {SafeAreaView, ScrollView, StyleSheet} from 'react-native';
-import {useRoute} from '@react-navigation/core';
 import {ProductDetail} from 'app/modules/product/components/detail';
 export const ProductsScreen = () => {
-  const {params} = useRoute<any>();
-
   return (
     <SafeAreaView style={styles.wrapper}>
       <ScrollView style={styles.scrollView}>
@@ -27,7 +24,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollView: {
-    backgroundColor: 'pink',
     marginHorizontal: 0,
   },
 });

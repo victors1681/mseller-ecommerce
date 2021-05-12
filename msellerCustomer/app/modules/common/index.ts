@@ -3,3 +3,4 @@ export * from './IconWithBadge';
 export * from './KeyboardAvoidingView';
 export * from './Loading';
 export * from './Toolbar';
+export * from './LoadingIndicator';
