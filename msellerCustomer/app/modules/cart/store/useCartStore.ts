@@ -25,7 +25,6 @@ import {
   FetchResult,
 } from '@apollo/client';
 import React from 'react';
-import {Alert} from 'react-native';
 interface Data {
   cart?: Cart;
 }
@@ -113,9 +112,7 @@ export const useCartStore = (): CartStore => {
     const response = await addToCart({
       variables: {input: {productId, quantity}},
     });
-    // Alert.alert(
-    //   `Q::::${productId} ${response?.data?.addToCart?.cart?.contents?.nodes[0]?.quantity}`,
-    // );
+
     Promise.resolve()
       .then(() => setCart(response.data?.addToCart.cart as Cart))
       .then(() => navigation?.dispatch(DrawerActions.openDrawer()));

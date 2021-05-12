@@ -28,9 +28,8 @@ export const ProductDetail: React.FC = (): React.ReactElement => {
   const navigation = useNavigation();
   const {params} = useRoute<any>();
 
-  const {addItem, isLoading: isCartLoading} = useCart();
+  const {addItem, addItemInfo} = useCart();
   const productId = params?.productId as number;
-  const [comment, setComment] = React.useState<string>();
   //const [selectedColorIndex, setSelectedColorIndex] = React.useState<number>();
   const styles = useStyleSheet(themedStyles);
 
@@ -107,9 +106,9 @@ export const ProductDetail: React.FC = (): React.ReactElement => {
             style={styles.actionButton}
             size="giant"
             appearance="outline"
-            accessoryLeft={isCartLoading ? LoadingIndicator : null}
+            accessoryLeft={addItemInfo.loading ? LoadingIndicator : null}
             onPress={handleAddItem}>
-            AGREGAR
+            {addItemInfo.loading ? 'Loading' : 'AGREGAR'}
           </Button>
         </View>
       </Layout>
