@@ -4,7 +4,7 @@ import {
   UPDATE_CUSTOMER,
   GET_CUSTOMER_INFO,
   REFRESH_TOKEN,
-} from 'app/graphql/Customer';
+} from 'app/graphql';
 import {
   Customer,
   LoginInput,

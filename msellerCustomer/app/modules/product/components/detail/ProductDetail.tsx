@@ -37,7 +37,7 @@ export const ProductDetail: React.FC = (): React.ReactElement => {
 
   const product = data?.product;
   const onBuyButtonPress = (): void => {
-    navigation && navigation.navigate('Payment');
+    navigation && navigation.navigate('SignUp');
   };
 
   const onAddButtonPress = (): void => {
