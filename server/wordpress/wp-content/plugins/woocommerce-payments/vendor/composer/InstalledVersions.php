@@ -29,7 +29,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '5a0cdbf114d7fa5fccd97438e32b1b46a1fe5df4',
+    'reference' => '173cb081d597f34be01311a9e73100028f6b8585',
     'name' => 'woocommerce/payments',
   ),
   'versions' => 
@@ -149,7 +149,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '5a0cdbf114d7fa5fccd97438e32b1b46a1fe5df4',
+      'reference' => '173cb081d597f34be01311a9e73100028f6b8585',
     ),
   ),
 );
