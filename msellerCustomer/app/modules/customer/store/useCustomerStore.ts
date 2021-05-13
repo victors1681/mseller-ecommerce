@@ -5,8 +5,6 @@ import {
   GET_CUSTOMER_INFO,
   REFRESH_TOKEN,
 } from 'app/graphql/Customer';
-import {DrawerActions} from '@react-navigation/native';
-import {navigationRef} from 'app/navigation/RootNavigation';
 import {
   Customer,
   LoginInput,
@@ -17,7 +15,6 @@ import {
   RegisterCustomerPayload,
   UpdateCustomerInput,
   UpdateCustomerPayload,
-  UpdateItemQuantitiesInput,
   UpdateItemQuantitiesPayload,
 } from 'app/generated/graphql'; // Import
 import {
@@ -27,7 +24,6 @@ import {
   OperationVariables,
   ApolloQueryResult,
   MutationResult,
-  FetchResult,
 } from '@apollo/client';
 import React from 'react';
 import {saveToken, updateToken, getToken} from 'app/utils';
@@ -106,15 +102,17 @@ export const useCustomerStore = (): CustomerStore => {
   }, [isLoading, data]);
 
   const [login, loginInfo] = useMutation<LoginData, LoginInputArg>(LOGIN);
-  const [refreshToken] = useMutation<RefreshTokenData, RefreshTokenArg>(LOGIN);
+  const [refreshToken] = useMutation<RefreshTokenData, RefreshTokenArg>(
+    REFRESH_TOKEN,
+  );
   const [registerCustomer, registerCustomerInfo] = useMutation<
     RegisterCustomerData,
     RegisterCustomerArg
-  >(LOGIN);
+  >(REGISTER_CUSTOMER);
   const [updateCustomer, updateCustomerInfo] = useMutation<
     UpdateCustomerData,
     UpdateCustomerArg
-  >(LOGIN);
+  >(UPDATE_CUSTOMER);
 
   /**
    * Perform Login Mutation
