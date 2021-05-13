@@ -59,7 +59,7 @@ export const SignUp = ({navigation}): React.ReactElement => {
           status="control"
           size="large"
           accessoryLeft={HeartIconFill}>
-          EVA-s
+          EVA
         </Button>
         <View style={styles.signUpContainer}>
           <Text style={styles.signInLabel} category="h4" status="control">
