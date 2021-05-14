@@ -1,16 +1,13 @@
 import {ApolloError} from '@apollo/client';
 import React from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import {View, StyleSheet, Text, Alert} from 'react-native';
 
 interface Props {
   error: ApolloError | undefined;
 }
 export const Error: React.FC<Props> = ({error}) => {
-  return (
-    <View style={styles.wrapper}>
-      <Text>An error occurred {JSON.stringify(error)}</Text>
-    </View>
-  );
+  console.error(JSON.stringify(error));
+  return <View style={styles.wrapper}>{Alert.alert(error?.message)}</View>;
 };
 
 const styles = StyleSheet.create({

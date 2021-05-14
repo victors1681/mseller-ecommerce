@@ -1,21 +1,16 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {
   BottomNavigation,
   BottomNavigationTab,
-  Icon,
-  Layout,
   Text,
 } from '@ui-kitten/components';
-import {View, Button} from 'react-native';
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeStackNavigator from '../navigation/HomeStackNavigator';
-const PersonIcon = props => <Icon {...props} name="cube-outline" />;
-
-const BellIcon = props => <Icon {...props} name="file-text-outline" />;
-
-const EmailIcon = props => <Icon {...props} name="person-outline" />;
+import OrderStackNavigator from '../navigation/OrderStackNavigator';
+import ProfileStackNavigator from '../navigation/ProfileStackNavigator';
+import {StoreIcon, ProfileIcon, OrderIcon} from 'app/modules/common/Icons';
 
 const {Navigator, Screen} = createBottomTabNavigator();
 
@@ -31,9 +26,9 @@ export const BottomNavigationAccessoriesShowcase = ({navigation, state}) => {
       style={styles.bottomNavigation}
       selectedIndex={state.index}
       onSelect={index => navigation.navigate(state.routeNames[index])}>
-      <BottomNavigationTab title="Productos" icon={PersonIcon} />
-      <BottomNavigationTab title="Ordenes" icon={BellIcon} />
-      <BottomNavigationTab title="Perfil" icon={EmailIcon} />
+      <BottomNavigationTab title="Productos" icon={StoreIcon} />
+      <BottomNavigationTab title="Ordenes" icon={OrderIcon} />
+      <BottomNavigationTab title="Perfil" icon={ProfileIcon} />
     </BottomNavigation>
   );
 };
@@ -42,8 +37,8 @@ const TabNavigator = () => (
   <Navigator
     tabBar={props => <BottomNavigationAccessoriesShowcase {...props} />}>
     <Screen name="Home" component={HomeStackNavigator} />
-    <Screen name="Orders" component={OrdersScreen} />
-    <Screen name="Acc" component={OrdersScreen} />
+    <Screen name="Orders" component={OrderStackNavigator} />
+    <Screen name="Profile" component={ProfileStackNavigator} />
   </Navigator>
 );
 
