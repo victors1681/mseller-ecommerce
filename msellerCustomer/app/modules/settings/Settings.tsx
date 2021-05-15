@@ -8,7 +8,7 @@ import {useNavigation} from '@react-navigation/native';
 
 export const Settings = () => {
   const navigation = useNavigation();
-  const {fetchCustomer} = useCustomer();
+  const {fetchCustomer, customer, isLoading} = useCustomer();
   const styles = useStyleSheet(themedStyle);
 
   const navigateTo = (destination: string, params?: any) => () =>
@@ -17,6 +17,11 @@ export const Settings = () => {
   React.useEffect(() => {
     fetchCustomer();
   }, []);
+  React.useEffect(() => {
+    if (!isLoading && !customer?.id) {
+      navigation.navigate('signUp');
+    }
+  }, [isLoading, customer?.id, navigation]);
 
   return (
     <ScrollView
@@ -35,6 +40,7 @@ export const Settings = () => {
         hint="Direcciones"
         chevron
         iconName="map-marker-radius"
+        onPress={navigateTo('signUp')}
       />
       <SettingRow
         style={styles.profileSetting}

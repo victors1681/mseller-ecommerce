@@ -19,8 +19,9 @@ import {
   TwitterIcon,
 } from './extra/icons';
 import {KeyboardAvoidingView} from './extra/3rd-party';
+import {useNavigation} from '@react-navigation/core';
 
-export const SignUp = ({navigation}): React.ReactElement => {
+export const SignUp = (): React.ReactElement => {
   const [firstName, setFirstName] = React.useState<string>();
   const [lastName, setLastName] = React.useState<string>();
   const [email, setEmail] = React.useState<string>();
@@ -28,6 +29,7 @@ export const SignUp = ({navigation}): React.ReactElement => {
   const [dob, setDob] = React.useState<Date>();
   const [termsAccepted, setTermsAccepted] = React.useState<boolean>(false);
 
+  const navigation = useNavigation();
   const styles = useStyleSheet(themedStyles);
 
   const onSignUpButtonPress = (): void => {
@@ -35,7 +37,7 @@ export const SignUp = ({navigation}): React.ReactElement => {
   };
 
   const onSignInButtonPress = (): void => {
-    navigation && navigation.navigate('SignIn1');
+    navigation && navigation.navigate('signIn');
   };
 
   const renderCheckboxLabel = React.useCallback(

@@ -28,6 +28,7 @@ import {
 } from '@apollo/client';
 import React from 'react';
 import {saveToken, updateToken, getToken} from 'app/utils';
+import {useNavigation} from '@react-navigation/native';
 
 interface Data {
   customer?: Customer;
@@ -102,7 +103,9 @@ export const useCustomerStore = (): CustomerStore => {
   const [
     fetchCustomer,
     {loading: isLoading, data, error, refetch, networkStatus},
-  ] = useLazyQuery<Data>(GET_CUSTOMER_INFO);
+  ] = useLazyQuery<Data>(GET_CUSTOMER_INFO, {
+    fetchPolicy: 'network-only',
+  });
 
   React.useEffect(() => {
     if (!isLoading) {
