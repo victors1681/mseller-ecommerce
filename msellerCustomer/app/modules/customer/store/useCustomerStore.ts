@@ -66,6 +66,7 @@ interface RefreshTokenData {
 }
 
 export interface CustomerStore {
+  isCustomerLogged: boolean;
   fetchCustomer: (
     options?: QueryLazyOptions<OperationVariables> | undefined,
   ) => void;
@@ -96,19 +97,17 @@ export const useCustomerStore = (): CustomerStore => {
   const [customer, setCustomer] = React.useState<Customer | undefined>(
     {} as Customer,
   );
+  const [isCustomerLogged, setCustomerStatus] = React.useState(false);
 
   const [
     fetchCustomer,
     {loading: isLoading, data, error, refetch, networkStatus},
   ] = useLazyQuery<Data>(GET_CUSTOMER_INFO);
-  React.useEffect(() => {
-    console.log('customer effect', customer);
-  }, [customer]);
 
   React.useEffect(() => {
     if (!isLoading) {
-      console.log('setting data', data, error, networkStatus);
       setCustomer(data?.customer);
+      setCustomerStatus(!!data?.customer?.databaseId);
     }
   }, [isLoading, networkStatus]);
 
@@ -205,6 +204,7 @@ export const useCustomerStore = (): CustomerStore => {
   };
 
   return {
+    isCustomerLogged,
     fetchCustomer,
     customer,
     isLoading,

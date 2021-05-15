@@ -3,16 +3,20 @@ import {ScrollView} from 'react-native';
 import {StyleService, useStyleSheet} from '@ui-kitten/components';
 import {SettingHeader} from './extra/SettingHeader';
 import {SettingRow} from './extra/SettingRow';
-
+import {useCustomer} from 'app/hooks/useCustomer';
 import {useNavigation} from '@react-navigation/native';
 
 export const Settings = () => {
   const navigation = useNavigation();
-
+  const {fetchCustomer} = useCustomer();
   const styles = useStyleSheet(themedStyle);
 
   const navigateTo = (destination: string, params?: any) => () =>
     navigation.navigate(destination, params);
+
+  React.useEffect(() => {
+    fetchCustomer();
+  }, []);
 
   return (
     <ScrollView

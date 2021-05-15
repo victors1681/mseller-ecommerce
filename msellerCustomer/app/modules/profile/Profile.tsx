@@ -4,7 +4,7 @@ import {ScrollView} from 'react-native';
 import {Button, StyleService, useStyleSheet} from '@ui-kitten/components';
 import {SettingHeader} from 'app/modules/settings/extra/SettingHeader';
 import {ProfileSetting} from './extra/profile-setting.component';
-import {CameraIcon} from './extra/icons';
+
 import {Profile as DataProfile} from './extra/data';
 
 import {Loading, Error} from '../common';
@@ -12,11 +12,8 @@ import {Loading, Error} from '../common';
 const data: DataProfile = DataProfile.jenniferGreen();
 
 export const Profile = () => {
-  const {customer, isLoading, error, fetchCustomer} = useCustomer();
+  const {customer, isLoading, error} = useCustomer();
 
-  React.useEffect(() => {
-    fetchCustomer();
-  }, []);
   console.log('customer', isLoading, error, customer);
   const firstName = customer?.firstName;
   const lastName = customer?.lastName;
