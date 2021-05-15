@@ -1,14 +1,9 @@
 import React from 'react';
 import {SafeAreaView, ScrollView, StyleSheet} from 'react-native';
-import {SignUp} from 'app/modules/customer/signUp';
+import {SignIn} from 'app/modules/signIn';
+
 export const ProductsScreen = () => {
-  return (
-    <SafeAreaView style={styles.wrapper}>
-      <ScrollView style={styles.scrollView}>
-        <SignUp />
-      </ScrollView>
-    </SafeAreaView>
-  );
+  return <SignIn />;
 };
 
 export default ProductsScreen;
