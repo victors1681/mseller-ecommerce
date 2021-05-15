@@ -1,10 +1,10 @@
 import React from 'react';
 import {SafeAreaView, StyleSheet, View} from 'react-native';
 import {Divider, Text} from '@ui-kitten/components';
-import {Profile} from 'app/modules/profile';
+import {Settings} from 'app/modules/settings';
 
-export const ProfileScreen = () => {
-  return <Profile />;
+export const SettingScreen = () => {
+  return <Settings />;
 };
 
 const styles = StyleSheet.create({
@@ -19,4 +19,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProfileScreen;
+export default SettingScreen;

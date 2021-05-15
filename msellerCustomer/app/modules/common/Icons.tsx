@@ -31,17 +31,20 @@ export const MaterialIcons: React.FC<MaterialIconProps> = ({
   const theme = useTheme();
   return (
     <MaterialCommunityIcon
-      name={name} //"storefront-outline" receipt account-circle-outline
+      name={name}
       size={size}
       color={theme['color-primary-default']}
     />
   );
 };
 
+/**
+ * TabBar Icons
+ */
 export const StoreIcon = (props: any) => {
   return (
     <MaterialCommunityIcon
-      name={'storefront-outline'} //"storefront-outline" receipt account-circle-outline
+      name={'storefront-outline'}
       size={props.style.height}
       color={props.style.tintColor}
     />
@@ -51,7 +54,7 @@ export const StoreIcon = (props: any) => {
 export const OrderIcon = (props: any) => {
   return (
     <MaterialCommunityIcon
-      name={'receipt'} //"storefront-outline" receipt account-circle-outline
+      name={'receipt'}
       size={props.style.height}
       color={props.style.tintColor}
     />
@@ -61,7 +64,7 @@ export const OrderIcon = (props: any) => {
 export const ProfileIcon = (props: any) => {
   return (
     <MaterialCommunityIcon
-      name={'account-circle-outline'} //"storefront-outline" receipt account-circle-outline
+      name={'account-cog-outline'}
       size={props.style.height}
       color={props.style.tintColor}
     />

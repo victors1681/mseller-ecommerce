@@ -70,16 +70,13 @@ export const UPDATE_CUSTOMER = gql`
 
 export const GET_CUSTOMER_INFO = gql`
   query CustomerInfo {
-    databaseId
-    email
-    firstName
-    lastName
-    username
-    isJwtAuthSecretRevoked
-    jwtAuthToken
-    jwtRefreshToken
-    jwtAuthExpiration
     customer {
+      databaseId
+      email
+      firstName
+      lastName
+      username
+      isJwtAuthSecretRevoked
       billing {
         address1
         address2

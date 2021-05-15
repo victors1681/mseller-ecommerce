@@ -9,7 +9,7 @@ import {
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeStackNavigator from '../navigation/HomeStackNavigator';
 import OrderStackNavigator from '../navigation/OrderStackNavigator';
-import ProfileStackNavigator from '../navigation/ProfileStackNavigator';
+import SettingsStackNavigator from './SettingsStackNavigator';
 import {StoreIcon, ProfileIcon, OrderIcon} from 'app/modules/common/Icons';
 
 const {Navigator, Screen} = createBottomTabNavigator();
@@ -38,7 +38,7 @@ const TabNavigator = () => (
     tabBar={props => <BottomNavigationAccessoriesShowcase {...props} />}>
     <Screen name="Home" component={HomeStackNavigator} />
     <Screen name="Orders" component={OrderStackNavigator} />
-    <Screen name="Profile" component={ProfileStackNavigator} />
+    <Screen name="Settings" component={SettingsStackNavigator} />
   </Navigator>
 );
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import {SafeAreaView, StyleSheet, View} from 'react-native';
 import {Divider, Text} from '@ui-kitten/components';
-
+import {Orders} from 'app/modules/orders';
 export const OrdersScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
@@ -10,6 +10,7 @@ export const OrdersScreen = () => {
       </View>
       <Divider />
       <Text>Orders</Text>
+      <Orders />
     </SafeAreaView>
   );
 };
