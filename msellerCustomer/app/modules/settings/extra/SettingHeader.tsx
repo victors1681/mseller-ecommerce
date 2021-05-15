@@ -10,15 +10,19 @@ export interface ProfileAvatarProps extends AvatarProps {
 export const SettingHeader = (): React.ReactElement => {
   const customer = useCustomer();
 
-  const name = `${customer.data?.Customer?.firstName || ''} ${
-    customer.data?.Customer?.lastName || ''
+  const name = `${customer.data?.customer?.firstName || ''} ${
+    customer.data?.customer?.lastName || ''
   }`;
+  const email = customer.data?.customer?.email || '';
 
   return (
     <View style={styles.container}>
       <SettingIcons name="account-circle" size={100} />
       <Text style={styles.text} appearance="hint" category="s1">
         {name}
+      </Text>
+      <Text style={styles.text} appearance="hint" category="p2">
+        {email}
       </Text>
     </View>
   );

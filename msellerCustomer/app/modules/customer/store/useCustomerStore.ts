@@ -19,17 +19,18 @@ import {
 } from 'app/generated/graphql'; // Import
 import {
   useMutation,
-  useQuery,
+  useLazyQuery,
   ApolloError,
   OperationVariables,
   ApolloQueryResult,
   MutationResult,
+  QueryLazyOptions,
 } from '@apollo/client';
 import React from 'react';
 import {saveToken, updateToken, getToken} from 'app/utils';
 
 interface Data {
-  Customer?: Customer;
+  customer?: Customer;
 }
 
 interface UpdateQuantitiesResponse {
@@ -65,13 +66,18 @@ interface RefreshTokenData {
 }
 
 export interface CustomerStore {
+  fetchCustomer: (
+    options?: QueryLazyOptions<OperationVariables> | undefined,
+  ) => void;
   customer: Customer | undefined;
   isLoading: boolean;
   data: Data | undefined;
   error: ApolloError | undefined;
-  refetch: (
-    variables?: Partial<OperationVariables> | undefined,
-  ) => Promise<ApolloQueryResult<Data>>;
+  refetch:
+    | ((
+        variables?: Partial<OperationVariables> | undefined,
+      ) => Promise<ApolloQueryResult<Data>>)
+    | undefined;
   login: (input: LoginInput) => Promise<void>;
   loginInfo: MutationResult<LoginData>;
   updateToken: () => Promise<void>;
@@ -91,15 +97,20 @@ export const useCustomerStore = (): CustomerStore => {
     {} as Customer,
   );
 
-  const {loading: isLoading, data, error, refetch} = useQuery<Data>(
-    GET_CUSTOMER_INFO,
-  );
+  const [
+    fetchCustomer,
+    {loading: isLoading, data, error, refetch, networkStatus},
+  ] = useLazyQuery<Data>(GET_CUSTOMER_INFO);
+  React.useEffect(() => {
+    console.log('customer effect', customer);
+  }, [customer]);
 
   React.useEffect(() => {
     if (!isLoading) {
-      setCustomer(data?.Customer);
+      console.log('setting data', data, error, networkStatus);
+      setCustomer(data?.customer);
     }
-  }, [isLoading, data]);
+  }, [isLoading, networkStatus]);
 
   const [login, loginInfo] = useMutation<LoginData, LoginInputArg>(LOGIN);
   const [refreshToken] = useMutation<RefreshTokenData, RefreshTokenArg>(
@@ -194,6 +205,7 @@ export const useCustomerStore = (): CustomerStore => {
   };
 
   return {
+    fetchCustomer,
     customer,
     isLoading,
     data,

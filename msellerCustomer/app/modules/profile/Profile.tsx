@@ -2,7 +2,7 @@ import React from 'react';
 import {useCustomer} from 'app/hooks/useCustomer';
 import {ScrollView} from 'react-native';
 import {Button, StyleService, useStyleSheet} from '@ui-kitten/components';
-import {ProfileAvatar} from './extra/profile-avatar.component';
+import {SettingHeader} from 'app/modules/settings/extra/SettingHeader';
 import {ProfileSetting} from './extra/profile-setting.component';
 import {CameraIcon} from './extra/icons';
 import {Profile as DataProfile} from './extra/data';
@@ -12,18 +12,18 @@ import {Loading, Error} from '../common';
 const data: DataProfile = DataProfile.jenniferGreen();
 
 export const Profile = () => {
-  const {customer, isLoading, error} = useCustomer();
+  const {customer, isLoading, error, fetchCustomer} = useCustomer();
 
-  console.log('customer', customer);
+  React.useEffect(() => {
+    fetchCustomer();
+  }, []);
+  console.log('customer', isLoading, error, customer);
+  const firstName = customer?.firstName;
+  const lastName = customer?.lastName;
+  const email = customer?.email;
+  const phoneNumber = customer?.billing?.phone;
 
   const styles = useStyleSheet(themedStyle);
-  const renderPhotoButton = (): React.ReactElement => (
-    <Button
-      style={styles.editAvatarButton}
-      status="basic"
-      accessoryLeft={CameraIcon}
-    />
-  );
 
   if (isLoading) {
     return <Loading />;
@@ -36,51 +36,41 @@ export const Profile = () => {
     <ScrollView
       style={styles.container}
       contentContainerStyle={styles.contentContainer}>
-      <ProfileAvatar
-        style={styles.profileAvatar}
-        source={data.photo}
-        editButton={renderPhotoButton}
+      <SettingHeader />
+      <ProfileSetting
+        style={[styles.profileSetting, styles.section]}
+        hint="Nombre"
+        value={firstName}
+      />
+      <ProfileSetting
+        style={styles.profileSetting}
+        hint="Apellido"
+        value={lastName}
       />
       <ProfileSetting
         style={[styles.profileSetting, styles.section]}
-        hint="First Name"
-        value={data.firstName}
+        hint="Cuenta"
+        value={'12222'}
       />
       <ProfileSetting
         style={styles.profileSetting}
-        hint="Last Name"
-        value={data.lastName}
+        hint="Condición Pago"
+        value={'Credito'}
       />
-      <ProfileSetting
-        style={styles.profileSetting}
-        hint="Gender"
-        value={data.gender}
-      />
-      <ProfileSetting
-        style={styles.profileSetting}
-        hint="Age"
-        value={`${data.age}`}
-      />
-      <ProfileSetting
-        style={styles.profileSetting}
-        hint="Weight"
-        value={`${data.weight} kg`}
-      />
-      <ProfileSetting
-        style={styles.profileSetting}
-        hint="Height"
-        value={`${data.height} cm`}
-      />
+
       <ProfileSetting
         style={[styles.profileSetting, styles.section]}
         hint="Email"
-        value={data.email}
+        value={email}
       />
       <ProfileSetting
         style={styles.profileSetting}
-        hint="Phone Number"
-        value={data.phoneNumber}
+        hint="Teléfono"
+        value={phoneNumber}
       />
+      <Button style={styles.doneButton} appearance="outline">
+        Cambiar Contraseña
+      </Button>
     </ScrollView>
   );
 };
