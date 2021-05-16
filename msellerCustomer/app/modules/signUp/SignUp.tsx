@@ -3,8 +3,6 @@ import {Image, ImageProps, View} from 'react-native';
 import {
   Button,
   CheckBox,
-  Datepicker,
-  Input,
   StyleService,
   Text,
   useStyleSheet,
@@ -14,13 +12,46 @@ import {ArrowForwardIconOutline} from './extra/icons';
 import {KeyboardAvoidingView} from './extra/3rd-party';
 import {useNavigation} from '@react-navigation/core';
 import {RenderProp} from '@ui-kitten/components/devsupport/components/falsyFC/falsyFC.component';
+import {Formik} from 'formik';
+import * as Yup from 'yup';
+import {CustomInput} from 'app/modules/common/form/CustomInput';
+require('yup-password')(Yup);
+const phoneRegex = RegExp(/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/);
+
+const ValidationSchema = Yup.object({
+  firstName: Yup.string().strict().required('Requerido'),
+  lastName: Yup.string().required('Requerido'),
+  email: Yup.string()
+    .email('Correo Electronico inválido')
+    .required('Requerido'),
+  password: Yup.string()
+    .min(6, 'Clave debe tener al menos 6 letras')
+    .minUppercase(1, 'Clave debe tener al menos una mayuscula')
+    .required('Requerido'),
+
+  phoneNumber: Yup.string()
+    .matches(phoneRegex, 'Teléfono Inválido')
+    .required('Requerido'),
+  dob: Yup.object({
+    day: Yup.number()
+      .min(1, 'Día debe ser mayor 1')
+      .max(31, 'Día debe ser menor a 31')
+      .required('Requerido'),
+    month: Yup.number()
+      .min(1, 'Mes debe ser entre 1 - 12')
+      .max(12, 'Mes debe ser entre 1 - 12')
+      .required('Requerido'),
+    year: Yup.number()
+      .min(1900, 'Fecha de nacimiento incorrecta')
+      .max(
+        new Date().getFullYear() - 10,
+        'Debe tener más de 10 años para usar esta aplicación',
+      )
+      .required('Requerido'),
+  }),
+});
 
 export const SignUp = (): React.ReactElement => {
-  const [firstName, setFirstName] = React.useState<string>();
-  const [lastName, setLastName] = React.useState<string>();
-  const [email, setEmail] = React.useState<string>();
-  const [password, setPassword] = React.useState<string>();
-  const [dob, setDob] = React.useState<Date>();
   const [termsAccepted, setTermsAccepted] = React.useState<boolean>(true);
 
   const navigation = useNavigation();
@@ -44,79 +75,144 @@ export const SignUp = (): React.ReactElement => {
     [],
   );
 
+  const initialValues = {
+    firstName: '',
+    lastName: '',
+    dob: {
+      day: '',
+      month: '',
+      year: '',
+    },
+    phoneNumber: '',
+    email: '',
+    password: '',
+    term: true,
+  };
+
+  const onSubmit = values => {
+    console.log(values);
+  };
+
   return (
     <KeyboardAvoidingView>
-      <ImageOverlay
-        style={themedStyles.container}
-        source={require('app/assets/images/image-background.jpg')}>
-        <View style={styles.signUpContainer}>
-          <Text style={styles.signInLabel} category="h4">
-            Registro
-          </Text>
-          <Button
-            style={styles.signInButton}
-            appearance="ghost"
-            size="giant"
-            accessoryLeft={
-              ArrowForwardIconOutline as RenderProp<Partial<ImageProps>>
-            }
-            onPress={onSignInButtonPress}>
-            Ingresar
-          </Button>
-        </View>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={ValidationSchema}
+        onSubmit={onSubmit}>
+        {({handleChange, handleBlur, handleSubmit, values, errors}) => (
+          <ImageOverlay
+            style={themedStyles.container}
+            source={require('app/assets/images/image-background.jpg')}>
+            <View style={styles.signUpContainer}>
+              <Text style={styles.signInLabel} category="h4">
+                Registro
+              </Text>
+              <Button
+                style={styles.signInButton}
+                appearance="ghost"
+                size="giant"
+                accessoryLeft={
+                  ArrowForwardIconOutline as RenderProp<Partial<ImageProps>>
+                }
+                onPress={onSignInButtonPress}>
+                Ingresar
+              </Button>
+            </View>
 
-        <View style={[styles.formContainer]}>
-          <Image
-            style={themedStyles.logo}
-            source={require('app/assets/images/logo-mseller-dark.png')}
-            resizeMode="contain"
-          />
-          <Input
-            label="NOMBRE"
-            autoCapitalize="words"
-            value={firstName}
-            onChangeText={setFirstName}
-          />
-          <Input
-            style={styles.formInput}
-            label="APELLIDO"
-            autoCapitalize="words"
-            value={lastName}
-            onChangeText={setLastName}
-          />
-          <Datepicker
-            style={styles.formInput}
-            label="Fecha de Nacimiento"
-            date={dob}
-            onSelect={setDob}
-          />
-          <Input
-            style={styles.formInput}
-            label="EMAIL"
-            value={email}
-            onChangeText={setEmail}
-          />
-          <Input
-            style={styles.formInput}
-            label="CONTRASEÑA"
-            secureTextEntry={true}
-            value={password}
-            onChangeText={setPassword}
-          />
-          <CheckBox
-            style={styles.termsCheckBox}
-            checked={termsAccepted}
-            onChange={(checked: boolean) => setTermsAccepted(checked)}>
-            {renderCheckboxLabel}
-          </CheckBox>
-        </View>
-        <Button
-          style={styles.signUpButton}
-          size="large"
-          onPress={onSignUpButtonPress}>
-          Completar Registro
-        </Button>
-      </ImageOverlay>
+            <View style={[styles.formContainer]}>
+              <Image
+                style={themedStyles.logo}
+                source={require('app/assets/images/logo-mseller-dark.png')}
+                resizeMode="contain"
+              />
+              <CustomInput
+                name="firstName"
+                value={values.firstName}
+                label="NOMBRE"
+                autoCapitalize="words"
+              />
+              <CustomInput
+                name="lastName"
+                style={styles.formInput}
+                label="APELLIDO"
+                autoCapitalize="words"
+                value={values.lastName}
+              />
+              {/* <Datepicker
+                style={styles.formInput}
+                label="Fecha de Nacimiento"
+                date={values.dob}
+                onSelect={v => {
+                  console.log('value', v);
+                  handleChange('dob');
+                }}
+              /> */}
+              <View style={[styles.dateContainer, styles.formInput]}>
+                <CustomInput
+                  name="dob.day"
+                  style={[styles.dateItem, styles.rightSpace]}
+                  label="Día"
+                  placeholder="dd"
+                  value={values.dob.day}
+                />
+                <CustomInput
+                  name="dob.month"
+                  style={styles.dateItem}
+                  label="Mes"
+                  placeholder="mm"
+                  value={values.dob.month}
+                />
+                <CustomInput
+                  name="dob.year"
+                  style={[styles.dateItem, styles.leftSpace]}
+                  label="Año"
+                  placeholder="yyyy"
+                  value={values.dob.year}
+                />
+              </View>
+              {/* <CustomDatePicker label="Fecha de Nacimiento" name="bod" /> */}
+              <CustomInput
+                id="phoneNumber"
+                name="phoneNumber"
+                style={styles.formInput}
+                label="TELEFONO"
+                onChangeText={handleChange('phoneNumber')}
+                onBlur={handleBlur('emphoneNumberail')}
+                value={values.phoneNumber}
+              />
+              <CustomInput
+                name="email"
+                style={styles.formInput}
+                label="EMAIL"
+                onChangeText={handleChange('email')}
+                onBlur={handleBlur('email')}
+                value={values.email}
+              />
+              <CustomInput
+                name="password"
+                style={styles.formInput}
+                label="CONTRASEÑA"
+                secureTextEntry={true}
+                onChangeText={handleChange('password')}
+                onBlur={handleBlur('password')}
+                value={values.password}
+              />
+              <CheckBox
+                style={styles.termsCheckBox}
+                checked={termsAccepted}
+                onChange={(checked: boolean) => setTermsAccepted(checked)}>
+                {renderCheckboxLabel}
+              </CheckBox>
+            </View>
+            <Button
+              style={styles.signUpButton}
+              size="large"
+              onPress={handleSubmit}>
+              Completar Registro
+            </Button>
+          </ImageOverlay>
+        )}
+      </Formik>
     </KeyboardAvoidingView>
   );
 };
@@ -125,6 +221,20 @@ const themedStyles = StyleService.create({
   logo: {
     height: 50,
     marginBottom: 30,
+  },
+  dateContainer: {
+    flexDirection: 'row',
+    flexFlow: 'column wrap',
+    justifyContent: 'space-between',
+  },
+  dateItem: {
+    flex: 1,
+  },
+  rightSpace: {
+    marginRight: 10,
+  },
+  leftSpace: {
+    marginLeft: 10,
   },
   container: {
     flex: 1,
