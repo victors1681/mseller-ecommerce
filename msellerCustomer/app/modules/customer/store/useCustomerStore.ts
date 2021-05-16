@@ -25,9 +25,11 @@ import {
   ApolloQueryResult,
   MutationResult,
   QueryLazyOptions,
+  FetchResult,
 } from '@apollo/client';
 import React from 'react';
 import {saveToken, updateToken, getToken} from 'app/utils';
+import {Alert} from 'react-native';
 
 interface Data {
   customer?: Customer;
@@ -82,7 +84,16 @@ export interface CustomerStore {
   login: (input: LoginInput) => Promise<void>;
   loginInfo: MutationResult<LoginData>;
   updateToken: () => Promise<void>;
-  registerCustomer: (input: RegisterCustomerInput) => Promise<void>;
+  registerCustomer: (
+    input: RegisterCustomerInput,
+  ) => Promise<
+    | FetchResult<
+        RegisterCustomerData,
+        Record<string, any>,
+        Record<string, any>
+      >
+    | undefined
+  >;
   registerCustomerInfo: MutationResult<RegisterCustomerData>;
   updateCustomer: (input: UpdateCustomerInput) => Promise<void>;
   updateCustomerInfo: MutationResult<UpdateCustomerData>;
@@ -173,7 +184,14 @@ export const useCustomerStore = (): CustomerStore => {
 
   const performRegistration = async (
     input: RegisterCustomerInput,
-  ): Promise<void> => {
+  ): Promise<
+    | FetchResult<
+        RegisterCustomerData,
+        Record<string, any>,
+        Record<string, any>
+      >
+    | undefined
+  > => {
     try {
       const response = await registerCustomer({
         variables: {
@@ -190,8 +208,12 @@ export const useCustomerStore = (): CustomerStore => {
       if (authToken && refreshToken && sessionToken) {
         saveToken({authToken, refreshToken, sessionToken});
       }
+      return response;
     } catch (err) {
+      const error = err as Error;
+      Alert.alert(error.message);
       console.log('error', err);
+      //Send event if the account is not successfully created with the email address
     }
   };
 

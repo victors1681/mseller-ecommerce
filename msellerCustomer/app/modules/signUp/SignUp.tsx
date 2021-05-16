@@ -10,9 +10,12 @@ import {Formik, FormikHelpers} from 'formik';
 import {signUpValidationSchema} from './extra/signUpValidationSchema';
 import {CustomInput, CustomCheckbox} from 'app/modules/common/form';
 import {LoadingIndicator} from 'app/modules/common';
+import {useCustomer} from 'app/hooks';
+
 export const SignUp = (): React.ReactElement => {
   const navigation = useNavigation();
   const styles = useStyleSheet(themedStyles);
+  const {registerCustomer} = useCustomer();
 
   const onSignInButtonPress = (): void => {
     navigation && navigation.navigate('signIn');
@@ -57,13 +60,30 @@ export const SignUp = (): React.ReactElement => {
 
   const onSubmit = async (
     values: RegistrationFormProps,
-    {setSubmitting}: FormikHelpers<RegistrationFormProps>,
+    {setSubmitting, resetForm}: FormikHelpers<RegistrationFormProps>,
   ): Promise<void> => {
-    setTimeout(() => {
-      Alert.alert(JSON.stringify(values, null, 2));
+    const {firstName, lastName, dob, phoneNumber, email, password} = values;
+    const bod = `${dob.month}-${dob.day}-${dob.year}`;
+    const response = await registerCustomer({
+      displayName: `${firstName} ${lastName}`,
+      firstName,
+      lastName,
+      email,
+      password,
+      billing: {
+        firstName,
+        lastName,
+        phone: phoneNumber,
+        email,
+      },
+      metaData: [{key: 'bod', value: bod}],
+    });
+    if (response) {
+      Alert.alert(JSON.stringify(response));
       setSubmitting(false);
-      console.log(values);
-    }, 1000);
+      resetForm();
+      navigation.goBack();
+    }
   };
 
   return (
@@ -72,7 +92,7 @@ export const SignUp = (): React.ReactElement => {
         initialValues={initialValues}
         validationSchema={signUpValidationSchema}
         onSubmit={onSubmit}>
-        {({handleChange, handleBlur, handleSubmit, values, isSubmitting}) => (
+        {({handleSubmit, values, isSubmitting}) => (
           <ImageOverlay
             style={themedStyles.container}
             source={require('app/assets/images/image-background.jpg')}>
@@ -140,14 +160,11 @@ export const SignUp = (): React.ReactElement => {
                   value={values.dob.year}
                 />
               </View>
-              {/* <CustomDatePicker label="Fecha de Nacimiento" name="bod" /> */}
               <CustomInput
                 name="phoneNumber"
                 style={styles.formInput}
                 disabled={isSubmitting}
                 label="TELEFONO"
-                onChangeText={handleChange('phoneNumber')}
-                onBlur={handleBlur('emphoneNumberail')}
                 value={values.phoneNumber}
               />
               <CustomInput

@@ -38,7 +38,6 @@ export const REGISTER_CUSTOMER = gql`
         jwtRefreshToken
         jwtUserSecret
         lastName
-        locale
         sessionToken
       }
     }
