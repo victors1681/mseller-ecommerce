@@ -28,7 +28,6 @@ import {
 } from '@apollo/client';
 import React from 'react';
 import {saveToken, updateToken, getToken} from 'app/utils';
-import {useNavigation} from '@react-navigation/native';
 
 interface Data {
   customer?: Customer;

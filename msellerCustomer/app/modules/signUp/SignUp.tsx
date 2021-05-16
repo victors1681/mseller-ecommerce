@@ -1,25 +1,19 @@
 import React from 'react';
-import {View} from 'react-native';
+import {Image, ImageProps, View} from 'react-native';
 import {
   Button,
   CheckBox,
   Datepicker,
-  Divider,
   Input,
   StyleService,
   Text,
   useStyleSheet,
 } from '@ui-kitten/components';
-import {ImageOverlay} from './extra/image-overlay.component';
-import {
-  ArrowForwardIconOutline,
-  FacebookIcon,
-  GoogleIcon,
-  HeartIconFill,
-  TwitterIcon,
-} from './extra/icons';
+import {ImageOverlay} from 'app/modules/common/ImageOverlay';
+import {ArrowForwardIconOutline} from './extra/icons';
 import {KeyboardAvoidingView} from './extra/3rd-party';
 import {useNavigation} from '@react-navigation/core';
+import {RenderProp} from '@ui-kitten/components/devsupport/components/falsyFC/falsyFC.component';
 
 export const SignUp = (): React.ReactElement => {
   const [firstName, setFirstName] = React.useState<string>();
@@ -51,125 +45,96 @@ export const SignUp = (): React.ReactElement => {
   );
 
   return (
-    <KeyboardAvoidingView style={styles.container}>
+    <KeyboardAvoidingView>
       <ImageOverlay
-        style={styles.headerContainer}
-        source={require('./assets/image-background.jpg')}>
-        <Button
-          style={styles.evaButton}
-          appearance="ghost"
-          status="control"
-          size="large"
-          accessoryLeft={HeartIconFill}>
-          EVA-
-        </Button>
+        style={themedStyles.container}
+        source={require('app/assets/images/image-background.jpg')}>
         <View style={styles.signUpContainer}>
-          <Text style={styles.signInLabel} category="h4" status="control">
-            SIGN UP
+          <Text style={styles.signInLabel} category="h4">
+            Registro
           </Text>
           <Button
             style={styles.signInButton}
             appearance="ghost"
-            status="control"
             size="giant"
-            accessoryLeft={ArrowForwardIconOutline}
+            accessoryLeft={
+              ArrowForwardIconOutline as RenderProp<Partial<ImageProps>>
+            }
             onPress={onSignInButtonPress}>
-            Sign In
+            Ingresar
           </Button>
         </View>
-      </ImageOverlay>
 
-      <Text style={styles.emailSignLabel}>Sign up with Email</Text>
-      <View style={[styles.container, styles.formContainer]}>
-        <Input
-          placeholder="Ally"
-          label="FIRST NAME"
-          autoCapitalize="words"
-          value={firstName}
-          onChangeText={setFirstName}
-        />
-        <Input
-          style={styles.formInput}
-          placeholder="Watsan"
-          label="LAST NAME"
-          autoCapitalize="words"
-          value={lastName}
-          onChangeText={setLastName}
-        />
-        <Datepicker
-          style={styles.formInput}
-          placeholder="18/10/1995"
-          label="Date of Birth"
-          date={dob}
-          onSelect={setDob}
-        />
-        <Input
-          style={styles.formInput}
-          placeholder="ally.watsan@gmail.com"
-          label="EMAIL"
-          value={email}
-          onChangeText={setEmail}
-        />
-        <Input
-          style={styles.formInput}
-          label="PASSWORD"
-          placeholder="Password"
-          secureTextEntry={true}
-          value={password}
-          onChangeText={setPassword}
-        />
-        <CheckBox
-          style={styles.termsCheckBox}
-          checked={termsAccepted}
-          onChange={(checked: boolean) => setTermsAccepted(checked)}>
-          {renderCheckboxLabel}
-        </CheckBox>
-      </View>
-      <Button
-        style={styles.signUpButton}
-        size="large"
-        onPress={onSignUpButtonPress}>
-        SIGN UP
-      </Button>
-      <View style={styles.orContainer}>
-        <Divider style={styles.divider} />
-        <Text style={styles.orLabel} category="h5">
-          OR
-        </Text>
-        <Divider style={styles.divider} />
-      </View>
-      <View style={styles.socialAuthContainer}>
-        <Text style={styles.socialAuthHintText}>
-          Sign with a social account
-        </Text>
-        <View style={styles.socialAuthButtonsContainer}>
-          <Button
-            appearance="ghost"
-            size="giant"
-            status="basic"
-            accessoryLeft={GoogleIcon}
+        <View style={[themedStyles.container, styles.formContainer]}>
+          <Image
+            style={themedStyles.logo}
+            source={require('app/assets/images/logo-mseller-dark.png')}
+            resizeMode="contain"
           />
-          <Button
-            appearance="ghost"
-            size="giant"
-            status="basic"
-            accessoryLeft={FacebookIcon}
+          <Input
+            placeholder="Ally"
+            label="FIRST NAME"
+            autoCapitalize="words"
+            value={firstName}
+            onChangeText={setFirstName}
           />
-          <Button
-            appearance="ghost"
-            size="giant"
-            status="basic"
-            accessoryLeft={TwitterIcon}
+          <Input
+            style={styles.formInput}
+            placeholder="Watsan"
+            label="LAST NAME"
+            autoCapitalize="words"
+            value={lastName}
+            onChangeText={setLastName}
           />
+          <Datepicker
+            style={styles.formInput}
+            placeholder="18/10/1995"
+            label="Date of Birth"
+            date={dob}
+            onSelect={setDob}
+          />
+          <Input
+            style={styles.formInput}
+            placeholder="ally.watsan@gmail.com"
+            label="EMAIL"
+            value={email}
+            onChangeText={setEmail}
+          />
+          <Input
+            style={styles.formInput}
+            label="PASSWORD"
+            placeholder="Password"
+            secureTextEntry={true}
+            value={password}
+            onChangeText={setPassword}
+          />
+          <CheckBox
+            style={styles.termsCheckBox}
+            checked={termsAccepted}
+            onChange={(checked: boolean) => setTermsAccepted(checked)}>
+            {renderCheckboxLabel}
+          </CheckBox>
         </View>
-      </View>
+        <Button
+          style={styles.signUpButton}
+          size="large"
+          onPress={onSignUpButtonPress}>
+          Completar Registro
+        </Button>
+      </ImageOverlay>
     </KeyboardAvoidingView>
   );
 };
 
 const themedStyles = StyleService.create({
+  logo: {
+    height: 50,
+    marginBottom: 30,
+  },
   container: {
-    backgroundColor: 'background-basic-color-1',
+    flex: 1,
+    paddingVertical: 24,
+    paddingHorizontal: 16,
   },
   headerContainer: {
     minHeight: 216,
@@ -179,9 +144,8 @@ const themedStyles = StyleService.create({
   },
   signUpContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 32,
+    marginTop: 24,
   },
   socialAuthContainer: {
     marginTop: 24,

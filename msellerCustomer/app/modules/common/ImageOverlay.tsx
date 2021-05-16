@@ -17,12 +17,12 @@ export interface ImageOverlayProps extends ImageBackgroundProps {
   children?: React.ReactNode;
 }
 
-const DEFAULT_OVERLAY_COLOR = 'rgba(0, 0, 0, 0.45)';
+const DEFAULT_OVERLAY_COLOR = 'rgba(0, 0, 0, 0)';
 
 export const ImageOverlay = (
   props?: ImageOverlayProps,
 ): React.ReactElement<ImageBackgroundProps> => {
-  const {style, children, ...imageBackgroundProps} = props;
+  const {style, children, ...imageBackgroundProps} = props as ImageOverlayProps;
   const {overlayColor, ...imageBackgroundStyle} = StyleSheet.flatten(style);
 
   return (

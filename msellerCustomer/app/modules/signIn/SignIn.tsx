@@ -1,15 +1,11 @@
 import React from 'react';
-import {Image, StyleSheet, View} from 'react-native';
+import {Image, ImageProps, StyleSheet, View} from 'react-native';
 import {Button, Input, Text} from '@ui-kitten/components';
-import {ImageOverlay} from './extra/image-overlay.component';
-import {
-  ArrowForwardIcon,
-  FacebookIcon,
-  GoogleIcon,
-  TwitterIcon,
-} from './extra/icons';
+import {ImageOverlay} from 'app/modules/common/ImageOverlay';
+import {ArrowForwardIcon} from './extra/icons';
 import {KeyboardAvoidingView} from './extra/3rd-party';
 import {useNavigation} from '@react-navigation/core';
+import {RenderProp} from '@ui-kitten/components/devsupport/components/falsyFC/falsyFC.component';
 
 export const SignIn = (): React.ReactElement => {
   const [email, setEmail] = React.useState<string>();
@@ -28,17 +24,16 @@ export const SignIn = (): React.ReactElement => {
     <KeyboardAvoidingView>
       <ImageOverlay
         style={styles.container}
-        source={require('./assets/image-background.jpg')}>
+        source={require('app/assets/images/image-background.jpg')}>
         <View style={styles.signInContainer}>
-          <Text style={styles.signInLabel} status="control" category="h4">
+          <Text style={styles.signInLabel} category="h4">
             Acceder
           </Text>
           <Button
             style={styles.signUpButton}
             appearance="ghost"
-            status="control"
             size="giant"
-            accessoryLeft={ArrowForwardIcon}
+            accessoryLeft={ArrowForwardIcon as RenderProp<Partial<ImageProps>>}
             onPress={onSignUpButtonPress}>
             Registro
           </Button>
@@ -50,24 +45,21 @@ export const SignIn = (): React.ReactElement => {
             resizeMode="contain"
           />
           <Input
-            label="EMAIL"
+            label="Email"
             placeholder="Email"
-            status="control"
             value={email}
             onChangeText={setEmail}
           />
           <Input
             style={styles.passwordInput}
             secureTextEntry={true}
-            placeholder="Password"
-            label="PASSWORD"
-            status="control"
+            placeholder="Contraseña"
+            label="Contraseña"
             value={password}
             onChangeText={setPassword}
           />
           <Button
             style={styles.session}
-            status="control"
             size="large"
             onPress={onSignInButtonPress}>
             Iniciar Sessión
