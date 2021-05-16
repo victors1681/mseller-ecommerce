@@ -21,7 +21,7 @@ export const SignUp = (): React.ReactElement => {
   const [email, setEmail] = React.useState<string>();
   const [password, setPassword] = React.useState<string>();
   const [dob, setDob] = React.useState<Date>();
-  const [termsAccepted, setTermsAccepted] = React.useState<boolean>(false);
+  const [termsAccepted, setTermsAccepted] = React.useState<boolean>(true);
 
   const navigation = useNavigation();
   const styles = useStyleSheet(themedStyles);
@@ -37,8 +37,8 @@ export const SignUp = (): React.ReactElement => {
   const renderCheckboxLabel = React.useCallback(
     evaProps => (
       <Text {...evaProps} style={styles.termsCheckBoxText}>
-        By creating an account, I agree to the Ewa Terms of\nUse and Privacy
-        Policy
+        Al crear una cuenta, acepto los términos de uso y la política de
+        privacidad.
       </Text>
     ),
     [],
@@ -65,45 +65,40 @@ export const SignUp = (): React.ReactElement => {
           </Button>
         </View>
 
-        <View style={[themedStyles.container, styles.formContainer]}>
+        <View style={[styles.formContainer]}>
           <Image
             style={themedStyles.logo}
             source={require('app/assets/images/logo-mseller-dark.png')}
             resizeMode="contain"
           />
           <Input
-            placeholder="Ally"
-            label="FIRST NAME"
+            label="NOMBRE"
             autoCapitalize="words"
             value={firstName}
             onChangeText={setFirstName}
           />
           <Input
             style={styles.formInput}
-            placeholder="Watsan"
-            label="LAST NAME"
+            label="APELLIDO"
             autoCapitalize="words"
             value={lastName}
             onChangeText={setLastName}
           />
           <Datepicker
             style={styles.formInput}
-            placeholder="18/10/1995"
-            label="Date of Birth"
+            label="Fecha de Nacimiento"
             date={dob}
             onSelect={setDob}
           />
           <Input
             style={styles.formInput}
-            placeholder="ally.watsan@gmail.com"
             label="EMAIL"
             value={email}
             onChangeText={setEmail}
           />
           <Input
             style={styles.formInput}
-            label="PASSWORD"
-            placeholder="Password"
+            label="CONTRASEÑA"
             secureTextEntry={true}
             value={password}
             onChangeText={setPassword}

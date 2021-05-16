@@ -44,17 +44,11 @@ export const SignIn = (): React.ReactElement => {
             source={require('app/assets/images/logo-mseller-dark.png')}
             resizeMode="contain"
           />
-          <Input
-            label="Email"
-            placeholder="Email"
-            value={email}
-            onChangeText={setEmail}
-          />
+          <Input label="EMAIL" value={email} onChangeText={setEmail} />
           <Input
             style={styles.passwordInput}
             secureTextEntry={true}
-            placeholder="Contraseña"
-            label="Contraseña"
+            label="CONTRASEÑA"
             value={password}
             onChangeText={setPassword}
           />
