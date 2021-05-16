@@ -1,18 +1,9 @@
 import React, {useCallback, useState} from 'react';
-import {
-  Alert,
-  ImageBackground,
-  Platform,
-  useWindowDimensions,
-  View,
-} from 'react-native';
+import {ImageBackground, View} from 'react-native';
 import {
   Button,
-  Input,
   Layout,
   Radio,
-  Spiner,
-  RadioGroup,
   StyleService,
   Text,
   useStyleSheet,

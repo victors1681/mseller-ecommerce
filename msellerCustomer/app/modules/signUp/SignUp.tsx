@@ -1,65 +1,18 @@
 import React from 'react';
-import {Image, ImageProps, View} from 'react-native';
-import {
-  Button,
-  CheckBox,
-  StyleService,
-  Text,
-  useStyleSheet,
-} from '@ui-kitten/components';
+import {Alert, Image, ImageProps, View} from 'react-native';
+import {Button, StyleService, Text, useStyleSheet} from '@ui-kitten/components';
 import {ImageOverlay} from 'app/modules/common/ImageOverlay';
 import {ArrowForwardIconOutline} from './extra/icons';
 import {KeyboardAvoidingView} from './extra/3rd-party';
 import {useNavigation} from '@react-navigation/core';
 import {RenderProp} from '@ui-kitten/components/devsupport/components/falsyFC/falsyFC.component';
-import {Formik} from 'formik';
-import * as Yup from 'yup';
-import {CustomInput} from 'app/modules/common/form/CustomInput';
-require('yup-password')(Yup);
-const phoneRegex = RegExp(/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/);
-
-const ValidationSchema = Yup.object({
-  firstName: Yup.string().strict().required('Requerido'),
-  lastName: Yup.string().required('Requerido'),
-  email: Yup.string()
-    .email('Correo Electronico inválido')
-    .required('Requerido'),
-  password: Yup.string()
-    .min(6, 'Clave debe tener al menos 6 letras')
-    .minUppercase(1, 'Clave debe tener al menos una mayuscula')
-    .required('Requerido'),
-
-  phoneNumber: Yup.string()
-    .matches(phoneRegex, 'Teléfono Inválido')
-    .required('Requerido'),
-  dob: Yup.object({
-    day: Yup.number()
-      .min(1, 'Día debe ser mayor 1')
-      .max(31, 'Día debe ser menor a 31')
-      .required('Requerido'),
-    month: Yup.number()
-      .min(1, 'Mes debe ser entre 1 - 12')
-      .max(12, 'Mes debe ser entre 1 - 12')
-      .required('Requerido'),
-    year: Yup.number()
-      .min(1900, 'Fecha de nacimiento incorrecta')
-      .max(
-        new Date().getFullYear() - 10,
-        'Debe tener más de 10 años para usar esta aplicación',
-      )
-      .required('Requerido'),
-  }),
-});
-
+import {Formik, FormikHelpers} from 'formik';
+import {signUpValidationSchema} from './extra/signUpValidationSchema';
+import {CustomInput, CustomCheckbox} from 'app/modules/common/form';
+import {LoadingIndicator} from 'app/modules/common';
 export const SignUp = (): React.ReactElement => {
-  const [termsAccepted, setTermsAccepted] = React.useState<boolean>(true);
-
   const navigation = useNavigation();
   const styles = useStyleSheet(themedStyles);
-
-  const onSignUpButtonPress = (): void => {
-    navigation && navigation.goBack();
-  };
 
   const onSignInButtonPress = (): void => {
     navigation && navigation.navigate('signIn');
@@ -75,7 +28,20 @@ export const SignUp = (): React.ReactElement => {
     [],
   );
 
-  const initialValues = {
+  interface RegistrationFormProps {
+    firstName: string;
+    lastName: string;
+    dob: {
+      day: string;
+      month: string;
+      year: string;
+    };
+    phoneNumber: string;
+    email: string;
+    password: string;
+    term: boolean;
+  }
+  const initialValues: RegistrationFormProps = {
     firstName: '',
     lastName: '',
     dob: {
@@ -89,17 +55,24 @@ export const SignUp = (): React.ReactElement => {
     term: true,
   };
 
-  const onSubmit = values => {
-    console.log(values);
+  const onSubmit = async (
+    values: RegistrationFormProps,
+    {setSubmitting}: FormikHelpers<RegistrationFormProps>,
+  ): Promise<void> => {
+    setTimeout(() => {
+      Alert.alert(JSON.stringify(values, null, 2));
+      setSubmitting(false);
+      console.log(values);
+    }, 1000);
   };
 
   return (
     <KeyboardAvoidingView>
       <Formik
         initialValues={initialValues}
-        validationSchema={ValidationSchema}
+        validationSchema={signUpValidationSchema}
         onSubmit={onSubmit}>
-        {({handleChange, handleBlur, handleSubmit, values, errors}) => (
+        {({handleChange, handleBlur, handleSubmit, values, isSubmitting}) => (
           <ImageOverlay
             style={themedStyles.container}
             source={require('app/assets/images/image-background.jpg')}>
@@ -111,6 +84,7 @@ export const SignUp = (): React.ReactElement => {
                 style={styles.signInButton}
                 appearance="ghost"
                 size="giant"
+                disabled={isSubmitting}
                 accessoryLeft={
                   ArrowForwardIconOutline as RenderProp<Partial<ImageProps>>
                 }
@@ -127,6 +101,7 @@ export const SignUp = (): React.ReactElement => {
               />
               <CustomInput
                 name="firstName"
+                disabled={isSubmitting}
                 value={values.firstName}
                 label="NOMBRE"
                 autoCapitalize="words"
@@ -134,23 +109,16 @@ export const SignUp = (): React.ReactElement => {
               <CustomInput
                 name="lastName"
                 style={styles.formInput}
+                disabled={isSubmitting}
                 label="APELLIDO"
                 autoCapitalize="words"
                 value={values.lastName}
               />
-              {/* <Datepicker
-                style={styles.formInput}
-                label="Fecha de Nacimiento"
-                date={values.dob}
-                onSelect={v => {
-                  console.log('value', v);
-                  handleChange('dob');
-                }}
-              /> */}
               <View style={[styles.dateContainer, styles.formInput]}>
                 <CustomInput
                   name="dob.day"
                   style={[styles.dateItem, styles.rightSpace]}
+                  disabled={isSubmitting}
                   label="Día"
                   placeholder="dd"
                   value={values.dob.day}
@@ -158,6 +126,7 @@ export const SignUp = (): React.ReactElement => {
                 <CustomInput
                   name="dob.month"
                   style={styles.dateItem}
+                  disabled={isSubmitting}
                   label="Mes"
                   placeholder="mm"
                   value={values.dob.month}
@@ -165,6 +134,7 @@ export const SignUp = (): React.ReactElement => {
                 <CustomInput
                   name="dob.year"
                   style={[styles.dateItem, styles.leftSpace]}
+                  disabled={isSubmitting}
                   label="Año"
                   placeholder="yyyy"
                   value={values.dob.year}
@@ -172,9 +142,9 @@ export const SignUp = (): React.ReactElement => {
               </View>
               {/* <CustomDatePicker label="Fecha de Nacimiento" name="bod" /> */}
               <CustomInput
-                id="phoneNumber"
                 name="phoneNumber"
                 style={styles.formInput}
+                disabled={isSubmitting}
                 label="TELEFONO"
                 onChangeText={handleChange('phoneNumber')}
                 onBlur={handleBlur('emphoneNumberail')}
@@ -183,9 +153,8 @@ export const SignUp = (): React.ReactElement => {
               <CustomInput
                 name="email"
                 style={styles.formInput}
+                disabled={isSubmitting}
                 label="EMAIL"
-                onChangeText={handleChange('email')}
-                onBlur={handleBlur('email')}
                 value={values.email}
               />
               <CustomInput
@@ -193,22 +162,23 @@ export const SignUp = (): React.ReactElement => {
                 style={styles.formInput}
                 label="CONTRASEÑA"
                 secureTextEntry={true}
-                onChangeText={handleChange('password')}
-                onBlur={handleBlur('password')}
                 value={values.password}
               />
-              <CheckBox
-                style={styles.termsCheckBox}
-                checked={termsAccepted}
-                onChange={(checked: boolean) => setTermsAccepted(checked)}>
+              <CustomCheckbox
+                name="term"
+                value={values.term}
+                disabled={isSubmitting}
+                style={styles.termsCheckBox}>
                 {renderCheckboxLabel}
-              </CheckBox>
+              </CustomCheckbox>
             </View>
             <Button
+              disabled={!values.term || isSubmitting}
               style={styles.signUpButton}
               size="large"
+              accessoryLeft={(isSubmitting ? LoadingIndicator : null) as any}
               onPress={handleSubmit}>
-              Completar Registro
+              {isSubmitting ? 'Creando Nueva Cuenta' : 'Completar Registro'}
             </Button>
           </ImageOverlay>
         )}
