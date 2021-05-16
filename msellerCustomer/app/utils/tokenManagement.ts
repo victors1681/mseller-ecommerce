@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-interface TokenResponse {
+export interface TokenResponse {
   authToken: string;
   refreshToken: string;
   sessionToken: string;
@@ -38,6 +38,7 @@ export const saveToken = async ({
 export const getToken = async (): Promise<TokenResponse | undefined> => {
   try {
     const data = await AsyncStorage.getItem(TOKEN_NAME);
+    console.error('data', data);
     if (data) {
       return JSON.parse(data) as TokenResponse;
     }
@@ -60,5 +61,17 @@ export const updateToken = async (authToken: string): Promise<void> => {
     }
   } catch (err) {
     console.error('Error updating token ', err);
+  }
+};
+
+/**
+ * Remove token after logout
+ */
+
+export const resetToken = async () => {
+  try {
+    await AsyncStorage.setItem(TOKEN_NAME, '');
+  } catch (err) {
+    console.error('error resetting token', err);
   }
 };

@@ -6,15 +6,17 @@ import {
 } from '@apollo/client';
 import {setContext} from '@apollo/client/link/context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {getToken, TokenResponse} from 'app/utils';
 
 const sessionStorage = setContext(async () => {
   try {
     //get session
     const wooSession = await AsyncStorage.getItem('woo-session');
+    const tokenData = await getToken();
     const setSession = async (value: string) => {
       await AsyncStorage.setItem('woo-session', value);
     };
-    return {wooSession, setSession};
+    return {wooSession, setSession, tokenData};
   } catch (e) {
     console.error('session', e);
   }
@@ -28,9 +30,17 @@ export const middleware = new ApolloLink((operation, forward) => {
   /**
    * If session data exist in local storage, set value as session header.
    */
-  const {wooSession} = operation.getContext();
+  const {wooSession, tokenData} = operation.getContext();
 
-  if (wooSession) {
+  if (tokenData) {
+    const info = tokenData as TokenResponse;
+    operation.setContext(() => ({
+      headers: {
+        'woocommerce-session': `Session ${info.sessionToken}`,
+        authorization: info.authToken ? `Bearer ${info.authToken}` : '',
+      },
+    }));
+  } else if (wooSession) {
     operation.setContext(() => ({
       headers: {
         'woocommerce-session': `Session ${wooSession}`,

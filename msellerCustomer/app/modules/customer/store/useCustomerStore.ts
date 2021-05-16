@@ -28,7 +28,7 @@ import {
   FetchResult,
 } from '@apollo/client';
 import React from 'react';
-import {saveToken, updateToken, getToken} from 'app/utils';
+import {saveToken, updateToken, getToken, resetToken} from 'app/utils';
 import {Alert} from 'react-native';
 
 interface Data {
@@ -97,6 +97,7 @@ export interface CustomerStore {
   registerCustomerInfo: MutationResult<RegisterCustomerData>;
   updateCustomer: (input: UpdateCustomerInput) => Promise<void>;
   updateCustomerInfo: MutationResult<UpdateCustomerData>;
+  performLogout: () => Promise<void>;
 }
 
 /**
@@ -227,6 +228,8 @@ export const useCustomerStore = (): CustomerStore => {
     setCustomer(response.data?.updateCustomer?.customer as Customer);
   };
 
+  const performLogout = () => resetToken();
+
   return {
     isCustomerLogged,
     fetchCustomer,
@@ -242,5 +245,6 @@ export const useCustomerStore = (): CustomerStore => {
     registerCustomerInfo,
     updateCustomer: performUpdate,
     updateCustomerInfo,
+    performLogout,
   };
 };

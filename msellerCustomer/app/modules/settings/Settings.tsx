@@ -8,7 +8,7 @@ import {useNavigation} from '@react-navigation/native';
 
 export const Settings = () => {
   const navigation = useNavigation();
-  const {fetchCustomer, customer, isLoading} = useCustomer();
+  const {fetchCustomer, customer, isLoading, performLogout} = useCustomer();
   const styles = useStyleSheet(themedStyle);
 
   const navigateTo = (destination: string, params?: any) => () =>
@@ -22,6 +22,8 @@ export const Settings = () => {
       navigation.navigate('signUp');
     }
   }, [isLoading, customer?.id, navigation]);
+
+  const handleLogout = () => performLogout();
 
   return (
     <ScrollView
@@ -62,6 +64,7 @@ export const Settings = () => {
       <SettingRow
         style={[styles.profileSetting, styles.section]}
         hint="Cerrar Sessión"
+        onPress={handleLogout}
         iconName="logout"
       />
     </ScrollView>
