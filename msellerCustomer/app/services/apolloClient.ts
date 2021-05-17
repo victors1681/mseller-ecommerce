@@ -4,9 +4,12 @@ import {
   ApolloLink,
   HttpLink,
 } from '@apollo/client';
+import {REFRESH_TOKEN} from 'app/graphql/customer';
+import {onError} from '@apollo/client/link/error';
+import {fromPromise} from '@apollo/client/link/utils/fromPromise';
 import {setContext} from '@apollo/client/link/context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {getToken, TokenResponse} from 'app/utils';
+import {getToken, TokenResponse, saveToken} from 'app/utils';
 
 const sessionStorage = setContext(async () => {
   try {
@@ -34,10 +37,11 @@ export const middleware = new ApolloLink((operation, forward) => {
 
   if (tokenData) {
     const info = tokenData as TokenResponse;
+
     operation.setContext(() => ({
       headers: {
-        'woocommerce-session': `Session ${info.sessionToken}`,
-        authorization: info.authToken ? `Bearer ${info.authToken}` : '',
+        'woocommerce-session': `Session ${wooSession}`,
+        Authorization: info.authToken ? `Bearer ${info.authToken}` : '',
       },
     }));
   } else if (wooSession) {
@@ -82,9 +86,84 @@ const httpLink = new HttpLink({
   uri: 'http://192.168.1.210:8088/graphql',
 });
 
+let isRefreshing = false;
+let pendingRequests: any = [];
+
+const resolvePendingRequests = () => {
+  pendingRequests.map((callback: any) => callback());
+  pendingRequests = [];
+};
+
+const errorLink = onError(
+  ({graphQLErrors, networkError, operation, forward}) => {
+    if (graphQLErrors) {
+      for (let err of graphQLErrors) {
+        switch (err.extensions!.category) {
+          case 'user':
+            let _forward;
+            const {tokenData} = operation.getContext();
+            const tokenInfo = tokenData as TokenResponse;
+            if (!isRefreshing && tokenData) {
+              isRefreshing = true;
+
+              _forward = fromPromise(
+                client
+                  .mutate({
+                    mutation: REFRESH_TOKEN,
+                    variables: {
+                      input: {jwtRefreshToken: tokenInfo.refreshToken},
+                    },
+                    context: {
+                      headers: {},
+                    },
+                  })
+                  .then(({data: {refreshToken}}) => {
+                    console.error('TOKEN UPDATED YEAHHHH', refreshToken);
+                    saveToken(refreshToken);
+                    return true;
+                  })
+                  .then(() => {
+                    console.log('resolving next promise');
+                    resolvePendingRequests();
+                    return true;
+                  })
+                  .catch(err => {
+                    console.error('error refreshing token', err);
+                    pendingRequests = [];
+                    return false;
+                  })
+                  .finally(() => {
+                    console.log('Completing refreshing without been resolved');
+                    isRefreshing = false;
+                  }),
+              );
+            } else {
+              console.log('Next Promise');
+              _forward = fromPromise(
+                new Promise(resolve => {
+                  pendingRequests.push(() => resolve());
+                }),
+              );
+            }
+
+            return _forward && _forward.flatMap(() => forward(operation));
+          default:
+            console.log(
+              `[GraphQL error]: Message: ${err.message}, Location: ${err.locations}, Path: ${err.path}`,
+            );
+        }
+      }
+    }
+
+    if (networkError) {
+      console.log(`[Network error]: ${networkError}`);
+    }
+  },
+);
 // Initialize Apollo Client
 export const client = new ApolloClient({
   link: ApolloLink.from([
+    errorLink,
     sessionStorage,
     middleware.concat(afterware.concat(httpLink)),
   ]),

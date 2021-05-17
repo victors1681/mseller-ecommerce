@@ -38,7 +38,6 @@ export const saveToken = async ({
 export const getToken = async (): Promise<TokenResponse | undefined> => {
   try {
     const data = await AsyncStorage.getItem(TOKEN_NAME);
-    console.error('data', data);
     if (data) {
       return JSON.parse(data) as TokenResponse;
     }

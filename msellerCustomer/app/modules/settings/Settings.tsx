@@ -5,7 +5,7 @@ import {SettingHeader} from './extra/SettingHeader';
 import {SettingRow} from './extra/SettingRow';
 import {useCustomer} from 'app/hooks/useCustomer';
 import {useNavigation} from '@react-navigation/native';
-
+import {useFocusEffect} from '@react-navigation/native';
 export const Settings = () => {
   const navigation = useNavigation();
   const {fetchCustomer, customer, isLoading, performLogout} = useCustomer();
@@ -14,9 +14,17 @@ export const Settings = () => {
   const navigateTo = (destination: string, params?: any) => () =>
     navigation.navigate(destination, params);
 
-  React.useEffect(() => {
-    fetchCustomer();
-  }, []);
+  // React.useEffect(() => {
+  //   fetchCustomer();
+  // }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchCustomer();
+      console.log('fetchin....');
+    }, [fetchCustomer]),
+  );
+
   React.useEffect(() => {
     if (!isLoading && !customer?.id) {
       navigation.navigate('signUp');
