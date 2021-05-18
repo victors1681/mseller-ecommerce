@@ -157,6 +157,11 @@ export const useCustomerStore = (): CustomerStore => {
         variables: {
           input,
         },
+        context: {
+          Headers: {
+            Authorization: '',
+          },
+        },
       });
 
       //save authorization token
@@ -209,6 +214,11 @@ export const useCustomerStore = (): CustomerStore => {
       const response = await registerCustomer({
         variables: {
           input,
+        },
+        context: {
+          Headers: {
+            Authorization: '',
+          },
         },
       });
 
