@@ -79,10 +79,11 @@ export const SignUp = (): React.ReactElement => {
       metaData: [{key: 'bod', value: bod}],
     });
     if (response) {
-      Alert.alert(JSON.stringify(response));
       setSubmitting(false);
       resetForm();
       navigation.goBack();
+    } else {
+      Alert.alert('Ha ocurrido algo inesperado, por favor intente nuevamente');
     }
   };
 
@@ -142,6 +143,7 @@ export const SignUp = (): React.ReactElement => {
                   label="Día"
                   placeholder="dd"
                   value={values.dob.day}
+                  keyboardType="number-pad"
                 />
                 <CustomInput
                   name="dob.month"
@@ -150,6 +152,7 @@ export const SignUp = (): React.ReactElement => {
                   label="Mes"
                   placeholder="mm"
                   value={values.dob.month}
+                  keyboardType="number-pad"
                 />
                 <CustomInput
                   name="dob.year"
@@ -158,6 +161,7 @@ export const SignUp = (): React.ReactElement => {
                   label="Año"
                   placeholder="yyyy"
                   value={values.dob.year}
+                  keyboardType="number-pad"
                 />
               </View>
               <CustomInput
@@ -166,6 +170,7 @@ export const SignUp = (): React.ReactElement => {
                 disabled={isSubmitting}
                 label="TELEFONO"
                 value={values.phoneNumber}
+                keyboardType="phone-pad"
               />
               <CustomInput
                 name="email"
@@ -173,6 +178,7 @@ export const SignUp = (): React.ReactElement => {
                 disabled={isSubmitting}
                 label="EMAIL"
                 value={values.email}
+                keyboardType="email-address"
               />
               <CustomInput
                 name="password"

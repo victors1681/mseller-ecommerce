@@ -10,6 +10,14 @@ export const LoadingIndicator: React.FC = (props: any) => {
   );
 };
 
+export const LoadingIndicatorWhite: React.FC = (props: any) => {
+  return (
+    <View style={[props.style, styles.indicator]}>
+      <Spinner size="small" status="control" />
+    </View>
+  );
+};
+
 export default LoadingIndicator;
 
 const styles = StyleSheet.create({

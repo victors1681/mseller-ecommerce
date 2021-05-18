@@ -81,7 +81,11 @@ export interface CustomerStore {
         variables?: Partial<OperationVariables> | undefined,
       ) => Promise<ApolloQueryResult<Data>>)
     | undefined;
-  login: (input: LoginInput) => Promise<void>;
+  login: (
+    input: LoginInput,
+  ) => Promise<
+    FetchResult<LoginData, Record<string, any>, Record<string, any>> | undefined
+  >;
   loginInfo: MutationResult<LoginData>;
   updateToken: () => Promise<void>;
   registerCustomer: (
@@ -142,7 +146,11 @@ export const useCustomerStore = (): CustomerStore => {
    * Perform Login Mutation
    */
 
-  const performLogin = async (input: LoginInput): Promise<void> => {
+  const performLogin = async (
+    input: LoginInput,
+  ): Promise<
+    FetchResult<LoginData, Record<string, any>, Record<string, any>> | undefined
+  > => {
     try {
       const response = await login({
         variables: {
@@ -158,6 +166,7 @@ export const useCustomerStore = (): CustomerStore => {
       if (authToken && refreshToken && sessionToken) {
         saveToken({authToken, refreshToken, sessionToken});
       }
+      return response;
     } catch (err) {
       console.log('error', err);
     }

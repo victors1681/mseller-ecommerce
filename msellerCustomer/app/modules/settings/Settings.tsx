@@ -27,7 +27,7 @@ export const Settings = () => {
 
   React.useEffect(() => {
     if (!isLoading && !customer?.id) {
-      navigation.navigate('signUp');
+      //navigation.navigate('signUp');
     }
   }, [isLoading, customer?.id, navigation]);
 
