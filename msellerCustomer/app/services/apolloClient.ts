@@ -9,8 +9,9 @@ import {onError} from '@apollo/client/link/error';
 import {fromPromise} from '@apollo/client/link/utils/fromPromise';
 import {setContext} from '@apollo/client/link/context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {getToken, TokenResponse, saveToken} from 'app/utils';
+import {getToken, TokenResponse, saveToken, resetToken} from 'app/utils';
 
+const SERVER_URL = 'http://192.168.1.210:8088/graphql';
 const sessionStorage = setContext(async () => {
   try {
     //get session
@@ -83,7 +84,7 @@ export const afterware = new ApolloLink((operation, forward) => {
 });
 //Android is not working with localhost, use ip instead
 const httpLink = new HttpLink({
-  uri: 'http://192.168.1.210:8088/graphql',
+  uri: SERVER_URL,
 });
 
 let isRefreshing = false;
@@ -94,6 +95,61 @@ const resolvePendingRequests = () => {
   pendingRequests = [];
 };
 
+/**
+ * Use a regular fetch to refresh the token due client mutation issue.
+ * @param operation
+ * @param forward
+ * @returns
+ */
+const getTokenTest = async (operation: any, forward: any) => {
+  try {
+    const {tokenData, headers: oldHeaders} = operation.getContext();
+    const tokenInfo = tokenData as TokenResponse;
+
+    const response = await fetch(SERVER_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({
+        query: `mutation RefreshToken {
+      refreshJwtAuthToken(input: {
+       jwtRefreshToken: "${tokenInfo.refreshToken}"
+      }) {
+        authToken
+      }
+    }`,
+      }),
+    });
+
+    const jsonResponse = await response.json();
+
+    const {
+      data: {
+        refreshJwtAuthToken: {authToken},
+      },
+    } = jsonResponse;
+
+    console.log('TOKEN UPDATED YEAHHHH', authToken);
+    await saveToken(authToken);
+    operation.setContext({
+      headers: {
+        ...oldHeaders,
+        authorization: `Bearer ${authToken}`,
+      },
+    });
+
+    await resolvePendingRequests();
+
+    return forward(operation);
+  } catch (err) {
+    console.error('Error Refreshing token', err);
+    pendingRequests = [];
+    return false;
+  }
+};
+
 const errorLink = onError(
   ({graphQLErrors, networkError, operation, forward}) => {
     if (graphQLErrors) {
@@ -102,51 +158,24 @@ const errorLink = onError(
           case 'user':
             let _forward;
             const {tokenData} = operation.getContext();
-            const tokenInfo = tokenData as TokenResponse;
+
             if (!isRefreshing && tokenData) {
               isRefreshing = true;
 
-              _forward = fromPromise(
-                client
-                  .mutate({
-                    mutation: REFRESH_TOKEN,
-                    variables: {
-                      input: {jwtRefreshToken: tokenInfo.refreshToken},
-                    },
-                    context: {
-                      headers: {},
-                    },
-                  })
-                  .then(({data: {refreshToken}}) => {
-                    console.error('TOKEN UPDATED YEAHHHH', refreshToken);
-                    saveToken(refreshToken);
-                    return true;
-                  })
-                  .then(() => {
-                    console.log('resolving next promise');
-                    resolvePendingRequests();
-                    return true;
-                  })
-                  .catch(err => {
-                    console.error('error refreshing token', err);
-                    pendingRequests = [];
-                    return false;
-                  })
-                  .finally(() => {
-                    console.log('Completing refreshing without been resolved');
-                    isRefreshing = false;
-                  }),
-              );
+              _forward = fromPromise(getTokenTest(operation, forward));
             } else {
               console.log('Next Promise');
               _forward = fromPromise(
                 new Promise(resolve => {
-                  pendingRequests.push(() => resolve());
+                  pendingRequests.push(() => resolve('pending'));
                 }),
               );
             }
+            _forward.flatMap(() => {
+              return forward(operation);
+            });
 
-            return _forward && _forward.flatMap(() => forward(operation));
+            return _forward;
           default:
             console.log(
               `[GraphQL error]: Message: ${err.message}, Location: ${err.locations}, Path: ${err.path}`,

@@ -15,6 +15,7 @@ export const LOGIN = gql`
 
 export const REFRESH_TOKEN = gql`
   mutation RefreshToken($input: RefreshJwtAuthTokenInput!) {
+    __typename
     refreshJwtAuthToken(input: $input) {
       authToken
     }
