@@ -5,6 +5,8 @@ export const LOGIN = gql`
     __typename
     login(input: $input) {
       authToken
+      refreshToken
+      sessionToken
       user {
         id
         name
@@ -116,6 +118,14 @@ export const GET_CUSTOMER_INFO = gql`
           transactionId
         }
       }
+    }
+  }
+`;
+
+export const GET_VIEWER = gql`
+  query Viewer {
+    viewer {
+      id
     }
   }
 `;

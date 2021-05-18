@@ -125,6 +125,7 @@ export const useCustomerStore = (): CustomerStore => {
   React.useEffect(() => {
     if (!isLoading) {
       setCustomer(data?.customer);
+      console.log('Customer', data?.customer);
       setCustomerStatus(!!data?.customer?.databaseId);
     }
   }, [isLoading, networkStatus]);
@@ -168,6 +169,8 @@ export const useCustomerStore = (): CustomerStore => {
       }
       return response;
     } catch (err) {
+      const error = err as Error;
+      Alert.alert(error.message);
       console.log('error', err);
     }
   };

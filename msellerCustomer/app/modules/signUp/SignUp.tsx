@@ -82,8 +82,6 @@ export const SignUp = (): React.ReactElement => {
       setSubmitting(false);
       resetForm();
       navigation.goBack();
-    } else {
-      Alert.alert('Ha ocurrido algo inesperado, por favor intente nuevamente');
     }
   };
 

@@ -10,13 +10,14 @@ import {fromPromise} from '@apollo/client/link/utils/fromPromise';
 import {setContext} from '@apollo/client/link/context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getToken, TokenResponse, saveToken, resetToken} from 'app/utils';
-
+import isEmpty from 'lodash/isEmpty';
 const SERVER_URL = 'http://192.168.1.210:8088/graphql';
 const sessionStorage = setContext(async () => {
   try {
     //get session
     const wooSession = await AsyncStorage.getItem('woo-session');
     const tokenData = await getToken();
+
     const setSession = async (value: string) => {
       await AsyncStorage.setItem('woo-session', value);
     };
@@ -36,7 +37,7 @@ export const middleware = new ApolloLink((operation, forward) => {
    */
   const {wooSession, tokenData} = operation.getContext();
 
-  if (tokenData) {
+  if (!isEmpty(tokenData)) {
     const info = tokenData as TokenResponse;
 
     operation.setContext(() => ({

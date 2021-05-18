@@ -14,24 +14,22 @@ export const Settings = () => {
   const navigateTo = (destination: string, params?: any) => () =>
     navigation.navigate(destination, params);
 
-  // React.useEffect(() => {
-  //   fetchCustomer();
-  // }, []);
-
   useFocusEffect(
     React.useCallback(() => {
       fetchCustomer();
-      console.log('fetchin....');
     }, [fetchCustomer]),
   );
 
   React.useEffect(() => {
-    if (!isLoading && !customer?.id) {
-      //navigation.navigate('signUp');
+    if (!customer?.databaseId) {
+      navigation.navigate('signUp');
     }
-  }, [isLoading, customer?.id, navigation]);
+  }, [customer?.databaseId]);
 
-  const handleLogout = () => performLogout();
+  const handleLogout = () => {
+    performLogout();
+    fetchCustomer();
+  };
 
   return (
     <ScrollView
