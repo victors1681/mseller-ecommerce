@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import isEmpty from 'lodash/isEmpty';
 
 export interface TokenResponse {
   authToken: string;
@@ -73,4 +74,9 @@ export const resetToken = async () => {
   } catch (err) {
     console.error('error resetting token', err);
   }
+};
+
+export const isTokenEmpty = async (): Promise<Boolean> => {
+  const token = await getToken();
+  return isEmpty(token);
 };

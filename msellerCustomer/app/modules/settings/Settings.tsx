@@ -6,9 +6,10 @@ import {SettingRow} from './extra/SettingRow';
 import {useCustomer} from 'app/hooks/useCustomer';
 import {useNavigation} from '@react-navigation/native';
 import {useFocusEffect} from '@react-navigation/native';
+import {isTokenEmpty} from 'app/utils/tokenManagement';
 export const Settings = () => {
   const navigation = useNavigation();
-  const {fetchCustomer, customer, isLoading, performLogout} = useCustomer();
+  const {fetchCustomer, performLogout} = useCustomer();
   const styles = useStyleSheet(themedStyle);
 
   const navigateTo = (destination: string, params?: any) => () =>
@@ -20,11 +21,15 @@ export const Settings = () => {
     }, [fetchCustomer]),
   );
 
-  React.useEffect(() => {
-    if (!customer?.databaseId) {
+  const resolveToken = async () => {
+    const isEmpty = await isTokenEmpty();
+    if (isEmpty) {
       navigation.navigate('signUp');
     }
-  }, [customer?.databaseId]);
+  };
+  React.useEffect(() => {
+    resolveToken();
+  });
 
   const handleLogout = () => {
     performLogout();
