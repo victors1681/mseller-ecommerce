@@ -21,6 +21,10 @@ export const Settings = () => {
     }, [fetchCustomer]),
   );
 
+  /**
+   * Validating User
+   * Sent the user to signUp if token is empty
+   */
   const resolveToken = async () => {
     const isEmpty = await isTokenEmpty();
     if (isEmpty) {
