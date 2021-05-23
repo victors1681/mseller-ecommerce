@@ -14,6 +14,7 @@ import {
   UpdateItemQuantitiesPayload,
   RemoveItemsFromCartPayload,
   AddToCartPayload,
+  CartItemQuantityInput,
 } from 'app/generated/graphql'; // Import
 import {
   useMutation,
@@ -61,10 +62,20 @@ export interface CartStore {
   addItem: (productId: number, quantity: number) => Promise<void>;
   addItemInfo: MutationResult<AddToCartData>;
   removeItem: (key: string) => Promise<void>;
+  removeItems: (key: string[]) => Promise<void>;
   removeItemInfo: MutationResult<RemoveItemsFromCartData>;
   updateItem: (
     key: string,
     quantity: number,
+  ) => Promise<
+    FetchResult<
+      UpdateQuantitiesResponse,
+      Record<string, any>,
+      Record<string, any>
+    >
+  >;
+  updateItems: (
+    items: CartItemQuantityInput[],
   ) => Promise<
     FetchResult<
       UpdateQuantitiesResponse,
@@ -125,9 +136,24 @@ export const useCartStore = (): CartStore => {
     setCart(response.data?.removeItemsFromCart.cart as Cart);
   };
 
+  const removeItems = async (keys: string[]): Promise<void> => {
+    const response = await removeItemFromCart({
+      variables: {input: {keys: keys}},
+    });
+    setCart(response.data?.removeItemsFromCart.cart as Cart);
+  };
+
   const updateItem = async (key: string, quantity: number) => {
     const response = await updateQuantity({
       variables: {input: {items: [{key, quantity}]}},
+    });
+    setCart(response.data?.updateItemQuantities?.cart as Cart);
+    return response;
+  };
+
+  const updateItems = async (items: CartItemQuantityInput[]) => {
+    const response = await updateQuantity({
+      variables: {input: {items: items}},
     });
     setCart(response.data?.updateItemQuantities?.cart as Cart);
     return response;
@@ -142,8 +168,10 @@ export const useCartStore = (): CartStore => {
     addItem,
     addItemInfo,
     removeItem,
+    removeItems,
     removeItemInfo,
     updateItem,
+    updateItems,
     updateItemInfo,
   };
 };

@@ -18,6 +18,17 @@ export const PlusIcon = (style: ImageStyle): IconElement => (
   <Icon {...style} name="plus" />
 );
 
+export const TicketIcon = (style: ImageStyle): IconElement => {
+  const theme = useTheme();
+  return (
+    <MaterialCommunityIcon
+      name="sale"
+      size={17}
+      color={theme['color-primary-default']}
+    />
+  );
+};
+
 const ICON_SIZE = 20;
 
 interface MaterialIconProps {
