@@ -11,10 +11,12 @@ import {CloseIcon, MinusIcon, PlusIcon} from './icons';
 import * as GraphQlTypes from 'app/generated/graphql';
 import {Product} from 'app/generated/graphql';
 import {getSourceImage} from 'app/utils';
+import {isSimpleProduct, isVariableProduct} from 'app/utils/typeGuards';
 
 export type CartItemProps = ListItemProps & {
   index: number;
   item: GraphQlTypes.CartItem;
+  isLoading: boolean;
   onProductChange: (key: string, quantity: number) => void;
   onRemove: (product: Product, index: number) => void;
 };
@@ -24,16 +26,22 @@ export const CartItem = (props: CartItemProps): React.ReactElement => {
     style,
     item,
     index,
+    isLoading,
     onProductChange,
     onRemove,
     ...listItemProps
   } = props;
 
   const product = item.product?.node as GraphQlTypes.Product;
-  const nodeSimple = item.product?.node as GraphQlTypes.SimpleProduct;
+  const simpleNode = isSimpleProduct(item.product?.node)
+    ? item.product?.node
+    : isVariableProduct(item.product?.node)
+    ? item.product?.node
+    : null;
 
+  console.log('simpleNode', product);
   const decrementButtonEnabled = (): boolean => {
-    return item.quantity > 1;
+    return (item?.quantity || 0) > 1;
   };
 
   const onRemoveButtonPress = (): void => {
@@ -42,14 +50,14 @@ export const CartItem = (props: CartItemProps): React.ReactElement => {
 
   const onMinusButtonPress = React.useCallback(() => {
     onProductChange(item.key, (item.quantity || 0) - 1);
-  }, [item, item.key]);
+  }, [item.key, item.quantity, onProductChange]);
 
   const onPlusButtonPress = React.useCallback(() => {
     onProductChange(item.key, (item.quantity || 0) + 1);
-  }, [item, item.key]);
+  }, [item.key, item.quantity, onProductChange]);
 
   const onChangeInput = (qty: string) => {
-    const value = parseInt(qty) || 0;
+    const value = parseInt(qty, 10) || 0;
     onProductChange(item.key, value);
   };
 
@@ -64,25 +72,27 @@ export const CartItem = (props: CartItemProps): React.ReactElement => {
         <Text appearance="hint" category="p2">
           {product.shortDescription || ''}
         </Text>
-        <Text category="s2">{nodeSimple.price || ''}</Text>
+        <Text category="s2">{simpleNode?.price || '-'}</Text>
         <View style={styles.amountContainer}>
           <Button
             style={[styles.iconButton, styles.amountButton]}
             size="tiny"
-            accessoryLeft={MinusIcon}
+            accessoryLeft={MinusIcon as any}
             onPress={onMinusButtonPress}
-            disabled={!decrementButtonEnabled()}
+            disabled={!decrementButtonEnabled() || isLoading}
           />
           <Input
             style={styles.input}
             value={`${item.quantity}`}
             onChangeText={onChangeInput}
+            disabled={isLoading}
           />
           <Button
             style={[styles.iconButton, styles.amountButton]}
             size="tiny"
-            accessoryLeft={PlusIcon}
+            accessoryLeft={PlusIcon as any}
             onPress={onPlusButtonPress}
+            disabled={isLoading}
           />
         </View>
       </View>
@@ -90,7 +100,7 @@ export const CartItem = (props: CartItemProps): React.ReactElement => {
         style={[styles.iconButton, styles.removeButton]}
         appearance="ghost"
         status="basic"
-        accessoryLeft={CloseIcon}
+        accessoryLeft={CloseIcon as any}
         onPress={onRemoveButtonPress}
       />
     </ListItem>

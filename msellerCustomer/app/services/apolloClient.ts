@@ -132,7 +132,6 @@ const getTokenTest = async (operation: any, forward: any) => {
       },
     } = jsonResponse;
 
-    console.log('TOKEN UPDATED YEAHHHH', authToken);
     await saveToken(authToken);
     operation.setContext({
       headers: {
@@ -145,7 +144,7 @@ const getTokenTest = async (operation: any, forward: any) => {
 
     return forward(operation);
   } catch (err) {
-    console.error('Error Refreshing token', err);
+    console.error('Error Refreshing token user not authenticated', err);
     pendingRequests = [];
     return false;
   }
@@ -171,6 +170,9 @@ const errorLink = onError(
                   pendingRequests.push(() => resolve('pending'));
                 }),
               );
+              //Allow to keep performing task if the token doesn't exist
+              // updating the cart on anonymous mode
+              _forward = fromPromise(getTokenTest(operation, forward));
             }
             _forward.flatMap(() => {
               return forward(operation);

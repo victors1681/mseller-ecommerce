@@ -26,6 +26,63 @@ export const CART_FRAGMENT = gql`
             databaseId
             id
             shortDescription(format: RAW)
+            ... on SimpleProduct {
+              id
+              name
+              price(format: FORMATTED)
+              salePrice(format: FORMATTED)
+              regularPrice(format: FORMATTED)
+              onSale
+              taxStatus
+              status
+            }
+            ... on VariableProduct {
+              id
+              name
+              onSale
+              salePrice(format: FORMATTED)
+              price(format: FORMATTED)
+              purchasable
+              regularPrice(format: FORMATTED)
+              paSizes {
+                nodes {
+                  name
+                  variations {
+                    nodes {
+                      databaseId
+                      image {
+                        sourceUrl(size: POST_THUMBNAIL)
+                      }
+                      price(format: FORMATTED)
+                      onSale
+                      salePrice(format: FORMATTED)
+                      regularPrice(format: FORMATTED)
+                      purchasable
+                    }
+                  }
+                  paSizeId
+                }
+              }
+              paColors {
+                nodes {
+                  name
+                  id
+                  paColorId
+                  variations {
+                    nodes {
+                      image {
+                        sourceUrl(size: WOOCOMMERCE_THUMBNAIL)
+                      }
+                      onSale
+                      price(format: FORMATTED)
+                      purchasable
+                      regularPrice(format: FORMATTED)
+                      salePrice(format: FORMATTED)
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }

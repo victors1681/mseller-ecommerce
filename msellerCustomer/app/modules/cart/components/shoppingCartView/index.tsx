@@ -15,10 +15,12 @@ import {CartItem} from './extra/cart-item.component';
 import {useCart} from 'app/hooks';
 import * as GraphQlTypes from 'app/generated/graphql';
 import {TicketIcon} from 'app/modules/common/Icons';
+import {LoadingIndicator} from 'app/modules/common';
+
 export default (): React.ReactElement => {
   const styles = useStyleSheet(themedStyle);
   const [products, setProducts] = React.useState<
-    GraphQlTypes.CartItem[] | undefined | null
+    GraphQlTypes.Maybe<GraphQlTypes.Maybe<GraphQlTypes.CartItem>[]> | undefined
   >();
 
   const [productsToDelete, setProductsToDelete] = React.useState<string[]>([]);
@@ -27,7 +29,7 @@ export default (): React.ReactElement => {
   /**
    * Cart Hook
    */
-  const {cart, removeItems, updateItems} = useCart();
+  const {cart, removeItems, updateItems, isLoading} = useCart();
 
   React.useEffect(() => {
     if (!products) {
@@ -36,19 +38,8 @@ export default (): React.ReactElement => {
   }, [cart]);
 
   const onItemChange = (key: string, quantity: number) => {
-    // console.log(products);
-    const test = products?.reduce((acc, current) => {
-      if (current.key === key) {
-        return [...acc, {...current, quantity}];
-      }
-      console.log(acc);
-      return [...acc, current];
-    }, []);
-
-    console.log(test);
-
     setProducts(prev => {
-      return prev?.reduce((acc, current) => {
+      return prev?.reduce((acc: any, current: any) => {
         if (current.key === key) {
           return [...acc, {...current, quantity}];
         }
@@ -61,7 +52,7 @@ export default (): React.ReactElement => {
     (item: GraphQlTypes.Product): void => {
       let deleteProducts: string[] = [];
       setProducts(prev => {
-        return prev?.reduce((acc, current) => {
+        return prev?.reduce((acc: any, current: any) => {
           if (current.product?.node?.id === item.id) {
             const key = current?.key || '';
             if (key) {
@@ -85,8 +76,8 @@ export default (): React.ReactElement => {
     const items = products?.map(
       item =>
         ({
-          key: item.key,
-          quantity: item.quantity || 0,
+          key: item?.key,
+          quantity: item?.quantity || 0,
         } as GraphQlTypes.CartItemQuantityInput),
     );
 
@@ -95,45 +86,62 @@ export default (): React.ReactElement => {
     }
   }, [products, productsToDelete, removeItems, updateItems]);
 
-  const renderFooter = (): React.ReactElement => (
-    <Layout>
-      <Button
-        style={styles.updateButton}
-        appearance="outline"
-        size="small"
-        onPress={handleUpdateCart}>
-        ACTUALIZAR CARRITO
-      </Button>
+  const renderFooter = React.useCallback(
+    () => (
+      <Layout>
+        <Button
+          style={styles.updateButton}
+          appearance="outline"
+          size="small"
+          accessoryLeft={isLoading && (LoadingIndicator as any)}
+          disabled={isLoading}
+          onPress={handleUpdateCart}>
+          ACTUALIZAR CARRITO
+        </Button>
 
-      <Divider />
-      <Layout style={styles.footer}>
-        <Layout>
-          <Text category="s1">SubTotal:</Text>
-          <Text category="s1">Descuento:</Text>
-          <Text category="s1">Impuestos:</Text>
-          <Text category="s1">Total:</Text>
-        </Layout>
-        <Layout>
-          <Text category="s1">{`${cart?.subtotal}`}</Text>
-          <Text category="s1">{`${cart?.discountTotal}`}</Text>
-          <Text category="s1">{`${cart?.subtotalTax}`}</Text>
-          <Text category="s1">{`${cart?.total || 0}`}</Text>
+        <Divider />
+        <Layout style={styles.footer}>
+          <Layout>
+            <Text category="s1">SubTotal:</Text>
+            <Text category="s1">Descuento:</Text>
+            <Text category="s1">Impuestos:</Text>
+            <Text category="s1">Total:</Text>
+          </Layout>
+          <Layout>
+            <Text category="s1">{`${cart?.subtotal || '-'}`}</Text>
+            <Text category="s1">{`${cart?.discountTotal || '-'}`}</Text>
+            <Text category="s1">{`${cart?.subtotalTax || '-'}`}</Text>
+            <Text category="s1">{`${cart?.total || '-'}`}</Text>
+          </Layout>
         </Layout>
       </Layout>
-    </Layout>
+    ),
+    [
+      cart?.discountTotal,
+      cart?.subtotal,
+      cart?.subtotalTax,
+      cart?.total,
+      handleUpdateCart,
+      isLoading,
+      styles.footer,
+      styles.updateButton,
+    ],
   );
 
   const renderProductItem = (
     info: ListRenderItemInfo<GraphQlTypes.CartItem>,
-  ): React.ReactElement => (
-    <CartItem
-      style={styles.item}
-      index={info.index}
-      item={info.item}
-      onProductChange={onItemChange}
-      onRemove={onItemRemove}
-    />
-  );
+  ): React.ReactElement => {
+    return (
+      <CartItem
+        style={styles.item}
+        index={info.index}
+        item={info.item}
+        isLoading={isLoading}
+        onProductChange={onItemChange}
+        onRemove={onItemRemove}
+      />
+    );
+  };
 
   return (
     <Layout style={styles.container} level="2">
@@ -146,7 +154,7 @@ export default (): React.ReactElement => {
         style={styles.checkoutButton}
         appearance="outline"
         size="medium"
-        accessoryLeft={TicketIcon}
+        accessoryLeft={TicketIcon as any}
         onPress={() => setVisible(true)}>
         AGREGAR CUPÓN
       </Button>
