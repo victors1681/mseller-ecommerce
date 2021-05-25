@@ -39,7 +39,6 @@ export const CartItem = (props: CartItemProps): React.ReactElement => {
     ? item.product?.node
     : null;
 
-  console.log('simpleNode', product);
   const decrementButtonEnabled = (): boolean => {
     return (item?.quantity || 0) > 1;
   };

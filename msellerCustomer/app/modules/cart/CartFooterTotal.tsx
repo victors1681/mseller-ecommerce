@@ -3,9 +3,15 @@ import {Text, Layout, Button, Divider} from '@ui-kitten/components';
 import {StyleSheet} from 'react-native';
 
 import {useCart} from 'app/hooks/useCart';
+import {useNavigation} from '@react-navigation/core';
 
 export const CartFooterTotal = () => {
   const {cart} = useCart();
+  const navigation = useNavigation();
+
+  const gotToCart = () => {
+    navigation && navigation.navigate('ShoppingCart');
+  };
 
   return (
     <Layout style={styles.wrapper}>
@@ -19,7 +25,11 @@ export const CartFooterTotal = () => {
         </Layout>
       </Layout>
       <Divider />
-      <Button style={styles.button} appearance="outline" size="small">
+      <Button
+        onPress={gotToCart}
+        style={styles.button}
+        appearance="outline"
+        size="small">
         Ver Carrito
       </Button>
       <Button style={styles.button} appearance="filled" size="small">

@@ -1,5 +1,5 @@
 import React from 'react';
-import {ListRenderItemInfo, Modal} from 'react-native';
+import {ListRenderItemInfo, Modal, View} from 'react-native';
 import {
   Button,
   Card,
@@ -11,11 +11,12 @@ import {
   Text,
   useStyleSheet,
 } from '@ui-kitten/components';
-import {CartItem} from './extra/cart-item.component';
+import {CartItem} from './extra/CartItem';
 import {useCart} from 'app/hooks';
 import * as GraphQlTypes from 'app/generated/graphql';
 import {TicketIcon} from 'app/modules/common/Icons';
 import {LoadingIndicator} from 'app/modules/common';
+import {useNavigation} from '@react-navigation/core';
 
 export default (): React.ReactElement => {
   const styles = useStyleSheet(themedStyle);
@@ -25,19 +26,26 @@ export default (): React.ReactElement => {
 
   const [productsToDelete, setProductsToDelete] = React.useState<string[]>([]);
   const [visible, setVisible] = React.useState(false);
+  const [isDirty, setDirty] = React.useState(false);
 
   /**
    * Cart Hook
    */
   const {cart, removeItems, updateItems, isLoading} = useCart();
+  const navigation = useNavigation();
+
+  const gotoHome = () => {
+    navigation && navigation.goBack();
+  };
 
   React.useEffect(() => {
     if (!products) {
       setProducts(cart?.contents?.nodes);
     }
-  }, [cart]);
+  }, [cart?.contents?.nodes?.length]);
 
   const onItemChange = (key: string, quantity: number) => {
+    setDirty(true);
     setProducts(prev => {
       return prev?.reduce((acc: any, current: any) => {
         if (current.key === key) {
@@ -64,6 +72,7 @@ export default (): React.ReactElement => {
         }, []);
       });
       setProductsToDelete(deleteProducts);
+      setDirty(true);
     },
     [setProducts, setProductsToDelete],
   );
@@ -71,7 +80,8 @@ export default (): React.ReactElement => {
   const handleUpdateCart = React.useCallback(async () => {
     //Remove Items
     await removeItems(productsToDelete);
-
+    setProductsToDelete([]);
+    setDirty(false);
     //Update quantities
     const items = products?.map(
       item =>
@@ -94,7 +104,7 @@ export default (): React.ReactElement => {
           appearance="outline"
           size="small"
           accessoryLeft={isLoading && (LoadingIndicator as any)}
-          disabled={isLoading}
+          disabled={isLoading || !isDirty}
           onPress={handleUpdateCart}>
           ACTUALIZAR CARRITO
         </Button>
@@ -122,6 +132,7 @@ export default (): React.ReactElement => {
       cart?.subtotalTax,
       cart?.total,
       handleUpdateCart,
+      isDirty,
       isLoading,
       styles.footer,
       styles.updateButton,
@@ -142,6 +153,15 @@ export default (): React.ReactElement => {
       />
     );
   };
+
+  if (products?.length === 0 && !isDirty) {
+    return (
+      <View style={styles.wrapper}>
+        <Text>No tiene productos seleccionados</Text>
+        <Button onPress={gotoHome}>Ir al Catálogo</Button>
+      </View>
+    );
+  }
 
   return (
     <Layout style={styles.container} level="2">
@@ -181,6 +201,12 @@ export default (): React.ReactElement => {
 const themedStyle = StyleService.create({
   container: {
     flex: 1,
+  },
+  wrapper: {
+    flex: 1,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   item: {
     borderBottomWidth: 1,

@@ -17,7 +17,7 @@ const HomeStackNavigator = ({navigation}: any) => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Inicio"
+        name="Home"
         component={Home}
         options={{
           headerTitle,
