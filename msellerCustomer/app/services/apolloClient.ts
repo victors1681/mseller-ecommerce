@@ -4,7 +4,6 @@ import {
   ApolloLink,
   HttpLink,
 } from '@apollo/client';
-import {REFRESH_TOKEN} from 'app/graphql/customer';
 import {onError} from '@apollo/client/link/error';
 import {fromPromise} from '@apollo/client/link/utils/fromPromise';
 import {setContext} from '@apollo/client/link/context';
@@ -107,6 +106,11 @@ const getTokenTest = async (operation: any, forward: any) => {
     const {tokenData, headers: oldHeaders} = operation.getContext();
     const tokenInfo = tokenData as TokenResponse;
 
+    if (!tokenInfo) {
+      await resolvePendingRequests();
+      return forward(operation);
+    }
+
     const response = await fetch(SERVER_URL, {
       method: 'POST',
       headers: {
@@ -125,21 +129,24 @@ const getTokenTest = async (operation: any, forward: any) => {
     });
 
     const jsonResponse = await response.json();
+    if (jsonResponse && jsonResponse.data.refreshJwtAuthToken) {
+      const {
+        data: {
+          refreshJwtAuthToken: {authToken},
+        },
+      } = jsonResponse;
 
-    const {
-      data: {
-        refreshJwtAuthToken: {authToken},
-      },
-    } = jsonResponse;
-
-    await saveToken(authToken);
-    operation.setContext({
-      headers: {
-        ...oldHeaders,
-        authorization: `Bearer ${authToken}`,
-      },
-    });
-
+      await saveToken(authToken);
+      operation.setContext({
+        headers: {
+          ...oldHeaders,
+          authorization: `Bearer ${authToken}`,
+        },
+      });
+    } else {
+      //Invalid Refresh Token:
+      await resetToken();
+    }
     await resolvePendingRequests();
 
     return forward(operation);
@@ -155,7 +162,7 @@ const errorLink = onError(
     if (graphQLErrors) {
       for (let err of graphQLErrors) {
         switch (err.extensions!.category) {
-          case 'user':
+          case 'auth':
             let _forward;
             const {tokenData} = operation.getContext();
 
@@ -167,9 +174,10 @@ const errorLink = onError(
               console.log('Next Promise');
               _forward = fromPromise(
                 new Promise(resolve => {
-                  pendingRequests.push(() => resolve('pending'));
+                  pendingRequests.push(() => resolve());
                 }),
               );
+
               //Allow to keep performing task if the token doesn't exist
               // updating the cart on anonymous mode
               _forward = fromPromise(getTokenTest(operation, forward));

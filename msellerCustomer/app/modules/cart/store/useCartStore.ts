@@ -3,6 +3,8 @@ import {
   REMOVE_ITEM,
   GET_CART,
   UPDATE_QUANTITY,
+  APPLY_COUPON,
+  REMOVE_COUPON,
 } from 'app/graphql/cart';
 import {DrawerActions} from '@react-navigation/native';
 import {navigationRef} from 'app/navigation/RootNavigation';
@@ -15,6 +17,10 @@ import {
   RemoveItemsFromCartPayload,
   AddToCartPayload,
   CartItemQuantityInput,
+  ApplyCouponInput,
+  ApplyCouponPayload,
+  RemoveCouponsInput,
+  RemoveCouponsPayload,
 } from 'app/generated/graphql'; // Import
 import {
   useMutation,
@@ -51,6 +57,21 @@ interface UpdateQuantities {
   input: UpdateItemQuantitiesInput;
 }
 
+interface ApplyCouponArgs {
+  input: ApplyCouponInput;
+}
+
+interface ApplyCouponData {
+  applyCoupon: ApplyCouponPayload;
+}
+
+interface RemoveCouponsAgs {
+  input: RemoveCouponsInput;
+}
+interface RemoveCouponsData {
+  removeCoupons: RemoveCouponsPayload;
+}
+
 export interface CartStore {
   cart: Cart | undefined;
   isLoading: boolean;
@@ -84,6 +105,10 @@ export interface CartStore {
     >
   >;
   updateItemInfo: MutationResult<UpdateQuantitiesResponse>;
+  applyCoupon: (code: string) => Promise<Error | undefined>;
+  removeCoupon: (codes: string[]) => Promise<void>;
+  applyCouponInfo: MutationResult<ApplyCouponData>;
+  updateCouponInfo: MutationResult<RemoveCouponsData>;
 }
 
 /**
@@ -102,7 +127,7 @@ export const useCartStore = (): CartStore => {
     if (!isLoading) {
       setCart(data?.cart);
     }
-  }, [isLoading, data]);
+  }, [isLoading, data, data?.cart?.total]);
 
   const [addToCart, addItemInfo] = useMutation<AddToCartData, Args>(
     ADD_TO_CART,
@@ -116,6 +141,16 @@ export const useCartStore = (): CartStore => {
     UpdateQuantitiesResponse,
     UpdateQuantities
   >(UPDATE_QUANTITY);
+
+  const [applyCouponMutation, applyCouponInfo] = useMutation<
+    ApplyCouponData,
+    ApplyCouponArgs
+  >(APPLY_COUPON);
+
+  const [removeCouponMutation, updateCouponInfo] = useMutation<
+    RemoveCouponsData,
+    RemoveCouponsAgs
+  >(REMOVE_COUPON);
 
   const navigation = navigationRef.current;
 
@@ -134,6 +169,28 @@ export const useCartStore = (): CartStore => {
       variables: {input: {keys: [key]}},
     });
     setCart(response.data?.removeItemsFromCart.cart as Cart);
+  };
+
+  const applyCoupon = async (code: string): Promise<Error | undefined> => {
+    try {
+      const response = await applyCouponMutation({
+        variables: {input: {code}},
+      });
+
+      if (response) {
+        setCart(response.data?.applyCoupon.cart as Cart);
+      }
+    } catch (err) {
+      console.error(err);
+      return err;
+    }
+  };
+
+  const removeCoupon = async (codes: string[]): Promise<void> => {
+    const response = await removeCouponMutation({
+      variables: {input: {codes: codes}},
+    });
+    setCart(response.data?.removeCoupons.cart as Cart);
   };
 
   const removeItems = async (keys: string[]): Promise<void> => {
@@ -173,5 +230,9 @@ export const useCartStore = (): CartStore => {
     updateItem,
     updateItems,
     updateItemInfo,
+    applyCoupon,
+    applyCouponInfo,
+    removeCoupon,
+    updateCouponInfo,
   };
 };

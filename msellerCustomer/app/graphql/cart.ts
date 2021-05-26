@@ -10,6 +10,10 @@ export const CART_FRAGMENT = gql`
     subtotalTax
     total
     totalTax
+    appliedCoupons {
+      code
+      discountAmount
+    }
     contents {
       productCount
       itemCount
@@ -128,6 +132,27 @@ export const UPDATE_QUANTITY = gql`
   mutation UpdateItemQuantities($input: UpdateItemQuantitiesInput!) {
     __typename
     updateItemQuantities(input: $input) {
+      cart {
+        ...cartFields
+      }
+    }
+  }
+`;
+
+export const APPLY_COUPON = gql`
+  ${CART_FRAGMENT}
+  mutation ApplyCoupon($input: ApplyCouponInput!) {
+    applyCoupon(input: $input) {
+      cart {
+        ...cartFields
+      }
+    }
+  }
+`;
+export const REMOVE_COUPON = gql`
+  ${CART_FRAGMENT}
+  mutation RemoveCoupon($input: RemoveCouponsInput!) {
+    removeCoupons(input: $input) {
       cart {
         ...cartFields
       }

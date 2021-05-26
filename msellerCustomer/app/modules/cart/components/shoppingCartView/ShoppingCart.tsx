@@ -1,5 +1,5 @@
-import React from 'react';
-import {ListRenderItemInfo, Modal, View} from 'react-native';
+import React, {useCallback} from 'react';
+import {ListRenderItemInfo, View} from 'react-native';
 import {
   Button,
   Card,
@@ -10,12 +10,14 @@ import {
   StyleService,
   Text,
   useStyleSheet,
+  Modal,
 } from '@ui-kitten/components';
 import {CartItem} from './extra/CartItem';
 import {useCart} from 'app/hooks';
+import {CloseIcon} from './extra/icons';
 import * as GraphQlTypes from 'app/generated/graphql';
 import {TicketIcon} from 'app/modules/common/Icons';
-import {LoadingIndicator} from 'app/modules/common';
+import {LoadingIndicator, LoadingIndicatorWhite} from 'app/modules/common';
 import {useNavigation} from '@react-navigation/core';
 
 export default (): React.ReactElement => {
@@ -27,11 +29,20 @@ export default (): React.ReactElement => {
   const [productsToDelete, setProductsToDelete] = React.useState<string[]>([]);
   const [visible, setVisible] = React.useState(false);
   const [isDirty, setDirty] = React.useState(false);
+  const [coupon, setCoupon] = React.useState('');
 
   /**
    * Cart Hook
    */
-  const {cart, removeItems, updateItems, isLoading} = useCart();
+  const {
+    cart,
+    removeItems,
+    updateItems,
+    isLoading,
+    applyCoupon,
+    removeCoupon,
+    applyCouponInfo,
+  } = useCart();
   const navigation = useNavigation();
 
   const gotoHome = () => {
@@ -39,10 +50,10 @@ export default (): React.ReactElement => {
   };
 
   React.useEffect(() => {
-    if (!products) {
-      setProducts(cart?.contents?.nodes);
-    }
-  }, [cart?.contents?.nodes?.length]);
+    //if (!products) {
+    setProducts(cart?.contents?.nodes);
+    //}
+  }, [cart?.contents?.nodes?.length, cart?.total]);
 
   const onItemChange = (key: string, quantity: number) => {
     setDirty(true);
@@ -79,8 +90,10 @@ export default (): React.ReactElement => {
 
   const handleUpdateCart = React.useCallback(async () => {
     //Remove Items
-    await removeItems(productsToDelete);
-    setProductsToDelete([]);
+    if (productsToDelete.length) {
+      await removeItems(productsToDelete);
+      setProductsToDelete([]);
+    }
     setDirty(false);
     //Update quantities
     const items = products?.map(
@@ -96,6 +109,59 @@ export default (): React.ReactElement => {
     }
   }, [products, productsToDelete, removeItems, updateItems]);
 
+  /**
+   * Apply coupon
+   */
+  const handleApplyCoupon = React.useCallback(async (): Promise<void> => {
+    const response = await applyCoupon(coupon.toLowerCase());
+    console.log('Error', response);
+    if (!response) {
+      setVisible(false);
+    }
+  }, [applyCoupon, coupon]);
+
+  /**
+   * Remove coupon
+   */
+  const handleRemoveCoupon = React.useCallback(
+    async (currentCoupon): Promise<void> => {
+      await removeCoupon([currentCoupon.toLowerCase()]);
+    },
+    [removeCoupon],
+  );
+
+  const getCouponAmount = useCallback(() => {
+    return cart?.appliedCoupons?.map(d => {
+      return (
+        <Text key={d?.code} status="success" category="s1">{`-${
+          d?.discountAmount || '-'
+        }`}</Text>
+      );
+    });
+  }, [cart]);
+
+  const getCouponLabel = useCallback(() => {
+    return cart?.appliedCoupons?.map(d => {
+      return (
+        <Layout key={`label-${d?.code}`} style={styles.couponWrapper}>
+          <Button
+            appearance="ghost"
+            status="basic"
+            style={[styles.couponButton]}
+            accessoryLeft={CloseIcon as any}
+            onPress={() => d?.code && handleRemoveCoupon(d.code)}
+          />
+          <Text category="s1">{`Cupón:${d?.code || '-'}`}</Text>
+        </Layout>
+      );
+    });
+  }, [
+    cart?.appliedCoupons,
+    handleRemoveCoupon,
+    styles.couponButton,
+    styles.couponWrapper,
+  ]);
+
   const renderFooter = React.useCallback(
     () => (
       <Layout>
@@ -110,6 +176,10 @@ export default (): React.ReactElement => {
         </Button>
 
         <Divider />
+        <Layout style={styles.couponCardWrapper}>
+          {getCouponLabel()}
+          {getCouponAmount()}
+        </Layout>
         <Layout style={styles.footer}>
           <Layout>
             <Text category="s1">SubTotal:</Text>
@@ -131,9 +201,12 @@ export default (): React.ReactElement => {
       cart?.subtotal,
       cart?.subtotalTax,
       cart?.total,
+      getCouponAmount,
+      getCouponLabel,
       handleUpdateCart,
       isDirty,
       isLoading,
+      styles.couponCardWrapper,
       styles.footer,
       styles.updateButton,
     ],
@@ -183,15 +256,30 @@ export default (): React.ReactElement => {
         PROCESAR ORDEN
       </Button>
       <Modal
-        animationType="slide"
-        transparent
         visible={visible}
         backdropStyle={styles.backdrop}
         onBackdropPress={() => setVisible(false)}>
-        <Card disabled={visible}>
-          <Text>Welcome to UI Kitten 😻</Text>
-          <Input />
-          <Button onPress={() => setVisible(false)}>DISMISS</Button>
+        <Card disabled={true} style={styles.modalCard}>
+          <Button
+            style={[styles.iconButton, styles.removeButton]}
+            appearance="ghost"
+            status="basic"
+            accessoryLeft={CloseIcon as any}
+            onPress={() => setVisible(false)}
+          />
+          <Text category="h6" style={styles.marginHeader}>
+            Agregar Cupón
+          </Text>
+          <Text>{applyCouponInfo.error?.message}</Text>
+          <Input style={styles.margin} onChangeText={t => setCoupon(t)} />
+          <Button
+            onPress={handleApplyCoupon}
+            disabled={applyCouponInfo.loading || coupon.length === 0}
+            accessoryLeft={
+              applyCouponInfo.loading && (LoadingIndicatorWhite as any)
+            }>
+            APLICAR CUPÓN
+          </Button>
         </Card>
       </Modal>
     </Layout>
@@ -202,11 +290,47 @@ const themedStyle = StyleService.create({
   container: {
     flex: 1,
   },
+  couponWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  couponButton: {
+    height: 5,
+    width: 5,
+    margin: 0,
+    padding: 0,
+  },
+  containerModal: {
+    borderRadius: 4,
+    padding: 16,
+    width: 320,
+  },
   wrapper: {
     flex: 1,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+
+  modalCard: {
+    minWidth: 240,
+  },
+  margin: {
+    marginBottom: 10,
+  },
+  marginHeader: {
+    marginBottom: 10,
+    marginTop: 30,
+    textAlign: 'center',
+  },
+  iconButton: {
+    paddingHorizontal: 0,
+    margin: 0,
+  },
+  removeButton: {
+    position: 'absolute',
+    right: 0,
   },
   item: {
     borderBottomWidth: 1,
@@ -222,6 +346,18 @@ const themedStyle = StyleService.create({
     marginVertical: 0.5,
     paddingVertical: 28,
     paddingHorizontal: 16,
+  },
+  couponCardWrapper: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 0,
+    paddingRight: 16,
+    width: '100%',
+    borderColor: 'background-basic-color-3',
+    borderBottomWidth: 1,
+    borderTopWidth: 1,
+    alignItems: 'center',
   },
   checkoutButton: {
     marginHorizontal: 16,

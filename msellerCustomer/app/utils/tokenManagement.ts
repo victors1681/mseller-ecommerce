@@ -70,7 +70,8 @@ export const updateToken = async (authToken: string): Promise<void> => {
 
 export const resetToken = async () => {
   try {
-    await AsyncStorage.setItem(TOKEN_NAME, '');
+    //await AsyncStorage.setItem(TOKEN_NAME, '');
+    await saveToken({authToken: '', refreshToken: '', sessionToken: ''});
   } catch (err) {
     console.error('error resetting token', err);
   }

@@ -19,6 +19,7 @@
 
 namespace WPGraphQL\JWT_Authentication;
 use GraphQL\Error\UserError;
+use GraphQL\Error\AuthError;
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
 	die;
@@ -197,8 +198,10 @@ if ( ! class_exists( '\WPGraphQL\JWT_Authentication' ) ) :
 					$token = Auth::validate_token();
 					if ( is_wp_error( $token ) ) {
 						add_action( 'graphql_before_resolve_field', function() use ( $token ) {
-							//throw new \Exception( $token->get_error_code() . ' | ' . $token->get_error_message() );							
-							throw new UserError( __( $token->get_error_message(), 'wp-graphql-jwt-authentication' ) );
+							//throw new \Exception( $token->get_error_code() . ' | ' . $token->get_error_message() );
+							//custom AuthError create to change the category of the graphql error to catch on the client-side							
+							throw new AuthError( __( $token->get_error_message(), 'wp-graphql-jwt-authentication' ) );
+							//throw new \GraphQL\Error\UserError( __( sprintf('testing'), 'wp-graphql' ) );
 						}, 1 );
 					}
 				}
