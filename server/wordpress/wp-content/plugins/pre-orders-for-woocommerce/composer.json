@@ -1,0 +1,13 @@
+{
+    "name": "brightvessel/woocommerce-preorders",
+    "description": "Preorder plugin for WooCommerce",
+    "type": "project",
+    "require": {
+        
+    },
+    "autoload": {
+        "psr-4": {
+            "Woocommerce_Preorders\\": "src/"
+        }
+    }
+}
