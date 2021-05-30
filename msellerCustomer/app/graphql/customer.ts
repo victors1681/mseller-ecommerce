@@ -2,12 +2,18 @@ import {gql} from '@apollo/client';
 
 export const CUSTOMER_FRAGMENT = gql`
   fragment customerFields on Customer {
+    id
     databaseId
     email
     firstName
     lastName
     username
     isJwtAuthSecretRevoked
+    metaData {
+      id
+      key
+      value
+    }
     billing {
       address1
       address2
