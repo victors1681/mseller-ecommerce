@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitc256b29e87fa84f1e329e61a99bf8754
+class ComposerStaticInit5484cc4c0fcfb9b207b9646b9bc445da
 {
     public static $files = array (
         'a3ed03db03d57650e139da3e8903943c' => __DIR__ . '/../..' . '/access-functions.php',
@@ -334,7 +334,6 @@ class ComposerStaticInitc256b29e87fa84f1e329e61a99bf8754
         'WPGraphQL\\Server\\ValidationRules\\QueryDepth' => __DIR__ . '/../..' . '/src/Server/ValidationRules/QueryDepth.php',
         'WPGraphQL\\Server\\ValidationRules\\RequireAuthentication' => __DIR__ . '/../..' . '/src/Server/ValidationRules/RequireAuthentication.php',
         'WPGraphQL\\Server\\WPHelper' => __DIR__ . '/../..' . '/src/Server/WPHelper.php',
-        'WPGraphQL\\Telemetry\\Tracker' => __DIR__ . '/../..' . '/src/Telemetry/Tracker.php',
         'WPGraphQL\\Type\\Enum\\AvatarRatingEnum' => __DIR__ . '/../..' . '/src/Type/Enum/AvatarRatingEnum.php',
         'WPGraphQL\\Type\\Enum\\CommentsConnectionOrderbyEnum' => __DIR__ . '/../..' . '/src/Type/Enum/CommentsConnectionOrderbyEnum.php',
         'WPGraphQL\\Type\\Enum\\ContentNodeIdTypeEnum' => __DIR__ . '/../..' . '/src/Type/Enum/ContentNodeIdTypeEnum.php',
@@ -434,9 +433,9 @@ class ComposerStaticInitc256b29e87fa84f1e329e61a99bf8754
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitc256b29e87fa84f1e329e61a99bf8754::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitc256b29e87fa84f1e329e61a99bf8754::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitc256b29e87fa84f1e329e61a99bf8754::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit5484cc4c0fcfb9b207b9646b9bc445da::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit5484cc4c0fcfb9b207b9646b9bc445da::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit5484cc4c0fcfb9b207b9646b9bc445da::$classMap;
 
         }, null, ClassLoader::class);
     }

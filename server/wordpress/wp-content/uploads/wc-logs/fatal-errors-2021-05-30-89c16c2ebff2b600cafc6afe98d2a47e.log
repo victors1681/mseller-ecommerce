@@ -1,0 +1,18 @@
+2021-05-30T01:00:02+00:00 CRITICAL Uncaught TypeError: Argument 1 passed to GraphQL\Type\Definition\Type::getNullableType() must be an instance of GraphQL\Type\Definition\Type, null given, called in /var/www/html/wp-content/plugins/wp-graphql/vendor/webonyx/graphql-php/src/Validator/Rules/ValuesOfCorrectType.php on line 75 and defined in /var/www/html/wp-content/plugins/wp-graphql/vendor/webonyx/graphql-php/src/Type/Definition/Type.php:293
+Stack trace:
+#0 /var/www/html/wp-content/plugins/wp-graphql/vendor/webonyx/graphql-php/src/Validator/Rules/ValuesOfCorrectType.php(75): GraphQL\Type\Definition\Type::getNullableType(NULL)
+#1 /var/www/html/wp-content/plugins/wp-graphql/vendor/webonyx/graphql-php/src/Language/Visitor.php(414): GraphQL\Validator\Rules\ValuesOfCorrectType->GraphQL\Validator\Rules\{closure}(Object(GraphQL\Language\AST\ListValueNode), 'value', Object(GraphQL\Language\AST\ObjectFieldNode), Array, Array)
+#2 /var/www/html/wp-content/plugins/wp-graphql/vendor/webonyx/graphql-php/src/Language/Visitor.php(470): GraphQL\Language\Visitor: in /var/www/html/wp-content/plugins/wp-graphql/vendor/webonyx/graphql-php/src/Type/Definition/Type.php on line 293
+
+2021-05-30T01:00:11+00:00 CRITICAL Uncaught TypeError: Argument 1 passed to GraphQL\Type\Definition\Type::getNullableType() must be an instance of GraphQL\Type\Definition\Type, null given, called in /var/www/html/wp-content/plugins/wp-graphql/vendor/webonyx/graphql-php/src/Validator/Rules/ValuesOfCorrectType.php on line 75 and defined in /var/www/html/wp-content/plugins/wp-graphql/vendor/webonyx/graphql-php/src/Type/Definition/Type.php:293
+Stack trace:
+#0 /var/www/html/wp-content/plugins/wp-graphql/vendor/webonyx/graphql-php/src/Validator/Rules/ValuesOfCorrectType.php(75): GraphQL\Type\Definition\Type::getNullableType(NULL)
+#1 /var/www/html/wp-content/plugins/wp-graphql/vendor/webonyx/graphql-php/src/Language/Visitor.php(414): GraphQL\Validator\Rules\ValuesOfCorrectType->GraphQL\Validator\Rules\{closure}(Object(GraphQL\Language\AST\ListValueNode), 'value', Object(GraphQL\Language\AST\ObjectFieldNode), Array, Array)
+#2 /var/www/html/wp-content/plugins/wp-graphql/vendor/webonyx/graphql-php/src/Language/Visitor.php(470): GraphQL\Language\Visitor: in /var/www/html/wp-content/plugins/wp-graphql/vendor/webonyx/graphql-php/src/Type/Definition/Type.php on line 293
+
+2021-05-30T01:00:14+00:00 CRITICAL Uncaught TypeError: Argument 1 passed to GraphQL\Type\Definition\Type::getNullableType() must be an instance of GraphQL\Type\Definition\Type, null given, called in /var/www/html/wp-content/plugins/wp-graphql/vendor/webonyx/graphql-php/src/Validator/Rules/ValuesOfCorrectType.php on line 75 and defined in /var/www/html/wp-content/plugins/wp-graphql/vendor/webonyx/graphql-php/src/Type/Definition/Type.php:293
+Stack trace:
+#0 /var/www/html/wp-content/plugins/wp-graphql/vendor/webonyx/graphql-php/src/Validator/Rules/ValuesOfCorrectType.php(75): GraphQL\Type\Definition\Type::getNullableType(NULL)
+#1 /var/www/html/wp-content/plugins/wp-graphql/vendor/webonyx/graphql-php/src/Language/Visitor.php(414): GraphQL\Validator\Rules\ValuesOfCorrectType->GraphQL\Validator\Rules\{closure}(Object(GraphQL\Language\AST\ListValueNode), 'value', Object(GraphQL\Language\AST\ObjectFieldNode), Array, Array)
+#2 /var/www/html/wp-content/plugins/wp-graphql/vendor/webonyx/graphql-php/src/Language/Visitor.php(470): GraphQL\Language\Visitor: in /var/www/html/wp-content/plugins/wp-graphql/vendor/webonyx/graphql-php/src/Type/Definition/Type.php on line 293
+

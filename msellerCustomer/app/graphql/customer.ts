@@ -1,5 +1,56 @@
 import {gql} from '@apollo/client';
 
+export const CUSTOMER_FRAGMENT = gql`
+  fragment customerFields on Customer {
+    databaseId
+    email
+    firstName
+    lastName
+    username
+    isJwtAuthSecretRevoked
+    billing {
+      address1
+      address2
+      city
+      company
+      country
+      email
+      firstName
+      lastName
+      phone
+      postcode
+      state
+    }
+    shipping {
+      address1
+      address2
+      city
+      country
+      company
+      email
+      firstName
+      lastName
+      phone
+      postcode
+      state
+    }
+    orders {
+      nodes {
+        currency
+        date
+        dateCompleted
+        datePaid
+        needsPayment
+        status
+        subtotal(format: FORMATTED)
+        total(format: FORMATTED)
+        totalTax(format: FORMATTED)
+        transactionId
+      }
+    }
+  }
+`;
+
 export const LOGIN = gql`
   mutation Login($input: LoginInput!) {
     __typename
@@ -47,77 +98,22 @@ export const REGISTER_CUSTOMER = gql`
 `;
 
 export const UPDATE_CUSTOMER = gql`
+  ${CUSTOMER_FRAGMENT}
   mutation UpdateCustomer($input: UpdateCustomerInput!) {
     __typename
-    registerCustomer(input: $input) {
-      authToken
-      refreshToken
+    updateCustomer(input: $input) {
       customer {
-        email
-        databaseId
-        firstName
-        isJwtAuthSecretRevoked
-        jwtAuthExpiration
-        jwtAuthToken
-        jwtRefreshToken
-        jwtUserSecret
-        lastName
-        locale
-        wooSessionToken
+        ...customerFields
       }
     }
   }
 `;
 
 export const GET_CUSTOMER_INFO = gql`
+  ${CUSTOMER_FRAGMENT}
   query CustomerInfo {
     customer {
-      databaseId
-      email
-      firstName
-      lastName
-      username
-      isJwtAuthSecretRevoked
-      billing {
-        address1
-        address2
-        city
-        company
-        country
-        email
-        firstName
-        lastName
-        phone
-        postcode
-        state
-      }
-      shipping {
-        address1
-        address2
-        city
-        country
-        company
-        email
-        firstName
-        lastName
-        phone
-        postcode
-        state
-      }
-      orders {
-        nodes {
-          currency
-          date
-          dateCompleted
-          datePaid
-          needsPayment
-          status
-          subtotal(format: FORMATTED)
-          total(format: FORMATTED)
-          totalTax(format: FORMATTED)
-          transactionId
-        }
-      }
+      ...customerFields
     }
   }
 `;

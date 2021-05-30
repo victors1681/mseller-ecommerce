@@ -8,6 +8,8 @@ import {TouchableOpacity, Image, StyleSheet} from 'react-native';
 import {useCart} from 'app/hooks';
 import {IconWithBadge} from 'app/modules/common/IconWithBadge';
 import ShoppingCartScreen from '../screens/ShoppingCartScreen';
+import AddressScreen from '../screens/AddressScreen';
+
 const Stack = createStackNavigator();
 
 const HomeStackNavigator = ({navigation}: any) => {
@@ -33,6 +35,7 @@ const HomeStackNavigator = ({navigation}: any) => {
       <Stack.Screen name="Products" component={Products} />
       <Stack.Screen name="ProductDetail" component={ProductDetail} />
       <Stack.Screen name="ShoppingCart" component={ShoppingCartScreen} />
+      <Stack.Screen name="Address" component={AddressScreen} />
     </Stack.Navigator>
   );
 };

@@ -1,0 +1,2 @@
+2021-05-27T14:19:07+00:00 CRITICAL Maximum execution time of 30 seconds exceeded in /var/www/html/wp-content/plugins/wp-graphql-woocommerce-develop/includes/utils/class-session-transaction-manager.php on line 136
+

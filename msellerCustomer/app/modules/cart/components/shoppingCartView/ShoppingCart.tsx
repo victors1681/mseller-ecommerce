@@ -49,6 +49,10 @@ export default (): React.ReactElement => {
     navigation && navigation.goBack();
   };
 
+  const goNext = () => {
+    navigation && navigation.navigate('Address');
+  };
+
   React.useEffect(() => {
     //if (!products) {
     setProducts(cart?.contents?.nodes);
@@ -252,7 +256,7 @@ export default (): React.ReactElement => {
         AGREGAR CUPÓN
       </Button>
 
-      <Button style={styles.checkoutButton} size="medium">
+      <Button onPress={goNext} style={styles.checkoutButton} size="medium">
         PROCESAR ORDEN
       </Button>
       <Modal

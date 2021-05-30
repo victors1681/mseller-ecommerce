@@ -241,13 +241,17 @@ export const useCustomerStore = (): CustomerStore => {
   };
 
   const performUpdate = async (input: UpdateCustomerInput): Promise<void> => {
-    const response = await updateCustomer({
-      variables: {
-        input,
-      },
-    });
+    try {
+      const response = await updateCustomer({
+        variables: {
+          input,
+        },
+      });
 
-    setCustomer(response.data?.updateCustomer?.customer as Customer);
+      setCustomer(response.data?.updateCustomer?.customer as Customer);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const performLogout = () => resetToken();

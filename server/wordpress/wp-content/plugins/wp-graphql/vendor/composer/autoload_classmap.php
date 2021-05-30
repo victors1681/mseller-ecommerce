@@ -305,7 +305,6 @@ return array(
     'WPGraphQL\\Server\\ValidationRules\\QueryDepth' => $baseDir . '/src/Server/ValidationRules/QueryDepth.php',
     'WPGraphQL\\Server\\ValidationRules\\RequireAuthentication' => $baseDir . '/src/Server/ValidationRules/RequireAuthentication.php',
     'WPGraphQL\\Server\\WPHelper' => $baseDir . '/src/Server/WPHelper.php',
-    'WPGraphQL\\Telemetry\\Tracker' => $baseDir . '/src/Telemetry/Tracker.php',
     'WPGraphQL\\Type\\Enum\\AvatarRatingEnum' => $baseDir . '/src/Type/Enum/AvatarRatingEnum.php',
     'WPGraphQL\\Type\\Enum\\CommentsConnectionOrderbyEnum' => $baseDir . '/src/Type/Enum/CommentsConnectionOrderbyEnum.php',
     'WPGraphQL\\Type\\Enum\\ContentNodeIdTypeEnum' => $baseDir . '/src/Type/Enum/ContentNodeIdTypeEnum.php',

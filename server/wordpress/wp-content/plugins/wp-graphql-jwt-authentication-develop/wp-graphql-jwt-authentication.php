@@ -19,7 +19,7 @@
 
 namespace WPGraphQL\JWT_Authentication;
 use GraphQL\Error\UserError;
-use GraphQL\Error\AuthError;
+use MSeller\Error\AuthError;
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
 	die;
