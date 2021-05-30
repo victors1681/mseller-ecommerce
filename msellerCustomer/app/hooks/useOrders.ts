@@ -1,11 +1,13 @@
-import {GET_ORDERS, CREATE_ORDER} from 'app/graphql';
+import {GET_ORDERS, CREATE_ORDER, GET_ORDER} from 'app/graphql';
 import {
   RootQueryToOrderConnection,
   CreateOrderInput,
+  Order,
 } from 'app/generated/graphql';
 import {
   ApolloError,
   FetchResult,
+  LazyQueryResult,
   MutationResult,
   OperationVariables,
   QueryLazyOptions,
@@ -17,6 +19,9 @@ interface OrdersResponseData {
   orders: RootQueryToOrderConnection;
 }
 
+interface OrderResponseData {
+  order: Order;
+}
 interface CreateOrderResponse {
   orders: RootQueryToOrderConnection;
 }
@@ -40,6 +45,8 @@ export interface OrdersStore {
     | undefined
   >;
   createOrderInfo: MutationResult<CreateOrderResponse>;
+  getOrder: (id: string) => Promise<void>;
+  orderInfo: LazyQueryResult<OrderResponseData, OperationVariables>;
 }
 
 /**
@@ -55,6 +62,17 @@ export const useOrders = (): OrdersStore => {
     getOrders,
     {called, loading, data, error},
   ] = useLazyQuery<OrdersResponseData>(GET_ORDERS);
+
+  const [selectOrder, orderInfo] = useLazyQuery<OrderResponseData>(GET_ORDER);
+
+  const getOrder = async (id: string) => {
+    try {
+      const response = await selectOrder({variables: {id}});
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const [newOrder, createOrderInfo] = useMutation<
     CreateOrderResponse,
@@ -81,5 +99,7 @@ export const useOrders = (): OrdersStore => {
     error,
     createOrder,
     createOrderInfo,
+    getOrder,
+    orderInfo,
   };
 };

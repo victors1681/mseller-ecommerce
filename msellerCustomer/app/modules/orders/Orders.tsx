@@ -1,10 +1,23 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import {ListRenderItemInfo, View} from 'react-native';
+import * as GraphQlTypes from 'app/generated/graphql';
 import {useOrders} from 'app/hooks/useOrders';
+import moment from 'moment';
 import {Loading, Error} from '../common';
+import {
+  List,
+  ListItem,
+  StyleService,
+  useStyleSheet,
+  Text,
+} from '@ui-kitten/components';
 
 export const Orders = () => {
-  const {data, error, isLoading} = useOrders();
+  const {getOrders, data, error, isLoading} = useOrders();
+  const styles = useStyleSheet(themedStyle);
+  React.useEffect(() => {
+    getOrders();
+  }, []);
 
   const orders = data?.orders.nodes;
 
@@ -18,11 +31,47 @@ export const Orders = () => {
     return <Text>None</Text>;
   }
 
+  const renderItemAPrice = (
+    quantity: GraphQlTypes.Maybe<string> | undefined,
+  ) => {
+    return (
+      <View style={styles.controlContainer}>
+        <Text style={styles.controlText} status="control" category="c2">
+          {quantity || ''}
+        </Text>
+      </View>
+    );
+  };
+
+  const renderItem = (info: ListRenderItemInfo<GraphQlTypes.Order>) => (
+    <ListItem
+      title={`#${info.item.orderNumber} - ${moment(info.item.date)
+        .locale('en-ES')
+        .fromNow()}`}
+      description={`${info.item.status}`}
+      accessoryRight={() => renderItemAPrice(info?.item.total)}
+    />
+  );
+
   return (
     <View>
-      <Text>test</Text>
+      <List data={orders} renderItem={renderItem} />
     </View>
   );
 };
 
 export default Orders;
+
+const themedStyle = StyleService.create({
+  controlContainer: {
+    borderRadius: 4,
+    margin: 4,
+    padding: 4,
+    minWidth: 95,
+    backgroundColor: '#3366FF',
+  },
+  controlText: {
+    textAlign: 'center',
+  },
+  status: {},
+});

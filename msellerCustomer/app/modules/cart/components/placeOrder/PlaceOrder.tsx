@@ -277,7 +277,7 @@ export default (): React.ReactElement => {
         />
       </Layout>
     ),
-    [termChecked],
+    [termChecked, createOrderInfo, isCartLoading],
   );
 };
 

@@ -10,7 +10,6 @@ interface CustomInputProps extends InputProps {
 export const CustomInput = ({label, ...props}: CustomInputProps) => {
   const [field, meta] = useField(props as any);
 
-  console.log('field', field);
   const isError = meta.touched && meta.error;
   const caption = isError ? meta.error : undefined;
 

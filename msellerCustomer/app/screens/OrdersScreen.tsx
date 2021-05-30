@@ -1,15 +1,9 @@
 import React from 'react';
-import {SafeAreaView, StyleSheet, View} from 'react-native';
-import {Divider, Text} from '@ui-kitten/components';
+import {SafeAreaView, StyleSheet} from 'react-native';
 import {Orders} from 'app/modules/orders';
 export const OrdersScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.categoryHeader}>
-        <Text category="s2">Categorías</Text>
-      </View>
-      <Divider />
-      <Text>Orders</Text>
       <Orders />
     </SafeAreaView>
   );
