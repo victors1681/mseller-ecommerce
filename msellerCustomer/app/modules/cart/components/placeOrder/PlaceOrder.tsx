@@ -11,6 +11,7 @@ import {
   Modal,
   ListItem,
   CheckBox,
+  Spinner,
 } from '@ui-kitten/components';
 import {useCart, useCustomer, useOrders} from 'app/hooks';
 import * as GraphQlTypes from 'app/generated/graphql';
@@ -37,8 +38,8 @@ const usePlaceOrder = () => {
 
   const handleCustomerNote = (values: string) => setCustomerNote(values);
 
-  const goNext = () => {
-    navigation && navigation.navigate('Address');
+  const gotoCongrats = (orderId: GraphQlTypes.Maybe<number> | undefined) => {
+    navigation && navigation.navigate('Congrats', {orderId});
   };
 
   const gotoHome = () => {
@@ -91,13 +92,23 @@ const usePlaceOrder = () => {
     });
 
     if (response) {
+      console.log('responseresponse', response);
       await clearCart();
-
+      gotoCongrats(response.data?.createOrder.orderId);
       console.log('SAVED');
     } else {
       console.error('error');
     }
-  }, [payment, customer, cart, createOrder]);
+  }, [
+    customer,
+    createOrder,
+    payment?.id,
+    payment?.title,
+    customerNote,
+    products,
+    cart?.appliedCoupons,
+    gotoCongrats,
+  ]);
 
   return {
     clearCart,
@@ -114,6 +125,10 @@ const usePlaceOrder = () => {
     customerNote,
   };
 };
+
+/**
+ * Screen View
+ */
 
 export default (): React.ReactElement => {
   const styles = useStyleSheet(themedStyle);
@@ -134,12 +149,11 @@ export default (): React.ReactElement => {
     isCartLoading,
   } = usePlaceOrder();
 
-  const handlePaymentSelection = React.useCallback(
-    (value: GraphQlTypes.Maybe<GraphQlTypes.PaymentGateway> | undefined) => {
-      setPayment(value);
-    },
-    [setPayment],
-  );
+  const handlePaymentSelection = (
+    value: GraphQlTypes.Maybe<GraphQlTypes.PaymentGateway> | undefined,
+  ) => {
+    setPayment(value);
+  };
 
   const AdditionalData = () => {
     const Texts = (): any => {
@@ -180,35 +194,25 @@ export default (): React.ReactElement => {
     );
   };
 
-  const renderFooter = React.useCallback(
-    () => (
-      <Layout>
-        <Layout style={styles.footer}>
-          <Layout>
-            <Text category="s1">SubTotal:</Text>
-            <Text category="s1">Descuento:</Text>
-            <Text category="s1">Impuestos:</Text>
-            <Text category="s1">Total:</Text>
-          </Layout>
-          <Layout>
-            <Text category="s1">{`${cart?.subtotal || '-'}`}</Text>
-            <Text category="s1">{`${cart?.discountTotal || '-'}`}</Text>
-            <Text category="s1">{`${cart?.subtotalTax || '-'}`}</Text>
-            <Text category="s1">{`${cart?.total || '-'}`}</Text>
-          </Layout>
+  const renderFooter = () => (
+    <Layout>
+      <Layout style={styles.footer}>
+        <Layout>
+          <Text category="s1">SubTotal:</Text>
+          <Text category="s1">Descuento:</Text>
+          <Text category="s1">Impuestos:</Text>
+          <Text category="s1">Total:</Text>
         </Layout>
-        <PaymentGateway onSelect={handlePaymentSelection} />
-        <AdditionalData />
+        <Layout>
+          <Text category="s1">{`${cart?.subtotal || '-'}`}</Text>
+          <Text category="s1">{`${cart?.discountTotal || '-'}`}</Text>
+          <Text category="s1">{`${cart?.subtotalTax || '-'}`}</Text>
+          <Text category="s1">{`${cart?.total || '-'}`}</Text>
+        </Layout>
       </Layout>
-    ),
-    [
-      handlePaymentSelection,
-      cart?.discountTotal,
-      cart?.subtotal,
-      cart?.subtotalTax,
-      cart?.total,
-      styles.footer,
-    ],
+      <PaymentGateway onSelect={handlePaymentSelection} />
+      <AdditionalData />
+    </Layout>
   );
 
   const renderItemAccessory = (
@@ -242,6 +246,13 @@ export default (): React.ReactElement => {
       </View>
     );
   }
+  if (createOrderInfo.loading) {
+    return (
+      <View style={styles.wrapper}>
+        <Spinner />
+      </View>
+    );
+  }
 
   const renderItem = (info: ListRenderItemInfo<GraphQlTypes.CartItem>) => (
     <ListItem
@@ -252,32 +263,29 @@ export default (): React.ReactElement => {
     />
   );
 
-  return React.useMemo(
-    () => (
-      <Layout style={styles.container} level="2">
-        <List
-          removeClippedSubviews={false}
-          extraData={{customerNote}}
-          data={products}
-          renderItem={renderItem}
-          ListFooterComponent={renderFooter}
-        />
+  return (
+    <Layout style={styles.container} level="2">
+      <List
+        removeClippedSubviews={false}
+        extraData={{customerNote}}
+        data={products}
+        renderItem={renderItem}
+        ListFooterComponent={renderFooter}
+      />
 
-        <Button
-          onPress={handleOrderCreation}
-          style={styles.checkoutButton}
-          disabled={createOrderInfo.loading || isCartLoading}
-          size="medium">
-          PROCESAR ORDEN
-        </Button>
-        <Modal
-          visible={visible}
-          backdropStyle={styles.backdrop}
-          onBackdropPress={() => setVisible(false)}
-        />
-      </Layout>
-    ),
-    [termChecked, createOrderInfo, isCartLoading],
+      <Button
+        onPress={handleOrderCreation}
+        style={styles.checkoutButton}
+        disabled={createOrderInfo.loading || isCartLoading}
+        size="medium">
+        PROCESAR ORDEN
+      </Button>
+      <Modal
+        visible={visible}
+        backdropStyle={styles.backdrop}
+        onBackdropPress={() => setVisible(false)}
+      />
+    </Layout>
   );
 };
 
@@ -377,5 +385,11 @@ const themedStyle = StyleService.create({
   updateButton: {
     marginHorizontal: 16,
     marginVertical: 15,
+  },
+  wrapper: {
+    flex: 1,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

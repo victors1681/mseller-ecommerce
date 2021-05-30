@@ -34,15 +34,48 @@ const HomeStackNavigator = ({navigation}: any) => {
           ),
         }}
       />
-      <Stack.Screen name="Products" component={Products} />
-      <Stack.Screen name="ProductDetail" component={CongratsScreen} />
-      <Stack.Screen name="ShoppingCart" component={ShoppingCartScreen} />
-      <Stack.Screen name="Address" component={AddressScreen} />
+      <Stack.Screen
+        name="Products"
+        options={{
+          headerTitle: 'Productos',
+        }}
+        component={Products}
+      />
+      <Stack.Screen
+        name="ProductDetail"
+        options={{
+          headerTitle: 'Detalle del Producto',
+        }}
+        component={ProductDetail}
+      />
+      <Stack.Screen
+        name="ShoppingCart"
+        options={{
+          headerTitle: 'Carrito de Compras',
+        }}
+        component={ShoppingCartScreen}
+      />
+      <Stack.Screen
+        name="Address"
+        options={{
+          headerTitle: 'Dirección de envío',
+        }}
+        component={AddressScreen}
+      />
+
       <Stack.Screen
         name="PlaceOrder"
         component={PlaceOrderScreen}
         options={{
           headerTitle: 'Tu Orden',
+        }}
+      />
+      <Stack.Screen
+        name="Congrats"
+        component={CongratsScreen}
+        options={{
+          headerLeft: () => null,
+          headerTitle: 'Felicidades',
         }}
       />
     </Stack.Navigator>

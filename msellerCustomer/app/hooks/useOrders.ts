@@ -3,6 +3,7 @@ import {
   RootQueryToOrderConnection,
   CreateOrderInput,
   Order,
+  CreateOrderPayload,
 } from 'app/generated/graphql';
 import {
   ApolloError,
@@ -23,7 +24,7 @@ interface OrderResponseData {
   order: Order;
 }
 interface CreateOrderResponse {
-  orders: RootQueryToOrderConnection;
+  createOrder: CreateOrderPayload;
 }
 
 interface CreateOrderArgs {

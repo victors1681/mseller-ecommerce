@@ -85,7 +85,7 @@ export const GET_ORDERS = gql`
 
 export const GET_ORDER = gql`
   ${ORDER_FRAGMENT}
-  query Order($id: string) {
+  query Order($id: ID) {
     order(id: $id, idType: DATABASE_ID) {
       ...orderFields
     }
@@ -113,6 +113,7 @@ export const CREATE_ORDER = gql`
         customerUserAgent
         date
         id
+        databaseId
       }
     }
   }
