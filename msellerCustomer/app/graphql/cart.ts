@@ -159,3 +159,14 @@ export const REMOVE_COUPON = gql`
     }
   }
 `;
+
+export const EMPTY_CART = gql`
+  ${CART_FRAGMENT}
+  mutation EmptyCart {
+    emptyCart(input: {clearPersistentCart: true}) {
+      cart {
+        ...cartFields
+      }
+    }
+  }
+`;

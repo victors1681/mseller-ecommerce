@@ -29,11 +29,11 @@ const usePlaceOrder = () => {
   const [customerNote, setCustomerNote] = React.useState('');
   const navigation = useNavigation();
 
-  const {cart, isLoading} = useCart();
+  const {cart, isLoading, clearCart} = useCart();
   const {createOrder, createOrderInfo} = useOrders();
   const {customer} = useCustomer();
 
-  const products = cart?.contents?.nodes;
+  const products = cart?.contents?.nodes || [];
 
   const handleCustomerNote = (values: string) => setCustomerNote(values);
 
@@ -91,6 +91,8 @@ const usePlaceOrder = () => {
     });
 
     if (response) {
+      await clearCart();
+
       console.log('SAVED');
     } else {
       console.error('error');
@@ -98,6 +100,7 @@ const usePlaceOrder = () => {
   }, [payment, customer, cart, createOrder]);
 
   return {
+    clearCart,
     gotoHome,
     handleOrderCreation,
     createOrderInfo,
@@ -138,7 +141,7 @@ export default (): React.ReactElement => {
     [setPayment],
   );
 
-  const AdditionalData = ({customerNote}) => {
+  const AdditionalData = () => {
     const Texts = (): any => {
       return (
         <Text>
@@ -195,11 +198,10 @@ export default (): React.ReactElement => {
           </Layout>
         </Layout>
         <PaymentGateway onSelect={handlePaymentSelection} />
-        <AdditionalData customerNote={customerNote} />
+        <AdditionalData />
       </Layout>
     ),
     [
-      customerNote,
       handlePaymentSelection,
       cart?.discountTotal,
       cart?.subtotal,

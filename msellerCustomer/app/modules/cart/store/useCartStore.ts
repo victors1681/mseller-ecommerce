@@ -5,6 +5,7 @@ import {
   UPDATE_QUANTITY,
   APPLY_COUPON,
   REMOVE_COUPON,
+  EMPTY_CART,
 } from 'app/graphql/cart';
 import {DrawerActions} from '@react-navigation/native';
 import {navigationRef} from 'app/navigation/RootNavigation';
@@ -21,6 +22,7 @@ import {
   ApplyCouponPayload,
   RemoveCouponsInput,
   RemoveCouponsPayload,
+  EmptyCartPayload,
 } from 'app/generated/graphql'; // Import
 import {
   useMutation,
@@ -72,6 +74,10 @@ interface RemoveCouponsData {
   removeCoupons: RemoveCouponsPayload;
 }
 
+interface EmptyCartData {
+  emptyCart: EmptyCartPayload;
+}
+
 export interface CartStore {
   cart: Cart | undefined;
   isLoading: boolean;
@@ -109,6 +115,8 @@ export interface CartStore {
   removeCoupon: (codes: string[]) => Promise<void>;
   applyCouponInfo: MutationResult<ApplyCouponData>;
   updateCouponInfo: MutationResult<RemoveCouponsData>;
+  emptyCartInfo: MutationResult<EmptyCartData>;
+  clearCart: () => Promise<void>;
 }
 
 /**
@@ -151,6 +159,8 @@ export const useCartStore = (): CartStore => {
     RemoveCouponsData,
     RemoveCouponsAgs
   >(REMOVE_COUPON);
+
+  const [emptyCart, emptyCartInfo] = useMutation<EmptyCartData>(EMPTY_CART);
 
   const navigation = navigationRef.current;
 
@@ -216,6 +226,11 @@ export const useCartStore = (): CartStore => {
     return response;
   };
 
+  const clearCart = async () => {
+    const response = await emptyCart();
+    setCart(response.data?.emptyCart?.cart as Cart);
+  };
+
   return {
     cart,
     isLoading,
@@ -234,5 +249,7 @@ export const useCartStore = (): CartStore => {
     applyCouponInfo,
     removeCoupon,
     updateCouponInfo,
+    clearCart,
+    emptyCartInfo,
   };
 };
