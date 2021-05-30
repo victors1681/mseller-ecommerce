@@ -16,11 +16,27 @@ interface Props {}
 export const PaymentGateway: React.FC = () => {
   const {getPaymentsGateways, data, isLoading} = usePaymentGateways();
   const [selectedIndex, setSelectedIndex] = React.useState(0);
+
+  const payments = data?.paymentGateways?.nodes;
   const styles = useStyleSheet(themedStyle);
 
   React.useEffect(() => {
     getPaymentsGateways();
   }, [getPaymentsGateways]);
+
+  const PaymentDetail = React.useCallback(() => {
+    const selected = payments && payments[selectedIndex];
+
+    if (!selected) {
+      return null;
+    }
+
+    return (
+      <Card disabled>
+        <Text>{selected.description || ''}</Text>
+      </Card>
+    );
+  }, [payments, selectedIndex]);
 
   if (isLoading) {
     return <LoadingIndicator />;
@@ -36,10 +52,11 @@ export const PaymentGateway: React.FC = () => {
           <RadioGroup
             selectedIndex={selectedIndex}
             onChange={index => setSelectedIndex(index)}>
-            {data?.paymentGateways.nodes?.map(payment => (
-              <Radio>{payment?.title || ''}</Radio>
+            {payments?.map(payment => (
+              <Radio key={payment?.id}>{payment?.title || ''}</Radio>
             ))}
           </RadioGroup>
+          {PaymentDetail()}
         </Layout>
       </Card>
     </Layout>
