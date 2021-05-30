@@ -12,6 +12,7 @@ import {
   useStyleSheet,
   Modal,
   ListItem,
+  CheckBox,
 } from '@ui-kitten/components';
 import {useCart, usePaymentGateways} from 'app/hooks';
 import {CloseIcon} from './extra/icons';
@@ -29,14 +30,12 @@ export default (): React.ReactElement => {
   const [visible, setVisible] = React.useState(false);
   const [isDirty, setDirty] = React.useState(false);
   const [coupon, setCoupon] = React.useState('');
-
+  const [checked, setChecked] = React.useState(false);
   /**
    * Cart Hook
    */
   const {
     cart,
-    removeItems,
-    updateItems,
     isLoading,
     applyCoupon,
     removeCoupon,
@@ -112,6 +111,43 @@ export default (): React.ReactElement => {
     styles.couponWrapper,
   ]);
 
+  const AdditionalData = () => {
+    const Texts = (): any => {
+      return (
+        <Text>
+          He leído y acepto los{' '}
+          <Text status="primary">términos y condiciones</Text> de esta
+          aplicación.
+        </Text>
+      );
+    };
+    return (
+      <Card>
+        <Text style={styles.additionalTitle} category="h6">
+          Datos Adicionales
+        </Text>
+        <Input
+          placeholder="Observación del pedido"
+          numberOfLines={4}
+          multiline={true}
+        />
+        <Layout style={styles.terms}>
+          <Text>
+            Sus datos personales se utilizarán para procesar su pedido,
+            respaldar su experiencia en este sitio web y para otros fines
+            descritos en nuestra [política de privacidad].
+          </Text>
+          <CheckBox
+            style={styles.terms}
+            checked={checked}
+            onChange={nextChecked => setChecked(nextChecked)}>
+            {Texts()}
+          </CheckBox>
+        </Layout>
+      </Card>
+    );
+  };
+
   const renderFooter = React.useCallback(
     () => (
       <Layout>
@@ -134,6 +170,7 @@ export default (): React.ReactElement => {
           </Layout>
         </Layout>
         <PaymentGateway />
+        <AdditionalData />
       </Layout>
     ),
     [
@@ -233,6 +270,12 @@ export default (): React.ReactElement => {
 const themedStyle = StyleService.create({
   container: {
     flex: 1,
+  },
+  additionalTitle: {
+    marginVertical: 10,
+  },
+  terms: {
+    marginVertical: 10,
   },
   couponWrapper: {
     flexDirection: 'row',
