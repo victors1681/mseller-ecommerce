@@ -75,3 +75,16 @@ export const GET_ORDERS = gql`
     }
   }
 `;
+
+export const GET_PAYMENT_GATEWAY = gql`
+  query PaymentGateway {
+    paymentGateways {
+      nodes {
+        icon
+        description
+        id
+        title
+      }
+    }
+  }
+`;

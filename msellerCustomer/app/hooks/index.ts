@@ -4,3 +4,4 @@ export * from './usePromoPosts';
 export * from './useProductDetail';
 export * from './useCustomer';
 export * from './useOrders';
+export * from './usePaymentGateway';

@@ -1,12 +1,21 @@
 import {GET_ORDERS} from 'app/graphql';
 import {RootQueryToOrderConnection} from 'app/generated/graphql';
-import {useQuery, ApolloError} from '@apollo/client';
+import {
+  ApolloError,
+  OperationVariables,
+  QueryLazyOptions,
+  useLazyQuery,
+} from '@apollo/client';
 
 interface OrdersResponseData {
   orders: RootQueryToOrderConnection;
 }
 
 export interface OrdersStore {
+  getOrders: (
+    options?: QueryLazyOptions<OperationVariables> | undefined,
+  ) => void;
+  called: boolean;
   data: OrdersResponseData | undefined;
   isLoading: boolean;
   error: ApolloError | undefined;
@@ -21,9 +30,14 @@ export const useOrders = (): OrdersStore => {
   /**
    * Orders
    */
-  const {loading, data, error} = useQuery<OrdersResponseData>(GET_ORDERS);
+  const [
+    getOrders,
+    {called, loading, data, error},
+  ] = useLazyQuery<OrdersResponseData>(GET_ORDERS);
 
   return {
+    called,
+    getOrders,
     isLoading: loading,
     data,
     error,
