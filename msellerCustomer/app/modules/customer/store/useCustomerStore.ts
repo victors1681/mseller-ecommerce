@@ -99,7 +99,12 @@ export interface CustomerStore {
     | undefined
   >;
   registerCustomerInfo: MutationResult<RegisterCustomerData>;
-  updateCustomer: (input: UpdateCustomerInput) => Promise<void>;
+  updateCustomer: (
+    input: UpdateCustomerInput,
+  ) => Promise<
+    | FetchResult<UpdateCustomerData, Record<string, any>, Record<string, any>>
+    | undefined
+  >;
   updateCustomerInfo: MutationResult<UpdateCustomerData>;
   performLogout: () => Promise<void>;
 }
@@ -240,7 +245,12 @@ export const useCustomerStore = (): CustomerStore => {
     }
   };
 
-  const performUpdate = async (input: UpdateCustomerInput): Promise<void> => {
+  const performUpdate = async (
+    input: UpdateCustomerInput,
+  ): Promise<
+    | FetchResult<UpdateCustomerData, Record<string, any>, Record<string, any>>
+    | undefined
+  > => {
     try {
       const response = await updateCustomer({
         variables: {
@@ -249,6 +259,7 @@ export const useCustomerStore = (): CustomerStore => {
       });
 
       setCustomer(response.data?.updateCustomer?.customer as Customer);
+      return response;
     } catch (err) {
       console.error(err);
     }

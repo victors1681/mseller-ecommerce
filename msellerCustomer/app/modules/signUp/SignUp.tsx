@@ -1,5 +1,5 @@
 import React from 'react';
-import {Alert, Image, ImageProps, View} from 'react-native';
+import {Image, ImageProps, View} from 'react-native';
 import {Button, StyleService, Text, useStyleSheet} from '@ui-kitten/components';
 import {ImageOverlay} from 'app/modules/common/ImageOverlay';
 import {ArrowForwardIconOutline} from './extra/icons';

@@ -29,9 +29,9 @@ export const Address = (): React.ReactElement => {
     fetchCustomer();
   }, [fetchCustomer]);
 
-  const onSignInButtonPress = (): void => {
-    navigation && navigation.navigate('signIn');
-  };
+  const gotoPlaceOrder = React.useCallback((): void => {
+    navigation && navigation.navigate('PlaceOrder');
+  }, [navigation]);
 
   interface RegistrationFormProps {
     locationType: LocationType;
@@ -92,13 +92,14 @@ export const Address = (): React.ReactElement => {
         },
         metaData: [{key: 'shipping', value: metaData}],
       });
-      console.log('metaData', metaData);
+
       if (response) {
         setSubmitting(false);
         resetForm();
+        gotoPlaceOrder();
       }
     },
-    [customer],
+    [customer?.id, gotoPlaceOrder, updateCustomer],
   );
 
   const metaData = getMetadataFromJson(
