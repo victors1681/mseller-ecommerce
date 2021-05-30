@@ -88,3 +88,16 @@ export const GET_PAYMENT_GATEWAY = gql`
     }
   }
 `;
+
+export const CREATE_ORDER = gql`
+  mutation CreateOrder($input: CreateOrderInput!) {
+    createOrder(input: $input) {
+      orderId
+      order {
+        customerUserAgent
+        date
+        id
+      }
+    }
+  }
+`;

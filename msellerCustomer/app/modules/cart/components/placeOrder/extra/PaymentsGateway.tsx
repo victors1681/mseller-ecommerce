@@ -7,22 +7,44 @@ import {
   Text,
   useStyleSheet,
 } from '@ui-kitten/components';
+import * as Graphql from 'app/generated/graphql';
 import {usePaymentGateways} from 'app/hooks';
 import {LoadingIndicator} from 'app/modules/common';
 import React from 'react';
 
-interface Props {}
+interface Props {
+  onSelect: (
+    paymentGateway: Graphql.Maybe<Graphql.PaymentGateway> | undefined,
+  ) => void;
+}
 
-export const PaymentGateway: React.FC = () => {
+export const PaymentGateway: React.FC<Props> = ({onSelect}) => {
   const {getPaymentsGateways, data, isLoading} = usePaymentGateways();
   const [selectedIndex, setSelectedIndex] = React.useState(0);
 
   const payments = data?.paymentGateways?.nodes;
   const styles = useStyleSheet(themedStyle);
 
+  const handleSelection = React.useCallback(
+    (index: number) => {
+      setSelectedIndex(index);
+      const selected = payments && payments[index];
+
+      //callback
+      onSelect && onSelect(selected);
+    },
+    [payments, onSelect, setSelectedIndex],
+  );
+
   React.useEffect(() => {
     getPaymentsGateways();
   }, [getPaymentsGateways]);
+
+  React.useEffect(() => {
+    if (payments?.length && selectedIndex === 0) {
+      handleSelection(0);
+    }
+  }, [handleSelection, payments?.length]);
 
   const PaymentDetail = React.useCallback(() => {
     const selected = payments && payments[selectedIndex];
@@ -49,9 +71,7 @@ export const PaymentGateway: React.FC = () => {
       </Text>
       <Card disabled>
         <Layout>
-          <RadioGroup
-            selectedIndex={selectedIndex}
-            onChange={index => setSelectedIndex(index)}>
+          <RadioGroup selectedIndex={selectedIndex} onChange={handleSelection}>
             {payments?.map(payment => (
               <Radio key={payment?.id}>{payment?.title || ''}</Radio>
             ))}

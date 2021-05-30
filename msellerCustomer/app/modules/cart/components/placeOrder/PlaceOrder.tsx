@@ -1,10 +1,8 @@
-import React, {useCallback} from 'react';
+import React from 'react';
 import {ListRenderItemInfo, View} from 'react-native';
 import {
   Button,
   Card,
-  Divider,
-  Input,
   Layout,
   List,
   StyleService,
@@ -14,108 +12,137 @@ import {
   ListItem,
   CheckBox,
 } from '@ui-kitten/components';
-import {useCart, usePaymentGateways} from 'app/hooks';
-import {CloseIcon} from './extra/icons';
+import {useCart, useCustomer, useOrders} from 'app/hooks';
 import * as GraphQlTypes from 'app/generated/graphql';
-import {TicketIcon} from 'app/modules/common/Icons';
-import {LoadingIndicator, LoadingIndicatorWhite} from 'app/modules/common';
 import {useNavigation} from '@react-navigation/core';
 import {PaymentGateway} from './extra/PaymentsGateway';
-export default (): React.ReactElement => {
-  const styles = useStyleSheet(themedStyle);
-  const [products, setProducts] = React.useState<
-    GraphQlTypes.Maybe<GraphQlTypes.Maybe<GraphQlTypes.CartItem>[]> | undefined
+
+/**
+ * Custom Hook
+ * @returns
+ */
+const usePlaceOrder = () => {
+  const [payment, setPayment] = React.useState<
+    GraphQlTypes.Maybe<GraphQlTypes.PaymentGateway> | undefined
   >();
-
-  const [visible, setVisible] = React.useState(false);
-  const [isDirty, setDirty] = React.useState(false);
-  const [coupon, setCoupon] = React.useState('');
-  const [checked, setChecked] = React.useState(false);
-  /**
-   * Cart Hook
-   */
-  const {
-    cart,
-    isLoading,
-    applyCoupon,
-    removeCoupon,
-    applyCouponInfo,
-  } = useCart();
-
+  const [termChecked, setTermChecked] = React.useState(false);
+  const [customerNote, setCustomerNote] = React.useState('');
   const navigation = useNavigation();
 
-  const gotoHome = () => {
-    navigation && navigation.goBack();
-  };
+  const {cart, isLoading} = useCart();
+  const {createOrder, createOrderInfo} = useOrders();
+  const {customer} = useCustomer();
+
+  const products = cart?.contents?.nodes;
+
+  const handleCustomerNote = (values: string) => setCustomerNote(values);
 
   const goNext = () => {
     navigation && navigation.navigate('Address');
   };
 
-  React.useEffect(() => {
-    //if (!products) {
-    setProducts(cart?.contents?.nodes);
-    //}
-  }, [cart?.contents?.nodes?.length, cart?.total]);
+  const gotoHome = () => {
+    navigation && navigation.goBack();
+  };
 
-  /**
-   * Apply coupon
-   */
-  const handleApplyCoupon = React.useCallback(async (): Promise<void> => {
-    const response = await applyCoupon(coupon.toLowerCase());
-    console.log('Error', response);
-    if (!response) {
-      setVisible(false);
+  const handleOrderCreation = React.useCallback(async () => {
+    if (!customer) {
+      console.error('Customer not found.. is not logged');
+      return;
     }
-  }, [applyCoupon, coupon]);
 
-  /**
-   * Remove coupon
-   */
-  const handleRemoveCoupon = React.useCallback(
-    async (currentCoupon): Promise<void> => {
-      await removeCoupon([currentCoupon.toLowerCase()]);
+    const getItems = (): GraphQlTypes.Maybe<
+      GraphQlTypes.Maybe<GraphQlTypes.LineItemInput>[]
+    > => {
+      return products?.map(p => ({
+        name: p?.product?.node?.name,
+        productId: p?.product?.node?.databaseId,
+        quantity: p?.quantity,
+        subtotal: p?.subtotal,
+        total: p?.total,
+      })) as GraphQlTypes.Maybe<
+        GraphQlTypes.Maybe<GraphQlTypes.LineItemInput>[]
+      >;
+    };
+
+    const getCodes = () =>
+      cart?.appliedCoupons?.length
+        ? cart?.appliedCoupons?.map(c => c?.code || '')
+        : [];
+
+    const response = await createOrder({
+      customerId: customer.databaseId,
+      coupons: getCodes(),
+      paymentMethod: payment?.id,
+      paymentMethodTitle: payment?.title,
+      shipping: {
+        address1: customer.shipping?.address1,
+        address2: customer.shipping?.address2,
+        city: customer.shipping?.city,
+        company: customer.shipping?.company,
+        email: customer.email,
+        firstName: customer.firstName,
+        lastName: customer.lastName,
+        phone: customer.shipping?.phone,
+        state: customer.shipping?.state,
+      },
+      lineItems: getItems(),
+      customerNote,
+    });
+
+    if (response) {
+      console.log('SAVED');
+    } else {
+      console.error('error');
+    }
+  }, [payment, customer, cart, createOrder]);
+
+  return {
+    gotoHome,
+    handleOrderCreation,
+    createOrderInfo,
+    products,
+    isCartLoading: isLoading,
+    cart,
+    setPayment,
+    termChecked,
+    setTermChecked,
+    handleCustomerNote,
+    customerNote,
+  };
+};
+
+export default (): React.ReactElement => {
+  const styles = useStyleSheet(themedStyle);
+
+  const [visible, setVisible] = React.useState(false);
+
+  const {
+    cart,
+    setPayment,
+    products,
+    termChecked,
+    setTermChecked,
+    handleOrderCreation,
+    handleCustomerNote,
+    customerNote,
+    gotoHome,
+    createOrderInfo,
+    isCartLoading,
+  } = usePlaceOrder();
+
+  const handlePaymentSelection = React.useCallback(
+    (value: GraphQlTypes.Maybe<GraphQlTypes.PaymentGateway> | undefined) => {
+      setPayment(value);
     },
-    [removeCoupon],
+    [setPayment],
   );
 
-  const getCouponAmount = useCallback(() => {
-    return cart?.appliedCoupons?.map(d => {
-      return (
-        <Text key={d?.code} status="success" category="s1">{`-${
-          d?.discountAmount || '-'
-        }`}</Text>
-      );
-    });
-  }, [cart]);
-
-  const getCouponLabel = useCallback(() => {
-    return cart?.appliedCoupons?.map(d => {
-      return (
-        <Layout key={`label-${d?.code}`} style={styles.couponWrapper}>
-          <Button
-            appearance="ghost"
-            status="basic"
-            style={[styles.couponButton]}
-            accessoryLeft={CloseIcon as any}
-            onPress={() => d?.code && handleRemoveCoupon(d.code)}
-          />
-          <Text category="s1">{`Cupón:${d?.code || '-'}`}</Text>
-        </Layout>
-      );
-    });
-  }, [
-    cart?.appliedCoupons,
-    handleRemoveCoupon,
-    styles.couponButton,
-    styles.couponWrapper,
-  ]);
-
-  const AdditionalData = () => {
+  const AdditionalData = ({customerNote}) => {
     const Texts = (): any => {
       return (
         <Text>
-          He leído y acepto los{' '}
+          He leído y acepto los
           <Text status="primary">términos y condiciones</Text> de esta
           aplicación.
         </Text>
@@ -126,11 +153,13 @@ export default (): React.ReactElement => {
         <Text style={styles.additionalTitle} category="h6">
           Datos Adicionales
         </Text>
-        <Input
+        {/* <Input
           placeholder="Observación del pedido"
+          value={customerNote}
           numberOfLines={4}
           multiline={true}
-        />
+          onChangeText={handleCustomerNote}
+        /> */}
         <Layout style={styles.terms}>
           <Text>
             Sus datos personales se utilizarán para procesar su pedido,
@@ -139,8 +168,8 @@ export default (): React.ReactElement => {
           </Text>
           <CheckBox
             style={styles.terms}
-            checked={checked}
-            onChange={nextChecked => setChecked(nextChecked)}>
+            checked={termChecked}
+            onChange={nextChecked => setTermChecked(nextChecked)}>
             {Texts()}
           </CheckBox>
         </Layout>
@@ -151,10 +180,6 @@ export default (): React.ReactElement => {
   const renderFooter = React.useCallback(
     () => (
       <Layout>
-        <Layout style={styles.couponCardWrapper}>
-          {getCouponLabel()}
-          {getCouponAmount()}
-        </Layout>
         <Layout style={styles.footer}>
           <Layout>
             <Text category="s1">SubTotal:</Text>
@@ -169,18 +194,17 @@ export default (): React.ReactElement => {
             <Text category="s1">{`${cart?.total || '-'}`}</Text>
           </Layout>
         </Layout>
-        <PaymentGateway />
-        <AdditionalData />
+        <PaymentGateway onSelect={handlePaymentSelection} />
+        <AdditionalData customerNote={customerNote} />
       </Layout>
     ),
     [
+      customerNote,
+      handlePaymentSelection,
       cart?.discountTotal,
       cart?.subtotal,
       cart?.subtotalTax,
       cart?.total,
-      getCouponAmount,
-      getCouponLabel,
-      styles.couponCardWrapper,
       styles.footer,
     ],
   );
@@ -207,6 +231,16 @@ export default (): React.ReactElement => {
       </View>
     );
   };
+
+  if (products?.length === 0) {
+    return (
+      <View style={styles.wrapper}>
+        <Text>No tiene productos seleccionados</Text>
+        <Button onPress={gotoHome}>Ir al Catálogo</Button>
+      </View>
+    );
+  }
+
   const renderItem = (info: ListRenderItemInfo<GraphQlTypes.CartItem>) => (
     <ListItem
       title={`${info?.item?.product?.node?.name}`}
@@ -216,54 +250,32 @@ export default (): React.ReactElement => {
     />
   );
 
-  if (products?.length === 0 && !isDirty) {
-    return (
-      <View style={styles.wrapper}>
-        <Text>No tiene productos seleccionados</Text>
-        <Button onPress={gotoHome}>Ir al Catálogo</Button>
-      </View>
-    );
-  }
+  return React.useMemo(
+    () => (
+      <Layout style={styles.container} level="2">
+        <List
+          removeClippedSubviews={false}
+          extraData={{customerNote}}
+          data={products}
+          renderItem={renderItem}
+          ListFooterComponent={renderFooter}
+        />
 
-  return (
-    <Layout style={styles.container} level="2">
-      <List
-        data={products}
-        renderItem={renderItem}
-        ListFooterComponent={renderFooter}
-      />
-
-      <Button onPress={goNext} style={styles.checkoutButton} size="medium">
-        PROCESAR ORDEN
-      </Button>
-      <Modal
-        visible={visible}
-        backdropStyle={styles.backdrop}
-        onBackdropPress={() => setVisible(false)}>
-        <Card disabled={true} style={styles.modalCard}>
-          <Button
-            style={[styles.iconButton, styles.removeButton]}
-            appearance="ghost"
-            status="basic"
-            accessoryLeft={CloseIcon as any}
-            onPress={() => setVisible(false)}
-          />
-          <Text category="h6" style={styles.marginHeader}>
-            Agregar Cupón
-          </Text>
-          <Text>{applyCouponInfo.error?.message}</Text>
-          <Input style={styles.margin} onChangeText={t => setCoupon(t)} />
-          <Button
-            onPress={handleApplyCoupon}
-            disabled={applyCouponInfo.loading || coupon.length === 0}
-            accessoryLeft={
-              applyCouponInfo.loading && (LoadingIndicatorWhite as any)
-            }>
-            APLICAR CUPÓN
-          </Button>
-        </Card>
-      </Modal>
-    </Layout>
+        <Button
+          onPress={handleOrderCreation}
+          style={styles.checkoutButton}
+          disabled={createOrderInfo.loading || isCartLoading}
+          size="medium">
+          PROCESAR ORDEN
+        </Button>
+        <Modal
+          visible={visible}
+          backdropStyle={styles.backdrop}
+          onBackdropPress={() => setVisible(false)}
+        />
+      </Layout>
+    ),
+    [termChecked],
   );
 };
 
