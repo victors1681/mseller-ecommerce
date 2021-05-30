@@ -159,6 +159,7 @@ export const Address = (): React.ReactElement => {
                   disabled={isSubmitting}
                   value={values.homeNumber}
                   label="NÚMERO DE CASA"
+                  keyboardType="number-pad"
                 />
               )}
 
@@ -178,6 +179,7 @@ export const Address = (): React.ReactElement => {
                   disabled={isSubmitting}
                   value={values.apartmentNumber}
                   label="APERTAMENTO"
+                  keyboardType="number-pad"
                 />
               )}
               {values.locationType === LocationType.BUSINESS && (
@@ -189,7 +191,6 @@ export const Address = (): React.ReactElement => {
                   label="NOMBRE DE LA EMPRESA"
                 />
               )}
-
               <CustomInput
                 name="city"
                 style={styles.formInput}
@@ -199,6 +200,8 @@ export const Address = (): React.ReactElement => {
               />
               <CustomInput
                 name="address2"
+                numberOfLines={4}
+                multiline
                 style={styles.formInput}
                 disabled={isSubmitting}
                 label="AGREGAR INTRUCCIONES"

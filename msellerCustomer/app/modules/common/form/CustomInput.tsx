@@ -1,5 +1,6 @@
 import {Input, InputProps} from '@ui-kitten/components';
 import {useField} from 'formik';
+import {omit} from 'lodash';
 import React from 'react';
 
 interface CustomInputProps extends InputProps {
@@ -9,6 +10,7 @@ interface CustomInputProps extends InputProps {
 export const CustomInput = ({label, ...props}: CustomInputProps) => {
   const [field, meta] = useField(props as any);
 
+  console.log('field', field);
   const isError = meta.touched && meta.error;
   const caption = isError ? meta.error : undefined;
 
@@ -16,8 +18,7 @@ export const CustomInput = ({label, ...props}: CustomInputProps) => {
   return (
     <Input
       label={label}
-      autoCapitalize="words"
-      {...field}
+      {...omit(field, 'onChange')}
       {...props}
       onChangeText={field.onChange(field.name)}
       onBlur={field.onBlur(field.name)}
