@@ -7,7 +7,7 @@ import {
   useStyleSheet,
 } from '@ui-kitten/components';
 import {KeyboardAvoidingView} from './extra/3rd-party';
-import {useNavigation} from '@react-navigation/core';
+import {useFocusEffect, useNavigation} from '@react-navigation/core';
 import {Formik, FormikHelpers} from 'formik';
 import {addressSchema} from './extra/addressSchema';
 import {CustomInput, CustomButtonGroup} from 'app/modules/common/form';
@@ -15,6 +15,7 @@ import {LoadingIndicator} from 'app/modules/common';
 import {useCustomer} from 'app/hooks';
 import {getMetadataFromJson} from 'app/utils';
 import {ScreenLinks} from 'app/navigation/ScreenLinks';
+import {useUserLogged} from 'app/hooks';
 
 export enum LocationType {
   HOME = 'home',
@@ -27,9 +28,14 @@ export const Address = (): React.ReactElement => {
   const styles = useStyleSheet(themedStyles);
   const {updateCustomer, customer, fetchCustomer} = useCustomer();
 
-  React.useEffect(() => {
-    fetchCustomer();
-  }, [fetchCustomer]);
+  //Check if the user is logged
+  useUserLogged();
+
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchCustomer();
+    }, [fetchCustomer]),
+  );
 
   const gotoPlaceOrder = React.useCallback((): void => {
     navigation && navigation.navigate(ScreenLinks.PLACE_ORDER);
@@ -217,7 +223,7 @@ export const Address = (): React.ReactElement => {
               size="large"
               accessoryLeft={(isSubmitting ? LoadingIndicator : null) as any}
               onPress={handleSubmit}>
-              {isSubmitting ? 'Guardando' : 'Guardar Dirección'}
+              {isSubmitting ? 'Guardando' : 'Guardar y Continuar'}
             </Button>
           </Layout>
         )}

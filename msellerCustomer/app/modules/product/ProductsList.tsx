@@ -2,7 +2,7 @@ import React from 'react';
 import {ProductCategory, SimpleProduct, Product} from 'app/generated/graphql'; // Import
 import {CartIcon} from './extra/icons';
 import {useCart, useProduct} from 'app/hooks';
-import {Loading, Error} from 'app/modules/common';
+import {Loading, Error, Empty} from 'app/modules/common';
 import {
   Spinner,
   Button,
@@ -42,7 +42,7 @@ export const ProductList: React.FC = () => {
     return <Error error={categoriesError} />;
   }
   if (!products) {
-    return <Text>None</Text>;
+    return <Empty message="Productos no encontrados" />;
   }
 
   const onItemPress = (productId: number): void => {

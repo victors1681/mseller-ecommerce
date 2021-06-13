@@ -26,6 +26,9 @@ const usePlaceOrder = () => {
   const [payment, setPayment] = React.useState<
     GraphQlTypes.Maybe<GraphQlTypes.PaymentGateway> | undefined
   >();
+  const [isSubmitting, setSubmit] = React.useState(false);
+  const [orderId, setOrderId] = React.useState<number | undefined>();
+
   const [termChecked, setTermChecked] = React.useState(false);
   const [customerNote, setCustomerNote] = React.useState('');
   const navigation = useNavigation();
@@ -47,6 +50,7 @@ const usePlaceOrder = () => {
   };
 
   const handleOrderCreation = React.useCallback(async () => {
+    setSubmit(true);
     if (!customer) {
       console.error('Customer not found.. is not logged');
       return;
@@ -92,12 +96,11 @@ const usePlaceOrder = () => {
     });
 
     if (response) {
-      console.log('responseresponse', response);
       await clearCart();
-      gotoCongrats(response.data?.createOrder.orderId);
-      console.log('SAVED');
+      setOrderId(response.data?.createOrder?.orderId || undefined);
+      setSubmit(false);
     } else {
-      console.error('error');
+      setSubmit(false);
     }
   }, [
     customer,
@@ -107,10 +110,11 @@ const usePlaceOrder = () => {
     customerNote,
     products,
     cart?.appliedCoupons,
-    gotoCongrats,
+    clearCart,
   ]);
 
   return {
+    orderId,
     clearCart,
     gotoHome,
     handleOrderCreation,
@@ -123,6 +127,8 @@ const usePlaceOrder = () => {
     setTermChecked,
     handleCustomerNote,
     customerNote,
+    gotoCongrats,
+    isSubmitting,
   };
 };
 
@@ -147,7 +153,16 @@ export default (): React.ReactElement => {
     gotoHome,
     createOrderInfo,
     isCartLoading,
+    orderId,
+    gotoCongrats,
+    isSubmitting,
   } = usePlaceOrder();
+
+  React.useEffect(() => {
+    if (orderId) {
+      gotoCongrats(orderId);
+    }
+  }, [orderId, gotoCongrats]);
 
   const handlePaymentSelection = (
     value: GraphQlTypes.Maybe<GraphQlTypes.PaymentGateway> | undefined,
@@ -160,7 +175,7 @@ export default (): React.ReactElement => {
       return (
         <Text>
           He leído y acepto los
-          <Text status="primary">términos y condiciones</Text> de esta
+          <Text status="primary"> términos y condiciones</Text> de esta
           aplicación.
         </Text>
       );
@@ -246,7 +261,7 @@ export default (): React.ReactElement => {
       </View>
     );
   }
-  if (createOrderInfo.loading) {
+  if (createOrderInfo.loading || isSubmitting) {
     return (
       <View style={styles.wrapper}>
         <Spinner />

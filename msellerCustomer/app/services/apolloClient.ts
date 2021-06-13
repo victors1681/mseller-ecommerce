@@ -8,7 +8,7 @@ import {onError} from '@apollo/client/link/error';
 import {fromPromise} from '@apollo/client/link/utils/fromPromise';
 import {setContext} from '@apollo/client/link/context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {getToken, TokenResponse, saveToken, resetToken} from 'app/utils';
+import {getToken, TokenResponse, resetToken, updateToken} from 'app/utils';
 import isEmpty from 'lodash/isEmpty';
 const SERVER_URL = 'http://192.168.1.210:8088/graphql';
 const sessionStorage = setContext(async () => {
@@ -135,8 +135,7 @@ const getTokenTest = async (operation: any, forward: any) => {
           refreshJwtAuthToken: {authToken},
         },
       } = jsonResponse;
-
-      await saveToken(authToken);
+      await updateToken(authToken);
       operation.setContext({
         headers: {
           ...oldHeaders,

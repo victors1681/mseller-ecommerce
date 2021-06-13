@@ -47,7 +47,7 @@ export const ProductDetail: React.FC = (): React.ReactElement => {
           {product?.shortDescription | ''}
         </Text>
         <Text style={styles.price} category="h4">
-          {product.price && product.price}
+          {product?.price}
         </Text>
         <Text style={styles.description} appearance="hint">
           {product?.description || ''}

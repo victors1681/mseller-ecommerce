@@ -11,13 +11,17 @@ import {
   useStyleSheet,
   Text,
 } from '@ui-kitten/components';
+import {useFocusEffect} from '@react-navigation/core';
 
 export const Orders = () => {
   const {getOrders, data, error, isLoading} = useOrders();
   const styles = useStyleSheet(themedStyle);
-  React.useEffect(() => {
-    getOrders();
-  }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      getOrders();
+    }, [getOrders]),
+  );
 
   const orders = data?.orders.nodes;
 

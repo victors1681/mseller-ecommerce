@@ -5,3 +5,4 @@ export * from './useProductDetail';
 export * from './useCustomer';
 export * from './useOrders';
 export * from './usePaymentGateway';
+export * from './useUserLogged';

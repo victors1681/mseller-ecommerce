@@ -6,12 +6,13 @@ import {SettingRow} from './extra/SettingRow';
 import {useCustomer} from 'app/hooks/useCustomer';
 import {useNavigation} from '@react-navigation/native';
 import {useFocusEffect} from '@react-navigation/native';
-import {isTokenEmpty} from 'app/utils/tokenManagement';
-import {ScreenLinks} from 'app/navigation/ScreenLinks';
+import {useUserLogged} from 'app/hooks';
+
 export const Settings = () => {
   const navigation = useNavigation();
   const {fetchCustomer, performLogout} = useCustomer();
   const styles = useStyleSheet(themedStyle);
+  useUserLogged();
 
   const navigateTo = (destination: string, params?: any) => () =>
     navigation.navigate(destination, params);
@@ -21,20 +22,6 @@ export const Settings = () => {
       fetchCustomer();
     }, [fetchCustomer]),
   );
-
-  /**
-   * Validating User
-   * Sent the user to signUp if token is empty
-   */
-  const resolveToken = async () => {
-    const isEmpty = await isTokenEmpty();
-    if (isEmpty) {
-      navigation.navigate(ScreenLinks.SIGN_UP);
-    }
-  };
-  React.useEffect(() => {
-    resolveToken();
-  });
 
   const handleLogout = () => {
     performLogout();
