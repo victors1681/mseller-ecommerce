@@ -20,6 +20,7 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/core';
 import {getSourceImage} from 'app/utils';
+import {ScreenLinks} from 'app/navigation/ScreenLinks';
 type FullProduct = SimpleProduct | ProductCategory | Product;
 
 export const ProductList: React.FC = () => {
@@ -45,7 +46,8 @@ export const ProductList: React.FC = () => {
   }
 
   const onItemPress = (productId: number): void => {
-    navigation && navigation.navigate('ProductDetail', {productId});
+    navigation &&
+      navigation.navigate(ScreenLinks.PRODUCTS_DETAILS, {productId});
   };
 
   const LoadingIndicator = () => (

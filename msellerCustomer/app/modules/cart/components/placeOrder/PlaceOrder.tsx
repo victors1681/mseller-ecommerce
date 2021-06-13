@@ -17,7 +17,7 @@ import {useCart, useCustomer, useOrders} from 'app/hooks';
 import * as GraphQlTypes from 'app/generated/graphql';
 import {useNavigation} from '@react-navigation/core';
 import {PaymentGateway} from './extra/PaymentsGateway';
-
+import {ScreenLinks} from 'app/navigation/ScreenLinks';
 /**
  * Custom Hook
  * @returns
@@ -39,7 +39,7 @@ const usePlaceOrder = () => {
   const handleCustomerNote = (values: string) => setCustomerNote(values);
 
   const gotoCongrats = (orderId: GraphQlTypes.Maybe<number> | undefined) => {
-    navigation && navigation.navigate('Congrats', {orderId});
+    navigation && navigation.navigate(ScreenLinks.CONGRATS, {orderId});
   };
 
   const gotoHome = () => {

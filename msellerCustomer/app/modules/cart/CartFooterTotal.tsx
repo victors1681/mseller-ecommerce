@@ -4,13 +4,13 @@ import {StyleSheet} from 'react-native';
 
 import {useCart} from 'app/hooks/useCart';
 import {useNavigation} from '@react-navigation/core';
-
+import {ScreenLinks} from 'app/navigation/ScreenLinks';
 export const CartFooterTotal = () => {
   const {cart} = useCart();
   const navigation = useNavigation();
 
   const gotToCart = () => {
-    navigation && navigation.navigate('ShoppingCart');
+    navigation && navigation.navigate(ScreenLinks.SHOPPING_CART);
   };
 
   return (

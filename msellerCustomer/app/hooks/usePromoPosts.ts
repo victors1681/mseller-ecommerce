@@ -17,7 +17,7 @@ interface QueryArgs {
 export const usePromoPosts = () => {
   const [images, setImages] = React.useState([] as string[]);
 
-  const {loading, data, error} = useQuery<PostsResult, QueryArgs>(
+  const {loading, data, error, refetch} = useQuery<PostsResult, QueryArgs>(
     GET_PROMO_POSTS,
     {
       variables: {
@@ -44,5 +44,5 @@ export const usePromoPosts = () => {
     }
   }, [loading, data?.posts.nodes?.length]);
 
-  return {loading, data, error, images};
+  return {loading, data, error, images, refetch};
 };

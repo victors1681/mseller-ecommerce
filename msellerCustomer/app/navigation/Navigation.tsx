@@ -8,7 +8,7 @@ import {ProductProvider} from 'app/modules/product/context';
 import {CustomerProvider} from 'app/modules/customer/context';
 import SignUpStackNavigator from 'app/navigation/SignUpStackNavigator';
 import {createStackNavigator} from '@react-navigation/stack';
-
+import {ScreenLinks} from 'app/navigation/ScreenLinks';
 const RootStack = createStackNavigator();
 export const AppNavigator = () => {
   React.useEffect(() => {
@@ -30,7 +30,7 @@ export const AppNavigator = () => {
               <RootStack.Screen name="Main" component={NavigationDrawer} />
               <RootStack.Screen
                 options={{headerShown: false}}
-                name="signUp"
+                name={ScreenLinks.SIGN_UP}
                 component={SignUpStackNavigator}
               />
             </RootStack.Navigator>

@@ -11,7 +11,7 @@ import ShoppingCartScreen from '../screens/ShoppingCartScreen';
 import AddressScreen from '../screens/AddressScreen';
 import PlaceOrderScreen from 'app/screens/PlaceOrderScreen';
 import CongratsScreen from 'app/screens/CongratsScreen';
-
+import {ScreenLinks} from 'app/navigation/ScreenLinks';
 const Stack = createStackNavigator();
 
 const HomeStackNavigator = ({navigation}: any) => {
@@ -21,7 +21,7 @@ const HomeStackNavigator = ({navigation}: any) => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Home"
+        name={ScreenLinks.HOME}
         component={Home}
         options={{
           headerTitle,
@@ -35,28 +35,28 @@ const HomeStackNavigator = ({navigation}: any) => {
         }}
       />
       <Stack.Screen
-        name="Products"
+        name={ScreenLinks.PRODUCTS}
         options={{
           headerTitle: 'Productos',
         }}
         component={Products}
       />
       <Stack.Screen
-        name="ProductDetail"
+        name={ScreenLinks.PRODUCTS_DETAILS}
         options={{
           headerTitle: 'Detalle del Producto',
         }}
         component={ProductDetail}
       />
       <Stack.Screen
-        name="ShoppingCart"
+        name={ScreenLinks.SHOPPING_CART}
         options={{
           headerTitle: 'Carrito de Compras',
         }}
         component={ShoppingCartScreen}
       />
       <Stack.Screen
-        name="Address"
+        name={ScreenLinks.ADDRESS}
         options={{
           headerTitle: 'Dirección de envío',
         }}
@@ -64,14 +64,14 @@ const HomeStackNavigator = ({navigation}: any) => {
       />
 
       <Stack.Screen
-        name="PlaceOrder"
+        name={ScreenLinks.PLACE_ORDER}
         component={PlaceOrderScreen}
         options={{
           headerTitle: 'Tu Orden',
         }}
       />
       <Stack.Screen
-        name="Congrats"
+        name={ScreenLinks.CONGRATS}
         component={CongratsScreen}
         options={{
           headerLeft: () => null,

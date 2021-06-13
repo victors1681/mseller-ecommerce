@@ -1,15 +1,21 @@
 import React from 'react';
-import {Card, Spinner, Text, StyleService} from '@ui-kitten/components';
+import {
+  Card,
+  Spinner,
+  Text,
+  StyleService,
+  Divider,
+} from '@ui-kitten/components';
 import {FlatList, View, Dimensions, ImageBackground} from 'react-native';
 import {useNavigation} from '@react-navigation/core';
 import {useProduct} from 'app/hooks';
 import {ProductCategory} from 'app/generated/graphql';
 import {getSourceImage} from 'app/utils';
-
+import {ScreenLinks} from 'app/navigation/ScreenLinks';
 export default function Categories() {
   const {
     handleSearch,
-    categories: {error: categoriesError, isLoading, data},
+    categories: {error: categoriesError, isLoading, data, refetch},
   } = useProduct();
 
   const navigation = useNavigation();
@@ -17,7 +23,7 @@ export default function Categories() {
 
   const navigateToProducts = (categoryId?: number) => {
     handleSearch('', categoryId);
-    navigation.navigate('Products', {categoryId});
+    navigation.navigate(ScreenLinks.PRODUCTS, {categoryId});
   };
 
   if (isLoading) {
@@ -35,7 +41,8 @@ export default function Categories() {
     );
   }
   if (!productCategories) {
-    return <Text>None</Text>;
+    refetch(); //refetch categories if didn't work for the first time
+    return <Text>No se pudo cargar las categorías.</Text>;
   }
   const renderItemHeader = (item?: ProductCategory): React.ReactElement => (
     <ImageBackground
@@ -63,16 +70,24 @@ export default function Categories() {
   };
 
   return (
-    <View style={styles.container}>
-      <FlatList
-        contentContainerStyle={styles.list}
-        data={productCategories?.nodes}
-        renderItem={({item}) => <CategoryCard item={item as ProductCategory} />}
-        //Setting the number of column
-        numColumns={3}
-        keyExtractor={item => item?.id as string}
-      />
-    </View>
+    <>
+      <Divider />
+      <View style={styles.categoryHeader}>
+        <Text category="s2">Categorías</Text>
+      </View>
+      <View style={styles.container}>
+        <FlatList
+          contentContainerStyle={styles.list}
+          data={productCategories?.nodes}
+          renderItem={({item}) => (
+            <CategoryCard item={item as ProductCategory} />
+          )}
+          //Setting the number of column
+          numColumns={3}
+          keyExtractor={item => item?.id as string}
+        />
+      </View>
+    </>
   );
 }
 
@@ -81,6 +96,14 @@ const styles = StyleService.create({
     flex: 1,
     width: '100%',
     justifyContent: 'center',
+  },
+  categoryHeader: {
+    margin: 10,
+    marginTop: 20,
+  },
+  notFound: {
+    marginTop: 20,
+    marginButton: 20,
   },
   list: {
     paddingHorizontal: 8,

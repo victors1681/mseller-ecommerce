@@ -9,7 +9,7 @@ import {useProduct} from 'app/hooks';
 import {Product} from 'app/generated/graphql';
 import {useNavigation} from '@react-navigation/core';
 import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
-
+import {ScreenLinks} from 'app/navigation/ScreenLinks';
 export const AutoComplete = () => {
   const [value, setValue] = React.useState<string | undefined>();
   const autoRef = React.useRef<Autocomplete | null>(null);
@@ -33,7 +33,7 @@ export const AutoComplete = () => {
         //hide autocomplete
         autoRef?.current?.hide();
         //take the user to products screen with the filter
-        navigation.navigate('Products');
+        navigation.navigate(ScreenLinks.PRODUCTS);
       }, 500);
     }
   };

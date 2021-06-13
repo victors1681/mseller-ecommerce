@@ -3,7 +3,7 @@ import {ListRenderItemInfo, View} from 'react-native';
 import * as GraphQlTypes from 'app/generated/graphql';
 import {useOrders} from 'app/hooks/useOrders';
 import moment from 'moment';
-import {Loading, Error} from '../common';
+import {Loading, Error, Empty} from '../common';
 import {
   List,
   ListItem,
@@ -28,7 +28,7 @@ export const Orders = () => {
     return <Error error={error} />;
   }
   if (!orders?.length) {
-    return <Text>None</Text>;
+    return <Empty message="Aún no cuenta con ninguna orden" />;
   }
 
   const renderItemAPrice = (

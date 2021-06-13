@@ -7,6 +7,7 @@ import {useCustomer} from 'app/hooks/useCustomer';
 import {useNavigation} from '@react-navigation/native';
 import {useFocusEffect} from '@react-navigation/native';
 import {isTokenEmpty} from 'app/utils/tokenManagement';
+import {ScreenLinks} from 'app/navigation/ScreenLinks';
 export const Settings = () => {
   const navigation = useNavigation();
   const {fetchCustomer, performLogout} = useCustomer();
@@ -28,7 +29,7 @@ export const Settings = () => {
   const resolveToken = async () => {
     const isEmpty = await isTokenEmpty();
     if (isEmpty) {
-      navigation.navigate('signUp');
+      navigation.navigate(ScreenLinks.SIGN_UP);
     }
   };
   React.useEffect(() => {

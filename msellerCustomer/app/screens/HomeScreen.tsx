@@ -1,6 +1,6 @@
 import React from 'react';
 import {SafeAreaView, StyleSheet, View} from 'react-native';
-import {Divider, Text} from '@ui-kitten/components';
+import {Divider} from '@ui-kitten/components';
 import Categories from '../modules/categories/Categories';
 import {AutoComplete} from 'app/modules/product/components/autoComplete';
 import {ImageSlider} from 'app/modules/imageSlider';
@@ -13,10 +13,6 @@ export const HomeScreen = () => {
         <AutoComplete />
       </View>
       <Divider />
-      <View style={styles.categoryHeader}>
-        <Text category="s2">Categorías</Text>
-      </View>
-      <Divider />
       <Categories />
     </SafeAreaView>
   );
@@ -24,10 +20,7 @@ export const HomeScreen = () => {
 
 const styles = StyleSheet.create({
   container: {flex: 1},
-  categoryHeader: {
-    margin: 10,
-    marginTop: 20,
-  },
+
   autoCOmplete: {
     marginLeft: 10,
     marginRight: 10,

@@ -5,7 +5,11 @@ import {usePromoPosts} from 'app/hooks';
 
 export const ImageSlider = () => {
   const theme = useTheme();
-  const {images} = usePromoPosts();
+  const {images, refetch} = usePromoPosts();
+
+  React.useEffect(() => {
+    refetch();
+  }, [images.length]);
 
   const primaryColor = theme['color-primary-default'];
   const disabled = theme['color-primary-disabled'];

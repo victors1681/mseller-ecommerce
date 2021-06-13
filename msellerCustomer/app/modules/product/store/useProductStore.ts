@@ -4,7 +4,6 @@ import {
   RootQueryToProductConnection,
   RootQueryToProductCategoryConnection,
   Product,
-  ProductIdTypeEnum,
 } from 'app/generated/graphql';
 import {
   useQuery,
@@ -41,6 +40,9 @@ export interface ProductStore {
     data: CategoriesResponseData | undefined;
     isLoading: boolean;
     error: ApolloError | undefined;
+    refetch: (
+      variables?: Partial<OperationVariables> | undefined,
+    ) => Promise<ApolloQueryResult<CategoriesResponseData>>;
   };
 }
 
@@ -80,6 +82,7 @@ export const useProductStore = (): ProductStore => {
     loading: categoriesLoading,
     data: categoriesData,
     error: categoriesError,
+    refetch: refetchCategories,
   } = useQuery<CategoriesResponseData>(GET_ALL_CATEGORIES);
 
   return {
@@ -94,6 +97,7 @@ export const useProductStore = (): ProductStore => {
       data: categoriesData,
       isLoading: categoriesLoading,
       error: categoriesError,
+      refetch: refetchCategories,
     },
   };
 };

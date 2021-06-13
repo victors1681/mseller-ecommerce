@@ -3,20 +3,16 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import ProfileScreen from '../screens/ProfileScreen';
 import SettingScreen from '../screens/SettingScreen';
-import {StyleSheet} from 'react-native';
+import {ScreenLinks} from 'app/navigation/ScreenLinks';
 const Stack = createStackNavigator();
 
-const SettingsStackNavigator = ({navigation}: any) => {
+const SettingsStackNavigator = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="settings" component={SettingScreen} />
-      <Stack.Screen name="profile" component={ProfileScreen} />
+      <Stack.Screen name={ScreenLinks.SETTINGS} component={SettingScreen} />
+      <Stack.Screen name={ScreenLinks.PROFILE} component={ProfileScreen} />
     </Stack.Navigator>
   );
 };
-
-const styles = StyleSheet.create({
-  image: {width: 200, height: 30},
-});
 
 export default SettingsStackNavigator;

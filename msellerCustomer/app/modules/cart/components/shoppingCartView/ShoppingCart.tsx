@@ -19,7 +19,7 @@ import * as GraphQlTypes from 'app/generated/graphql';
 import {TicketIcon} from 'app/modules/common/Icons';
 import {LoadingIndicator, LoadingIndicatorWhite} from 'app/modules/common';
 import {useNavigation} from '@react-navigation/core';
-
+import {ScreenLinks} from 'app/navigation/ScreenLinks';
 export default (): React.ReactElement => {
   const styles = useStyleSheet(themedStyle);
   const [products, setProducts] = React.useState<
@@ -50,7 +50,7 @@ export default (): React.ReactElement => {
   };
 
   const goNext = () => {
-    navigation && navigation.navigate('Address');
+    navigation && navigation.navigate(ScreenLinks.ADDRESS);
   };
 
   React.useEffect(() => {

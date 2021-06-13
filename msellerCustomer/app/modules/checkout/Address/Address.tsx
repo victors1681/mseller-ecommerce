@@ -14,6 +14,8 @@ import {CustomInput, CustomButtonGroup} from 'app/modules/common/form';
 import {LoadingIndicator} from 'app/modules/common';
 import {useCustomer} from 'app/hooks';
 import {getMetadataFromJson} from 'app/utils';
+import {ScreenLinks} from 'app/navigation/ScreenLinks';
+
 export enum LocationType {
   HOME = 'home',
   BUILDING = 'building',
@@ -30,7 +32,7 @@ export const Address = (): React.ReactElement => {
   }, [fetchCustomer]);
 
   const gotoPlaceOrder = React.useCallback((): void => {
-    navigation && navigation.navigate('PlaceOrder');
+    navigation && navigation.navigate(ScreenLinks.PLACE_ORDER);
   }, [navigation]);
 
   interface RegistrationFormProps {

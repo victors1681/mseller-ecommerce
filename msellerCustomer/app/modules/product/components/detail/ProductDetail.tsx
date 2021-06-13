@@ -3,7 +3,6 @@ import {ImageBackground, View} from 'react-native';
 import {
   Button,
   Layout,
-  Radio,
   StyleService,
   Text,
   useStyleSheet,
@@ -13,6 +12,7 @@ import {Loading, Error, LoadingIndicator} from 'app/modules/common';
 import {useCart, useProductDetail} from 'app/hooks';
 import {useNavigation, useRoute} from '@react-navigation/core';
 import {Stepper} from './Stepper';
+import {ScreenLinks} from 'app/navigation/ScreenLinks';
 
 export const ProductDetail: React.FC = (): React.ReactElement => {
   const [qty, setQty] = useState<number | string>(1);
@@ -28,25 +28,12 @@ export const ProductDetail: React.FC = (): React.ReactElement => {
 
   const product = data?.product;
   const onBuyButtonPress = (): void => {
-    navigation && navigation.navigate('ShoppingCart');
+    navigation && navigation.navigate(ScreenLinks.SHOPPING_CART);
   };
 
   const handleAddItem = useCallback(() => {
     addItem(productId, qty as number);
   }, [productId, qty, addItem]);
-
-  const renderColorItem = (
-    color: ProductColor,
-    index: number,
-  ): React.ReactElement => (
-    <Radio key={index} style={styles.colorRadio}>
-      {evaProps => (
-        <Text {...evaProps} style={{color: color.value, marginLeft: 10}}>
-          {color.description.toUpperCase()}
-        </Text>
-      )}
-    </Radio>
-  );
 
   const renderHeader = (): React.ReactElement => (
     <Layout style={styles.header}>

@@ -13,6 +13,7 @@ import {useNavigation, useRoute} from '@react-navigation/core';
 import {ImageOverlay} from './extra/ImageOverlay';
 import moment from 'moment';
 import {useOrders} from 'app/hooks';
+import {ScreenLinks} from 'app/navigation/ScreenLinks';
 
 export const Congrats = (): React.ReactElement => {
   const navigation = useNavigation();
@@ -20,8 +21,8 @@ export const Congrats = (): React.ReactElement => {
   const {getOrder, orderInfo} = useOrders();
 
   const goToMyOrders = React.useCallback((): void => {
-    navigation && navigation.navigate('Home');
-    navigation && navigation.navigate('Orders');
+    navigation && navigation.navigate(ScreenLinks.HOME);
+    navigation && navigation.navigate(ScreenLinks.ORDERS);
   }, [navigation]);
 
   const route = useRoute();

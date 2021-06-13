@@ -11,6 +11,7 @@ import {signUpValidationSchema} from './extra/signUpValidationSchema';
 import {CustomInput, CustomCheckbox} from 'app/modules/common/form';
 import {LoadingIndicator} from 'app/modules/common';
 import {useCustomer} from 'app/hooks';
+import {ScreenLinks} from 'app/navigation/ScreenLinks';
 
 export const SignUp = (): React.ReactElement => {
   const navigation = useNavigation();
@@ -18,7 +19,7 @@ export const SignUp = (): React.ReactElement => {
   const {registerCustomer} = useCustomer();
 
   const onSignInButtonPress = (): void => {
-    navigation && navigation.navigate('signIn');
+    navigation && navigation.navigate(ScreenLinks.SIGN_IN);
   };
 
   const renderCheckboxLabel = React.useCallback(

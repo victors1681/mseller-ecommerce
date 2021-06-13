@@ -1,26 +1,19 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
-import {
-  BottomNavigation,
-  BottomNavigationTab,
-  Text,
-} from '@ui-kitten/components';
+import {StyleSheet} from 'react-native';
+import {BottomNavigation, BottomNavigationTab} from '@ui-kitten/components';
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeStackNavigator from '../navigation/HomeStackNavigator';
 import OrderStackNavigator from '../navigation/OrderStackNavigator';
 import SettingsStackNavigator from './SettingsStackNavigator';
 import {StoreIcon, ProfileIcon, OrderIcon} from 'app/modules/common/Icons';
-
+import {ScreenLinks} from 'app/navigation/ScreenLinks';
 const {Navigator, Screen} = createBottomTabNavigator();
 
-const OrdersScreen = () => (
-  <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-    <Text category="h1">ORDERS</Text>
-  </View>
-);
-
-export const BottomNavigationAccessoriesShowcase = ({navigation, state}) => {
+export const BottomNavigationAccessoriesShowcase = ({
+  navigation,
+  state,
+}: any) => {
   return (
     <BottomNavigation
       style={styles.bottomNavigation}
@@ -36,9 +29,9 @@ export const BottomNavigationAccessoriesShowcase = ({navigation, state}) => {
 const TabNavigator = () => (
   <Navigator
     tabBar={props => <BottomNavigationAccessoriesShowcase {...props} />}>
-    <Screen name="Home" component={HomeStackNavigator} />
-    <Screen name="Orders" component={OrderStackNavigator} />
-    <Screen name="Settings" component={SettingsStackNavigator} />
+    <Screen name={ScreenLinks.HOME} component={HomeStackNavigator} />
+    <Screen name={ScreenLinks.ORDERS} component={OrderStackNavigator} />
+    <Screen name={ScreenLinks.SETTINGS} component={SettingsStackNavigator} />
   </Navigator>
 );
 
