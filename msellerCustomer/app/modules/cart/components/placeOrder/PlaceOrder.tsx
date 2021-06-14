@@ -26,9 +26,7 @@ const usePlaceOrder = () => {
   const [payment, setPayment] = React.useState<
     GraphQlTypes.Maybe<GraphQlTypes.PaymentGateway> | undefined
   >();
-  const [isSubmitting, setSubmit] = React.useState(false);
-  const [orderId, setOrderId] = React.useState<number | undefined>();
-
+  const [isSubmitting, setSubmitting] = React.useState(false);
   const [termChecked, setTermChecked] = React.useState(false);
   const [customerNote, setCustomerNote] = React.useState('');
   const navigation = useNavigation();
@@ -50,7 +48,7 @@ const usePlaceOrder = () => {
   };
 
   const handleOrderCreation = React.useCallback(async () => {
-    setSubmit(true);
+    setSubmitting(true);
     if (!customer) {
       console.error('Customer not found.. is not logged');
       return;
@@ -97,10 +95,11 @@ const usePlaceOrder = () => {
 
     if (response) {
       await clearCart();
-      setOrderId(response.data?.createOrder?.orderId || undefined);
-      setSubmit(false);
+      setSubmitting(false);
+      gotoCongrats(response.data?.createOrder.orderId);
     } else {
-      setSubmit(false);
+      console.error('error');
+      setSubmitting(false);
     }
   }, [
     customer,
@@ -111,10 +110,10 @@ const usePlaceOrder = () => {
     products,
     cart?.appliedCoupons,
     clearCart,
+    gotoCongrats,
   ]);
 
   return {
-    orderId,
     clearCart,
     gotoHome,
     handleOrderCreation,
@@ -127,7 +126,6 @@ const usePlaceOrder = () => {
     setTermChecked,
     handleCustomerNote,
     customerNote,
-    gotoCongrats,
     isSubmitting,
   };
 };
@@ -153,16 +151,8 @@ export default (): React.ReactElement => {
     gotoHome,
     createOrderInfo,
     isCartLoading,
-    orderId,
-    gotoCongrats,
     isSubmitting,
   } = usePlaceOrder();
-
-  React.useEffect(() => {
-    if (orderId) {
-      gotoCongrats(orderId);
-    }
-  }, [orderId, gotoCongrats]);
 
   const handlePaymentSelection = (
     value: GraphQlTypes.Maybe<GraphQlTypes.PaymentGateway> | undefined,

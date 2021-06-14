@@ -17,6 +17,7 @@ import {ScreenLinks} from 'app/navigation/ScreenLinks';
 
 export const Congrats = (): React.ReactElement => {
   const navigation = useNavigation();
+  const route = useRoute();
   const styles = useStyleSheet(themedStyles);
   const {getOrder, orderInfo} = useOrders();
 
@@ -24,8 +25,6 @@ export const Congrats = (): React.ReactElement => {
     navigation && navigation.navigate(ScreenLinks.HOME);
     navigation && navigation.navigate(ScreenLinks.ORDERS);
   }, [navigation]);
-
-  const route = useRoute();
 
   const {orderId} = route.params as any;
 
@@ -38,7 +37,7 @@ export const Congrats = (): React.ReactElement => {
 
   const renderBookingFooter = (): React.ReactElement => (
     <Layout>
-      <Layout style={styles.itemLayout} level="0">
+      <Layout style={styles.itemLayout}>
         <Text style={styles.rentLabel} category="p2">
           Método de Pago
         </Text>
@@ -67,7 +66,7 @@ export const Congrats = (): React.ReactElement => {
           Orden Recibida #{`${order?.orderNumber}`}
         </Text>
         <Layout style={styles.innerCardWrapper}>
-          <Layout style={styles.itemLayout} level="0">
+          <Layout style={styles.itemLayout}>
             <Text style={styles.rentLabel} category="p2">
               Total de la orden
             </Text>
@@ -75,7 +74,7 @@ export const Congrats = (): React.ReactElement => {
               {order?.total || ''}
             </Text>
           </Layout>
-          <Layout style={styles.itemLayout} level="0">
+          <Layout style={styles.itemLayout}>
             <Text style={styles.rentLabel} category="p2">
               Fecha
             </Text>
