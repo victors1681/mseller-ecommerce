@@ -49,9 +49,7 @@ export const Orders = () => {
 
   const renderItem = (info: ListRenderItemInfo<GraphQlTypes.Order>) => (
     <ListItem
-      title={`#${info.item.orderNumber} - ${moment(info.item.date)
-        .locale('en-ES')
-        .fromNow()}`}
+      title={`#${info.item.orderNumber} - ${moment(info.item.date).fromNow()}`}
       description={`${info.item.status}`}
       accessoryRight={() => renderItemAPrice(info?.item.total)}
     />

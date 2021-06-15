@@ -7,6 +7,7 @@ import {useNavigation} from '@react-navigation/core';
 import {ScreenLinks} from 'app/navigation/ScreenLinks';
 export const CartFooterTotal = () => {
   const {cart} = useCart();
+  const isDisable = (cart?.contents?.nodes?.length || 0) === 0;
   const navigation = useNavigation();
 
   const gotToCart = () => {
@@ -29,10 +30,16 @@ export const CartFooterTotal = () => {
         onPress={gotToCart}
         style={styles.button}
         appearance="outline"
+        disabled={isDisable}
         size="small">
         Ver Carrito
       </Button>
-      <Button style={styles.button} appearance="filled" size="small">
+      <Button
+        style={styles.button}
+        appearance="filled"
+        size="small"
+        disabled={isDisable}
+        onPress={gotToCart}>
         Ordenar
       </Button>
     </Layout>

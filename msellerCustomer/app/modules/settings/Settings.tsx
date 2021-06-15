@@ -7,7 +7,7 @@ import {useCustomer} from 'app/hooks/useCustomer';
 import {useNavigation} from '@react-navigation/native';
 import {useFocusEffect} from '@react-navigation/native';
 import {useUserLogged} from 'app/hooks';
-
+import {ScreenLinks} from 'app/navigation/ScreenLinks';
 export const Settings = () => {
   const navigation = useNavigation();
   const {fetchCustomer, performLogout} = useCustomer();
@@ -38,14 +38,14 @@ export const Settings = () => {
         hint="Tú Perfil"
         chevron
         iconName="account-circle-outline"
-        onPress={navigateTo('profile')}
+        onPress={navigateTo(ScreenLinks.PROFILE)}
       />
       <SettingRow
         style={styles.profileSetting}
         hint="Direcciones"
         chevron
         iconName="map-marker-radius"
-        onPress={navigateTo('signUp')}
+        onPress={navigateTo(ScreenLinks.ADDRESS, {backOnSave: 'true'})}
       />
       <SettingRow
         style={styles.profileSetting}

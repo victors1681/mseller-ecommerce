@@ -31,7 +31,6 @@ export const Congrats = (): React.ReactElement => {
   const order = orderInfo.data?.order;
 
   React.useEffect(() => {
-    console.log('Fetching order');
     getOrder(orderId);
   }, [orderId]);
 
@@ -54,7 +53,7 @@ export const Congrats = (): React.ReactElement => {
   return (
     <ScrollView style={styles.container}>
       <ImageOverlay
-        style={styles.image}
+        style={styles.image as any}
         source={require('app/assets/images/shopping_completed.jpg')}
       />
       <Card
@@ -79,7 +78,7 @@ export const Congrats = (): React.ReactElement => {
               Fecha
             </Text>
             <Text style={styles.priceLabel} category="s1">
-              {moment(order?.date).locale('es').format('LLL') || ''}
+              {moment(order?.date).format('LLL') || ''}
             </Text>
           </Layout>
         </Layout>

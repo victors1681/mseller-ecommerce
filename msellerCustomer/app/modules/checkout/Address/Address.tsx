@@ -7,7 +7,7 @@ import {
   useStyleSheet,
 } from '@ui-kitten/components';
 import {KeyboardAvoidingView} from './extra/3rd-party';
-import {useFocusEffect, useNavigation} from '@react-navigation/core';
+import {useFocusEffect, useNavigation, useRoute} from '@react-navigation/core';
 import {Formik, FormikHelpers} from 'formik';
 import {addressSchema} from './extra/addressSchema';
 import {CustomInput, CustomButtonGroup} from 'app/modules/common/form';
@@ -25,8 +25,11 @@ export enum LocationType {
 
 export const Address = (): React.ReactElement => {
   const navigation = useNavigation();
+  const route = useRoute();
   const styles = useStyleSheet(themedStyles);
   const {updateCustomer, customer, fetchCustomer} = useCustomer();
+
+  const {backOnSave} = (route.params || {}) as any;
 
   //Check if the user is logged
   useUserLogged();
@@ -37,9 +40,13 @@ export const Address = (): React.ReactElement => {
     }, [fetchCustomer]),
   );
 
-  const gotoPlaceOrder = React.useCallback((): void => {
-    navigation && navigation.navigate(ScreenLinks.PLACE_ORDER);
-  }, [navigation]);
+  const performNavigation = React.useCallback((): void => {
+    if (backOnSave) {
+      navigation?.goBack();
+    } else {
+      navigation?.navigate(ScreenLinks.PLACE_ORDER);
+    }
+  }, [navigation, backOnSave]);
 
   interface RegistrationFormProps {
     locationType: LocationType;
@@ -104,10 +111,10 @@ export const Address = (): React.ReactElement => {
       if (response) {
         setSubmitting(false);
         resetForm();
-        gotoPlaceOrder();
+        performNavigation();
       }
     },
-    [customer?.id, gotoPlaceOrder, updateCustomer],
+    [customer?.id, performNavigation, updateCustomer],
   );
 
   const metaData = getMetadataFromJson(

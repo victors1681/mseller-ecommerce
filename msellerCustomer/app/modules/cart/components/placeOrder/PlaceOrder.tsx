@@ -39,9 +39,12 @@ const usePlaceOrder = () => {
 
   const handleCustomerNote = (values: string) => setCustomerNote(values);
 
-  const gotoCongrats = (orderId: GraphQlTypes.Maybe<number> | undefined) => {
-    navigation && navigation.navigate(ScreenLinks.CONGRATS, {orderId});
-  };
+  const gotoCongrats = React.useCallback(
+    (orderId: GraphQlTypes.Maybe<number> | undefined) => {
+      navigation && navigation.navigate(ScreenLinks.CONGRATS, {orderId});
+    },
+    [navigation],
+  );
 
   const gotoHome = () => {
     navigation && navigation.goBack();
@@ -96,7 +99,7 @@ const usePlaceOrder = () => {
     if (response) {
       await clearCart();
       setSubmitting(false);
-      gotoCongrats(response.data?.createOrder.orderId);
+      gotoCongrats(response.data?.createOrder?.orderId);
     } else {
       console.error('error');
       setSubmitting(false);
@@ -146,7 +149,6 @@ export default (): React.ReactElement => {
     termChecked,
     setTermChecked,
     handleOrderCreation,
-    handleCustomerNote,
     customerNote,
     gotoHome,
     createOrderInfo,
@@ -390,11 +392,5 @@ const themedStyle = StyleService.create({
   updateButton: {
     marginHorizontal: 16,
     marginVertical: 15,
-  },
-  wrapper: {
-    flex: 1,
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });
