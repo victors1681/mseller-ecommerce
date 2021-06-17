@@ -14,25 +14,25 @@ return array(
 		'version' => '1.7.7.0',
 		'path'    => $vendorDir . '/myclabs/php-enum/src/PHPUnit/Comparator.php'
 	),
-	'Automattic\\Jetpack\\Autoloader\\ManifestGenerator' => array(
+	'Automattic\\Jetpack\\Autoloader\\AutoloadGenerator' => array(
 		'version' => '2.8.0.0',
-		'path'    => $vendorDir . '/automattic/jetpack-autoloader/src/ManifestGenerator.php'
-	),
-	'Automattic\\Jetpack\\Autoloader\\AutoloadFileWriter' => array(
-		'version' => '2.8.0.0',
-		'path'    => $vendorDir . '/automattic/jetpack-autoloader/src/AutoloadFileWriter.php'
+		'path'    => $vendorDir . '/automattic/jetpack-autoloader/src/AutoloadGenerator.php'
 	),
 	'Automattic\\Jetpack\\Autoloader\\AutoloadProcessor' => array(
 		'version' => '2.8.0.0',
 		'path'    => $vendorDir . '/automattic/jetpack-autoloader/src/AutoloadProcessor.php'
 	),
-	'Automattic\\Jetpack\\Autoloader\\AutoloadGenerator' => array(
+	'Automattic\\Jetpack\\Autoloader\\AutoloadFileWriter' => array(
 		'version' => '2.8.0.0',
-		'path'    => $vendorDir . '/automattic/jetpack-autoloader/src/AutoloadGenerator.php'
+		'path'    => $vendorDir . '/automattic/jetpack-autoloader/src/AutoloadFileWriter.php'
 	),
 	'Automattic\\Jetpack\\Autoloader\\CustomAutoloaderPlugin' => array(
 		'version' => '2.8.0.0',
 		'path'    => $vendorDir . '/automattic/jetpack-autoloader/src/CustomAutoloaderPlugin.php'
+	),
+	'Automattic\\Jetpack\\Autoloader\\ManifestGenerator' => array(
+		'version' => '2.8.0.0',
+		'path'    => $vendorDir . '/automattic/jetpack-autoloader/src/ManifestGenerator.php'
 	),
 	'Jetpack_XMLRPC_Server' => array(
 		'version' => '1.20.0.0',
@@ -42,57 +42,57 @@ return array(
 		'version' => '1.20.0.0',
 		'path'    => $vendorDir . '/automattic/jetpack-connection/legacy/class-jetpack-ixr-client.php'
 	),
-	'Jetpack_IXR_ClientMulticall' => array(
-		'version' => '1.20.0.0',
-		'path'    => $vendorDir . '/automattic/jetpack-connection/legacy/class-jetpack-ixr-clientmulticall.php'
-	),
 	'Jetpack_Signature' => array(
 		'version' => '1.20.0.0',
 		'path'    => $vendorDir . '/automattic/jetpack-connection/legacy/class-jetpack-signature.php'
 	),
-	'Automattic\\Jetpack\\Connection\\Manager' => array(
+	'Jetpack_IXR_ClientMulticall' => array(
 		'version' => '1.20.0.0',
-		'path'    => $vendorDir . '/automattic/jetpack-connection/src/class-manager.php'
-	),
-	'Automattic\\Jetpack\\Connection\\Plugin' => array(
-		'version' => '1.20.0.0',
-		'path'    => $vendorDir . '/automattic/jetpack-connection/src/class-plugin.php'
-	),
-	'Automattic\\Jetpack\\Connection\\XMLRPC_Async_Call' => array(
-		'version' => '1.20.0.0',
-		'path'    => $vendorDir . '/automattic/jetpack-connection/src/class-xmlrpc-async-call.php'
-	),
-	'Automattic\\Jetpack\\Connection\\Utils' => array(
-		'version' => '1.20.0.0',
-		'path'    => $vendorDir . '/automattic/jetpack-connection/src/class-utils.php'
+		'path'    => $vendorDir . '/automattic/jetpack-connection/legacy/class-jetpack-ixr-clientmulticall.php'
 	),
 	'Automattic\\Jetpack\\Connection\\Error_Handler' => array(
 		'version' => '1.20.0.0',
 		'path'    => $vendorDir . '/automattic/jetpack-connection/src/class-error-handler.php'
 	),
+	'Automattic\\Jetpack\\Connection\\REST_Connector' => array(
+		'version' => '1.20.0.0',
+		'path'    => $vendorDir . '/automattic/jetpack-connection/src/class-rest-connector.php'
+	),
 	'Automattic\\Jetpack\\Connection\\Plugin_Storage' => array(
 		'version' => '1.20.0.0',
 		'path'    => $vendorDir . '/automattic/jetpack-connection/src/class-plugin-storage.php'
+	),
+	'Automattic\\Jetpack\\Connection\\Client' => array(
+		'version' => '1.20.0.0',
+		'path'    => $vendorDir . '/automattic/jetpack-connection/src/class-client.php'
 	),
 	'Automattic\\Jetpack\\Connection\\Rest_Authentication' => array(
 		'version' => '1.20.0.0',
 		'path'    => $vendorDir . '/automattic/jetpack-connection/src/class-rest-authentication.php'
 	),
+	'Automattic\\Jetpack\\Connection\\Utils' => array(
+		'version' => '1.20.0.0',
+		'path'    => $vendorDir . '/automattic/jetpack-connection/src/class-utils.php'
+	),
 	'Automattic\\Jetpack\\Connection\\Manager_Interface' => array(
 		'version' => '1.20.0.0',
 		'path'    => $vendorDir . '/automattic/jetpack-connection/src/interface-manager.php'
 	),
-	'Automattic\\Jetpack\\Connection\\REST_Connector' => array(
+	'Automattic\\Jetpack\\Connection\\Plugin' => array(
 		'version' => '1.20.0.0',
-		'path'    => $vendorDir . '/automattic/jetpack-connection/src/class-rest-connector.php'
+		'path'    => $vendorDir . '/automattic/jetpack-connection/src/class-plugin.php'
+	),
+	'Automattic\\Jetpack\\Connection\\Manager' => array(
+		'version' => '1.20.0.0',
+		'path'    => $vendorDir . '/automattic/jetpack-connection/src/class-manager.php'
 	),
 	'Automattic\\Jetpack\\Connection\\XMLRPC_Connector' => array(
 		'version' => '1.20.0.0',
 		'path'    => $vendorDir . '/automattic/jetpack-connection/src/class-xmlrpc-connector.php'
 	),
-	'Automattic\\Jetpack\\Connection\\Client' => array(
+	'Automattic\\Jetpack\\Connection\\XMLRPC_Async_Call' => array(
 		'version' => '1.20.0.0',
-		'path'    => $vendorDir . '/automattic/jetpack-connection/src/class-client.php'
+		'path'    => $vendorDir . '/automattic/jetpack-connection/src/class-xmlrpc-async-call.php'
 	),
 	'Automattic\\Jetpack\\Config' => array(
 		'version' => '1.4.3.0',
@@ -106,13 +106,13 @@ return array(
 		'version' => '1.3.0.0',
 		'path'    => $vendorDir . '/automattic/jetpack-roles/src/class-roles.php'
 	),
-	'Jetpack_Tracks_Event' => array(
-		'version' => '1.11.0.0',
-		'path'    => $vendorDir . '/automattic/jetpack-tracking/legacy/class-jetpack-tracks-event.php'
-	),
 	'Jetpack_Tracks_Client' => array(
 		'version' => '1.11.0.0',
 		'path'    => $vendorDir . '/automattic/jetpack-tracking/legacy/class-jetpack-tracks-client.php'
+	),
+	'Jetpack_Tracks_Event' => array(
+		'version' => '1.11.0.0',
+		'path'    => $vendorDir . '/automattic/jetpack-tracking/legacy/class-jetpack-tracks-event.php'
 	),
 	'Automattic\\Jetpack\\Tracking' => array(
 		'version' => '1.11.0.0',
