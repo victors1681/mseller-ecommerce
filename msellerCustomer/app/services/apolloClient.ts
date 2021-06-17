@@ -10,7 +10,10 @@ import {setContext} from '@apollo/client/link/context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getToken, TokenResponse, resetToken, updateToken} from 'app/utils';
 import isEmpty from 'lodash/isEmpty';
-const SERVER_URL = 'http://192.168.1.210:8088/graphql';
+import Config from 'react-native-config';
+
+const SERVER_URL = __DEV__ ? Config.DEV_GRAPHQL_URL : Config.PROD_GRAPHQL_URL;
+
 const sessionStorage = setContext(async () => {
   try {
     //get session
