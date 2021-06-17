@@ -55,7 +55,7 @@ export const CART_FRAGMENT = gql`
                     nodes {
                       databaseId
                       image {
-                        sourceUrl(size: POST_THUMBNAIL)
+                        sourceUrl(size: SHOP_THUMBNAIL)
                       }
                       price(format: FORMATTED)
                       onSale

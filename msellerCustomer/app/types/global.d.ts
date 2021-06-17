@@ -7,3 +7,7 @@ declare module '@env' {
   export const DEV_GRAPHQL_URL: string;
   export const PROD_GRAPHQL_URL: string;
 }
+
+declare module 'react-native-image-slider-box' {
+  export const SliderBox: any;
+}

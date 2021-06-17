@@ -2,21 +2,30 @@ import React from 'react';
 import {SliderBox} from 'react-native-image-slider-box';
 import {useTheme} from '@ui-kitten/components';
 import {usePromoPosts} from 'app/hooks';
-
+import {useFocusEffect} from '@react-navigation/core';
 export const ImageSlider = () => {
   const theme = useTheme();
   const {images, refetch} = usePromoPosts();
 
-  React.useEffect(() => {
-    refetch();
-  }, [images.length]);
+  useFocusEffect(
+    React.useCallback(() => {
+      if (images.length === 0) {
+        refetch();
+      }
+    }, [refetch, images]),
+  );
 
   const primaryColor = theme['color-primary-default'];
   const disabled = theme['color-primary-disabled'];
   const background = theme['background-basic-color-3'];
+  const getImages = () =>
+    images.length > 0
+      ? images
+      : [require('app/assets/images/image-placeholder.jpeg')];
+
   return (
     <SliderBox
-      images={images}
+      images={getImages()}
       sliderBoxHeight={200}
       onCurrentImagePressed={(index: number) =>
         console.warn(`image ${index} pressed`)

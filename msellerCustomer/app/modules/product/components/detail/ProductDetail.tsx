@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from 'react';
-import {ImageBackground, View} from 'react-native';
+import {ImageBackground, SafeAreaView, ScrollView, View} from 'react-native';
 import {
   Button,
   Layout,
@@ -21,7 +21,6 @@ export const ProductDetail: React.FC = (): React.ReactElement => {
 
   const {addItem, addItemInfo} = useCart();
   const productId = params?.productId as number;
-  //const [selectedColorIndex, setSelectedColorIndex] = React.useState<number>();
   const styles = useStyleSheet(themedStyles);
 
   const {data, isLoading, error} = useProductDetail({productId});
@@ -36,51 +35,49 @@ export const ProductDetail: React.FC = (): React.ReactElement => {
   }, [productId, qty, addItem]);
 
   const renderHeader = (): React.ReactElement => (
-    <Layout style={styles.header}>
-      <ImageBackground
-        style={styles.image}
-        source={getSourceImage(product?.image?.sourceUrl as string)}
-      />
-      <Layout style={styles.detailsContainer} level="1">
-        <Text category="h6">{product?.name || ''}</Text>
-        <Text style={styles.subtitle} appearance="hint" category="p2">
-          {product?.shortDescription | ''}
-        </Text>
-        <Text style={styles.price} category="h4">
-          {product?.price}
-        </Text>
-        <Text style={styles.description} appearance="hint">
-          {product?.description || ''}
-        </Text>
-        <Text style={styles.sectionLabel} category="h6">
-          Cantidad:
-        </Text>
-        {/* <RadioGroup
-          style={styles.colorGroup}
-          selectedIndex={selectedColorIndex}
-          onChange={setSelectedColorIndex}>
-          {product.colors.map(renderColorItem)}
-        </RadioGroup> */}
-        <Stepper qty={qty} setQty={setQty} />
-        <View style={styles.actionContainer}>
-          <Button
-            style={styles.actionButton}
-            size="giant"
-            appearance="filled"
-            onPress={onBuyButtonPress}>
-            ORDENAR
-          </Button>
-          <Button
-            style={styles.actionButton}
-            size="giant"
-            appearance="outline"
-            accessoryLeft={addItemInfo.loading ? LoadingIndicator : null}
-            onPress={handleAddItem}>
-            {addItemInfo.loading ? 'Loading' : 'AGREGAR'}
-          </Button>
-        </View>
-      </Layout>
-    </Layout>
+    <SafeAreaView style={styles.wrapper}>
+      <ScrollView style={styles.scrollView}>
+        <Layout style={styles.header}>
+          <ImageBackground
+            style={styles.image}
+            source={getSourceImage(product?.image?.sourceUrl as string)}
+          />
+          <Layout style={styles.detailsContainer} level="1">
+            <Text category="h6">{product?.name || ''}</Text>
+            <Text style={styles.subtitle} appearance="hint" category="p2">
+              {product?.shortDescription | ''}
+            </Text>
+            <Text style={styles.price} category="h4">
+              {product?.price}
+            </Text>
+            <Text style={styles.description} appearance="hint">
+              {product?.description || ''}
+            </Text>
+            <Text style={styles.sectionLabel} category="h6">
+              Cantidad:
+            </Text>
+            <Stepper qty={qty} setQty={setQty} />
+            <View style={styles.actionContainer}>
+              <Button
+                style={styles.actionButton}
+                size="giant"
+                appearance="filled"
+                onPress={onBuyButtonPress}>
+                ORDENAR
+              </Button>
+              <Button
+                style={styles.actionButton}
+                size="giant"
+                appearance="outline"
+                accessoryLeft={addItemInfo.loading ? LoadingIndicator : null}
+                onPress={handleAddItem}>
+                {addItemInfo.loading ? 'Loading' : 'AGREGAR'}
+              </Button>
+            </View>
+          </Layout>
+        </Layout>
+      </ScrollView>
+    </SafeAreaView>
   );
 
   if (isLoading) {
@@ -154,5 +151,17 @@ const themedStyles = StyleService.create({
   commentInput: {
     marginHorizontal: 16,
     marginVertical: 24,
+  },
+  wrapper: {
+    flex: 1,
+  },
+  searchBar: {
+    height: 60,
+  },
+  content: {
+    flex: 1,
+  },
+  scrollView: {
+    marginHorizontal: 0,
   },
 });
