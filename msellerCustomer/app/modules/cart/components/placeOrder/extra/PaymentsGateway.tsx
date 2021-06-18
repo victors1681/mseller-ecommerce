@@ -27,6 +27,7 @@ export const PaymentGateway: React.FC<Props> = ({onSelect}) => {
 
   const handleSelection = React.useCallback(
     (index: number) => {
+      console.log('CHANIGN', index);
       setSelectedIndex(index);
       const selected = payments && payments[index];
 
@@ -39,12 +40,6 @@ export const PaymentGateway: React.FC<Props> = ({onSelect}) => {
   React.useEffect(() => {
     getPaymentsGateways();
   }, [getPaymentsGateways]);
-
-  React.useEffect(() => {
-    if (payments?.length && selectedIndex === 0) {
-      handleSelection(0);
-    }
-  }, [handleSelection, payments?.length]);
 
   const PaymentDetail = React.useCallback(() => {
     const selected = payments && payments[selectedIndex];
