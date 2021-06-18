@@ -27,7 +27,6 @@ export const PaymentGateway: React.FC<Props> = ({onSelect}) => {
 
   const handleSelection = React.useCallback(
     (index: number) => {
-      console.log('CHANIGN', index);
       setSelectedIndex(index);
       const selected = payments && payments[index];
 
