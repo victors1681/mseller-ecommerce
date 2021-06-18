@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView} from 'react-native';
+import {ScrollView, StatusBar} from 'react-native';
 import {StyleService, useStyleSheet} from '@ui-kitten/components';
 import {SettingHeader} from './extra/SettingHeader';
 import {SettingRow} from './extra/SettingRow';
@@ -8,6 +8,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useFocusEffect} from '@react-navigation/native';
 import {useUserLogged} from 'app/hooks';
 import {ScreenLinks} from 'app/navigation/ScreenLinks';
+import {SafeAreaView} from 'react-native-safe-area-context';
 export const Settings = () => {
   const navigation = useNavigation();
   const {fetchCustomer, performLogout} = useCustomer();
@@ -32,6 +33,7 @@ export const Settings = () => {
     <ScrollView
       style={styles.container}
       contentContainerStyle={styles.contentContainer}>
+      <StatusBar />
       <SettingHeader />
       <SettingRow
         style={[styles.profileSetting, styles.section]}

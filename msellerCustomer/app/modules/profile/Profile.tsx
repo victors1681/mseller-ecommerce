@@ -5,11 +5,7 @@ import {Button, StyleService, useStyleSheet} from '@ui-kitten/components';
 import {SettingHeader} from 'app/modules/settings/extra/SettingHeader';
 import {ProfileSetting} from './extra/profile-setting.component';
 
-import {Profile as DataProfile} from './extra/data';
-
 import {Loading, Error} from '../common';
-
-const data: DataProfile = DataProfile.jenniferGreen();
 
 export const Profile = () => {
   const {customer, isLoading, error} = useCustomer();

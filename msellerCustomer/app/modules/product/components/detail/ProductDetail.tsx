@@ -26,12 +26,13 @@ export const ProductDetail: React.FC = (): React.ReactElement => {
   const {data, isLoading, error} = useProductDetail({productId});
 
   const product = data?.product;
-  const onBuyButtonPress = (): void => {
+  const onBuyButtonPress = async (): Promise<void> => {
+    await handleAddItem();
     navigation && navigation.navigate(ScreenLinks.SHOPPING_CART);
   };
 
-  const handleAddItem = useCallback(() => {
-    addItem(productId, qty as number);
+  const handleAddItem = useCallback(async (): Promise<void> => {
+    await addItem(productId, qty as number);
   }, [productId, qty, addItem]);
 
   const renderHeader = (): React.ReactElement => (
@@ -62,12 +63,14 @@ export const ProductDetail: React.FC = (): React.ReactElement => {
                 style={styles.actionButton}
                 size="giant"
                 appearance="filled"
+                disabled={addItemInfo.loading}
                 onPress={onBuyButtonPress}>
                 ORDENAR
               </Button>
               <Button
                 style={styles.actionButton}
                 size="giant"
+                disabled={addItemInfo.loading}
                 appearance="outline"
                 accessoryLeft={addItemInfo.loading ? LoadingIndicator : null}
                 onPress={handleAddItem}>

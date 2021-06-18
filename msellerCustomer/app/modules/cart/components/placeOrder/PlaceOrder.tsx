@@ -99,7 +99,7 @@ const usePlaceOrder = () => {
     if (response) {
       await clearCart();
       setSubmitting(false);
-      gotoCongrats(response.data?.createOrder?.orderId);
+      gotoCongrats(response.data?.createOrder?.order?.databaseId);
     } else {
       console.error('error');
       setSubmitting(false);

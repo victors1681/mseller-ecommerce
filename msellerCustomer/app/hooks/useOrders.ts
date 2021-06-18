@@ -62,7 +62,9 @@ export const useOrders = (): OrdersStore => {
   const [
     getOrders,
     {called, loading, data, error},
-  ] = useLazyQuery<OrdersResponseData>(GET_ORDERS);
+  ] = useLazyQuery<OrdersResponseData>(GET_ORDERS, {
+    fetchPolicy: 'network-only',
+  });
 
   const [selectOrder, orderInfo] = useLazyQuery<OrderResponseData>(GET_ORDER);
 
@@ -88,7 +90,7 @@ export const useOrders = (): OrdersStore => {
         },
       });
     } catch (err) {
-      console.error(error);
+      console.error(err);
     }
   };
 
