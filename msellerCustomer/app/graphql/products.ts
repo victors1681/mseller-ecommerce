@@ -23,6 +23,7 @@ export const GET_ALL_PRODUCTS = gql`
         dateOnSaleFrom
         dateOnSaleTo
         totalSales
+        sku
         ... on SimpleProduct {
           price
           regularPrice
@@ -63,7 +64,7 @@ export const GET_PRODUCT = gql`
       dateOnSaleFrom
       dateOnSaleTo
       totalSales
-
+      sku
       ... on SimpleProduct {
         price
         regularPrice

@@ -4,7 +4,6 @@ import {LocationType} from '../Address';
 export const addressSchema = Yup.object({
   locationType: Yup.string().strict().required('Requerido'),
   address1: Yup.string().required('Requerido'),
-  address2: Yup.string().required('Requerido'),
   city: Yup.string().required('Requerido'),
   state: Yup.string().required('Requerido'),
   homeNumber: Yup.string().when('locationType', {

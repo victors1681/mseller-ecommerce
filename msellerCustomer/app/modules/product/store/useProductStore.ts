@@ -14,6 +14,7 @@ import {
 import React from 'react';
 
 interface QueryArgs {
+  first: number;
   where: RootQueryToProductConnectionWhereArgs;
 }
 interface ProductResponseData {
@@ -70,6 +71,7 @@ export const useProductStore = (): ProductStore => {
     refetch: productRefetch,
   } = useQuery<ProductResponseData, QueryArgs>(GET_ALL_PRODUCTS, {
     variables: {
+      first: 40,
       where: {categoryId, search},
     },
   });

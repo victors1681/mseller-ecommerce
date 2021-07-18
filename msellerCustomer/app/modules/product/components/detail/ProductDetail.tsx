@@ -44,13 +44,22 @@ export const ProductDetail: React.FC = (): React.ReactElement => {
             source={getSourceImage(product?.image?.sourceUrl as string)}
           />
           <Layout style={styles.detailsContainer} level="1">
-            <Text category="h6">{product?.name || ''}</Text>
+            <Layout style={styles.titleAndPriceContainer}>
+              <Text style={styles.title} category="h6">
+                {product?.name || ''}
+              </Text>
+              <Text style={styles.price} category="h4">
+                {product?.price}
+              </Text>
+            </Layout>
+
             <Text style={styles.subtitle} appearance="hint" category="p2">
-              {product?.shortDescription | ''}
+              {product?.shortDescription || ''}
             </Text>
-            <Text style={styles.price} category="h4">
-              {product?.price}
+            <Text style={styles.subtitle} appearance="hint" category="p2">
+              {product?.sku || ''}
             </Text>
+
             <Text style={styles.description} appearance="hint">
               {product?.description || ''}
             </Text>
@@ -113,13 +122,17 @@ const themedStyles = StyleService.create({
     paddingVertical: 24,
     paddingHorizontal: 16,
   },
+  titleAndPriceContainer: {
+    flexDirection: 'row',
+  },
+  title: {
+    flex: 3,
+  },
   subtitle: {
     marginTop: 4,
   },
   price: {
-    position: 'absolute',
-    top: 24,
-    right: 16,
+    flex: 1,
   },
   description: {
     marginVertical: 16,

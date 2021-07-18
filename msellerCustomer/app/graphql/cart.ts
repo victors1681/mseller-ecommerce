@@ -48,44 +48,6 @@ export const CART_FRAGMENT = gql`
               price(format: FORMATTED)
               purchasable
               regularPrice(format: FORMATTED)
-              paSizes {
-                nodes {
-                  name
-                  variations {
-                    nodes {
-                      databaseId
-                      image {
-                        sourceUrl(size: SHOP_THUMBNAIL)
-                      }
-                      price(format: FORMATTED)
-                      onSale
-                      salePrice(format: FORMATTED)
-                      regularPrice(format: FORMATTED)
-                      purchasable
-                    }
-                  }
-                  paSizeId
-                }
-              }
-              paColors {
-                nodes {
-                  name
-                  id
-                  paColorId
-                  variations {
-                    nodes {
-                      image {
-                        sourceUrl(size: WOOCOMMERCE_THUMBNAIL)
-                      }
-                      onSale
-                      price(format: FORMATTED)
-                      purchasable
-                      regularPrice(format: FORMATTED)
-                      salePrice(format: FORMATTED)
-                    }
-                  }
-                }
-              }
             }
           }
         }

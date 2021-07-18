@@ -78,7 +78,7 @@ export default function Categories() {
       <View style={styles.container}>
         <FlatList
           contentContainerStyle={styles.list}
-          data={productCategories?.nodes}
+          data={productCategories?.nodes?.filter(f => (f?.count || 0) > 0)}
           renderItem={({item}) => (
             <CategoryCard item={item as ProductCategory} />
           )}
