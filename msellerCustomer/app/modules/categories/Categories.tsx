@@ -42,7 +42,11 @@ export default function Categories() {
   }
   if (!productCategories) {
     refetch(); //refetch categories if didn't work for the first time
-    return <Text>No se pudo cargar las categorías.</Text>;
+    return (
+      <View style={styles.wrapper}>
+        <Spinner />
+      </View>
+    );
   }
   const renderItemHeader = (item?: ProductCategory): React.ReactElement => (
     <ImageBackground

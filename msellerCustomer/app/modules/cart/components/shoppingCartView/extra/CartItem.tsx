@@ -67,11 +67,17 @@ export const CartItem = (props: CartItemProps): React.ReactElement => {
         source={getSourceImage(product?.image?.sourceUrl as string)}
       />
       <View style={styles.detailsContainer}>
-        <Text category="s1">{product.name || ''}</Text>
-        <Text appearance="hint" category="p2">
-          {product.shortDescription || ''}
+        <Text style={styles.title} category="s1">
+          {product.name || ''}
         </Text>
-        <Text category="s2">{simpleNode?.price || '-'}</Text>
+        {product.shortDescription && (
+          <Text appearance="hint" category="p2">
+            {product.shortDescription || ''}
+          </Text>
+        )}
+        <Text style={styles.price} category="s2">
+          {simpleNode?.price || '-'}
+        </Text>
         <View style={styles.amountContainer}>
           <Button
             style={[styles.iconButton, styles.amountButton]}
@@ -120,6 +126,12 @@ const styles = StyleSheet.create({
     flex: 1,
     height: '100%',
     padding: 16,
+  },
+  title: {
+    marginRight: 20,
+  },
+  price: {
+    marginTop: 3,
   },
   amountContainer: {
     position: 'absolute',

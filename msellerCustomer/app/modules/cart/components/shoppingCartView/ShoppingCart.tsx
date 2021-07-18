@@ -53,6 +53,10 @@ export default (): React.ReactElement => {
     navigation && navigation.navigate(ScreenLinks.ADDRESS);
   };
 
+  const handleBack = () => {
+    navigation && navigation.navigate(ScreenLinks.HOME);
+  };
+
   React.useEffect(() => {
     //if (!products) {
     setProducts(cart?.contents?.nodes);
@@ -198,6 +202,13 @@ export default (): React.ReactElement => {
             <Text category="s1">{`${cart?.total || '-'}`}</Text>
           </Layout>
         </Layout>
+        <Button
+          style={styles.backButton}
+          appearance="outline"
+          status="info"
+          onPress={handleBack}>
+          REGRESAR AL CATÁLOGO DE PRODUCTOS
+        </Button>
       </Layout>
     ),
     [
@@ -293,6 +304,10 @@ export default (): React.ReactElement => {
 const themedStyle = StyleService.create({
   container: {
     flex: 1,
+  },
+  backButton: {
+    marginHorizontal: 16,
+    marginBottom: 20,
   },
   couponWrapper: {
     flexDirection: 'row',

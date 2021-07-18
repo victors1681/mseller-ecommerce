@@ -55,10 +55,14 @@ export const CartItemRow: React.FC<Props> = ({info}): React.ReactElement => {
       />
       <View style={styles.detailsContainer}>
         <Text category="s2">{product?.name || ''}</Text>
-        <Text appearance="hint" category="c1">
-          {product?.shortDescription || ''}
+        {product?.shortDescription && (
+          <Text appearance="hint" category="c1">
+            {product?.shortDescription || ''}
+          </Text>
+        )}
+        <Text style={styles.price} category="c1">
+          {nodeSimple?.price || ''}
         </Text>
-        <Text category="c1">{nodeSimple?.price || ''}</Text>
         <View style={styles.amountContainer}>
           <Button
             style={[styles.iconButton, styles.amountButton]}
@@ -95,7 +99,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 0,
     paddingVertical: 0,
-    height: 120,
+    minHeight: 120,
   },
   image: {
     width: 54,
@@ -115,6 +119,9 @@ const styles = StyleSheet.create({
   },
   amountButton: {
     borderRadius: 12,
+  },
+  price: {
+    marginTop: 2,
   },
   amount: {
     textAlign: 'center',

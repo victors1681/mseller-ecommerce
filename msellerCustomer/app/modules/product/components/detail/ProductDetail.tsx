@@ -126,7 +126,7 @@ const themedStyles = StyleService.create({
     flexDirection: 'row',
   },
   title: {
-    flex: 3,
+    flex: 2,
   },
   subtitle: {
     marginTop: 4,
