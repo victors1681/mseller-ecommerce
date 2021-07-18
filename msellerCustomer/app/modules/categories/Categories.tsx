@@ -12,6 +12,20 @@ import {useProduct} from 'app/hooks';
 import {ProductCategory} from 'app/generated/graphql';
 import {getSourceImage} from 'app/utils';
 import {ScreenLinks} from 'app/navigation/ScreenLinks';
+import {ImageSlider} from '../imageSlider';
+
+const ListHeader = () => {
+  return (
+    <>
+      <ImageSlider />
+      <Divider />
+      <View style={styles.categoryHeader}>
+        <Text category="s2">Categorías</Text>
+      </View>
+    </>
+  );
+};
+
 export default function Categories() {
   const {
     handleSearch,
@@ -76,11 +90,10 @@ export default function Categories() {
   return (
     <>
       <Divider />
-      <View style={styles.categoryHeader}>
-        <Text category="s2">Categorías</Text>
-      </View>
+
       <View style={styles.container}>
         <FlatList
+          ListHeaderComponent={ListHeader}
           contentContainerStyle={styles.list}
           data={productCategories?.nodes?.filter(f => (f?.count || 0) > 0)}
           renderItem={({item}) => (
@@ -131,6 +144,10 @@ const styles = StyleService.create({
     maxWidth: Dimensions.get('window').width / 3 - 8,
 
     //backgroundColor: 'background-basic-color-1',
+  },
+  autoComplete: {
+    marginLeft: 10,
+    marginRight: 10,
   },
   itemFooter: {
     flexDirection: 'row',

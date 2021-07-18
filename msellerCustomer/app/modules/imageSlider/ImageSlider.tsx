@@ -26,7 +26,7 @@ export const ImageSlider = () => {
   return (
     <SliderBox
       images={getImages()}
-      sliderBoxHeight={200}
+      sliderBoxHeight={140}
       onCurrentImagePressed={(index: number) =>
         console.warn(`image ${index} pressed`)
       }
@@ -58,8 +58,9 @@ export const ImageSlider = () => {
       ImageComponentStyle={{
         borderRadius: 15,
         width: '97%',
-        marginTop: 8,
+        marginTop: 0,
         marginBottom: 8,
+        marginRight: 20,
       }}
       imageLoadingColor={primaryColor}
     />
