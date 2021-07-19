@@ -23,6 +23,7 @@ import {getSourceImage} from 'app/utils';
 import {ScreenLinks} from 'app/navigation/ScreenLinks';
 type FullProduct = SimpleProduct | ProductCategory | Product;
 
+const MAX_TITLE_LENGTH = 30;
 export const ProductList: React.FC = () => {
   const styles = useStyleSheet(themedStyles);
   const navigation = useNavigation();
@@ -63,15 +64,16 @@ export const ProductList: React.FC = () => {
 
     return (
       <View style={styles.itemFooter}>
-        <Text category="s1">{item.price || ''}</Text>
         {item.purchasable && (
           <Button
+            key={item.id}
             style={styles.iconButton}
             size="small"
             disabled={isCartLoading}
             accessoryLeft={(isCartLoading ? LoadingIndicator : CartIcon) as any}
-            onPress={() => addItem(info.item.databaseId, 1)}
-          />
+            onPress={() => addItem(info.item.databaseId, 1)}>
+            Agregar
+          </Button>
         )}
       </View>
     );
@@ -86,20 +88,38 @@ export const ProductList: React.FC = () => {
     />
   );
 
+  const isSimpleProduct = (item: any): item is SimpleProduct => {
+    return item?.price !== undefined;
+  };
+
+  const getPrice = (info: any) => {
+    if (isSimpleProduct(info.item)) {
+      return info.item.price;
+    }
+    return '-';
+  };
+
   const renderProductItem = (
     info: ListRenderItemInfo<Product>,
-  ): React.ReactElement => (
-    <Card
-      style={styles.productItem}
-      header={() => renderItemHeader(info)}
-      footer={() => renderItemFooter(info)}
-      onPress={() => onItemPress(info.item.databaseId)}>
-      <Text category="s1">{info.item.name || ''}</Text>
-      <Text appearance="hint" category="c1">
-        {info?.item?.shortDescription || ''}
-      </Text>
-    </Card>
-  );
+  ): React.ReactElement => {
+    const name =
+      (info?.item?.name?.length || 0) > MAX_TITLE_LENGTH
+        ? `${info.item.name?.substring(0, MAX_TITLE_LENGTH)}...`
+        : info.item.name;
+
+    return (
+      <Card
+        style={styles.productItem}
+        header={() => renderItemHeader(info)}
+        footer={() => renderItemFooter(info)}
+        onPress={() => onItemPress(info.item.databaseId)}>
+        <Text category="label">
+          {`${getPrice(info)} -` || ''}{' '}
+          <Text category="c1">{`${name}` || ''}</Text>
+        </Text>
+      </Card>
+    );
+  };
 
   return (
     <List
@@ -134,16 +154,18 @@ const themedStyles = StyleService.create({
   },
   itemHeader: {
     height: 140,
+    margin: 5,
   },
   itemFooter: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 20,
-    paddingHorizontal: 20,
+    paddingVertical: 8,
+    paddingHorizontal: 8,
   },
   iconButton: {
     paddingHorizontal: 0,
+    width: '100%',
   },
   indicator: {
     justifyContent: 'center',
