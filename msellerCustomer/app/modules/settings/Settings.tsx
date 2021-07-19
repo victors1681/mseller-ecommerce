@@ -8,7 +8,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useFocusEffect} from '@react-navigation/native';
 import {useUserLogged} from 'app/hooks';
 import {ScreenLinks} from 'app/navigation/ScreenLinks';
-import {SafeAreaView} from 'react-native-safe-area-context';
+
 export const Settings = () => {
   const navigation = useNavigation();
   const {fetchCustomer, performLogout} = useCustomer();

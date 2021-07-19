@@ -41,7 +41,6 @@ export const middleware = new ApolloLink((operation, forward) => {
 
   if (!isEmpty(tokenData)) {
     const info = tokenData as TokenResponse;
-
     operation.setContext(() => ({
       headers: {
         'woocommerce-session': `Session ${wooSession}`,

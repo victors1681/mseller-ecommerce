@@ -1,6 +1,7 @@
 import React from 'react';
 import {View} from 'react-native';
 import {
+  Text,
   Button,
   Layout,
   StyleService,
@@ -144,6 +145,9 @@ export const Address = (): React.ReactElement => {
         {({handleSubmit, values, isSubmitting}) => (
           <Layout>
             <View style={[styles.formContainer]}>
+              <Text style={styles.switch} category="s1">
+                Elija un destino del pedido
+              </Text>
               <CustomButtonGroup
                 name="locationType"
                 value={values.locationType}
@@ -220,6 +224,7 @@ export const Address = (): React.ReactElement => {
                 multiline
                 style={styles.formInput}
                 disabled={isSubmitting}
+                placeholder="Cerca de... casa color..."
                 label="AGREGAR INTRUCCIONES"
                 value={values.address2}
               />
@@ -243,6 +248,9 @@ const themedStyles = StyleService.create({
   logo: {
     height: 50,
     marginBottom: 30,
+  },
+  switch: {
+    marginVertical: 8,
   },
   dateContainer: {
     flexDirection: 'row',

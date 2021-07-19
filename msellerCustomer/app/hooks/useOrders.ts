@@ -43,6 +43,7 @@ export interface OrdersStore {
     input: CreateOrderInput,
   ) => Promise<
     | FetchResult<CreateOrderResponse, Record<string, any>, Record<string, any>>
+    | ApolloError
     | undefined
   >;
   createOrderInfo: MutationResult<CreateOrderResponse>;
@@ -91,6 +92,7 @@ export const useOrders = (): OrdersStore => {
       });
     } catch (err) {
       console.error(err);
+      return error;
     }
   };
 

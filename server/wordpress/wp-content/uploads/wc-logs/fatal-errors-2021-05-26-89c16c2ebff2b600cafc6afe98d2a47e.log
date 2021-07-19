@@ -1,4 +1,0 @@
-2021-05-26T01:19:20+00:00 CRITICAL Class GraphQL\Error\Error contains 1 abstract method and must therefore be declared abstract or implement the remaining methods (GraphQL\Error\ClientAware::getTest) in /var/www/html/wp-content/plugins/wp-graphql/vendor/webonyx/graphql-php/src/Error/Error.php on line 36
-
-2021-05-26T01:19:28+00:00 CRITICAL Class GraphQL\Error\Error contains 1 abstract method and must therefore be declared abstract or implement the remaining methods (GraphQL\Error\ClientAware::getTest) in /var/www/html/wp-content/plugins/wp-graphql/vendor/webonyx/graphql-php/src/Error/Error.php on line 36
-

@@ -3,6 +3,7 @@ import {StyleSheet, View} from 'react-native';
 import {Text, AvatarProps, ButtonElement} from '@ui-kitten/components';
 import {SettingIcons} from './icons';
 import {useCustomer} from 'app/hooks';
+import {Loading} from 'app/modules/common';
 export interface ProfileAvatarProps extends AvatarProps {
   editButton?: () => ButtonElement;
 }
@@ -18,12 +19,18 @@ export const SettingHeader = (): React.ReactElement => {
   return (
     <View style={styles.container}>
       <SettingIcons name="account-circle" size={100} />
-      <Text style={styles.text} appearance="hint" category="s1">
-        {name}
-      </Text>
-      <Text style={styles.text} appearance="hint" category="p2">
-        {email}
-      </Text>
+
+      {!customer.isLoading && (
+        <Text style={styles.text} appearance="hint" category="s1">
+          {name}
+        </Text>
+      )}
+      {!customer.isLoading && (
+        <Text style={styles.text} appearance="hint" category="p2">
+          {email}
+        </Text>
+      )}
+      {customer.isLoading && <Loading />}
     </View>
   );
 };

@@ -228,8 +228,9 @@ export const useCustomerStore = (): CustomerStore => {
       });
 
       //save authorization token
-      const authToken = response.data?.registerCustomer?.authToken;
-      const refreshToken = response.data?.registerCustomer?.refreshToken;
+      const authToken = response.data?.registerCustomer?.customer?.jwtAuthToken;
+      const refreshToken =
+        response.data?.registerCustomer?.customer?.jwtRefreshToken;
       const sessionToken =
         response.data?.registerCustomer?.customer?.sessionToken;
 
