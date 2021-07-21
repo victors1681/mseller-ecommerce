@@ -1,10 +1,9 @@
 import React from 'react';
-import {SafeAreaView, StatusBar, StyleSheet} from 'react-native';
+import {SafeAreaView, StyleSheet} from 'react-native';
 import {Orders} from 'app/modules/orders';
 export const OrdersScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar />
       <Orders />
     </SafeAreaView>
   );

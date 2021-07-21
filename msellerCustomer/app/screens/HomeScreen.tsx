@@ -1,12 +1,11 @@
 import React from 'react';
-import {SafeAreaView, StatusBar, StyleSheet, View} from 'react-native';
+import {SafeAreaView, StyleSheet, View} from 'react-native';
 import {Divider} from '@ui-kitten/components';
 import Categories from '../modules/categories/Categories';
 import {AutoComplete} from 'app/modules/product/components/autoComplete';
 export const HomeScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar />
       <View style={styles.autoComplete}>
         <AutoComplete />
       </View>

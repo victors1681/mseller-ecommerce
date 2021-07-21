@@ -1,5 +1,5 @@
 import React from 'react';
-import {SafeAreaView, StatusBar, StyleSheet} from 'react-native';
+import {SafeAreaView, StyleSheet} from 'react-native';
 import {Divider, Layout} from '@ui-kitten/components';
 import {ProductList} from '../modules/product';
 import {useRoute} from '@react-navigation/core';
@@ -11,7 +11,6 @@ export const ProductsScreen = () => {
 
   return (
     <SafeAreaView style={styles.wrapper}>
-      <StatusBar />
       <Layout style={styles.searchBar}>
         <SearchBar categoryId={categoryId} />
       </Layout>
