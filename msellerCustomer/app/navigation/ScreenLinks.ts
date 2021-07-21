@@ -4,7 +4,7 @@ export enum ScreenLinks {
   PRODUCTS_DETAILS = 'Detalle',
   SHOPPING_CART = 'Carrito',
   ADDRESS = 'Dirección',
-  PLACE_ORDER = 'Ordenes',
+  PLACE_ORDER = 'Resumen',
   CONGRATS = 'Felicidades',
   SIGN_UP = 'Registro',
   SIGN_UP_STACK = 'signUpStack',

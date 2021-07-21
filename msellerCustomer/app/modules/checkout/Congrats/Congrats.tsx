@@ -14,6 +14,7 @@ import {ImageOverlay} from './extra/ImageOverlay';
 import moment from 'moment';
 import {useOrders} from 'app/hooks';
 import {ScreenLinks} from 'app/navigation/ScreenLinks';
+import {Loading} from 'app/modules/common';
 
 export const Congrats = (): React.ReactElement => {
   const navigation = useNavigation();
@@ -44,7 +45,10 @@ export const Congrats = (): React.ReactElement => {
           {order?.paymentMethodTitle || ''}
         </Text>
       </Layout>
-      <Button style={styles.button} onPress={goToMyOrders}>
+      <Button
+        style={styles.button}
+        onPress={goToMyOrders}
+        disabled={orderInfo.loading}>
         Mis Ordenes
       </Button>
     </Layout>
@@ -61,27 +65,33 @@ export const Congrats = (): React.ReactElement => {
         appearance="filled"
         disabled={true}
         footer={renderBookingFooter}>
-        <Text style={styles?.title || ''} category="h6">
-          Orden Recibida #{`${order?.orderNumber}`}
-        </Text>
-        <Layout style={styles.innerCardWrapper}>
-          <Layout style={styles.itemLayout}>
-            <Text style={styles.rentLabel} category="p2">
-              Total de la orden
+        {orderInfo.loading ? (
+          <Loading />
+        ) : (
+          <>
+            <Text style={styles?.title || ''} category="h6">
+              Orden Recibida #{`${order?.orderNumber}`}
             </Text>
-            <Text style={styles.priceLabel} category="h6">
-              {order?.total || ''}
-            </Text>
-          </Layout>
-          <Layout style={styles.itemLayout}>
-            <Text style={styles.rentLabel} category="p2">
-              Fecha
-            </Text>
-            <Text style={styles.priceLabel} category="s1">
-              {moment(order?.date).format('LLL') || ''}
-            </Text>
-          </Layout>
-        </Layout>
+            <Layout style={styles.innerCardWrapper}>
+              <Layout style={styles.itemLayout}>
+                <Text style={styles.rentLabel} category="p2">
+                  Total de la orden
+                </Text>
+                <Text style={styles.priceLabel} category="h6">
+                  {order?.total || ''}
+                </Text>
+              </Layout>
+              <Layout style={styles.itemLayout}>
+                <Text style={styles.rentLabel} category="p2">
+                  Fecha
+                </Text>
+                <Text style={styles.priceLabel} category="s1">
+                  {moment(order?.date).format('LLL') || ''}
+                </Text>
+              </Layout>
+            </Layout>
+          </>
+        )}
       </Card>
     </ScrollView>
   );
