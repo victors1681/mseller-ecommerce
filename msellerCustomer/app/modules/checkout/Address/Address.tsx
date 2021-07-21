@@ -28,7 +28,7 @@ export const Address = (): React.ReactElement => {
   const navigation = useNavigation();
   const route = useRoute();
   const styles = useStyleSheet(themedStyles);
-  const {updateCustomer, customer, fetchCustomer} = useCustomer();
+  const {updateCustomer, customer, fetchCustomer, isLoading} = useCustomer();
 
   const {backOnSave} = (route.params || {}) as any;
 
@@ -139,6 +139,7 @@ export const Address = (): React.ReactElement => {
     <KeyboardAvoidingView>
       <Formik
         enableReinitialize
+        disabled={true}
         initialValues={initialValues}
         validationSchema={addressSchema}
         onSubmit={onSubmit}>
@@ -149,6 +150,7 @@ export const Address = (): React.ReactElement => {
                 Elija un destino del pedido
               </Text>
               <CustomButtonGroup
+                disabled={isSubmitting || isLoading}
                 name="locationType"
                 value={values.locationType}
                 options={[
@@ -161,14 +163,14 @@ export const Address = (): React.ReactElement => {
               <CustomInput
                 name="address1"
                 style={styles.formInput}
-                disabled={isSubmitting}
+                disabled={isSubmitting || isLoading}
                 value={values.address1}
                 label="CALLE"
               />
               <CustomInput
                 name="state"
                 style={styles.formInput}
-                disabled={isSubmitting}
+                disabled={isSubmitting || isLoading}
                 value={values.state}
                 label="SECTOR"
               />
@@ -176,7 +178,7 @@ export const Address = (): React.ReactElement => {
                 <CustomInput
                   name="homeNumber"
                   style={styles.formInput}
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || isLoading}
                   value={values.homeNumber}
                   label="NÚMERO DE CASA"
                   keyboardType="number-pad"
@@ -187,7 +189,7 @@ export const Address = (): React.ReactElement => {
                 <CustomInput
                   name="buildingName"
                   style={styles.formInput}
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || isLoading}
                   value={values.buildingName}
                   label="NOMBRE DEL EDIFICIO"
                 />
@@ -196,7 +198,7 @@ export const Address = (): React.ReactElement => {
                 <CustomInput
                   name="apartmentNumber"
                   style={styles.formInput}
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || isLoading}
                   value={values.apartmentNumber}
                   label="APERTAMENTO"
                   keyboardType="number-pad"
@@ -206,7 +208,7 @@ export const Address = (): React.ReactElement => {
                 <CustomInput
                   name="company"
                   style={styles.formInput}
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || isLoading}
                   value={values.company}
                   label="NOMBRE DE LA EMPRESA"
                 />
@@ -214,7 +216,7 @@ export const Address = (): React.ReactElement => {
               <CustomInput
                 name="city"
                 style={styles.formInput}
-                disabled={isSubmitting}
+                disabled={isSubmitting || isLoading}
                 label="CIUDAD"
                 value={values.city}
               />
@@ -223,19 +225,25 @@ export const Address = (): React.ReactElement => {
                 numberOfLines={4}
                 multiline
                 style={styles.formInput}
-                disabled={isSubmitting}
+                disabled={isSubmitting || isLoading}
                 placeholder="Cerca de... casa color..."
                 label="AGREGAR INTRUCCIONES"
                 value={values.address2}
               />
             </View>
             <Button
-              disabled={isSubmitting}
+              disabled={isSubmitting || isLoading}
               style={styles.signUpButton}
               size="large"
-              accessoryLeft={(isSubmitting ? LoadingIndicator : null) as any}
+              accessoryLeft={
+                (isSubmitting || isLoading ? LoadingIndicator : null) as any
+              }
               onPress={handleSubmit}>
-              {isSubmitting ? 'Guardando' : 'Guardar y Continuar'}
+              {isLoading
+                ? 'Cargando Informacion...'
+                : isSubmitting
+                ? 'Guardando'
+                : 'Guardar y Continuar'}
             </Button>
           </Layout>
         )}

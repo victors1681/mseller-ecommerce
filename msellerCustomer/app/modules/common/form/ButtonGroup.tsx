@@ -3,6 +3,7 @@ import {
   ButtonGroup,
   InputProps,
   StyleService,
+  Text,
   useStyleSheet,
 } from '@ui-kitten/components';
 import {useField} from 'formik';
@@ -26,17 +27,25 @@ export const CustomButtonGroup = ({options, ...props}: Props) => {
   const handleChange = (value: string) => setValue(value);
 
   return (
-    <ButtonGroup status="basic" style={styles.buttonGroup}>
+    <ButtonGroup status="basic" appearance="outline" style={styles.buttonGroup}>
       {options &&
         options.map(o => {
           return (
             <Button
+              status="primary"
+              disabled={props.disabled}
               style={[
                 styles.button,
                 field.value === o.value && styles.selectedBtn,
               ]}
               onPress={() => handleChange(o.value)}>
-              {o.label}
+              {evaProps => (
+                <Text
+                  {...evaProps}
+                  style={[field.value === o.value && styles.selectedBtn]}>
+                  {o.label}
+                </Text>
+              )}
             </Button>
           );
         })}
@@ -54,6 +63,6 @@ const themedStyles = StyleService.create({
   },
   selectedBtn: {
     backgroundColor: 'color-primary-default',
-    textColor: 'white',
+    color: 'white',
   },
 });
