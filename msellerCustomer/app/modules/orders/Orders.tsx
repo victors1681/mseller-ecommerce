@@ -13,6 +13,7 @@ import {
 } from '@ui-kitten/components';
 import {useFocusEffect, useNavigation} from '@react-navigation/core';
 import {ScreenLinks} from 'app/navigation/ScreenLinks';
+import {getOrderStatusFormat} from 'app/utils/getOrderStatusFormat';
 
 export const Orders = () => {
   const navigation = useNavigation();
@@ -52,12 +53,22 @@ export const Orders = () => {
       </View>
     );
   };
+  const renderItemStatus = (status: GraphQlTypes.Maybe<string> | undefined) => {
+    const {title, color} = getOrderStatusFormat(status || '');
+    return (
+      <View style={[{backgroundColor: color}, styles.statusContainer]}>
+        <Text style={styles.controlText} status="control" category="c2">
+          {title}
+        </Text>
+      </View>
+    );
+  };
 
   const renderItem = (info: ListRenderItemInfo<GraphQlTypes.Order>) => (
     <ListItem
       onPress={() => onItemPress(info.item.orderNumber)}
       title={`#${info.item.orderNumber} - ${moment(info.item.date).fromNow()}`}
-      description={`${info.item.status}`}
+      description={() => renderItemStatus(info?.item.status)}
       accessoryRight={() => renderItemAPrice(info?.item.total)}
     />
   );
@@ -78,6 +89,12 @@ const themedStyle = StyleService.create({
     padding: 4,
     minWidth: 95,
     backgroundColor: '#3366FF',
+  },
+  statusContainer: {
+    borderRadius: 4,
+    margin: 4,
+    padding: 4,
+    maxWidth: 150,
   },
   controlText: {
     textAlign: 'center',

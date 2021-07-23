@@ -1,7 +1,6 @@
 import React from 'react';
 import {ListRenderItemInfo} from 'react-native';
 import {
-  Button,
   Divider,
   Layout,
   List,
@@ -13,8 +12,8 @@ import {OrderItem} from './extra/OderItem';
 import {useOrders} from 'app/hooks';
 import * as GraphQlTypes from 'app/generated/graphql';
 import {Empty, Loading, Error} from 'app/modules/common';
-import {useNavigation, useRoute} from '@react-navigation/core';
-import {ScreenLinks} from 'app/navigation/ScreenLinks';
+import {useRoute} from '@react-navigation/core';
+import moment from 'moment';
 
 export const OrderDetail = (): React.ReactElement => {
   const styles = useStyleSheet(themedStyle);
@@ -25,18 +24,11 @@ export const OrderDetail = (): React.ReactElement => {
 
   const {orderId} = route.params as any;
 
-  const navigation = useNavigation();
-
-  const handleBack = () => {
-    navigation && navigation.navigate(ScreenLinks.HOME);
-  };
-
   React.useEffect(() => {
     getOrder(orderId);
   }, [orderId]);
 
   const order = data?.order;
-  console.log('order', error, order);
 
   const renderFooter = React.useCallback(
     () => (
@@ -47,22 +39,17 @@ export const OrderDetail = (): React.ReactElement => {
             <Text category="s1">SubTotal:</Text>
             <Text category="s1">Descuento:</Text>
             <Text category="s1">Impuestos:</Text>
+            <Text category="s1">Método Pago:</Text>
             <Text category="s1">Total:</Text>
           </Layout>
           <Layout>
             <Text category="s1">{`${order?.subtotal || '-'}`}</Text>
             <Text category="s1">{`${order?.discountTotal || '-'}`}</Text>
             <Text category="s1">{`${order?.totalTax || '-'}`}</Text>
+            <Text category="s1">{`${order?.paymentMethodTitle || '-'}`}</Text>
             <Text category="s1">{`${order?.total || '-'}`}</Text>
           </Layout>
         </Layout>
-        <Button
-          style={styles.backButton}
-          appearance="outline"
-          status="info"
-          onPress={handleBack}>
-          REGRESAR AL CATÁLOGO DE PRODUCTOS
-        </Button>
       </Layout>
     ),
     [order, isLoading],
@@ -96,14 +83,32 @@ export const OrderDetail = (): React.ReactElement => {
     );
   }
 
+  const renderHeader = () => (
+    <Layout>
+      <Layout style={styles.footer}>
+        <Layout>
+          <Text category="p1" appearance="hint">
+            Orden:
+            <Text category="s1"> #{orderId}</Text>
+          </Text>
+          <Text category="p1" appearance="hint">
+            Fecha:
+            <Text category="s1"> {moment(order.date).format('lll')}</Text>
+          </Text>
+        </Layout>
+      </Layout>
+      <Divider />
+    </Layout>
+  );
+
   return (
     <Layout style={styles.container} level="2">
       <List
         data={order.lineItems?.nodes}
         renderItem={renderProductItem}
         ListFooterComponent={renderFooter}
+        ListHeaderComponent={renderHeader}
       />
-      footer
     </Layout>
   );
 };
