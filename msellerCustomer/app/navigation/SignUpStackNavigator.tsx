@@ -10,12 +10,12 @@ const SignUpStackNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        options={{headerShown: false}}
+        options={{headerShown: false, headerTitle: 'Iniciar sesión'}}
         name={ScreenLinks.SIGN_UP_STACK}
         component={SignUpScreen}
       />
       <Stack.Screen
-        options={{headerShown: false}}
+        options={{headerShown: false, headerTitle: 'Iniciar sesión'}}
         name={ScreenLinks.SIGN_IN}
         component={SignInScreen}
       />

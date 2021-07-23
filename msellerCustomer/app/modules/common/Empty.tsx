@@ -7,8 +7,9 @@ import {ScreenLinks} from 'app/navigation/ScreenLinks';
 
 interface Props {
   message: string | undefined;
+  enableBtn?: boolean;
 }
-export const Empty: React.FC<Props> = ({message}) => {
+export const Empty: React.FC<Props> = ({message, enableBtn}) => {
   const navigation = useNavigation();
 
   const handleButton = () => {
@@ -22,9 +23,11 @@ export const Empty: React.FC<Props> = ({message}) => {
         resizeMode="contain"
       />
       <Text category="c2">{message}</Text>
-      <Button onPress={handleButton} style={styles.buyBtn}>
-        Ir al catálogo
-      </Button>
+      {enableBtn && (
+        <Button onPress={handleButton} style={styles.buyBtn}>
+          Ir al catálogo
+        </Button>
+      )}
     </View>
   );
 };
@@ -46,5 +49,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+Empty.defaultProps = {
+  enableBtn: true,
+};
 
 export default Empty;

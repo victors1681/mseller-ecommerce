@@ -10,7 +10,6 @@ import {Loading, Error} from '../common';
 export const Profile = () => {
   const {customer, isLoading, error} = useCustomer();
 
-  console.log('customer', isLoading, error, customer);
   const firstName = customer?.firstName;
   const lastName = customer?.lastName;
   const email = customer?.email;

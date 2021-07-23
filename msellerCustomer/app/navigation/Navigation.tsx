@@ -30,7 +30,7 @@ export const AppNavigator = () => {
             <RootStack.Navigator mode="modal" headerMode="none">
               <RootStack.Screen name="Main" component={NavigationDrawer} />
               <RootStack.Screen
-                options={{headerShown: false}}
+                options={{headerShown: false, headerTitle: 'Registro'}}
                 name={ScreenLinks.SIGN_UP}
                 component={SignUpStackNavigator}
               />

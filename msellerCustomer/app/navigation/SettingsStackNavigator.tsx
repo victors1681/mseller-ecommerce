@@ -10,8 +10,20 @@ const Stack = createStackNavigator();
 const SettingsStackNavigator = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name={ScreenLinks.SETTINGS} component={SettingScreen} />
-      <Stack.Screen name={ScreenLinks.PROFILE} component={ProfileScreen} />
+      <Stack.Screen
+        name={ScreenLinks.SETTINGS}
+        component={SettingScreen}
+        options={{
+          headerTitle: 'Configuración',
+        }}
+      />
+      <Stack.Screen
+        name={ScreenLinks.PROFILE}
+        component={ProfileScreen}
+        options={{
+          headerTitle: 'Perfíl',
+        }}
+      />
       <Stack.Screen
         name={ScreenLinks.ADDRESS}
         options={{

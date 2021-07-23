@@ -11,11 +11,17 @@ import {
   useStyleSheet,
   Text,
 } from '@ui-kitten/components';
-import {useFocusEffect} from '@react-navigation/core';
+import {useFocusEffect, useNavigation} from '@react-navigation/core';
+import {ScreenLinks} from 'app/navigation/ScreenLinks';
 
 export const Orders = () => {
+  const navigation = useNavigation();
   const {getOrders, data, error, isLoading} = useOrders();
   const styles = useStyleSheet(themedStyle);
+
+  const onItemPress = (orderId?: string | null): void => {
+    navigation && navigation.navigate(ScreenLinks.ORDER_DETAIL, {orderId});
+  };
 
   useFocusEffect(
     React.useCallback(() => {
@@ -49,6 +55,7 @@ export const Orders = () => {
 
   const renderItem = (info: ListRenderItemInfo<GraphQlTypes.Order>) => (
     <ListItem
+      onPress={() => onItemPress(info.item.orderNumber)}
       title={`#${info.item.orderNumber} - ${moment(info.item.date).fromNow()}`}
       description={`${info.item.status}`}
       accessoryRight={() => renderItemAPrice(info?.item.total)}

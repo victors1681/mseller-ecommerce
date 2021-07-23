@@ -19,6 +19,7 @@ export const ORDER_FRAGMENT = gql`
         databaseId
         orderId
         product {
+          sku
           databaseId
           image {
             sourceUrl(size: WOOCOMMERCE_THUMBNAIL)
