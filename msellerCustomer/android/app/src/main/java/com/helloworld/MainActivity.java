@@ -1,4 +1,4 @@
-package com.helloworld;
+package app.mseller.shopping;
 
 import com.facebook.react.ReactActivity;
 
