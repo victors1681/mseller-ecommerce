@@ -16,14 +16,14 @@ import {
   useMutation,
 } from '@apollo/client';
 
-interface OrdersResponseData {
+export interface OrdersResponseData {
   orders: RootQueryToOrderConnection;
 }
 
 interface OrderResponseData {
   order: Order;
 }
-interface CreateOrderResponse {
+export interface CreateOrderResponse {
   createOrder: CreateOrderPayload;
 }
 

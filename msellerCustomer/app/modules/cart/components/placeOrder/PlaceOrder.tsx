@@ -13,11 +13,13 @@ import {
   CheckBox,
   Spinner,
 } from '@ui-kitten/components';
-import {useCart, useCustomer, useOrders} from 'app/hooks';
+import {useCart, useCustomer, useOrders, CreateOrderResponse} from 'app/hooks';
 import * as GraphQlTypes from 'app/generated/graphql';
 import {useNavigation} from '@react-navigation/core';
 import {PaymentGateway} from './extra/PaymentsGateway';
 import {ScreenLinks} from 'app/navigation/ScreenLinks';
+import {ApolloError} from '@apollo/client';
+
 /**
  * Custom Hook
  * @returns
@@ -96,10 +98,26 @@ const usePlaceOrder = () => {
       customerNote,
     });
 
+    interface ResponseInterface {
+      data: CreateOrderResponse;
+    }
+
+    const isCreated = (arg: any): arg is ResponseInterface => {
+      return arg.data !== undefined;
+    };
+    const isError = (arg: any): arg is ApolloError => {
+      return arg.message !== undefined;
+    };
+
     if (response) {
       await clearCart();
       setSubmitting(false);
-      gotoCongrats(response.data?.createOrder?.order?.databaseId);
+      if (isCreated(response)) {
+        gotoCongrats(response.data?.createOrder?.order?.databaseId);
+      } else if (isError(response)) {
+        //error
+        console.error(response.message);
+      }
     } else {
       console.error('error');
       setSubmitting(false);

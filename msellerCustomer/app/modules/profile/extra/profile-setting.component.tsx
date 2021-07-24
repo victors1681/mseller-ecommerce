@@ -4,7 +4,7 @@ import {Divider, Layout, Text, LayoutProps} from '@ui-kitten/components';
 
 export interface ProfileSettingProps extends LayoutProps {
   hint: string;
-  value: string;
+  value?: string;
 }
 
 export const ProfileSetting = (

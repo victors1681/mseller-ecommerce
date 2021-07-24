@@ -10,10 +10,10 @@ import {Loading, Error} from '../common';
 export const Profile = () => {
   const {customer, isLoading, error} = useCustomer();
 
-  const firstName = customer?.firstName;
-  const lastName = customer?.lastName;
-  const email = customer?.email;
-  const phoneNumber = customer?.billing?.phone;
+  const firstName = customer?.firstName || '';
+  const lastName = customer?.lastName || '';
+  const email = customer?.email || '';
+  const phoneNumber = customer?.billing?.phone || '';
 
   const styles = useStyleSheet(themedStyle);
 
