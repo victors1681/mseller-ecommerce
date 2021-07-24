@@ -12,6 +12,7 @@ import {CustomInput, CustomCheckbox} from 'app/modules/common/form';
 import {LoadingIndicator} from 'app/modules/common';
 import {useCustomer} from 'app/hooks';
 import {ScreenLinks} from 'app/navigation/ScreenLinks';
+import FRDatabase from 'app/services/FRDatabase';
 
 export const SignUp = (): React.ReactElement => {
   const navigation = useNavigation();
@@ -80,6 +81,18 @@ export const SignUp = (): React.ReactElement => {
       metaData: [{key: 'bod', value: bod}],
     });
     if (response) {
+      const customer = response.data?.registerCustomer?.customer;
+
+      if (customer) {
+        const db = new FRDatabase();
+        const options = {
+          firstName: customer.firstName,
+          lastName: customer.lastName,
+          email: customer.email,
+        };
+        await db.saveToken(customer.id, options);
+      }
+
       setSubmitting(false);
       resetForm();
       navigation.goBack();

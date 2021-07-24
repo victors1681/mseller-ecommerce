@@ -9,14 +9,18 @@ import {CustomerProvider} from 'app/modules/customer/context';
 import SignUpStackNavigator from 'app/navigation/SignUpStackNavigator';
 import {createStackNavigator} from '@react-navigation/stack';
 import {ScreenLinks} from 'app/navigation/ScreenLinks';
-import {requestUserPermission, subscribeMessage} from '../services/messaging';
+import FRMessaging from '../services/FRMessaging';
 
 const RootStack = createStackNavigator();
+
 export const AppNavigator = () => {
+  const messaging = React.useMemo(() => new FRMessaging(), []);
+
   React.useEffect(() => {
     //Ask for user permission to allow push notifications
-    requestUserPermission();
-    const msg = subscribeMessage();
+    messaging.requestUserPermission();
+
+    const msg = messaging.subscribeMessage();
     return () => {
       msg;
       (isReadyRef as React.MutableRefObject<boolean>).current = false;

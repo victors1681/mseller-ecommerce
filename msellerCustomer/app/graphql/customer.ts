@@ -64,6 +64,13 @@ export const LOGIN = gql`
       authToken
       refreshToken
       sessionToken
+      customer {
+        id
+        email
+        firstName
+        lastName
+        username
+      }
       user {
         id
         name
@@ -88,9 +95,11 @@ export const REGISTER_CUSTOMER = gql`
       authToken
       refreshToken
       customer {
+        id
         email
         databaseId
         firstName
+        lastName
         isJwtAuthSecretRevoked
         jwtAuthExpiration
         jwtAuthToken

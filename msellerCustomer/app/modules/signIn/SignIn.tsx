@@ -19,6 +19,7 @@ import {LoadingIndicator} from 'app/modules/common';
 import {CustomInput} from 'app/modules/common/form';
 import {signInValidationSchema} from './extra/signInValidationSchema';
 import {useCustomer} from 'app/hooks';
+import FRDatabase from 'app/services/FRDatabase';
 
 interface LoginFormProps {
   email: string;
@@ -48,6 +49,18 @@ export const SignIn = (): React.ReactElement => {
     });
 
     if (response) {
+      const customer = response.data?.login?.customer;
+
+      if (customer) {
+        const db = new FRDatabase();
+        const options = {
+          firstName: customer.firstName,
+          lastName: customer.lastName,
+          email: customer.email,
+        };
+        await db.saveToken(customer.id, options);
+      }
+
       setSubmitting(false);
       resetForm();
       navigation.dispatch(StackActions.popToTop());
