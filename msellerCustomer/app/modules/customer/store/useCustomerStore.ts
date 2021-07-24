@@ -255,7 +255,7 @@ export const useCustomerStore = (): CustomerStore => {
     try {
       const response = await updateCustomer({
         variables: {
-          input,
+          input: {id: customer && customer.id, ...input},
         },
       });
 

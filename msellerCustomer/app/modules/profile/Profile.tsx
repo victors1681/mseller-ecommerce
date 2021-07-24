@@ -1,10 +1,10 @@
 import React from 'react';
 import {useCustomer} from 'app/hooks/useCustomer';
 import {ScrollView} from 'react-native';
-import {Button, StyleService, useStyleSheet} from '@ui-kitten/components';
+import {StyleService, useStyleSheet} from '@ui-kitten/components';
 import {SettingHeader} from 'app/modules/settings/extra/SettingHeader';
 import {ProfileSetting} from './extra/profile-setting.component';
-
+import {ChangePassword} from './extra/ChangePassword';
 import {Loading, Error} from '../common';
 
 export const Profile = () => {
@@ -60,9 +60,7 @@ export const Profile = () => {
         hint="Teléfono"
         value={phoneNumber}
       />
-      <Button style={styles.doneButton} appearance="outline">
-        Cambiar Contraseña
-      </Button>
+      <ChangePassword />
     </ScrollView>
   );
 };
@@ -89,10 +87,6 @@ const themedStyle = StyleService.create({
     padding: 16,
   },
   section: {
-    marginTop: 24,
-  },
-  doneButton: {
-    marginHorizontal: 24,
     marginTop: 24,
   },
 });

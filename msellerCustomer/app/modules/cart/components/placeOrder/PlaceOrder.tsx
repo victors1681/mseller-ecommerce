@@ -1,5 +1,5 @@
 import React from 'react';
-import {ListRenderItemInfo, View} from 'react-native';
+import {Alert, ListRenderItemInfo, View} from 'react-native';
 import {
   Button,
   Card,
@@ -109,18 +109,15 @@ const usePlaceOrder = () => {
       return arg.message !== undefined;
     };
 
-    if (response) {
+    if (isCreated(response)) {
       await clearCart();
       setSubmitting(false);
-      if (isCreated(response)) {
-        gotoCongrats(response.data?.createOrder?.order?.databaseId);
-      } else if (isError(response)) {
-        //error
-        console.error(response.message);
-      }
-    } else {
-      console.error('error');
+      gotoCongrats(response.data?.createOrder?.order?.databaseId);
+    } else if (isError(response)) {
+      //error
       setSubmitting(false);
+      Alert.alert('Error al crear la orden', response.message);
+      console.error(response.message);
     }
   }, [
     customer,
