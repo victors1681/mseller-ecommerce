@@ -14,7 +14,7 @@ import FRMessaging from '../services/FRMessaging';
 const RootStack = createStackNavigator();
 
 export const AppNavigator = () => {
-  const messaging = React.useMemo(() => new FRMessaging(), []);
+  const messaging = React.useMemo(() => new FRMessaging(navigationRef), []);
 
   React.useEffect(() => {
     //Ask for user permission to allow push notifications

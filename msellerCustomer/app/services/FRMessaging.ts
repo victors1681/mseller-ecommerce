@@ -1,8 +1,14 @@
 import messaging from '@react-native-firebase/messaging';
+import {NavigationContainerRef} from '@react-navigation/core';
+import {ScreenLinks} from 'app/navigation/ScreenLinks';
 import {Alert} from 'react-native';
 import Config from 'react-native-config';
 
 export class FRMessaging {
+  navigationRef?: React.RefObject<NavigationContainerRef>;
+  constructor(navigationRef: React.RefObject<NavigationContainerRef>) {
+    this.navigationRef = navigationRef;
+  }
   requestUserPermission = async () => {
     const authStatus = await messaging().requestPermission();
     const enabled =
@@ -14,8 +20,6 @@ export class FRMessaging {
 
       // Get the token
       //await messaging().registerDeviceForRemoteMessages();
-      const token = await messaging().getToken();
-      console.log('Device Token', token);
 
       console.log('Authorization status:', authStatus);
 
@@ -29,6 +33,22 @@ export class FRMessaging {
   subscribeMessage = () => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
       Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+    });
+
+    messaging().setBackgroundMessageHandler(async remoteMessage => {
+      Alert.alert(
+        'A new FCM message arrived! background',
+        JSON.stringify(remoteMessage),
+      );
+    });
+
+    messaging().onNotificationOpenedApp(remoteMessage => {
+      console.log(
+        'Notification caused app to open from background state:',
+        remoteMessage.notification,
+      );
+      this.navigationRef?.current?.navigate(ScreenLinks.ORDERS);
+      //navigation.navigate(remoteMessage.data.type);
     });
 
     return unsubscribe;
