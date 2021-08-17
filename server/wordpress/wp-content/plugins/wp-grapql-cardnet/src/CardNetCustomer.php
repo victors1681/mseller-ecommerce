@@ -314,6 +314,21 @@ class CardNetCustomer
             ]
         ];
 
+        $enablePaymentInput = [
+            'customerId' => [
+                'type' => ['non_null' => 'Int'],
+                'description' => __('Customer ID'),
+            ],
+            'ActivationCode' => [
+                'type' => ['non_null' => 'Int'],
+                'description' => __('Código de activación emitido por el banco emisor de la tarjeta'),
+            ],
+            'Token' => [
+                'type' => ['non_null' => 'Int'],
+                'description' => __('Token de la tarjeta a activar'),
+            ]
+        ];
+
 
 
         /**
@@ -400,6 +415,21 @@ class CardNetCustomer
 
         register_graphql_mutation('deleteCardnetPaymentProfile', [
             'inputFields'  => $removePaymentProfileInput,
+            'outputFields' => $customerFields,
+            'mutateAndGetPayload' => function ($input, $context, $info) {
+
+                $carnetApi = new CardNetApi();
+                $result = $carnetApi->delete_payment_profile($input);
+                return self::mapCustomerObject($result);
+            }
+        ]);
+
+        /**
+         * Enable Payment
+         */
+
+        register_graphql_mutation('enableCardnetPayment', [
+            'inputFields'  => $enablePaymentInput,
             'outputFields' => $customerFields,
             'mutateAndGetPayload' => function ($input, $context, $info) {
 
