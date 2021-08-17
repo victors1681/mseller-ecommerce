@@ -190,7 +190,6 @@ class CardNetApi
         return $result;
     }
 
-
     function get_purchase($purchaseId)
     {
 
@@ -205,6 +204,49 @@ class CardNetApi
 
         $api_response = json_decode(wp_remote_retrieve_body($response), true);
         $result = $api_response['Response'];
+        $this->isErrors($api_response);
+
+        return $result;
+    }
+
+    function get_purchase_list()
+    {
+
+        $api_url = "{$this->base_url}/purchase/";
+
+        $response = wp_remote_get(esc_url_raw($api_url), ['headers' => $this->getApiHeaders(), 'timeout' => 100,]);
+
+        if (is_wp_error($response)) {
+            // Work with the $result data
+            throw new UserError(__($response->get_error_message(), 'wp-graphql'));
+        }
+
+        $api_response = json_decode(wp_remote_retrieve_body($response), true);
+        $result = $api_response['Response'];
+        $this->isErrors($api_response);
+
+        return $result;
+    }
+
+    function refund($payload)
+    {
+        $purchaseId = strval($payload['purchaseId']);
+
+        $api_url = "{$this->base_url}/purchase/{$purchaseId}/refund";
+
+
+        $requestData = array('headers' => $this->getApiHeaders(), 'body' => wp_json_encode($payload));
+        $response = wp_remote_post(esc_url_raw($api_url), $requestData);
+
+
+        if (is_wp_error($response)) {
+            // Work with the $result data
+            throw new UserError(__($response->get_error_message(), 'wp-graphql'));
+        }
+
+        $api_response = json_decode(wp_remote_retrieve_body($response), true);
+        $result = $api_response['Response'];
+
         $this->isErrors($api_response);
 
         return $result;

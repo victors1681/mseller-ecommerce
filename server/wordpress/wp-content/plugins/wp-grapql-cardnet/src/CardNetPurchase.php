@@ -100,6 +100,17 @@ class CardNetPurchase
         ];
     }
 
+
+    public static function mapPurchaseList($purchases)
+    {
+        $s = array();
+        foreach ($purchases as $purchase) {
+            array_push($s, self::mapPurchase($purchase));
+        }
+
+        return $s;
+    }
+
     function register_cardnet_purchase_fields()
     {
 
@@ -437,12 +448,30 @@ class CardNetPurchase
             }
         ]);
 
+        $refundInput = [
+            'purchaseId' => [
+                'type' => ['non_null' => 'Int'],
+                'description' => __('Identificador de la compra'),
+            ],
+        ];
+
+        register_graphql_mutation('refundCardnet', [
+            'inputFields'  => $refundInput,
+            'outputFields' => $purchaseFields,
+            'mutateAndGetPayload' => function ($input, $context, $info) {
+
+                $carnetApi = new CardNetApi();
+                $result = $carnetApi->refund($input);
+                return self::mapPurchase($result);
+            }
+        ]);
+
 
         /**
          * Resolver
          */
 
-        register_graphql_field('RootQuery', 'cardnetPurchase', [
+        register_graphql_field('RootQuery', 'purchaseCardnet', [
             'type' => 'CardNetPurchase',
             'description' => __('Obtener información de una compra', 'cardnet'),
             'args' => [
@@ -460,6 +489,21 @@ class CardNetPurchase
                 $result = $carnetApi->get_purchase($purchaseId);
 
                 $mapped = self::mapPurchase($result);
+                return $mapped;
+            }
+        ]);
+
+
+        register_graphql_field('RootQuery', 'purchaseListCarnet', [
+            'type' =>  ['list_of' => 'CardNetPurchase'],
+            'description' => __('Obtener información de una compra', 'cardnet'),
+            'resolve' => function ($source, $args, $context, $info) {
+
+                $carnetApi = new CardNetApi();
+
+                $result = $carnetApi->get_purchase_list();
+
+                $mapped = self::mapPurchaseList($result);
                 return $mapped;
             }
         ]);
