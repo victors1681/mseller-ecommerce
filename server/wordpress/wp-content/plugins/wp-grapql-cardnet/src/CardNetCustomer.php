@@ -214,22 +214,13 @@ class CardNetCustomer
             'fields' => $customerFields
         ]);
 
-        /**
-         * Customer Object
-         */
-
-        register_graphql_object_type('CardnetCustomerPayload', [
-            'description' => __('Carnet Customer Object', 'cardnet'),
-            'fields' => $customerFields
-        ]);
-
 
         /**
          * Resolver
          */
 
         register_graphql_field('RootQuery', 'cardnetCustomer', [
-            'type' => 'CardnetCustomerPayload',
+            'type' => 'CardNetCustomer',
             'description' => __('Describe what the field should be used for', 'cardnet'),
             'args' => [
                 'customerId' => [
@@ -442,7 +433,7 @@ class CardNetCustomer
          * Enable Payment
          */
 
-        register_graphql_mutation('enableCardnetPayment', [
+        register_graphql_mutation('activateCardnetPayment', [
             'inputFields'  => $enablePaymentInput,
             'outputFields' => $customerFields,
             'mutateAndGetPayload' => function ($input, $context, $info) {

@@ -313,6 +313,11 @@ class CardNetPurchase
             ],
         ];
 
+        register_graphql_object_type('CardNetPurchase', [
+            'description' => __('CardNet Customer', 'Información del cliente que realiza el pago. Algunos medios de pago pueden requerir información adicional del cliente para poder tramitar la autorización.'),
+            'fields' => $purchaseFields
+        ]);
+
 
 
         $purchaseInput = [
@@ -362,6 +367,7 @@ class CardNetPurchase
             // ]
         ];
 
+
         register_graphql_mutation('purchaseCardnet', [
             'inputFields'  => $purchaseInput,
             'outputFields' => $purchaseFields,
@@ -370,6 +376,33 @@ class CardNetPurchase
                 $carnetApi = new CardNetApi();
                 $result = $carnetApi->add_new_purchase($input);
                 return CardNetPurchase::mapPurchase($result);
+            }
+        ]);
+
+
+        /**
+         * Resolver
+         */
+
+        register_graphql_field('RootQuery', 'cardnetPurchase', [
+            'type' => 'CardNetPurchase',
+            'description' => __('Obtener información de una compra', 'cardnet'),
+            'args' => [
+                'purchaseId' => [
+                    'type' => array('non_null' => 'Int'),
+                    'description' => __('Purchase ID number', 'cardnet'),
+                ]
+            ],
+            'resolve' => function ($source, $args, $context, $info) {
+
+                $purchaseId = $args['purchaseId'];
+
+                $carnetApi = new CardNetApi();
+
+                $result = $carnetApi->get_purchase($purchaseId);
+
+                $mapped = self::mapPurchase($result);
+                return $mapped;
             }
         ]);
     }
