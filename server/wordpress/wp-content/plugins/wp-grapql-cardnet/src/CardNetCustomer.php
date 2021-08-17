@@ -110,6 +110,10 @@ class CardNetCustomer
             ]
         ];
 
+        /**
+         * Register Custom Object
+         */
+
         register_graphql_object_type('PaymentProfiles', [
             'description' => __('Payment Profiles', 'Este objeto es obtenido luego de ingresar un medio de pago, en este se informan los datos de un medio de pago registrado por el cliente al que está asociado, o sea el número de la tarjeta. La información ser obtenida a través de la consulta del cliente'),
             'fields' => $paymentProfileFields
@@ -199,6 +203,16 @@ class CardNetCustomer
                 'description' => __('URL de captura de datos de tarjeta (es la URL que se debe abrir en un iframe para iniciar el proceso de captura de datos sensibles). Solo es válida para Customers de tipo “Commerce”.', 'cardnet'),
             ],
         ];
+
+
+        /**
+         * Register Cardnet Customer Object
+         */
+
+        register_graphql_object_type('CardNetCustomer', [
+            'description' => __('CardNet Customer', 'Información del cliente que realiza el pago. Algunos medios de pago pueden requerir información adicional del cliente para poder tramitar la autorización.'),
+            'fields' => $customerFields
+        ]);
 
         /**
          * Customer Object

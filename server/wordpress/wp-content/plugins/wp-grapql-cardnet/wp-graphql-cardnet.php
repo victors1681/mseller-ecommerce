@@ -99,6 +99,7 @@ if (!class_exists('\WPGraphQL\CardNet')) :
 		{
 			// Initialize the GraphQL fields for managing tokens.
 			\WPGraphQL\CardNet\CardNetCustomer::init();
+			\WPGraphQL\CardNet\CardNetPurchase::init();
 		}
 	}
 endif;
