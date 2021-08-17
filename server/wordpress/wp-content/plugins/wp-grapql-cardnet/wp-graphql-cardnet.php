@@ -14,11 +14,9 @@
  * @license     GPL-3
  */
 
-use GraphQL\Error\UserError;
 
-namespace WPGraphQL\CardNet;
+//namespace WPGraphQL\CardNet;
 
-defined('ABSPATH') or exit;
 
 spl_autoload_register(function ($class) {
 
@@ -42,6 +40,7 @@ spl_autoload_register(function ($class) {
 		include($file);
 	}
 });
+
 
 
 if (!class_exists('\WPGraphQL\CardNet')) :
@@ -99,10 +98,12 @@ if (!class_exists('\WPGraphQL\CardNet')) :
 		private static function init()
 		{
 			// Initialize the GraphQL fields for managing tokens.
-			CarNetCustomer::init();
+			\WPGraphQL\CardNet\CardNetCustomer::init();
 		}
 	}
 endif;
+
+
 
 
 /**
@@ -110,7 +111,7 @@ endif;
  */
 function init()
 {
-	new CardNetConfig();
+	new \WPGraphQL\CardNet\CardNetConfig();
 	return CardNet::instance();
 }
 
@@ -134,5 +135,5 @@ function cardnet_add_to_gateways($gateways)
 
 
 
-add_action('plugins_loaded', '\WPGraphQL\CardNet\init', 11);
+add_action('plugins_loaded', 'init', 11);
 add_filter('woocommerce_payment_gateways', '\WPGraphQL\CardNet\cardnet_add_to_gateways');

@@ -14,7 +14,10 @@
   },
   "autoload": {
     "psr-4": {
-      "Cardnet\\": "src/"
-    }
+      "WPGraphQL\\CarNet\\": "src/"
+    },
+    "classmap": [
+      "src/"
+    ]
   }
 }
