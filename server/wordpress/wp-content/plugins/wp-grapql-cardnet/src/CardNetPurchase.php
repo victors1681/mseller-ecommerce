@@ -13,10 +13,10 @@ class CardNetPurchase
 
     public static function mapStep($steps)
     {
-        $payments = array();
+        $s = array();
         foreach ($steps as $step) {
 
-            array_push($payments, [
+            array_push($s, [
                 "step" => $step["Step"],
                 "created" => $step["Created"],
                 "status" => $step["Status"],
@@ -29,7 +29,25 @@ class CardNetPurchase
             ]);
         }
 
-        return $payments;
+        return $s;
+    }
+
+    public static function mapRefund($refunds)
+    {
+        $r = array();
+        foreach ($refunds as $refund) {
+
+            array_push($r, [
+                "purchaseRefundId" => $refund["PurchaseRefundId"],
+                "created" => $refund["Created"],
+                "uniqueID" => $refund["UniqueID"],
+                "amount" => $refund["Amount"],
+                "currency" => $refund["Currency"],
+                "status" => $refund["Status"]
+            ]);
+        }
+
+        return $r;
     }
 
 
@@ -43,7 +61,7 @@ class CardNetPurchase
             'status' => $transaction['Status'],
             'description' => $transaction['Description'],
             'approvalCode' => $transaction['ApprovalCode'],
-            'steps' => CardNetPurchase::mapStep($transaction['Steps'])
+            'steps' => self::mapStep($transaction['Steps'])
         ];
     }
 
@@ -62,7 +80,7 @@ class CardNetPurchase
             'created' => $result['Created'],
             'trxToken' => $result['TrxToken'],
             'order' => $result['Order'],
-            'transaction' => CardNetPurchase::mapTransaction($result['Transaction']),
+            'transaction' => self::mapTransaction($result['Transaction']),
             'capture' => $result['Capture'],
             'amount' => $result['Amount'],
             'originalAmount' => $result['OriginalAmount'],
@@ -71,14 +89,14 @@ class CardNetPurchase
             'currency' => $result['Currency'],
             'description' => $result['Description'],
             'customer' => CardNetCustomer::mapCustomerObject($result['Customer']),
-            'refundList' => $result['RefundList'], //TODO: map refund
+            'refundList' => self::mapRefund($result['RefundList']),
             'uniqueID' => $result['UniqueID'],
             'planID' => $result['PlanID'],
             'additionalData' => $result['AdditionalData'],
             'customerUserAgent' => $result['CustomerUserAgent'],
             'customerIP' => $result['CustomerIP'],
             'url' => $result['URL'],
-            'dataDO' => CardNetPurchase::mapDataDO($result['DataDO']),
+            'dataDO' => self::mapDataDO($result['DataDO']),
         ];
     }
 
@@ -203,6 +221,46 @@ class CardNetPurchase
         ]);
 
 
+        /**
+         * Refund Object
+         */
+
+        $refund =  [
+            'PurchaseRefundId' => [
+                'type' => 'Int',
+                'description' => __('Identificador de la Transacción', 'cardnet'),
+            ],
+            'Created' => [
+                'type' => 'Float',
+                'description' => __('Fecha y hora del momento de creación de la transacción.', 'cardnet'),
+            ],
+            'UniqueID' => [
+                'type' => 'String',
+                'description' => __('', 'cardnet'),
+            ],
+            'Amount' => [
+                'type' => 'Int',
+                'description' => __('', 'cardnet'),
+            ],
+            'Currency' => [
+                'type' => 'String',
+                'description' => __('', 'cardnet'),
+            ],
+            'Status' => [
+                'type' => 'String',
+                'description' => __('', 'cardnet'),
+            ]
+        ];
+
+        /**
+         * Register Refund Object
+         */
+
+        register_graphql_object_type('CardNetRefund', [
+            'description' => __('Objeto utilizado para obtener datos de la República Dominicana (Código ISO-3166 = DO).', 'cardnet'),
+            'fields' => $refund
+        ]);
+
 
 
         /**
@@ -262,8 +320,8 @@ class CardNetPurchase
                 'type' => 'CardNetCustomer',
                 'description' => __('Información del cliente que realiza el pago. Algunos medios de pago pueden requerir información adicional del cliente para poder tramitar la autorización.', 'cardnet'),
             ],
-            'RefundList' => [ //Pending to define the refund list
-                'type' => 'String',
+            'RefundList' => [
+                'type' => 'CardNetRefund',
                 'description' => __('Lista de devoluciones realizadas a la compra.', 'cardnet'),
             ],
             'PlanID' => [
@@ -375,7 +433,7 @@ class CardNetPurchase
 
                 $carnetApi = new CardNetApi();
                 $result = $carnetApi->add_new_purchase($input);
-                return CardNetPurchase::mapPurchase($result);
+                return self::mapPurchase($result);
             }
         ]);
 
