@@ -442,6 +442,8 @@ class CardNetPurchase
             'outputFields' => $purchaseFields,
             'mutateAndGetPayload' => function ($input, $context, $info) {
 
+                CardNetUtils::isAuthenticated();
+
                 $carnetApi = new CardNetApi();
                 $result = $carnetApi->add_new_purchase($input);
                 return self::mapPurchase($result);
@@ -459,6 +461,8 @@ class CardNetPurchase
             'inputFields'  => $refundInput,
             'outputFields' => $purchaseFields,
             'mutateAndGetPayload' => function ($input, $context, $info) {
+
+                CardNetUtils::isAuthenticated();
 
                 $carnetApi = new CardNetApi();
                 $result = $carnetApi->refund($input);
@@ -482,6 +486,8 @@ class CardNetPurchase
             ],
             'resolve' => function ($source, $args, $context, $info) {
 
+                CardNetUtils::isAuthenticated();
+
                 $purchaseId = $args['purchaseId'];
 
                 $carnetApi = new CardNetApi();
@@ -498,6 +504,8 @@ class CardNetPurchase
             'type' =>  ['list_of' => 'CardNetPurchase'],
             'description' => __('Obtener información de una compra', 'cardnet'),
             'resolve' => function ($source, $args, $context, $info) {
+
+                CardNetUtils::isAdmin();
 
                 $carnetApi = new CardNetApi();
 

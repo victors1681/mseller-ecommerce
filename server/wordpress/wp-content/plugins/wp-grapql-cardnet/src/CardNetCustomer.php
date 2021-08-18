@@ -4,6 +4,7 @@ namespace WPGraphQL\CardNet;
 
 use ArrayObject;
 use WPGraphQL\CardNet\CardNetApi;
+use WPGraphQL\CardNet\CardNetUtils;
 
 class CardNetCustomer
 {
@@ -230,6 +231,8 @@ class CardNetCustomer
             ],
             'resolve' => function ($source, $args, $context, $info) {
 
+                CardNetUtils::isAuthenticated();
+
                 $customerId = $args['customerId'];
 
                 $carnetApi = new CardNetApi();
@@ -356,6 +359,8 @@ class CardNetCustomer
             'outputFields' => $customerFields,
             'mutateAndGetPayload' => function ($input, $context, $info) {
 
+                CardNetUtils::isAuthenticated();
+
                 $carnetApi = new CardNetApi();
                 $result = $carnetApi->add_new_customer($input);
                 return self::mapCustomerObject($result);
@@ -391,6 +396,8 @@ class CardNetCustomer
             'outputFields' => $customerFields,
             'mutateAndGetPayload' => function ($input, $context, $info) {
 
+                CardNetUtils::isAuthenticated();
+
                 $carnetApi = new CardNetApi();
                 $result = $carnetApi->update_customer($input);
                 return self::mapCustomerObject($result);
@@ -406,6 +413,8 @@ class CardNetCustomer
             'inputFields'  => $updatePaymentProfileInput,
             'outputFields' => $customerFields,
             'mutateAndGetPayload' => function ($input, $context, $info) {
+
+                CardNetUtils::isAuthenticated();
 
                 $carnetApi = new CardNetApi();
                 $result = $carnetApi->update_payment_profile($input);
@@ -423,6 +432,8 @@ class CardNetCustomer
             'outputFields' => $customerFields,
             'mutateAndGetPayload' => function ($input, $context, $info) {
 
+                CardNetUtils::isAuthenticated();
+
                 $carnetApi = new CardNetApi();
                 $result = $carnetApi->delete_payment_profile($input);
                 return self::mapCustomerObject($result);
@@ -437,6 +448,8 @@ class CardNetCustomer
             'inputFields'  => $enablePaymentInput,
             'outputFields' => $customerFields,
             'mutateAndGetPayload' => function ($input, $context, $info) {
+
+                CardNetUtils::isAuthenticated();
 
                 $carnetApi = new CardNetApi();
                 $result = $carnetApi->delete_payment_profile($input);
