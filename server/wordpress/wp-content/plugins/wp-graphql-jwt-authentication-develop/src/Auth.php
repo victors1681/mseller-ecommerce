@@ -6,7 +6,8 @@ use Firebase\JWT\JWT;
 use GraphQL\Error\UserError;
 use WPGraphQL\Data\DataSource;
 
-class Auth {
+class Auth
+{
 
 	protected static $issued;
 	protected static $expiration;
@@ -20,12 +21,12 @@ class Auth {
 	 * @return mixed|null|string
 	 * @since 0.0.1
 	 */
-	public static function get_secret_key() {
+	public static function get_secret_key()
+	{
 
 		// Use the defined secret key, if it exists
-		$secret_key = defined( 'GRAPHQL_JWT_AUTH_SECRET_KEY' ) && ! empty( GRAPHQL_JWT_AUTH_SECRET_KEY ) ? GRAPHQL_JWT_AUTH_SECRET_KEY : null;
-		return apply_filters( 'graphql_jwt_auth_secret_key', $secret_key );
-
+		$secret_key = defined('GRAPHQL_JWT_AUTH_SECRET_KEY') && !empty(GRAPHQL_JWT_AUTH_SECRET_KEY) ? GRAPHQL_JWT_AUTH_SECRET_KEY : null;
+		return apply_filters('graphql_jwt_auth_secret_key', $secret_key);
 	}
 
 	/**
@@ -38,46 +39,47 @@ class Auth {
 	 * @throws \Exception
 	 * @since 0.0.1
 	 */
-	public static function login_and_get_token( $username, $password ) {
+	public static function login_and_get_token($username, $password)
+	{
 
 		/**
 		 * First thing, check the secret key if not exist return a error
 		 */
-		if ( empty( self::get_secret_key() ) ) {
-			throw new UserError( __( 'JWT Auth is not configured correctly. Please contact a site administrator.', 'wp-graphql-jwt-authentication' ) );
+		if (empty(self::get_secret_key())) {
+			throw new UserError(__('JWT Auth is not configured correctly. Please contact a site administrator.', 'wp-graphql-jwt-authentication'));
 		}
 
 		/**
 		 * Authenticate the user and get the Authenticated user object in response
 		 */
-		$user = self::authenticate_user( $username, $password );
+		$user = self::authenticate_user($username, $password);
 
 		/**
 		 * Set the current user to the authenticated user
 		 */
-		if ( empty( $user->data->ID ) ) {
-			throw new UserError( __( 'The user could not be found', 'wp-graphql-jwt-authentication' ) );
+		if (empty($user->data->ID)) {
+			throw new UserError(__('The user could not be found', 'wp-graphql-jwt-authentication'));
 		}
 
 		/**
 		 * Set the current user as the authenticated user
 		 */
-		wp_set_current_user( $user->data->ID );
+		wp_set_current_user($user->data->ID);
 
 		/**
 		 * The token is signed, now create the object with basic user data to send to the client
 		 */
 		$response = [
-			'authToken'    => self::get_signed_token( wp_get_current_user() ),
-			'refreshToken' => self::get_refresh_token( wp_get_current_user() ),
-			'user'         => DataSource::resolve_user( $user->data->ID, \WPGraphQL::get_app_context() ),
+			'authToken'    => self::get_signed_token(wp_get_current_user()),
+			'refreshToken' => self::get_refresh_token(wp_get_current_user()),
+			'user'         => DataSource::resolve_user($user->data->ID, \WPGraphQL::get_app_context()),
 			'id'           => $user->data->ID,
 		];
 
 		/**
 		 * Let the user modify the data before send it back
 		 */
-		return ! empty( $response ) ? $response : [];
+		return !empty($response) ? $response : [];
 	}
 
 	/**
@@ -85,8 +87,9 @@ class Auth {
 	 *
 	 * @return int
 	 */
-	public static function get_token_issued() {
-		if ( ! isset( self::$issued ) ) {
+	public static function get_token_issued()
+	{
+		if (!isset(self::$issued)) {
 			self::$issued = time();
 		}
 
@@ -98,9 +101,10 @@ class Auth {
 	 *
 	 * @return mixed|string|null
 	 */
-	public static function get_token_expiration() {
+	public static function get_token_expiration()
+	{
 
-		if ( ! isset( self::$expiration ) ) {
+		if (!isset(self::$expiration)) {
 
 			/**
 			 * Set the expiration time, default is 300 seconds.
@@ -112,10 +116,10 @@ class Auth {
 			 *
 			 * @param string $expiration The timestamp for when the token should expire
 			 */
-			self::$expiration = self::get_token_issued() + apply_filters( 'graphql_jwt_auth_expire', $expiration );
+			self::$expiration = self::get_token_issued() + apply_filters('graphql_jwt_auth_expire', $expiration);
 		}
 
-		return ! empty( self::$expiration ) ? self::$expiration : null;
+		return !empty(self::$expiration) ? self::$expiration : null;
 	}
 
 	/**
@@ -126,13 +130,14 @@ class Auth {
 	 *
 	 * @return null|string
 	 */
-	protected static function get_signed_token( $user, $cap_check = true ) {
+	protected static function get_signed_token($user, $cap_check = true)
+	{
 
 		/**
 		 * Only allow the currently signed in user access to a JWT token
 		 */
-		if ( true === $cap_check && get_current_user_id() !== $user->ID || 0 === $user->ID ) {
-			return new \WP_Error( 'graphql-jwt-no-permissions', __( 'Only the user requesting a token can get a token issued for them', 'wp-graphql-jwt-authentication' ) );
+		if (true === $cap_check && get_current_user_id() !== $user->ID || 0 === $user->ID) {
+			return new \WP_Error('graphql-jwt-no-permissions', __('Only the user requesting a token can get a token issued for them', 'wp-graphql-jwt-authentication'));
 		}
 
 		/**
@@ -141,14 +146,14 @@ class Auth {
 		 * @param string   $issued The timestamp of the authentication, used in the token
 		 * @param \WP_User $user   The authenticated user
 		 */
-		$not_before = apply_filters( 'graphql_jwt_auth_not_before', self::get_token_issued(), $user );
+		$not_before = apply_filters('graphql_jwt_auth_not_before', self::get_token_issued(), $user);
 
 
 		/**
 		 * Configure the token array, which will be encoded
 		 */
 		$token = [
-			'iss'  => get_bloginfo( 'url' ),
+			'iss'  => get_bloginfo('url'),
 			'iat'  => self::get_token_issued(),
 			'nbf'  => $not_before,
 			'exp'  => self::get_token_expiration(),
@@ -165,13 +170,13 @@ class Auth {
 		 * @param array    $token The token array that will be encoded
 		 * @param \WP_User $token The authenticated user
 		 */
-		$token = apply_filters( 'graphql_jwt_auth_token_before_sign', $token, $user );
+		$token = apply_filters('graphql_jwt_auth_token_before_sign', $token, $user);
 
 		/**
 		 * Encode the token
 		 */
 		JWT::$leeway = 60;
-		$token       = JWT::encode( $token, self::get_secret_key() );
+		$token       = JWT::encode($token, self::get_secret_key());
 
 		/**
 		 * Filter the token before returning it, allowing for individual systems to override what's returned.
@@ -181,13 +186,12 @@ class Auth {
 		 * @param string $token   The signed JWT token that will be returned
 		 * @param int    $user_id The User the JWT is associated with
 		 */
-		$token = apply_filters( 'graphql_jwt_auth_signed_token', $token, $user->ID );
+		$token = apply_filters('graphql_jwt_auth_signed_token', $token, $user->ID);
 
 		/**
 		 * Return the token
 		 */
-		return ! empty( $token ) ? $token : null;
-
+		return !empty($token) ? $token : null;
 	}
 
 	/**
@@ -197,14 +201,15 @@ class Auth {
 	 *
 	 * @return mixed|string
 	 */
-	public static function get_user_jwt_secret( $user_id ) {
+	public static function get_user_jwt_secret($user_id)
+	{
 
-		$is_revoked = Auth::is_jwt_secret_revoked( $user_id );
+		$is_revoked = Auth::is_jwt_secret_revoked($user_id);
 
 		/**
 		 * If the secret has been revoked, throw an error
 		 */
-		if ( true === (bool) $is_revoked ) {
+		if (true === (bool) $is_revoked) {
 			return null;
 		}
 
@@ -214,26 +219,26 @@ class Auth {
 		 * @param     string 'edit_users'
 		 * @param int $user_id
 		 */
-		$capability = apply_filters( 'graphql_jwt_auth_edit_users_capability', 'edit_users', $user_id );
+		$capability = apply_filters('graphql_jwt_auth_edit_users_capability', 'edit_users', $user_id);
 
 		/**
 		 * If the request is not from the current_user or the current_user doesn't have the proper capabilities, don't return the secret
 		 */
-		$is_current_user = ( $user_id === get_current_user_id() ) ? true : false;
-		if ( ! $is_current_user && ! current_user_can( $capability ) ) {
+		$is_current_user = ($user_id === get_current_user_id()) ? true : false;
+		if (!$is_current_user && !current_user_can($capability)) {
 			return null;
 		}
 
 		/**
 		 * Get the stored secret
 		 */
-		$secret = get_user_meta( $user_id, 'graphql_jwt_auth_secret', true );
+		$secret = get_user_meta($user_id, 'graphql_jwt_auth_secret', true);
 
 		/**
 		 * If there is no stored secret, or it's not a string
 		 */
-		if ( empty( $secret ) || ! is_string( $secret ) ) {
-			$secret = Auth::issue_new_user_secret( $user_id );
+		if (empty($secret) || !is_string($secret)) {
+			$secret = Auth::issue_new_user_secret($user_id);
 		}
 
 		/**
@@ -242,7 +247,7 @@ class Auth {
 		 * @param string $secret  The GraphQL JWT Auth Secret associated with the user
 		 * @param int    $user_id The ID of the user the secret is associated with
 		 */
-		return apply_filters( 'graphql_jwt_auth_user_secret', $secret, $user_id );
+		return apply_filters('graphql_jwt_auth_user_secret', $secret, $user_id);
 	}
 
 	/**
@@ -252,7 +257,8 @@ class Auth {
 	 *
 	 * @return string $secret The JWT User secret for the user.
 	 */
-	public static function issue_new_user_secret( $user_id ) {
+	public static function issue_new_user_secret($user_id)
+	{
 
 		/**
 		 * Get the current user secret
@@ -262,17 +268,16 @@ class Auth {
 		/**
 		 * If the JWT Secret is not revoked for the user, generate a new one
 		 */
-		if ( ! Auth::is_jwt_secret_revoked( $user_id ) ) {
+		if (!Auth::is_jwt_secret_revoked($user_id)) {
 
 			/**
 			 * Generate a new one and store it
 			 */
-			$secret = uniqid( 'graphql_jwt_' );
-			update_user_meta( $user_id, 'graphql_jwt_auth_secret', $secret );
-
+			$secret = uniqid('graphql_jwt_');
+			update_user_meta($user_id, 'graphql_jwt_auth_secret', $secret);
 		}
 
-		return ! is_wp_error( $secret ) ? $secret : null;
+		return !is_wp_error($secret) ? $secret : null;
 	}
 
 	/**
@@ -282,10 +287,11 @@ class Auth {
 	 *
 	 * @return bool
 	 */
-	public static function is_jwt_secret_revoked( $user_id ) {
-		$revoked = (bool) get_user_meta( $user_id, 'graphql_jwt_auth_secret_revoked', true );
+	public static function is_jwt_secret_revoked($user_id)
+	{
+		$revoked = (bool) get_user_meta($user_id, 'graphql_jwt_auth_secret_revoked', true);
 
-		return isset( $revoked ) && true === $revoked ? true : false;
+		return isset($revoked) && true === $revoked ? true : false;
 	}
 
 	/**
@@ -296,8 +302,9 @@ class Auth {
 	 *
 	 * @return null|string
 	 */
-	public static function get_token( $user, $cap_check = true ) {
-		return self::get_signed_token( $user, $cap_check );
+	public static function get_token($user, $cap_check = true)
+	{
+		return self::get_signed_token($user, $cap_check);
 	}
 
 	/**
@@ -307,7 +314,8 @@ class Auth {
 	 *
 	 * @return null|string
 	 */
-	public static function get_refresh_token( $user, $cap_check = true ) {
+	public static function get_refresh_token($user, $cap_check = true)
+	{
 
 		self::$is_refresh_token = true;
 
@@ -316,30 +324,30 @@ class Auth {
 		 * expiration long lived so that the token can be used for a long time without the client having to store a new
 		 * one.
 		 */
-		add_filter( 'graphql_jwt_auth_token_before_sign', function( $token, \WP_User $user ) {
-			$secret = Auth::get_user_jwt_secret( $user->ID );
+		add_filter('graphql_jwt_auth_token_before_sign', function ($token, \WP_User $user) {
+			$secret = Auth::get_user_jwt_secret($user->ID);
 
-			if ( ! empty( $secret ) && ! is_wp_error( $secret ) && true === self::is_refresh_token() ) {
+			if (!empty($secret) && !is_wp_error($secret) && true === self::is_refresh_token()) {
 
 				/**
 				 * Set the expiration date as a year from now to make the refresh token long lived, allowing the
 				 * token to be valid without changing as long as it has not been revoked or otherwise invalidated,
 				 * such as a refreshed user secret.
 				 */
-				$token['exp']                         = apply_filters( 'graphql_jwt_auth_refresh_token_expiration', ( self::get_token_issued() + ( DAY_IN_SECONDS * 365 ) ) );
+				$token['exp']                         = apply_filters('graphql_jwt_auth_refresh_token_expiration', (self::get_token_issued() + (DAY_IN_SECONDS * 365)));
 				$token['data']['user']['user_secret'] = $secret;
 
 				self::$is_refresh_token = false;
-
 			}
 
 			return $token;
-		}, 10, 2 );
+		}, 10, 2);
 
-		return self::get_signed_token( $user, $cap_check );
+		return self::get_signed_token($user, $cap_check);
 	}
 
-	public static function is_refresh_token() {
+	public static function is_refresh_token()
+	{
 		return true === self::$is_refresh_token ? true : false;
 	}
 
@@ -351,23 +359,29 @@ class Auth {
 	 *
 	 * @return null|\WP_Error|\WP_User
 	 */
-	protected static function authenticate_user( $username, $password ) {
+	protected static function authenticate_user($username, $password)
+	{
 
 		/**
 		 * Try to authenticate the user with the passed credentials
 		 */
-		$user = wp_authenticate( sanitize_user( $username ), trim( $password ) );
-
+		//$user = wp_authenticate( sanitize_user( $username ), trim( $password ) );
+		$user = wp_signon(
+			array(
+				'user_login'    => sanitize_user($username),
+				'user_password' => trim($password),
+			),
+			true
+		);
 		/**
 		 * If the authentication fails return a error
 		 */
-		if ( is_wp_error( $user ) ) {
-			$error_code = ! empty( $user->get_error_code() ) ? $user->get_error_code() : 'invalid login';
-			throw new UserError( esc_html( $error_code ) );
+		if (is_wp_error($user)) {
+			$error_code = !empty($user->get_error_code()) ? $user->get_error_code() : 'invalid login';
+			throw new UserError(esc_html($error_code));
 		}
 
-		return ! empty( $user ) ? $user : null;
-
+		return !empty($user) ? $user : null;
 	}
 
 	/**
@@ -379,7 +393,8 @@ class Auth {
 	 * @return mixed|false|\WP_User
 	 * @throws \Exception
 	 */
-	public static function filter_determine_current_user( $user ) {
+	public static function filter_determine_current_user($user)
+	{
 
 		/**
 		 * Validate the token, which will check the Headers to see if Authentication headers were sent
@@ -391,7 +406,7 @@ class Auth {
 		/**
 		 * If no token was generated, return the existing value for the $user
 		 */
-		if ( empty( $token ) || is_wp_error( $token ) ) {
+		if (empty($token) || is_wp_error($token)) {
 
 			/**
 			 * Return the user that was passed in to the filter
@@ -406,15 +421,13 @@ class Auth {
 			/**
 			 * Get the current user from the token
 			 */
-			$user = ! empty( $token ) && ! empty( $token->data->user->id ) ? $token->data->user->id : $user;
-
-
+			$user = !empty($token) && !empty($token->data->user->id) ? $token->data->user->id : $user;
 		}
 
 		/**
 		 * Everything is ok, return the user ID stored in the token
 		 */
-		return absint( $user );
+		return absint($user);
 	}
 
 	/**
@@ -425,7 +438,8 @@ class Auth {
 	 *
 	 * @return mixed|boolean|\WP_Error
 	 */
-	public static function revoke_user_secret( $user_id ) {
+	public static function revoke_user_secret($user_id)
+	{
 
 		/**
 		 * Filter the capability that is tied to editing/viewing user JWT Auth info
@@ -433,32 +447,27 @@ class Auth {
 		 * @param     string 'edit_users'
 		 * @param int $user_id
 		 */
-		$capability = apply_filters( 'graphql_jwt_auth_edit_users_capability', 'edit_users', $user_id );
+		$capability = apply_filters('graphql_jwt_auth_edit_users_capability', 'edit_users', $user_id);
 
 		/**
 		 * If the current user can edit users, or the current user is the user being edited
 		 */
 		if (
-			0 !== get_user_by( 'id', $user_id )->ID &&
-			(
-				current_user_can( $capability ) ||
-				$user_id === get_current_user_id()
-			)
+			0 !== get_user_by('id', $user_id)->ID &&
+			(current_user_can($capability) ||
+				$user_id === get_current_user_id())
 		) {
 
 			/**
 			 * Set the user meta as true, marking the secret as revoked
 			 */
-			update_user_meta( $user_id, 'graphql_jwt_auth_secret_revoked', 1 );
+			update_user_meta($user_id, 'graphql_jwt_auth_secret_revoked', 1);
 
 			return true;
-
 		} else {
 
-			return new \WP_Error( 'graphql-jwt-auth-cannot-revoke-secret', __( 'The JWT Auth Secret cannot be revoked for this user', 'wp-graphql-jwt-authentication' ) );
-
+			return new \WP_Error('graphql-jwt-auth-cannot-revoke-secret', __('The JWT Auth Secret cannot be revoked for this user', 'wp-graphql-jwt-authentication'));
 		}
-
 	}
 
 	/**
@@ -469,7 +478,8 @@ class Auth {
 	 *
 	 * @return mixed|boolean|\WP_Error
 	 */
-	public static function unrevoke_user_secret( int $user_id ) {
+	public static function unrevoke_user_secret(int $user_id)
+	{
 
 		/**
 		 * Filter the capability that is tied to editing/viewing user JWT Auth info
@@ -477,33 +487,31 @@ class Auth {
 		 * @param     string 'edit_users'
 		 * @param int $user_id
 		 */
-		$capability = apply_filters( 'graphql_jwt_auth_edit_users_capability', 'edit_users', $user_id );
+		$capability = apply_filters('graphql_jwt_auth_edit_users_capability', 'edit_users', $user_id);
 
 		/**
 		 * If the user_id is a valid user, and the current user can edit_users
 		 */
-		if ( 0 !== get_user_by( 'id', $user_id )->ID && current_user_can( $capability ) ) {
+		if (0 !== get_user_by('id', $user_id)->ID && current_user_can($capability)) {
 
 			/**
 			 * Issue a new user secret, invalidating any that may have previously been in place, and mark the
 			 * revoked meta key as false, showing that the secret has not been revoked
 			 */
-			Auth::issue_new_user_secret( $user_id );
-			update_user_meta( $user_id, 'graphql_jwt_auth_secret_revoked', 0 );
+			Auth::issue_new_user_secret($user_id);
+			update_user_meta($user_id, 'graphql_jwt_auth_secret_revoked', 0);
 
 			return true;
-
 		} else {
 
-			return new \WP_Error( 'graphql-jwt-auth-cannot-unrevoke-secret', __( 'The JWT Auth Secret cannot be unrevoked for this user', 'wp-graphql-jwt-authentication' ) );
-
+			return new \WP_Error('graphql-jwt-auth-cannot-unrevoke-secret', __('The JWT Auth Secret cannot be unrevoked for this user', 'wp-graphql-jwt-authentication'));
 		}
-
 	}
 
 
-	protected static function set_status( $status_code ) {
-		add_filter( 'graphql_response_status_code', function() use ( $status_code ) {
+	protected static function set_status($status_code)
+	{
+		add_filter('graphql_response_status_code', function () use ($status_code) {
 			return $status_code;
 		});
 	}
@@ -517,9 +525,10 @@ class Auth {
 	 * @throws \Exception
 	 * @return mixed|boolean|string
 	 */
-	public static function validate_token( $token = null, $refresh = false ) {
+	public static function validate_token($token = null, $refresh = false)
+	{
 
-		self::$is_refresh_token = ( true === $refresh ) ? true : false;
+		self::$is_refresh_token = (true === $refresh) ? true : false;
 
 		/**
 		 * If a token isn't passed to the method, check the Authorization Headers to see if a token was
@@ -527,7 +536,7 @@ class Auth {
 		 *
 		 * @since 0.0.1
 		 */
-		if ( empty( $token ) ) {
+		if (empty($token)) {
 
 			/**
 			 * Get the Auth header
@@ -539,24 +548,23 @@ class Auth {
 			 *
 			 * @since 0.0.1
 			 */
-			if ( empty( $auth_header ) ) {
+			if (empty($auth_header)) {
 				return $token;
 			} else {
 				/**
 				 * The HTTP_AUTHORIZATION is present verify the format
 				 * if the format is wrong return the user.
 				 */
-				list( $token ) = sscanf( $auth_header, 'Bearer %s' );
+				list($token) = sscanf($auth_header, 'Bearer %s');
 			}
-
 		}
 
 		/**
 		 * If there's no secret key, throw an error as there needs to be a secret key for Auth to work properly
 		 */
-		if ( ! self::get_secret_key() ) {
-			self::set_status( 403 );
-			return new \WP_Error( 'invalid-secret-key', __( 'JWT is not configured properly', 'wp-graphql-jwt-authentication' ) );
+		if (!self::get_secret_key()) {
+			self::set_status(403);
+			return new \WP_Error('invalid-secret-key', __('JWT is not configured properly', 'wp-graphql-jwt-authentication'));
 		}
 
 
@@ -569,53 +577,52 @@ class Auth {
 		$secret = self::get_secret_key();
 
 		try {
-			$token = ! empty( $token ) ? JWT::decode( $token, $secret, [ 'HS256' ] ) : null;
-		} catch ( \Exception $exception ) {
+			$token = !empty($token) ? JWT::decode($token, $secret, ['HS256']) : null;
+		} catch (\Exception $exception) {
 			//$token =  new \WP_Error( 'invalid-secret-key', $exception->getMessage() );
-			
-			return new \WP_Error( 'invalid-secret-key', $exception->getMessage() );
+
+			return new \WP_Error('invalid-secret-key', $exception->getMessage());
 		}
 
 		/**
 		 * If there's no token listed, just bail now before validating an empty token.
 		 * This will treat the request as a public request
 		 */
-		if ( empty( $token )  ) {
+		if (empty($token)) {
 			return $token;
 		}
 
 		/**
 		 * The Token is decoded now validate the iss
 		 */
-		if ( ! isset( $token->iss ) || get_bloginfo( 'url' ) !== $token->iss ) {
-			return new \WP_Error( 'invalid-jwt', __( 'The iss do not match with this server', 'wp-graphql-jwt-authentication' ) );
+		if (!isset($token->iss) || get_bloginfo('url') !== $token->iss) {
+			return new \WP_Error('invalid-jwt', __('The iss do not match with this server', 'wp-graphql-jwt-authentication'));
 		}
 
 		/**
 		 * So far so good, validate the user id in the token
 		 */
-		if ( ! isset( $token->data->user->id ) ) {
-			return new \WP_Error( 'invalid-jwt', __( 'User ID not found in the token', 'wp-graphql-jwt-authentication' ) );
+		if (!isset($token->data->user->id)) {
+			return new \WP_Error('invalid-jwt', __('User ID not found in the token', 'wp-graphql-jwt-authentication'));
 		}
 
 		/**
 		 * If there is a user_secret in the token (refresh tokens) make sure it matches what
 		 */
-		if ( isset( $token->data->user->user_secret ) ) {
+		if (isset($token->data->user->user_secret)) {
 
-			if ( Auth::is_jwt_secret_revoked( $token->data->user->id ) ) {
-				return new \WP_Error( 'invalid-jwt', __( 'The User Secret does not match or has been revoked for this user', 'wp-graphql-jwt-authentication' ) );
+			if (Auth::is_jwt_secret_revoked($token->data->user->id)) {
+				return new \WP_Error('invalid-jwt', __('The User Secret does not match or has been revoked for this user', 'wp-graphql-jwt-authentication'));
 			}
 		}
 
-		if ( is_wp_error( $token ) ) {
-			self::set_status( 403 );
+		if (is_wp_error($token)) {
+			self::set_status(403);
 		}
 
 		self::$is_refresh_token = false;
 
 		return $token;
-
 	}
 
 	/**
@@ -623,42 +630,41 @@ class Auth {
 	 *
 	 * @return mixed|string
 	 */
-	public static function get_auth_header() {
+	public static function get_auth_header()
+	{
 
 		/**
 		 * Looking for the HTTP_AUTHORIZATION header, if not present just
 		 * return the user.
 		 */
-		$auth_header = isset( $_SERVER['HTTP_AUTHORIZATION'] ) ? $_SERVER['HTTP_AUTHORIZATION'] : false;
+		$auth_header = isset($_SERVER['HTTP_AUTHORIZATION']) ? $_SERVER['HTTP_AUTHORIZATION'] : false;
 
 		/**
 		 * Double check for different auth header string (server dependent)
 		 */
-		$redirect_auth_header = isset( $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] ) ? $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] : false;
+		$redirect_auth_header = isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION']) ? $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] : false;
 
 		/**
 		 * If the $auth header is set, use it. Otherwise attempt to use the $redirect_auth header
 		 */
-		$auth_header = $auth_header !== false ? $auth_header : ( $redirect_auth_header !== false ? $redirect_auth_header : null );
+		$auth_header = $auth_header !== false ? $auth_header : ($redirect_auth_header !== false ? $redirect_auth_header : null);
 
 		/**
 		 * Return the auth header, pass through a filter
 		 *
 		 * @param string $auth_header The header used to authenticate a user's HTTP request
 		 */
-		return apply_filters( 'graphql_jwt_auth_get_auth_header', $auth_header );
-
+		return apply_filters('graphql_jwt_auth_get_auth_header', $auth_header);
 	}
 
-	public static function get_refresh_header() {
+	public static function get_refresh_header()
+	{
 
 		/**
 		 * Check to see if the incoming request has a "Refresh-Authorization" header
 		 */
-		$refresh_header = isset( $_SERVER['HTTP_REFRESH_AUTHORIZATION'] ) ? sanitize_text_field( $_SERVER['HTTP_REFRESH_AUTHORIZATION'] ) : false;
+		$refresh_header = isset($_SERVER['HTTP_REFRESH_AUTHORIZATION']) ? sanitize_text_field($_SERVER['HTTP_REFRESH_AUTHORIZATION']) : false;
 
-		return apply_filters( 'graphql_jwt_auth_get_refresh_header', $refresh_header );
-
+		return apply_filters('graphql_jwt_auth_get_refresh_header', $refresh_header);
 	}
-
 }

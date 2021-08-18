@@ -5,11 +5,20 @@
  */
 
 
+
 function loadCardnetSDK()
 {
+    $bgColor = "#0d79fc";
     //public key
     $public_key = get_option('cardnet_test_mode') == "1" ? get_option('cardnet_demo_public_api_key') : get_option('cardnet_demo_public_api_key');
 ?>
+
+<style>
+body {
+    background-color: <?=$bgColor;
+    ?>;
+}
+</style>
 
 <script src="<?= "https://lab.cardnet.com.do/servicios/tokens/v1/Scripts/PWCheckout.js?key={$public_key}" ?>">
 </script>
@@ -66,7 +75,25 @@ function OnTokenReceived(token) {
 }
 
 function myFunction() {
-    console.log(" window.PWCheckout", window.PWCheckout)
+
+    PWCheckout.Bind("tokenCreated", OnTokenReceived);
+    PWCheckout.SetProperties({
+        "name": "<?= getSiteName() ?>",
+        //"email": "credit@mseller.app",
+        "image": "<?= getLogoUrl() ?>",
+        //"button-label": "Pagar #monto#",
+        "description": "Checkout Creditel Test.",
+        "currency": "DOP",
+        //"button_label": "Pagar #monto#",
+        //"amount": "100",
+        //"lang": "ESP",
+        "form_id": "shoppingcart_form",
+        "checkout_card": 1,
+        "autoSubmit": "true",
+        //"empty": "true"
+    });
+
+
     var captureUrl = "https://lab.cardnet.com.do/servicios/tokens/v1/Capture/";
     var key = "<?= getUniqueId(); ?>";
     var customerUniqueId = "UI_9d123bb4-7a62-4f41-98c2-4beee709952a";
@@ -76,26 +103,25 @@ function myFunction() {
         url,
         customerUniqueId
     })
-    window.PWCheckout.OpenIframeCustom(url, customerUniqueId);
+    PWCheckout.OpenIframeCustom(url, customerUniqueId);
+
+    setTimeout(function() {
+        var bg = "#0d79fc";
+        var modalView = document.getElementById("custom_modal");
+
+        if (modalView) {
+            modalView.setAttribute("onclick", null);
+            modalView.style["overflow-y"] = "scroll"
+            modalView.style["background-color"] = bg;
+        } else {
+            alert("no")
+        }
+
+    }, 500)
+    console.log(PWCheckout)
 }
 
 
-window.PWCheckout.Bind("tokenCreated", OnTokenReceived);
-window.PWCheckout.SetProperties({
-    "name": "<?= getSiteName() ?>",
-    "email": "credit@mseller.app",
-    "image": "<?= getLogoUrl() ?>",
-    "button-label": "Pagar #monto#",
-    "description": "Checkout Creditel Test.",
-    "currency": "DOP",
-    "button_label": "Pagar #monto#",
-    "amount": "100",
-    "lang": "ESP",
-    "form_id": "shoppingcart_form",
-    "checkout_card": 1,
-    "autoSubmit": "false",
-    "empty": "true"
-});
 
 
 window.onload = function() {
