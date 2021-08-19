@@ -5,12 +5,22 @@
  */
 
 
+require_once(__DIR__ . '/../CardNetApi.php');
+require_once(__DIR__ . '/../CardNetCustomer.php');
 
+use WPGraphQL\CardNet\CardNetApi;
+use WPGraphQL\CardNet\CardNetCustomer;
+
+function getPublicKey()
+{
+    $public_key = get_option('cardnet_test_mode') == "1" ? get_option('cardnet_demo_public_api_key') : get_option('cardnet_demo_public_api_key');
+    return $public_key;
+}
 function loadCardnetSDK()
 {
-    $bgColor = "#0d79fc";
+    $bgColor = "#10488d";
     //public key
-    $public_key = get_option('cardnet_test_mode') == "1" ? get_option('cardnet_demo_public_api_key') : get_option('cardnet_demo_public_api_key');
+    $public_key = getPublicKey();
 ?>
 
 <style>
@@ -19,7 +29,7 @@ body {
     ?>;
 }
 </style>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <script src="<?= "https://lab.cardnet.com.do/servicios/tokens/v1/Scripts/PWCheckout.js?key={$public_key}" ?>">
 </script>
 <?php  }
@@ -45,17 +55,76 @@ function getLogoUrl()
     return $custom_logo_data[0];
 }
 
-function getUniqueId()
+function sendErrorJS($errorMessage)
+{
+    echo <<<EOT
+    var payload = JSON.stringify({
+        token: null,
+        error: "$errorMessage"
+    });
+    if(window.ReactNativeWebView){
+       window.ReactNativeWebView.postMessage(payload);
+    }
+    EOT;
+}
+function getCustomerData()
 {
 
-    //this is only for testing.. 
-    //will get the unique id getting the user data and then get the cardnet customer object
-    $id = isset($_GET['id']) ? $_GET['id'] : null;
+    $userData = wp_get_current_user();
+    $fname = get_user_meta($userData->ID, 'first_name', true);
+    $lname = get_user_meta($userData->ID, 'last_name', true);
+    $phoneNumber = get_user_meta($userData->ID, 'phone_number', true);
 
-    if (isset($id)) {
-        return $id;
+    $cardnetCustomerId = get_user_meta($userData->ID, 'cardnetCustomerId', true);
+    $uniqueID = "";
+    $captureURL = "";
+    $cardNetApi = new CardNetApi();
+
+    if (!$cardnetCustomerId) {
+        //create a new one.
+
+        $payload = [
+            "CommerceCustomerId" => $userData->ID,
+            "FirstName" => $fname,
+            "LastName" => $lname,
+            "Email" => $userData->user_email,
+            "PhoneNumbe" => $phoneNumber,
+            "Enabled" => true,
+        ];
+
+        try {
+            $result = $cardNetApi->add_new_customer($payload);
+            $data = CardNetCustomer::mapCustomerObject($result);
+
+            $cardNetCustomerId = $data['customerId'];
+            $uniqueID = $data['uniqueID'];
+            $captureURL = $data['captureURL'];
+
+            //TODO: set cardnetCustomer to meta
+            update_user_meta($userData->ID, "cardnetCustomerId", $cardNetCustomerId);
+        } catch (Exception $e) {
+            $error = $e->getMessage();
+            echo "alert('$error');";
+            sendErrorJS($error);
+        }
+    } else {
+        //Get Current User Data
+        try {
+            $result = $cardNetApi->get_customer($cardnetCustomerId);
+            $data = CardNetCustomer::mapCustomerObject($result);
+
+            $uniqueID = $data['uniqueID'];
+            $captureURL = $data['captureURL'];
+        } catch (Exception $e) {
+            $error = $e->getMessage();
+            echo "alert('$error');";
+            sendErrorJS($error);
+        }
     }
-    return 'X56VkWMBxv8IcGfgS-wtbG_I56ONV7HQ'; //Testing
+
+    return ["uniqueID" => $uniqueID, "captureURL" => $captureURL];
+
+    //return 'X56VkWMBxv8IcGfgS-wtbG_I56ONV7HQ'; //Testing
 }
 
 /**
@@ -69,12 +138,19 @@ function initCardnet()
 ?>
 <script>
 function OnTokenReceived(token) {
-    //alert(token.TokenId); 
-    console.log("token.TokenId", token.TokenId)
-    document.getElementById("PWTokenAux").value = token.TokenId;
+    //console.log("token.TokenId", token.TokenId)
+    //document.getElementById("PWTokenAux").value = token.TokenId;
+
+    var payload = JSON.stringify({
+        token: token.TokenId,
+        error: null
+    })
+    if (window.ReactNativeWebView) {
+        window.ReactNativeWebView.postMessage(payload);
+    }
 }
 
-function myFunction() {
+function initCreditCard() {
 
     PWCheckout.Bind("tokenCreated", OnTokenReceived);
     PWCheckout.SetProperties({
@@ -89,24 +165,24 @@ function myFunction() {
         //"lang": "ESP",
         "form_id": "shoppingcart_form",
         "checkout_card": 1,
-        "autoSubmit": "true",
+        "autoSubmit": "false",
         //"empty": "true"
     });
 
+    <?php
+            $customerData = getCustomerData();
+            $public_key = getPublicKey();
+            ?>
 
-    var captureUrl = "https://lab.cardnet.com.do/servicios/tokens/v1/Capture/";
-    var key = "<?= getUniqueId(); ?>";
-    var customerUniqueId = "UI_9d123bb4-7a62-4f41-98c2-4beee709952a";
+    var captureUrl = "<?= $customerData['captureURL']; ?>";;
+    var key = "<?= $public_key; ?>";
+    var customerUniqueId = "<?= $customerData['uniqueID'] ?>";
     var url = `${captureUrl}?key=${key}&session_id=${customerUniqueId}`;
-    //PWCheckout.OpenIframeNormal();
-    console.log({
-        url,
-        customerUniqueId
-    })
+
     PWCheckout.OpenIframeCustom(url, customerUniqueId);
 
     setTimeout(function() {
-        var bg = "#0d79fc";
+        var bg = "#10488d";
         var modalView = document.getElementById("custom_modal");
 
         if (modalView) {
@@ -121,11 +197,8 @@ function myFunction() {
     console.log(PWCheckout)
 }
 
-
-
-
 window.onload = function() {
-    myFunction();
+    initCreditCard();
 };
 </script>
 <?php

@@ -10,7 +10,7 @@ import SignUpStackNavigator from 'app/navigation/SignUpStackNavigator';
 import {createStackNavigator} from '@react-navigation/stack';
 import {ScreenLinks} from 'app/navigation/ScreenLinks';
 import FRMessaging from '../services/FRMessaging';
-
+import CreditCardScreen from 'app/screens/CreditCardScreen';
 const RootStack = createStackNavigator();
 
 export const AppNavigator = () => {
@@ -36,12 +36,19 @@ export const AppNavigator = () => {
       <CustomerProvider>
         <ProductProvider>
           <CartProvider>
-            <RootStack.Navigator mode="modal" headerMode="none">
+            <RootStack.Navigator mode="modal">
               <RootStack.Screen name="Main" component={NavigationDrawer} />
               <RootStack.Screen
                 options={{headerShown: false, headerTitle: 'Registro'}}
                 name={ScreenLinks.SIGN_UP}
                 component={SignUpStackNavigator}
+              />
+              <RootStack.Screen
+                options={{
+                  headerTitle: 'Registro de Tarjeta',
+                }}
+                name={ScreenLinks.CREDIT_CARD}
+                component={CreditCardScreen}
               />
             </RootStack.Navigator>
           </CartProvider>

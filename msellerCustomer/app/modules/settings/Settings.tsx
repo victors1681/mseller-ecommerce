@@ -51,6 +51,7 @@ export const Settings = () => {
       <SettingRow
         style={styles.profileSetting}
         hint="Método de Pago"
+        onPress={navigateTo(ScreenLinks.CREDIT_CARD)}
         chevron
         iconName="credit-card-outline"
       />

@@ -2,10 +2,8 @@
 
 namespace WPGraphQL\CardNet;
 
-use ArrayObject;
 use WPGraphQL\CardNet\CardNetApi;
 use WPGraphQL\CardNet\CardNetUtils;
-use GraphQL\Error\UserError;
 
 class CardNetCustomer
 {
@@ -13,22 +11,22 @@ class CardNetCustomer
     {
         add_action('graphql_register_types', [__CLASS__, 'register_cardnet_customer_fields']);
 
-        add_filter('graphql_response_headers_to_send', function ($headers) {
-            $http_origin     = get_http_origin();
-            $allowed_origins = [
-                "http://192.168.1.210",
-            ];
+        // add_filter('graphql_response_headers_to_send', function ($headers) {
+        //     $http_origin     = get_http_origin();
+        //     $allowed_origins = [
+        //         "http://192.168.1.210",
+        //     ];
 
-            // If the request is coming from an allowed origin (HEADLESS_FRONTEND_URL), tell the browser it can accept the response.
-            if (in_array($http_origin, $allowed_origins, true)) {
-                $headers['Access-Control-Allow-Origin'] = $http_origin;
-            }
+        //     // If the request is coming from an allowed origin (HEADLESS_FRONTEND_URL), tell the browser it can accept the response.
+        //     if (in_array($http_origin, $allowed_origins, true)) {
+        //         $headers['Access-Control-Allow-Origin'] = $http_origin;
+        //     }
 
-            // Tells browsers to expose the response to frontend JavaScript code when the request credentials mode is "include".
-            $headers['Access-Control-Allow-Credentials'] = 'true';
+        //     // Tells browsers to expose the response to frontend JavaScript code when the request credentials mode is "include".
+        //     $headers['Access-Control-Allow-Credentials'] = 'true';
 
-            return $headers;
-        }, 20);
+        //     return $headers;
+        // }, 20);
     }
 
     public static function mapPaymentProfile($paymentsIn)

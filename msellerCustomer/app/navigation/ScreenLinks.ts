@@ -14,4 +14,5 @@ export enum ScreenLinks {
   ORDER_DETAIL = 'orderDetail',
   SETTINGS = 'settings',
   PROFILE = 'profile',
+  CREDIT_CARD = 'creditCard',
 }

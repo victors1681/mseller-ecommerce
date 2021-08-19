@@ -366,6 +366,7 @@ class Auth
 		 * Try to authenticate the user with the passed credentials
 		 */
 		//$user = wp_authenticate( sanitize_user( $username ), trim( $password ) );
+		//Custom Set COOKIE
 		$user = wp_signon(
 			array(
 				'user_login'    => sanitize_user($username),
