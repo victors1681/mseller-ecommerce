@@ -73,6 +73,7 @@ const HomeStackNavigator = ({navigation}: any) => {
         component={PlaceOrderScreen}
         options={{
           headerTitle: 'Tu Orden',
+          headerLeft: BackButtonAction,
         }}
       />
       <Stack.Screen
