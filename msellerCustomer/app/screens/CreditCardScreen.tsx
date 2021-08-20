@@ -1,7 +1,7 @@
 import React from 'react';
-import {WebView} from 'app/modules/webview';
-export const ProductsScreen = () => {
-  return <WebView />;
+import {AddCreditCard} from 'app/modules/payments';
+export const CreditCardScreen = () => {
+  return <AddCreditCard />;
 };
 
-export default ProductsScreen;
+export default CreditCardScreen;

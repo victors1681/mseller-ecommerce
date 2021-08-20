@@ -4,22 +4,53 @@
  * Description: Allow customer to enter the credit card.
  */
 
-
 require_once(__DIR__ . '/../CardNetApi.php');
 require_once(__DIR__ . '/../CardNetCustomer.php');
 
 use WPGraphQL\CardNet\CardNetApi;
 use WPGraphQL\CardNet\CardNetCustomer;
 
+if (is_user_logged_in()) {
+    body();
+    initCardNet();
+} else {
+    //wp_redirect(wp_login_url());
+    wp_redirect(wp_login_url(site_url(add_query_arg(array(), $wp->request))));
+    exit;
+
+    echo <<< EOT
+    <style>
+        .container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.9em;
+        }
+    </style>
+    <div class="container">
+        You cannot access this page.
+    </div>
+    EOT;
+}
+
+/**
+ * Get Public cardNet Api key
+ */
 function getPublicKey()
 {
     $public_key = get_option('cardnet_test_mode') == "1" ? get_option('cardnet_demo_public_api_key') : get_option('cardnet_demo_public_api_key');
     return $public_key;
 }
+
+/**
+ * Load cardNet JS SDK
+ */
 function loadCardnetSDK()
 {
     $bgColor = "#10488d";
-    //public key
     $public_key = getPublicKey();
 ?>
 
@@ -36,18 +67,25 @@ body {
 
 
 
-add_action('wp_head', 'loadCardnetSDK');
+/**
+ * Initialize
+ */
 
-//Load the header after add the SDK
+add_action('wp_head', 'loadCardnetSDK');
 do_action('wp_head');
 
 
-
+/**
+ * Get Wordpress site name
+ */
 function getSiteName()
 {
     return esc_attr(get_bloginfo('name'));
 }
 
+/**
+ * Get custom workpress site logo
+ */
 function getLogoUrl()
 {
     $custom_logo_id = get_theme_mod('custom_logo');
@@ -55,6 +93,9 @@ function getLogoUrl()
     return $custom_logo_data[0];
 }
 
+/**
+ * Error Response to React Native
+ */
 function sendErrorJS($errorMessage)
 {
     echo <<<EOT
@@ -67,6 +108,11 @@ function sendErrorJS($errorMessage)
     }
     EOT;
 }
+
+/**
+ * Get cardNet customer ID from the current user or get a new customerID 
+ * to show the UI to enter the credit cards
+ */
 function getCustomerData()
 {
 
@@ -100,7 +146,7 @@ function getCustomerData()
             $uniqueID = $data['uniqueID'];
             $captureURL = $data['captureURL'];
 
-            //TODO: set cardnetCustomer to meta
+            //Update the customerId on the current user
             update_user_meta($userData->ID, "cardnetCustomerId", $cardNetCustomerId);
         } catch (Exception $e) {
             $error = $e->getMessage();
@@ -123,24 +169,18 @@ function getCustomerData()
     }
 
     return ["uniqueID" => $uniqueID, "captureURL" => $captureURL];
-
-    //return 'X56VkWMBxv8IcGfgS-wtbG_I56ONV7HQ'; //Testing
 }
 
 /**
  * CardNet Javascript code
  */
 
-
-function initCardnet()
+function initCardNet()
 {
 
 ?>
 <script>
 function OnTokenReceived(token) {
-    //console.log("token.TokenId", token.TokenId)
-    //document.getElementById("PWTokenAux").value = token.TokenId;
-
     var payload = JSON.stringify({
         token: token.TokenId,
         error: null
@@ -150,23 +190,22 @@ function OnTokenReceived(token) {
     }
 }
 
+function showReloadButton() {
+    var x = document.getElementById("btnCheckout");
+    x.style.display = "block";
+}
+
 function initCreditCard() {
 
     PWCheckout.Bind("tokenCreated", OnTokenReceived);
     PWCheckout.SetProperties({
         "name": "<?= getSiteName() ?>",
-        //"email": "credit@mseller.app",
         "image": "<?= getLogoUrl() ?>",
-        //"button-label": "Pagar #monto#",
         "description": "Checkout Creditel Test.",
         "currency": "DOP",
-        //"button_label": "Pagar #monto#",
-        //"amount": "100",
-        //"lang": "ESP",
         "form_id": "shoppingcart_form",
         "checkout_card": 1,
         "autoSubmit": "false",
-        //"empty": "true"
     });
 
     <?php
@@ -193,9 +232,14 @@ function initCreditCard() {
             alert("no")
         }
 
+        showReloadButton();
+
     }, 500)
     console.log(PWCheckout)
 }
+
+
+
 
 window.onload = function() {
     initCreditCard();
@@ -207,21 +251,26 @@ window.onload = function() {
 function body()
 {
 ?>
+<style>
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.9em;
+}
+</style>
+
 <form id="shoppingcart_form">
+    <div class="container">
+        <button onClick="window.location.reload();" style="display: none;" id="btnCheckout">Agregar Tardeta de
+            crédito</button>
+    </div>
     <p>
-        <button id="btnCheckout">ABRIR IFRAME DE CAPTURA</button>
-    </p>
-    <p>
-        <span class="itemName">OTT TOKEN: <input type="text" id="PWTokenAux" name="PWTokenAux" /></span>
+        <input type="hidden" id="PWTokenAux" name="PWTokenAux" /></span>
     </p>
 </form>
 <?php
-}
-
-
-if (is_user_logged_in()) {
-    body();
-    initCardnet();
-} else {
-    echo 'You cannot access this page.';
 }

@@ -1,51 +1,61 @@
 import React from 'react';
-import {Button, StyleService, Text, useStyleSheet} from '@ui-kitten/components';
+import {Layout, TopNavigation} from '@ui-kitten/components';
 import {useNavigation} from '@react-navigation/core';
-
+import {BackButtonAction} from 'app/modules/common';
 import {
   WebView as WebViewComponent,
   WebViewMessageEvent,
 } from 'react-native-webview';
+import {StyleSheet} from 'react-native';
+import {SafeAreaLayout} from 'app/modules/common';
 
-interface DataWeb {
+export interface DataWeb {
   token?: string;
   error?: string;
 }
-export const WebView = (): React.ReactElement => {
-  const navigation = useNavigation();
 
-  React.useEffect(() => {
-    console.log('WEBVIEW');
-  });
+interface Props {
+  uri: string;
+  title?: string;
+  callback?: (payload: DataWeb) => void;
+}
+
+export const WebView = ({uri, callback, title}: Props): React.ReactElement => {
+  const navigation = useNavigation();
 
   const handleIncomingMessages = (event: WebViewMessageEvent) => {
     try {
       const payload = JSON.parse(event.nativeEvent.data) as DataWeb;
 
-      console.log('MS', payload.token);
-
-      console.log('ERROR', payload.error);
-
+      //Send the response form the webView
+      callback && callback(payload);
       navigation.goBack();
     } catch (err) {
       console.error(err);
     }
   };
+
+  //'http://192.168.1.210:8088/cardnet/'
   return (
-    <WebViewComponent
-      sharedCookiesEnabled
-      onMessage={handleIncomingMessages}
-      source={{uri: 'http://192.168.1.210:8088/cardnet/'}}
-      style={{marginTop: 20}}
-    />
+    <SafeAreaLayout style={styles.container} insets="top">
+      <Layout style={styles.container} level="1">
+        <TopNavigation
+          alignment="center"
+          title={title}
+          accessoryLeft={BackButtonAction}
+        />
+        <WebViewComponent
+          sharedCookiesEnabled
+          onMessage={handleIncomingMessages}
+          source={{uri}}
+        />
+      </Layout>
+    </SafeAreaLayout>
   );
 };
 
-const themedStyles = StyleService.create({
-  termsCheckBoxText: {
-    fontSize: 11,
-    lineHeight: 14,
-    color: 'text-hint-color',
-    marginLeft: 10,
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
   },
 });

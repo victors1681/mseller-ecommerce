@@ -4,6 +4,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import OrdersScreen from '../screens/OrdersScreen';
 import OrderDetailScreen from '../screens/OrderDetailScreen';
 import {ScreenLinks} from 'app/navigation/ScreenLinks';
+import {BackButtonAction} from 'app/modules/common';
 const Stack = createStackNavigator();
 
 const OrderStackNavigator = () => {
@@ -20,6 +21,7 @@ const OrderStackNavigator = () => {
         name={ScreenLinks.ORDER_DETAIL}
         options={{
           headerTitle: 'Detalle',
+          headerLeft: BackButtonAction,
         }}
         component={OrderDetailScreen}
       />

@@ -12,6 +12,163 @@ export type Scalars = {
   Float: number;
 };
 
+/** Input for the activateCardnetPayment mutation */
+export type ActivateCardnetPaymentInput = {
+  /** Código de activación emitido por el banco emisor de la tarjeta */
+  activationCode: Scalars['Int'];
+  /** Token de la tarjeta a activar */
+  token: Scalars['Int'];
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** Customer ID */
+  customerId: Scalars['Int'];
+};
+
+/** The payload for the activateCardnetPayment mutation */
+export type ActivateCardnetPaymentPayload = {
+  __typename?: 'ActivateCardnetPaymentPayload';
+  /** Lista de datos de tipo “Clave:Valor” para almacenar información extra. */
+  additionalData?: Maybe<Scalars['String']>;
+  /** BillingAddress */
+  billingAddress?: Maybe<Scalars['String']>;
+  /** URL de captura de datos de tarjeta (es la URL que se debe abrir en un iframe para iniciar el proceso de captura de datos sensibles). Solo es válida para Customers de tipo “Commerce”. */
+  captureURL?: Maybe<Scalars['String']>;
+  /**
+   * Identificador del cliente en el comercio. Este valor es generado
+   *                 y utilizado internamente por el comercio para identificar al cliente dentro de la plataforma.
+   */
+  commerceCustomerId?: Maybe<Scalars['String']>;
+  /**
+   * Fecha y hora del momento de la creación del cliente.
+   *               Este campo está presente en la respuesta a consultas.
+   *               No se incluye o valida en la creación o actualizaciones del objeto.
+   */
+  created?: Maybe<Scalars['String']>;
+  /** Identificador del cliente. */
+  customerId?: Maybe<Scalars['Int']>;
+  /** Documento del cliente */
+  docNumber?: Maybe<Scalars['String']>;
+  /** Tipo de documento del cliente */
+  documentTypeId?: Maybe<Scalars['Int']>;
+  /** Email del cliente */
+  email?: Maybe<Scalars['String']>;
+  /** Customer activated */
+  enabled?: Maybe<Scalars['Boolean']>;
+  /** Nombre del cliente */
+  firstName?: Maybe<Scalars['String']>;
+  /** Apellido del cliente. */
+  lastName?: Maybe<Scalars['String']>;
+  /**
+   * Determina si el usuario fue registrado por el comercio, a través de Cardnet o anónimo.
+   *               Valores posibles: “Our”, “Commerce”, “Anonymous”.
+   *               Este campo está presente en la respuesta a consultas.
+   *               No se incluye o valida en la creación o actualizaciones del objeto.
+   */
+  owner?: Maybe<Scalars['String']>;
+  /** Lista de objetos PaymentProfile con información de los medios de pago registrados por el Customer. */
+  paymentProfiles?: Maybe<Array<Maybe<PaymentProfiles>>>;
+  /** Teléfono de contacto del cliente. */
+  phoneNumber?: Maybe<Scalars['String']>;
+  /** Reservado */
+  plans?: Maybe<Scalars['String']>;
+  /** ShippingAddress */
+  shippingAddress?: Maybe<Scalars['String']>;
+  /** URL donde se puede acceder a la información del Cliente (ej. /v1/customer/{customer-id}). */
+  uRL?: Maybe<Scalars['String']>;
+  /** Identificador único de la compra. Este valor opcional permite identificar una compra única y evitar la duplicación de transacciones en caso de errores de comunicación (ver más en Conceptos / Identificador único). */
+  uniqueID?: Maybe<Scalars['String']>;
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+/** Input for the addCardnetCustomer mutation */
+export type AddCardnetCustomerInput = {
+  /** Lista de datos de tipo “Clave:Valor” para almacenar información extra. */
+  additionalData?: Maybe<Scalars['String']>;
+  /** BillingAddress */
+  billingAddress?: Maybe<Scalars['String']>;
+  /**
+   * Identificador del cliente en el comercio. Este valor es generado
+   *                     y utilizado internamente por el comercio para identificar al cliente dentro de la plataforma.
+   */
+  commerceCustomerId?: Maybe<Scalars['String']>;
+  /** Documento del cliente */
+  docNumber?: Maybe<Scalars['String']>;
+  /** Tipo de documento del cliente */
+  documentTypeId?: Maybe<Scalars['Int']>;
+  /** Email del cliente */
+  email: Scalars['String'];
+  /** Customer activated */
+  enabled?: Maybe<Scalars['Boolean']>;
+  /** Nombre del cliente */
+  firstName?: Maybe<Scalars['String']>;
+  /** Apellido del cliente. */
+  lastName?: Maybe<Scalars['String']>;
+  /** Teléfono de contacto del cliente. */
+  phoneNumber?: Maybe<Scalars['String']>;
+  /** ShippingAddress */
+  shippingAddress?: Maybe<Scalars['String']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+/** The payload for the addCardnetCustomer mutation */
+export type AddCardnetCustomerPayload = {
+  __typename?: 'AddCardnetCustomerPayload';
+  /** Lista de datos de tipo “Clave:Valor” para almacenar información extra. */
+  additionalData?: Maybe<Scalars['String']>;
+  /** BillingAddress */
+  billingAddress?: Maybe<Scalars['String']>;
+  /** URL de captura de datos de tarjeta (es la URL que se debe abrir en un iframe para iniciar el proceso de captura de datos sensibles). Solo es válida para Customers de tipo “Commerce”. */
+  captureURL?: Maybe<Scalars['String']>;
+  /**
+   * Identificador del cliente en el comercio. Este valor es generado
+   *                 y utilizado internamente por el comercio para identificar al cliente dentro de la plataforma.
+   */
+  commerceCustomerId?: Maybe<Scalars['String']>;
+  /**
+   * Fecha y hora del momento de la creación del cliente.
+   *               Este campo está presente en la respuesta a consultas.
+   *               No se incluye o valida en la creación o actualizaciones del objeto.
+   */
+  created?: Maybe<Scalars['String']>;
+  /** Identificador del cliente. */
+  customerId?: Maybe<Scalars['Int']>;
+  /** Documento del cliente */
+  docNumber?: Maybe<Scalars['String']>;
+  /** Tipo de documento del cliente */
+  documentTypeId?: Maybe<Scalars['Int']>;
+  /** Email del cliente */
+  email?: Maybe<Scalars['String']>;
+  /** Customer activated */
+  enabled?: Maybe<Scalars['Boolean']>;
+  /** Nombre del cliente */
+  firstName?: Maybe<Scalars['String']>;
+  /** Apellido del cliente. */
+  lastName?: Maybe<Scalars['String']>;
+  /**
+   * Determina si el usuario fue registrado por el comercio, a través de Cardnet o anónimo.
+   *               Valores posibles: “Our”, “Commerce”, “Anonymous”.
+   *               Este campo está presente en la respuesta a consultas.
+   *               No se incluye o valida en la creación o actualizaciones del objeto.
+   */
+  owner?: Maybe<Scalars['String']>;
+  /** Lista de objetos PaymentProfile con información de los medios de pago registrados por el Customer. */
+  paymentProfiles?: Maybe<Array<Maybe<PaymentProfiles>>>;
+  /** Teléfono de contacto del cliente. */
+  phoneNumber?: Maybe<Scalars['String']>;
+  /** Reservado */
+  plans?: Maybe<Scalars['String']>;
+  /** ShippingAddress */
+  shippingAddress?: Maybe<Scalars['String']>;
+  /** URL donde se puede acceder a la información del Cliente (ej. /v1/customer/{customer-id}). */
+  uRL?: Maybe<Scalars['String']>;
+  /** Identificador único de la compra. Este valor opcional permite identificar una compra única y evitar la duplicación de transacciones en caso de errores de comunicación (ver más en Conceptos / Identificador único). */
+  uniqueID?: Maybe<Scalars['String']>;
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
 /** Input for the addCartItems mutation */
 export type AddCartItemsInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -157,6 +314,184 @@ export enum BackordersEnum {
   Notify = 'NOTIFY',
   Yes = 'YES'
 }
+
+/** Objeto utilizado para obtener datos de la República Dominicana (Código ISO-3166 = DO). */
+export type CardNetCountryDataDo = {
+  __typename?: 'CardNetCountryDataDo';
+  /** Identificador de la Transacción */
+  invoice?: Maybe<Scalars['String']>;
+  /** Fecha y hora del momento de creación de la transacción. */
+  tax?: Maybe<Scalars['Float']>;
+};
+
+/** Objeto utilizado para obtener datos de la República Dominicana (Código ISO-3166 = DO). */
+export type CardNetCountryDataDoInput = {
+  /** Identificador de la Transacción */
+  invoice?: Maybe<Scalars['String']>;
+  /** Fecha y hora del momento de creación de la transacción. */
+  tax?: Maybe<Scalars['Float']>;
+};
+
+/** CardNet Customer */
+export type CardNetCustomer = {
+  __typename?: 'CardNetCustomer';
+  /** Lista de datos de tipo “Clave:Valor” para almacenar información extra. */
+  additionalData?: Maybe<Scalars['String']>;
+  /** BillingAddress */
+  billingAddress?: Maybe<Scalars['String']>;
+  /** URL de captura de datos de tarjeta (es la URL que se debe abrir en un iframe para iniciar el proceso de captura de datos sensibles). Solo es válida para Customers de tipo “Commerce”. */
+  captureURL?: Maybe<Scalars['String']>;
+  /**
+   * Identificador del cliente en el comercio. Este valor es generado
+   *                 y utilizado internamente por el comercio para identificar al cliente dentro de la plataforma.
+   */
+  commerceCustomerId?: Maybe<Scalars['String']>;
+  /**
+   * Fecha y hora del momento de la creación del cliente.
+   *               Este campo está presente en la respuesta a consultas.
+   *               No se incluye o valida en la creación o actualizaciones del objeto.
+   */
+  created?: Maybe<Scalars['String']>;
+  /** Identificador del cliente. */
+  customerId?: Maybe<Scalars['Int']>;
+  /** Documento del cliente */
+  docNumber?: Maybe<Scalars['String']>;
+  /** Tipo de documento del cliente */
+  documentTypeId?: Maybe<Scalars['Int']>;
+  /** Email del cliente */
+  email?: Maybe<Scalars['String']>;
+  /** Customer activated */
+  enabled?: Maybe<Scalars['Boolean']>;
+  /** Nombre del cliente */
+  firstName?: Maybe<Scalars['String']>;
+  /** Apellido del cliente. */
+  lastName?: Maybe<Scalars['String']>;
+  /**
+   * Determina si el usuario fue registrado por el comercio, a través de Cardnet o anónimo.
+   *               Valores posibles: “Our”, “Commerce”, “Anonymous”.
+   *               Este campo está presente en la respuesta a consultas.
+   *               No se incluye o valida en la creación o actualizaciones del objeto.
+   */
+  owner?: Maybe<Scalars['String']>;
+  /** Lista de objetos PaymentProfile con información de los medios de pago registrados por el Customer. */
+  paymentProfiles?: Maybe<Array<Maybe<PaymentProfiles>>>;
+  /** Teléfono de contacto del cliente. */
+  phoneNumber?: Maybe<Scalars['String']>;
+  /** Reservado */
+  plans?: Maybe<Scalars['String']>;
+  /** ShippingAddress */
+  shippingAddress?: Maybe<Scalars['String']>;
+  /** URL donde se puede acceder a la información del Cliente (ej. /v1/customer/{customer-id}). */
+  uRL?: Maybe<Scalars['String']>;
+  /** Identificador único de la compra. Este valor opcional permite identificar una compra única y evitar la duplicación de transacciones en caso de errores de comunicación (ver más en Conceptos / Identificador único). */
+  uniqueID?: Maybe<Scalars['String']>;
+};
+
+/** CardNet Customer */
+export type CardNetPurchase = {
+  __typename?: 'CardNetPurchase';
+  /** Información adicional que el comercio puede agregar a la transacción (Ej.: lista de datos de tipo “Clave:Valor”).Dicha información será devuelta al procesar la compra y cada vez que dicha compra sea consultada. */
+  additionalData?: Maybe<Scalars['String']>;
+  /** Monto total de la compra. El valor debe ser mayor a cero. */
+  amount?: Maybe<Scalars['Int']>;
+  /** Establece si la compra se debe realizar en uno o dos pasos. Es de tipo booleano cuyo valor por defecto es “true”. Si es false, solo se procesa la autorización y la compra queda pre-autorizada a la espera de la confirmación final a través de las llamadas commit (confirmar) y rollback (anular). Si es true, la transacción queda autorizada y capturada (confirmada). */
+  capture?: Maybe<Scalars['Boolean']>;
+  /** Utilizado para indicar al comercio una acción que deba ser realizada por él o por el customer para completar el proceso de la compra actual. Si la transacción se devolvió en estado Pending, se deberá revisar este objeto para determinar las acciones siguientes. */
+  commerceAction?: Maybe<Scalars['String']>;
+  /** Fecha y hora del momento de la creación de la compra. Este campo está presente en la respuesta a consultas. No se incluye o valida en la creación o actualizaciones del objeto. */
+  created?: Maybe<Scalars['String']>;
+  /** Moneda de la compra, de acuerdo a ISO-4217 (códigos alfanuméricos). */
+  currency?: Maybe<Scalars['String']>;
+  /** Información del cliente que realiza el pago. Algunos medios de pago pueden requerir información adicional del cliente para poder tramitar la autorización. */
+  customer?: Maybe<CardNetCustomer>;
+  /** IP del cliente que utiliza el servicio. */
+  customerIP?: Maybe<Scalars['String']>;
+  /** User Agent del cliente que utiliza el servicio, en la Web debería ser el UserAgent reportado por el navegdor, en el caso de móviles información acerca del dispositivo, S.O. utilizado, nombre de la App. */
+  customerUserAgent?: Maybe<Scalars['String']>;
+  /**
+   * Datos específicos para la Rep. Dominicana. Ver
+   *                 la definición del objeto CountryDataDo. Detalle del objeto en la sección 6.9 CountryDataDo.
+   */
+  dataDo?: Maybe<CardNetCountryDataDo>;
+  /** Descripción opcional de la compra */
+  description?: Maybe<Scalars['String']>;
+  /** Cantidad de cuotas de la compra */
+  installments?: Maybe<Scalars['Int']>;
+  /** Número de orden, generado por el comercio */
+  order?: Maybe<Scalars['String']>;
+  /** Moneda de la compra, de acuerdo a ISO-4217 (códigos alfanuméricos). */
+  originalAmount?: Maybe<Scalars['Int']>;
+  /** Reservado */
+  planID?: Maybe<Scalars['String']>;
+  /** Identificador de la compra. */
+  purchaseId?: Maybe<Scalars['Int']>;
+  /** Lista de devoluciones realizadas a la compra. */
+  refundList?: Maybe<CardNetRefund>;
+  /** Propina */
+  tip?: Maybe<Scalars['Int']>;
+  /** Contiene la información que resulta de la transacción realizada contra el medio de pago (por ej: código de respuesta, número de autorización). */
+  transaction?: Maybe<CardNetTransaction>;
+  /** Token que identifica la tarjeta del cliente */
+  trxToken?: Maybe<Scalars['String']>;
+  /** URL donde se puede acceder a la información de la Compra. Ej: {ambiente_api}/v1/api/purchase/{purchase- id}). */
+  uRL?: Maybe<Scalars['String']>;
+  /** Identificador único de la compra. Este valor opcional permite identificar una compra única y evitar la duplicación de transacciones en caso de errores de comunicación (ver más en Conceptos / Identificador único). */
+  uniqueID?: Maybe<Scalars['String']>;
+};
+
+/** Objeto utilizado para obtener datos de la República Dominicana (Código ISO-3166 = DO). */
+export type CardNetRefund = {
+  __typename?: 'CardNetRefund';
+  amount?: Maybe<Scalars['Int']>;
+  /** Fecha y hora del momento de creación de la transacción. */
+  created?: Maybe<Scalars['Float']>;
+  currency?: Maybe<Scalars['String']>;
+  /** Identificador de la Transacción */
+  purchaseRefundId?: Maybe<Scalars['Int']>;
+  status?: Maybe<Scalars['String']>;
+  uniqueID?: Maybe<Scalars['String']>;
+};
+
+/** El objeto Transaction está asociado a un objeto Purchase y contiene la información de requerimiento enviado y la respuesta obtenida del medio de pago correspondiente. Además, va asociado a los diferentes estados por los cuales puede pasar una transacción (autorizada, anulada, etc.) */
+export type CardNetTransaction = {
+  __typename?: 'CardNetTransaction';
+  /** Código de aprobación devuelto por el medio de pago */
+  approvalCode?: Maybe<Scalars['String']>;
+  /** Fecha y hora del momento de creación de la transacción. */
+  created?: Maybe<Scalars['String']>;
+  /** Descripción del resultado de la transacción */
+  description?: Maybe<Scalars['String']>;
+  /** Estado de la transacción al momento de la consulta */
+  status?: Maybe<Scalars['String']>;
+  /** Lista de los estados intermedios desde que se creó la transacción. */
+  steps?: Maybe<Array<Maybe<CardNetTransactionStep>>>;
+  /** Identificador de la Transacción */
+  transactionID?: Maybe<Scalars['Int']>;
+  /** Identificador del Status de la transacción al momento de la consulta. */
+  transactionStatusId?: Maybe<Scalars['Int']>;
+};
+
+/** El objeto Transaction está asociado a un objeto Purchase y contiene la información de requerimiento enviado y la respuesta obtenida del medio de pago correspondiente. Además, va asociado a los diferentes estados por los cuales puede pasar una transacción (autorizada, anulada, etc.) */
+export type CardNetTransactionStep = {
+  __typename?: 'CardNetTransactionStep';
+  acquirerResponseDetail?: Maybe<Scalars['String']>;
+  /** Código de aprobación devuelto por el medio de pago. */
+  authorizationCode?: Maybe<Scalars['String']>;
+  /** Fecha y hora del momento de ejecución del paso. */
+  created?: Maybe<Scalars['String']>;
+  /** Código de error generado (si corresponde) en la ejecución del paso. */
+  error?: Maybe<Scalars['String']>;
+  /** Código de respuesta obtenido luego de la ejecución del paso actual. Contiene por ejemplo el código de respuesta del medio de pago. */
+  responseCode?: Maybe<Scalars['String']>;
+  /** Mensaje de respuesta asociado al ResponseCode. */
+  responseMessage?: Maybe<Scalars['String']>;
+  /** Estado final luego de la ejecución del paso. */
+  status?: Maybe<Scalars['String']>;
+  /** Nombre del paso ejecutado. */
+  step?: Maybe<Scalars['String']>;
+  /** Identificador único de la llamada (request) que desencadenó la ejecución de este paso. Utilizado para relacionar operaciones Refund y Rollback. */
+  uniqueID?: Maybe<Scalars['String']>;
+};
 
 /** The cart object */
 export type Cart = {
@@ -401,7 +736,7 @@ export type Category = Node & TermNode & DatabaseIdentifier & UniformResourceIde
   contentNodes?: Maybe<CategoryToContentNodeConnection>;
   /** The number of objects connected to the object */
   count?: Maybe<Scalars['Int']>;
-  /** Identifies the primary key from the database. */
+  /** The unique resource identifier path */
   databaseId: Scalars['Int'];
   /** The description of the object */
   description?: Maybe<Scalars['String']>;
@@ -409,7 +744,7 @@ export type Category = Node & TermNode & DatabaseIdentifier & UniformResourceIde
   enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
   /** Connection between the TermNode type and the EnqueuedStylesheet type */
   enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
-  /** The globally unique ID for the object */
+  /** The unique resource identifier path */
   id: Scalars['ID'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
@@ -434,7 +769,7 @@ export type Category = Node & TermNode & DatabaseIdentifier & UniformResourceIde
   /** The taxonomy ID that the object is associated with */
   termTaxonomyId?: Maybe<Scalars['Int']>;
   /** The unique resource identifier path */
-  uri: Scalars['String'];
+  uri?: Maybe<Scalars['String']>;
 };
 
 
@@ -813,7 +1148,7 @@ export type Comment = Node & DatabaseIdentifier & {
   date?: Maybe<Scalars['String']>;
   /** Date the comment was posted in GMT. This field is equivalent to WP_Comment-&gt;date_gmt and the value matching the &quot;date_gmt&quot; column in SQL. */
   dateGmt?: Maybe<Scalars['String']>;
-  /** The globally unique identifier for the comment object */
+  /** The globally unique ID for the object */
   id: Scalars['ID'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
@@ -858,15 +1193,15 @@ export type CommentAuthor = Node & Commenter & {
   __typename?: 'CommentAuthor';
   /** Identifies the primary key from the database. */
   databaseId: Scalars['Int'];
-  /** The email for the comment author */
+  /** The email address of the author of a comment. */
   email?: Maybe<Scalars['String']>;
-  /** The globally unique identifier for the comment author object */
+  /** The globally unique identifier for the comment author. */
   id: Scalars['ID'];
-  /** Whether the object is restricted from the current viewer */
+  /** Whether the author information is considered restricted. (not fully public) */
   isRestricted?: Maybe<Scalars['Boolean']>;
-  /** The name for the comment author. */
+  /** The name of the author of a comment. */
   name?: Maybe<Scalars['String']>;
-  /** The url the comment author. */
+  /** The url of the author of a comment. */
   url?: Maybe<Scalars['String']>;
 };
 
@@ -1099,7 +1434,7 @@ export type ContentNode = {
   dateGmt?: Maybe<Scalars['String']>;
   /** The desired slug of the post */
   desiredSlug?: Maybe<Scalars['String']>;
-  /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn't exist or is greater than 15 seconds */
+  /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
   editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
   /** The RSS enclosure for the object */
   enclosure?: Maybe<Scalars['String']>;
@@ -1107,7 +1442,7 @@ export type ContentNode = {
   enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
   /** Connection between the ContentNode type and the EnqueuedStylesheet type */
   enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
-  /** The global unique identifier for this post. This currently matches the value stored in WP_Post->guid and the guid column in the "post_objects" database table. */
+  /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
   guid?: Maybe<Scalars['String']>;
   /** The globally unique identifier of the node. */
   id: Scalars['ID'];
@@ -1127,14 +1462,14 @@ export type ContentNode = {
   previewRevisionDatabaseId?: Maybe<Scalars['Int']>;
   /** Whether the object is a node in the preview state */
   previewRevisionId?: Maybe<Scalars['ID']>;
-  /** The uri slug for the post. This is equivalent to the WP_Post->post_name field and the post_name column in the database for the "post_objects" table. */
+  /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
   slug?: Maybe<Scalars['String']>;
   /** The current status of the object */
   status?: Maybe<Scalars['String']>;
   /** The template assigned to a node of content */
   template?: Maybe<ContentTemplate>;
   /** URI path for the resource */
-  uri: Scalars['String'];
+  uri?: Maybe<Scalars['String']>;
 };
 
 
@@ -1260,7 +1595,7 @@ export type ContentType = Node & UniformResourceIdentifiable & {
   hasArchive?: Maybe<Scalars['Boolean']>;
   /** Whether the content type is hierarchical, for example pages. */
   hierarchical?: Maybe<Scalars['Boolean']>;
-  /** The globally unique identifier of the post-type object. */
+  /** The unique resource identifier path */
   id: Scalars['ID'];
   /** Whether this page is set to the static front page. */
   isFrontPage: Scalars['Boolean'];
@@ -1707,7 +2042,7 @@ export type Coupon = Node & {
   excludedProducts?: Maybe<CouponToExcludedProductsConnection>;
   /** Does this coupon grant free shipping? */
   freeShipping?: Maybe<Scalars['Boolean']>;
-  /** The globally unique identifier for the coupon */
+  /** The globally unique ID for the object */
   id: Scalars['ID'];
   /** Individual use means this coupon cannot be used in conjunction with other coupons */
   individualUse?: Maybe<Scalars['Boolean']>;
@@ -2033,6 +2368,8 @@ export type CouponToExcludedProductsConnectionWhereArgs = {
   tagIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Limit result set to products not assigned to a specific group of tags by name. */
   tagNotIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Limit result set to products with a specific tax class. */
+  taxClass?: Maybe<TaxClassEnum>;
   /** Limit result set with complex set of taxonomy filters. */
   taxonomyFilter?: Maybe<Array<Maybe<ProductTaxonomyFilterRelationInput>>>;
   /** Limit result set to products assigned a specific type. */
@@ -2195,6 +2532,8 @@ export type CouponToProductConnectionWhereArgs = {
   tagIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Limit result set to products not assigned to a specific group of tags by name. */
   tagNotIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Limit result set to products with a specific tax class. */
+  taxClass?: Maybe<TaxClassEnum>;
   /** Limit result set with complex set of taxonomy filters. */
   taxonomyFilter?: Maybe<Array<Maybe<ProductTaxonomyFilterRelationInput>>>;
   /** Limit result set to products assigned a specific type. */
@@ -2730,7 +3069,7 @@ export type Customer = Node & {
   firstName?: Maybe<Scalars['String']>;
   /** Has calculated shipping? */
   hasCalculatedShipping?: Maybe<Scalars['Boolean']>;
-  /** The globally unique identifier for the customer */
+  /** The globally unique ID for the object */
   id: Scalars['ID'];
   /** Whether the JWT User secret has been revoked. If the secret has been revoked, auth tokens will not be issued until an admin, or user with proper capabilities re-issues a secret for the user. */
   isJwtAuthSecretRevoked: Scalars['Boolean'];
@@ -3040,6 +3379,73 @@ export type DefaultTemplate = ContentTemplate & {
   __typename?: 'DefaultTemplate';
   /** The name of the template */
   templateName?: Maybe<Scalars['String']>;
+};
+
+/** Input for the deleteCardnetPaymentProfile mutation */
+export type DeleteCardnetPaymentProfileInput = {
+  /** Payment Profile ID to update */
+  paymentProfileId: Scalars['Int'];
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** Customer ID */
+  customerId: Scalars['Int'];
+};
+
+/** The payload for the deleteCardnetPaymentProfile mutation */
+export type DeleteCardnetPaymentProfilePayload = {
+  __typename?: 'DeleteCardnetPaymentProfilePayload';
+  /** Lista de datos de tipo “Clave:Valor” para almacenar información extra. */
+  additionalData?: Maybe<Scalars['String']>;
+  /** BillingAddress */
+  billingAddress?: Maybe<Scalars['String']>;
+  /** URL de captura de datos de tarjeta (es la URL que se debe abrir en un iframe para iniciar el proceso de captura de datos sensibles). Solo es válida para Customers de tipo “Commerce”. */
+  captureURL?: Maybe<Scalars['String']>;
+  /**
+   * Identificador del cliente en el comercio. Este valor es generado
+   *                 y utilizado internamente por el comercio para identificar al cliente dentro de la plataforma.
+   */
+  commerceCustomerId?: Maybe<Scalars['String']>;
+  /**
+   * Fecha y hora del momento de la creación del cliente.
+   *               Este campo está presente en la respuesta a consultas.
+   *               No se incluye o valida en la creación o actualizaciones del objeto.
+   */
+  created?: Maybe<Scalars['String']>;
+  /** Identificador del cliente. */
+  customerId?: Maybe<Scalars['Int']>;
+  /** Documento del cliente */
+  docNumber?: Maybe<Scalars['String']>;
+  /** Tipo de documento del cliente */
+  documentTypeId?: Maybe<Scalars['Int']>;
+  /** Email del cliente */
+  email?: Maybe<Scalars['String']>;
+  /** Customer activated */
+  enabled?: Maybe<Scalars['Boolean']>;
+  /** Nombre del cliente */
+  firstName?: Maybe<Scalars['String']>;
+  /** Apellido del cliente. */
+  lastName?: Maybe<Scalars['String']>;
+  /**
+   * Determina si el usuario fue registrado por el comercio, a través de Cardnet o anónimo.
+   *               Valores posibles: “Our”, “Commerce”, “Anonymous”.
+   *               Este campo está presente en la respuesta a consultas.
+   *               No se incluye o valida en la creación o actualizaciones del objeto.
+   */
+  owner?: Maybe<Scalars['String']>;
+  /** Lista de objetos PaymentProfile con información de los medios de pago registrados por el Customer. */
+  paymentProfiles?: Maybe<Array<Maybe<PaymentProfiles>>>;
+  /** Teléfono de contacto del cliente. */
+  phoneNumber?: Maybe<Scalars['String']>;
+  /** Reservado */
+  plans?: Maybe<Scalars['String']>;
+  /** ShippingAddress */
+  shippingAddress?: Maybe<Scalars['String']>;
+  /** URL donde se puede acceder a la información del Cliente (ej. /v1/customer/{customer-id}). */
+  uRL?: Maybe<Scalars['String']>;
+  /** Identificador único de la compra. Este valor opcional permite identificar una compra única y evitar la duplicación de transacciones en caso de errores de comunicación (ver más en Conceptos / Identificador único). */
+  uniqueID?: Maybe<Scalars['String']>;
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 /** Input for the deleteCategory mutation */
@@ -3480,7 +3886,7 @@ export type EnqueuedScript = Node & EnqueuedAsset & {
   extra?: Maybe<Scalars['String']>;
   /** The handle of the enqueued asset */
   handle?: Maybe<Scalars['String']>;
-  /** The globally unique ID for the object */
+  /** The ID of the enqueued asset */
   id: Scalars['ID'];
   /** The source of the asset */
   src?: Maybe<Scalars['String']>;
@@ -3499,7 +3905,7 @@ export type EnqueuedStylesheet = Node & EnqueuedAsset & {
   extra?: Maybe<Scalars['String']>;
   /** The handle of the enqueued asset */
   handle?: Maybe<Scalars['String']>;
-  /** The globally unique ID for the object */
+  /** The ID of the enqueued asset */
   id: Scalars['ID'];
   /** The source of the asset */
   src?: Maybe<Scalars['String']>;
@@ -3526,9 +3932,9 @@ export type ExternalProduct = Node & Product & NodeWithComments & NodeWithConten
   content?: Maybe<Scalars['String']>;
   /** Connection between the ContentNode type and the ContentType type */
   contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
-  /** The ID of the product in the database */
+  /** The ID of the node in the database. */
   databaseId: Scalars['Int'];
-  /** Date product created */
+  /** Post publishing date. */
   date?: Maybe<Scalars['String']>;
   /** The publishing date set in GMT. */
   dateGmt?: Maybe<Scalars['String']>;
@@ -3566,7 +3972,7 @@ export type ExternalProduct = Node & Product & NodeWithComments & NodeWithConten
   globalAttributes?: Maybe<ProductToGlobalProductAttributeConnection>;
   /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
   guid?: Maybe<Scalars['String']>;
-  /** The globally unique identifier for the product */
+  /** The unique resource identifier path */
   id: Scalars['ID'];
   /** Main image */
   image?: Maybe<MediaItem>;
@@ -3584,7 +3990,7 @@ export type ExternalProduct = Node & Product & NodeWithComments & NodeWithConten
   menuOrder?: Maybe<Scalars['Int']>;
   /** Object meta data */
   metaData?: Maybe<Array<Maybe<MetaData>>>;
-  /** Date product last updated */
+  /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
   modified?: Maybe<Scalars['String']>;
   /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
   modifiedGmt?: Maybe<Scalars['String']>;
@@ -3632,9 +4038,9 @@ export type ExternalProduct = Node & Product & NodeWithComments & NodeWithConten
   shortDescription?: Maybe<Scalars['String']>;
   /** Product SKU */
   sku?: Maybe<Scalars['String']>;
-  /** Product slug */
+  /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
   slug?: Maybe<Scalars['String']>;
-  /** Product status */
+  /** The current status of the object */
   status?: Maybe<Scalars['String']>;
   /** Tax class */
   taxClass?: Maybe<TaxClassEnum>;
@@ -3648,8 +4054,8 @@ export type ExternalProduct = Node & Product & NodeWithComments & NodeWithConten
   type?: Maybe<ProductTypesEnum>;
   /** Connection between the Product type and the Product type */
   upsell?: Maybe<ProductToUpsellConnection>;
-  /** URI path for the resource */
-  uri: Scalars['String'];
+  /** The unique resource identifier path */
+  uri?: Maybe<Scalars['String']>;
   /** Connection between the Product type and the visibleProduct type */
   visibleProducts?: Maybe<ProductToVisibleProductConnection>;
 };
@@ -3990,7 +4396,7 @@ export type GlobalProductAttribute = ProductAttribute & {
   id: Scalars['ID'];
   /** Attribute label */
   label: Scalars['String'];
-  /** Product attribute name */
+  /** Attribute name */
   name: Scalars['String'];
   /** Attribute options */
   options?: Maybe<Array<Maybe<Scalars['String']>>>;
@@ -4103,9 +4509,9 @@ export type GroupProduct = Node & Product & NodeWithComments & NodeWithContentEd
   content?: Maybe<Scalars['String']>;
   /** Connection between the ContentNode type and the ContentType type */
   contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
-  /** The ID of the product in the database */
+  /** The ID of the node in the database. */
   databaseId: Scalars['Int'];
-  /** Date product created */
+  /** Post publishing date. */
   date?: Maybe<Scalars['String']>;
   /** The publishing date set in GMT. */
   dateGmt?: Maybe<Scalars['String']>;
@@ -4141,7 +4547,7 @@ export type GroupProduct = Node & Product & NodeWithComments & NodeWithContentEd
   globalAttributes?: Maybe<ProductToGlobalProductAttributeConnection>;
   /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
   guid?: Maybe<Scalars['String']>;
-  /** The globally unique identifier for the product */
+  /** The unique resource identifier path */
   id: Scalars['ID'];
   /** Main image */
   image?: Maybe<MediaItem>;
@@ -4159,7 +4565,7 @@ export type GroupProduct = Node & Product & NodeWithComments & NodeWithContentEd
   menuOrder?: Maybe<Scalars['Int']>;
   /** Object meta data */
   metaData?: Maybe<Array<Maybe<MetaData>>>;
-  /** Date product last updated */
+  /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
   modified?: Maybe<Scalars['String']>;
   /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
   modifiedGmt?: Maybe<Scalars['String']>;
@@ -4205,9 +4611,9 @@ export type GroupProduct = Node & Product & NodeWithComments & NodeWithContentEd
   shortDescription?: Maybe<Scalars['String']>;
   /** Product SKU */
   sku?: Maybe<Scalars['String']>;
-  /** Product slug */
+  /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
   slug?: Maybe<Scalars['String']>;
-  /** Product status */
+  /** The current status of the object */
   status?: Maybe<Scalars['String']>;
   /** The template assigned to a node of content */
   template?: Maybe<ContentTemplate>;
@@ -4217,8 +4623,8 @@ export type GroupProduct = Node & Product & NodeWithComments & NodeWithContentEd
   type?: Maybe<ProductTypesEnum>;
   /** Connection between the Product type and the Product type */
   upsell?: Maybe<ProductToUpsellConnection>;
-  /** URI path for the resource */
-  uri: Scalars['String'];
+  /** The unique resource identifier path */
+  uri?: Maybe<Scalars['String']>;
   /** Connection between the Product type and the visibleProduct type */
   visibleProducts?: Maybe<ProductToVisibleProductConnection>;
 };
@@ -4512,6 +4918,8 @@ export type GroupProductToProductConnectionWhereArgs = {
   tagIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Limit result set to products not assigned to a specific group of tags by name. */
   tagNotIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Limit result set to products with a specific tax class. */
+  taxClass?: Maybe<TaxClassEnum>;
   /** Limit result set with complex set of taxonomy filters. */
   taxonomyFilter?: Maybe<Array<Maybe<ProductTaxonomyFilterRelationInput>>>;
   /** Limit result set to products assigned a specific type. */
@@ -4875,7 +5283,7 @@ export type MediaItem = Node & ContentNode & DatabaseIdentifier & NodeWithTempla
   comments?: Maybe<MediaItemToCommentConnection>;
   /** Connection between the ContentNode type and the ContentType type */
   contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
-  /** The ID of the node in the database. */
+  /** The unique identifier stored in the database */
   databaseId: Scalars['Int'];
   /** Post publishing date. */
   date?: Maybe<Scalars['String']>;
@@ -4897,7 +5305,7 @@ export type MediaItem = Node & ContentNode & DatabaseIdentifier & NodeWithTempla
   fileSize?: Maybe<Scalars['Int']>;
   /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
   guid?: Maybe<Scalars['String']>;
-  /** The globally unique identifier of the attachment object. */
+  /** The unique resource identifier path */
   id: Scalars['ID'];
   /** Whether the object is a node in the preview state */
   isPreview?: Maybe<Scalars['Boolean']>;
@@ -4944,12 +5352,12 @@ export type MediaItem = Node & ContentNode & DatabaseIdentifier & NodeWithTempla
   srcSet?: Maybe<Scalars['String']>;
   /** The current status of the object */
   status?: Maybe<Scalars['String']>;
-  /** The template assigned to a node of content */
+  /** The template assigned to the node */
   template?: Maybe<ContentTemplate>;
   /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
   title?: Maybe<Scalars['String']>;
-  /** URI path for the resource */
-  uri: Scalars['String'];
+  /** The unique resource identifier path */
+  uri?: Maybe<Scalars['String']>;
 };
 
 
@@ -5093,8 +5501,6 @@ export enum MediaItemSizeEnum {
   Medium = 'MEDIUM',
   /** MediaItem with the medium_large size */
   MediumLarge = 'MEDIUM_LARGE',
-  /** MediaItem with the post-thumbnail size */
-  PostThumbnail = 'POST_THUMBNAIL',
   /** MediaItem with the shop_catalog size */
   ShopCatalog = 'SHOP_CATALOG',
   /** MediaItem with the shop_single size */
@@ -5235,7 +5641,7 @@ export type Menu = Node & DatabaseIdentifier & {
   count?: Maybe<Scalars['Int']>;
   /** The unique identifier stored in the database */
   databaseId: Scalars['Int'];
-  /** The globally unique identifier of the nav menu object. */
+  /** The globally unique ID for the object */
   id: Scalars['ID'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
@@ -5282,7 +5688,7 @@ export type MenuItem = Node & DatabaseIdentifier & {
   databaseId: Scalars['Int'];
   /** Description of the menu item. */
   description?: Maybe<Scalars['String']>;
-  /** The globally unique identifier of the nav menu item object. */
+  /** The globally unique ID for the object */
   id: Scalars['ID'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
@@ -5332,7 +5738,7 @@ export type MenuItemLinkable = {
   /** The unique resource identifier path */
   id: Scalars['ID'];
   /** The unique resource identifier path */
-  uri: Scalars['String'];
+  uri?: Maybe<Scalars['String']>;
 };
 
 /** The Type of Identifier used to fetch a single node. Default is "ID". To be used along with the "id" field. */
@@ -5344,7 +5750,7 @@ export enum MenuItemNodeIdTypeEnum {
 }
 
 /** Deprecated in favor of MenuItemLinkeable Interface */
-export type MenuItemObjectUnion = Post | Page | Category | Tag | PostFormat | ProductCategory | ProductTag;
+export type MenuItemObjectUnion = Post | Page | Category | Tag | ProductCategory | ProductTag;
 
 /** Connection between the MenuItem type and the Menu type */
 export type MenuItemToMenuConnectionEdge = {
@@ -5402,10 +5808,12 @@ export type MenuItemsWhereArgs = {
 
 /** Registered menu locations */
 export enum MenuLocationEnum {
-  /** Put the menu in the footer location */
-  Footer = 'FOOTER',
+  /** Put the menu in the handheld location */
+  Handheld = 'HANDHELD',
   /** Put the menu in the primary location */
-  Primary = 'PRIMARY'
+  Primary = 'PRIMARY',
+  /** Put the menu in the secondary location */
+  Secondary = 'SECONDARY'
 }
 
 /** The Type of Identifier used to fetch a single node. Default is "ID". To be used along with the "id" field. */
@@ -5601,6 +6009,8 @@ export enum MimeTypeEnum {
   ImagePng = 'IMAGE_PNG',
   /** MimeType image/tiff */
   ImageTiff = 'IMAGE_TIFF',
+  /** MimeType image/webp */
+  ImageWebp = 'IMAGE_WEBP',
   /** MimeType image/x-icon */
   ImageXIcon = 'IMAGE_X_ICON',
   /** MimeType text/calendar */
@@ -5819,7 +6229,7 @@ export type Order = Node & NodeWithComments & {
   hasDownloadableItem?: Maybe<Scalars['Boolean']>;
   /** Order has a shipping address? */
   hasShippingAddress?: Maybe<Scalars['Boolean']>;
-  /** The globally unique identifier for the order */
+  /** The globally unique ID for the object */
   id: Scalars['ID'];
   /** Is product download is permitted */
   isDownloadPermitted?: Maybe<Scalars['Boolean']>;
@@ -6353,7 +6763,7 @@ export type PaColor = Node & TermNode & DatabaseIdentifier & {
   contentNodes?: Maybe<PaColorToContentNodeConnection>;
   /** The number of objects connected to the object */
   count?: Maybe<Scalars['Int']>;
-  /** Identifies the primary key from the database. */
+  /** The unique identifier stored in the database */
   databaseId: Scalars['Int'];
   /** The description of the object */
   description?: Maybe<Scalars['String']>;
@@ -6361,7 +6771,7 @@ export type PaColor = Node & TermNode & DatabaseIdentifier & {
   enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
   /** Connection between the TermNode type and the EnqueuedStylesheet type */
   enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
-  /** The globally unique ID for the object */
+  /** Unique identifier for the term */
   id: Scalars['ID'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
@@ -6385,7 +6795,7 @@ export type PaColor = Node & TermNode & DatabaseIdentifier & {
   /** The taxonomy ID that the object is associated with */
   termTaxonomyId?: Maybe<Scalars['Int']>;
   /** The unique resource identifier path */
-  uri: Scalars['String'];
+  uri?: Maybe<Scalars['String']>;
   /** Connection between the PaColor type and the ProductVariation type */
   variations?: Maybe<PaColorToProductVariationConnection>;
 };
@@ -6596,6 +7006,8 @@ export type PaColorToProductConnectionWhereArgs = {
   tagIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Limit result set to products not assigned to a specific group of tags by name. */
   tagNotIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Limit result set to products with a specific tax class. */
+  taxClass?: Maybe<TaxClassEnum>;
   /** Limit result set with complex set of taxonomy filters. */
   taxonomyFilter?: Maybe<Array<Maybe<ProductTaxonomyFilterRelationInput>>>;
   /** Limit result set to products assigned a specific type. */
@@ -6694,6 +7106,8 @@ export type PaColorToProductVariationConnectionWhereArgs = {
   tagIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Limit result set to products not assigned to a specific group of tags by name. */
   tagNotIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Limit result set to products with a specific tax class. */
+  taxClass?: Maybe<TaxClassEnum>;
   /** Limit result set with complex set of taxonomy filters. */
   taxonomyFilter?: Maybe<Array<Maybe<ProductTaxonomyFilterRelationInput>>>;
   /** Limit result set to products assigned a specific type. */
@@ -6720,7 +7134,7 @@ export type PaSize = Node & TermNode & DatabaseIdentifier & {
   contentNodes?: Maybe<PaSizeToContentNodeConnection>;
   /** The number of objects connected to the object */
   count?: Maybe<Scalars['Int']>;
-  /** Identifies the primary key from the database. */
+  /** The unique identifier stored in the database */
   databaseId: Scalars['Int'];
   /** The description of the object */
   description?: Maybe<Scalars['String']>;
@@ -6728,7 +7142,7 @@ export type PaSize = Node & TermNode & DatabaseIdentifier & {
   enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
   /** Connection between the TermNode type and the EnqueuedStylesheet type */
   enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
-  /** The globally unique ID for the object */
+  /** Unique identifier for the term */
   id: Scalars['ID'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
@@ -6752,7 +7166,7 @@ export type PaSize = Node & TermNode & DatabaseIdentifier & {
   /** The taxonomy ID that the object is associated with */
   termTaxonomyId?: Maybe<Scalars['Int']>;
   /** The unique resource identifier path */
-  uri: Scalars['String'];
+  uri?: Maybe<Scalars['String']>;
   /** Connection between the PaSize type and the ProductVariation type */
   variations?: Maybe<PaSizeToProductVariationConnection>;
 };
@@ -6963,6 +7377,8 @@ export type PaSizeToProductConnectionWhereArgs = {
   tagIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Limit result set to products not assigned to a specific group of tags by name. */
   tagNotIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Limit result set to products with a specific tax class. */
+  taxClass?: Maybe<TaxClassEnum>;
   /** Limit result set with complex set of taxonomy filters. */
   taxonomyFilter?: Maybe<Array<Maybe<ProductTaxonomyFilterRelationInput>>>;
   /** Limit result set to products assigned a specific type. */
@@ -7061,6 +7477,8 @@ export type PaSizeToProductVariationConnectionWhereArgs = {
   tagIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Limit result set to products not assigned to a specific group of tags by name. */
   tagNotIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Limit result set to products with a specific tax class. */
+  taxClass?: Maybe<TaxClassEnum>;
   /** Limit result set with complex set of taxonomy filters. */
   taxonomyFilter?: Maybe<Array<Maybe<ProductTaxonomyFilterRelationInput>>>;
   /** Limit result set to products assigned a specific type. */
@@ -7103,7 +7521,7 @@ export type Page = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate & 
   content?: Maybe<Scalars['String']>;
   /** Connection between the ContentNode type and the ContentType type */
   contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
-  /** The ID of the node in the database. */
+  /** The unique resource identifier path */
   databaseId: Scalars['Int'];
   /** Post publishing date. */
   date?: Maybe<Scalars['String']>;
@@ -7127,7 +7545,7 @@ export type Page = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate & 
   featuredImageId?: Maybe<Scalars['ID']>;
   /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
   guid?: Maybe<Scalars['String']>;
-  /** The globally unique identifier of the page object. */
+  /** The unique resource identifier path */
   id: Scalars['ID'];
   /** Whether this page is set to the static front page. */
   isFrontPage: Scalars['Boolean'];
@@ -7176,12 +7594,12 @@ export type Page = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate & 
   slug?: Maybe<Scalars['String']>;
   /** The current status of the object */
   status?: Maybe<Scalars['String']>;
-  /** The template assigned to a node of content */
+  /** The template assigned to the node */
   template?: Maybe<ContentTemplate>;
   /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
   title?: Maybe<Scalars['String']>;
-  /** URI path for the resource */
-  uri: Scalars['String'];
+  /** The unique resource identifier path */
+  uri?: Maybe<Scalars['String']>;
 };
 
 
@@ -7432,6 +7850,34 @@ export type PaymentGateway = {
   title?: Maybe<Scalars['String']>;
 };
 
+/** Payment Profiles */
+export type PaymentProfiles = {
+  __typename?: 'PaymentProfiles';
+  /** Tipo de tarjeta */
+  brand?: Maybe<Scalars['String']>;
+  /** Nombre del propietario de la tarjeta */
+  cardOwner?: Maybe<Scalars['String']>;
+  /** Determina si el perfil se encuentra habilitado para realizar pagos. */
+  enabled?: Maybe<Scalars['Boolean']>;
+  /** Fecha de expiración del medio de pago (si corresponde). Formato: yyyyMM */
+  expiration?: Maybe<Scalars['String']>;
+  /** Tipo de medio de pago, por ejemplo “CreditCard” */
+  issuerBank?: Maybe<Scalars['String']>;
+  /** Últimos 4 dígitos de la tarjeta de pago (si corresponde). */
+  last4?: Maybe<Scalars['Int']>;
+  /** Nombre asociado a la marca de la tarjeta de pago, por ejemplo “VISA”. */
+  paymentMediaId?: Maybe<Scalars['Int']>;
+  /** Identificador del perfil de pago registrado para el Customer. */
+  paymentProfileId?: Maybe<Scalars['Int']>;
+  /**
+   * Dato que representa al medio de pago registrado sin exponer los datos sensibles del mismo.
+   *                 Este dato será utilizado para realizar transacciones de pago mediante el medio de pago registrado.
+   */
+  token?: Maybe<Scalars['String']>;
+  /** Tipo de pago */
+  type?: Maybe<Scalars['String']>;
+};
+
 /** An plugin object */
 export type Plugin = Node & {
   __typename?: 'Plugin';
@@ -7441,7 +7887,7 @@ export type Plugin = Node & {
   authorUri?: Maybe<Scalars['String']>;
   /** Description of the plugin. */
   description?: Maybe<Scalars['String']>;
-  /** The globally unique identifier of the plugin object. */
+  /** The globally unique ID for the object */
   id: Scalars['ID'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
@@ -7476,7 +7922,7 @@ export type Post = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate & 
   content?: Maybe<Scalars['String']>;
   /** Connection between the ContentNode type and the ContentType type */
   contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
-  /** The ID of the node in the database. */
+  /** The unique resource identifier path */
   databaseId: Scalars['Int'];
   /** Post publishing date. */
   date?: Maybe<Scalars['String']>;
@@ -7502,7 +7948,7 @@ export type Post = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate & 
   featuredImageId?: Maybe<Scalars['ID']>;
   /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
   guid?: Maybe<Scalars['String']>;
-  /** The globally unique identifier of the post object. */
+  /** The unique resource identifier path */
   id: Scalars['ID'];
   /** Whether the object is a node in the preview state */
   isPreview?: Maybe<Scalars['Boolean']>;
@@ -7547,7 +7993,7 @@ export type Post = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate & 
   status?: Maybe<Scalars['String']>;
   /** Connection between the post type and the tag type */
   tags?: Maybe<PostToTagConnection>;
-  /** The template assigned to a node of content */
+  /** The template assigned to the node */
   template?: Maybe<ContentTemplate>;
   /** Connection between the post type and the TermNode type */
   terms?: Maybe<PostToTermNodeConnection>;
@@ -7555,8 +8001,8 @@ export type Post = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate & 
   title?: Maybe<Scalars['String']>;
   /** URLs queued to be pinged. */
   toPing?: Maybe<Array<Maybe<Scalars['String']>>>;
-  /** URI path for the resource */
-  uri: Scalars['String'];
+  /** The unique resource identifier path */
+  uri?: Maybe<Scalars['String']>;
 };
 
 
@@ -7676,13 +8122,13 @@ export type PostCategoriesNodeInput = {
 };
 
 /** The postFormat type */
-export type PostFormat = Node & TermNode & DatabaseIdentifier & UniformResourceIdentifiable & MenuItemLinkable & {
+export type PostFormat = Node & TermNode & DatabaseIdentifier & UniformResourceIdentifiable & {
   __typename?: 'PostFormat';
   /** Connection between the postFormat type and the ContentNode type */
   contentNodes?: Maybe<PostFormatToContentNodeConnection>;
   /** The number of objects connected to the object */
   count?: Maybe<Scalars['Int']>;
-  /** Identifies the primary key from the database. */
+  /** The unique identifier stored in the database */
   databaseId: Scalars['Int'];
   /** The description of the object */
   description?: Maybe<Scalars['String']>;
@@ -7690,7 +8136,7 @@ export type PostFormat = Node & TermNode & DatabaseIdentifier & UniformResourceI
   enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
   /** Connection between the TermNode type and the EnqueuedStylesheet type */
   enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
-  /** The globally unique ID for the object */
+  /** The unique resource identifier path */
   id: Scalars['ID'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
@@ -7714,7 +8160,7 @@ export type PostFormat = Node & TermNode & DatabaseIdentifier & UniformResourceI
   /** The taxonomy ID that the object is associated with */
   termTaxonomyId?: Maybe<Scalars['Int']>;
   /** The unique resource identifier path */
-  uri: Scalars['String'];
+  uri?: Maybe<Scalars['String']>;
 };
 
 
@@ -8009,14 +8455,10 @@ export enum PostStatusEnum {
   AutoDraft = 'AUTO_DRAFT',
   /** Objects with the draft status */
   Draft = 'DRAFT',
-  /** Objects with the failed status */
-  Failed = 'FAILED',
   /** Objects with the future status */
   Future = 'FUTURE',
   /** Objects with the inherit status */
   Inherit = 'INHERIT',
-  /** Objects with the in-progress status */
-  InProgress = 'IN_PROGRESS',
   /** Objects with the pending status */
   Pending = 'PENDING',
   /** Objects with the private status */
@@ -8043,6 +8485,8 @@ export enum PostStatusEnum {
   WcOnHold = 'WC_ON_HOLD',
   /** Objects with the wc-pending status */
   WcPending = 'WC_PENDING',
+  /** Objects with the wc-pre-ordered status */
+  WcPreOrdered = 'WC_PRE_ORDERED',
   /** Objects with the wc-processing status */
   WcProcessing = 'WC_PROCESSING',
   /** Objects with the wc-refunded status */
@@ -8879,7 +9323,7 @@ export type ProductCategory = Node & TermNode & DatabaseIdentifier & UniformReso
   contentNodes?: Maybe<ProductCategoryToContentNodeConnection>;
   /** The number of objects connected to the object */
   count?: Maybe<Scalars['Int']>;
-  /** Identifies the primary key from the database. */
+  /** The unique resource identifier path */
   databaseId: Scalars['Int'];
   /** The description of the object */
   description?: Maybe<Scalars['String']>;
@@ -8889,7 +9333,7 @@ export type ProductCategory = Node & TermNode & DatabaseIdentifier & UniformReso
   enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
   /** Connection between the TermNode type and the EnqueuedStylesheet type */
   enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
-  /** The globally unique ID for the object */
+  /** The unique resource identifier path */
   id: Scalars['ID'];
   /** Product category image */
   image?: Maybe<MediaItem>;
@@ -8923,7 +9367,7 @@ export type ProductCategory = Node & TermNode & DatabaseIdentifier & UniformReso
   /** The taxonomy ID that the object is associated with */
   termTaxonomyId?: Maybe<Scalars['Int']>;
   /** The unique resource identifier path */
-  uri: Scalars['String'];
+  uri?: Maybe<Scalars['String']>;
 };
 
 
@@ -9244,6 +9688,8 @@ export type ProductCategoryToProductConnectionWhereArgs = {
   tagIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Limit result set to products not assigned to a specific group of tags by name. */
   tagNotIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Limit result set to products with a specific tax class. */
+  taxClass?: Maybe<TaxClassEnum>;
   /** Limit result set with complex set of taxonomy filters. */
   taxonomyFilter?: Maybe<Array<Maybe<ProductTaxonomyFilterRelationInput>>>;
   /** Limit result set to products assigned a specific type. */
@@ -9303,7 +9749,7 @@ export type ProductTag = Node & TermNode & DatabaseIdentifier & UniformResourceI
   contentNodes?: Maybe<ProductTagToContentNodeConnection>;
   /** The number of objects connected to the object */
   count?: Maybe<Scalars['Int']>;
-  /** Identifies the primary key from the database. */
+  /** The unique resource identifier path */
   databaseId: Scalars['Int'];
   /** The description of the object */
   description?: Maybe<Scalars['String']>;
@@ -9311,7 +9757,7 @@ export type ProductTag = Node & TermNode & DatabaseIdentifier & UniformResourceI
   enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
   /** Connection between the TermNode type and the EnqueuedStylesheet type */
   enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
-  /** The globally unique ID for the object */
+  /** The unique resource identifier path */
   id: Scalars['ID'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
@@ -9335,7 +9781,7 @@ export type ProductTag = Node & TermNode & DatabaseIdentifier & UniformResourceI
   /** The taxonomy ID that the object is associated with */
   termTaxonomyId?: Maybe<Scalars['Int']>;
   /** The unique resource identifier path */
-  uri: Scalars['String'];
+  uri?: Maybe<Scalars['String']>;
 };
 
 
@@ -9534,6 +9980,8 @@ export type ProductTagToProductConnectionWhereArgs = {
   tagIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Limit result set to products not assigned to a specific group of tags by name. */
   tagNotIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Limit result set to products with a specific tax class. */
+  taxClass?: Maybe<TaxClassEnum>;
   /** Limit result set with complex set of taxonomy filters. */
   taxonomyFilter?: Maybe<Array<Maybe<ProductTaxonomyFilterRelationInput>>>;
   /** Limit result set to products assigned a specific type. */
@@ -10092,6 +10540,8 @@ export type ProductToProductConnectionWhereArgs = {
   tagIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Limit result set to products not assigned to a specific group of tags by name. */
   tagNotIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Limit result set to products with a specific tax class. */
+  taxClass?: Maybe<TaxClassEnum>;
   /** Limit result set with complex set of taxonomy filters. */
   taxonomyFilter?: Maybe<Array<Maybe<ProductTaxonomyFilterRelationInput>>>;
   /** Limit result set to products assigned a specific type. */
@@ -10382,6 +10832,8 @@ export type ProductToUpsellConnectionWhereArgs = {
   tagIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Limit result set to products not assigned to a specific group of tags by name. */
   tagNotIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Limit result set to products with a specific tax class. */
+  taxClass?: Maybe<TaxClassEnum>;
   /** Limit result set with complex set of taxonomy filters. */
   taxonomyFilter?: Maybe<Array<Maybe<ProductTaxonomyFilterRelationInput>>>;
   /** Limit result set to products assigned a specific type. */
@@ -10465,7 +10917,7 @@ export type ProductType = Node & TermNode & DatabaseIdentifier & {
   contentNodes?: Maybe<ProductTypeToContentNodeConnection>;
   /** The number of objects connected to the object */
   count?: Maybe<Scalars['Int']>;
-  /** Identifies the primary key from the database. */
+  /** The unique identifier stored in the database */
   databaseId: Scalars['Int'];
   /** The description of the object */
   description?: Maybe<Scalars['String']>;
@@ -10473,7 +10925,7 @@ export type ProductType = Node & TermNode & DatabaseIdentifier & {
   enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
   /** Connection between the TermNode type and the EnqueuedStylesheet type */
   enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
-  /** The globally unique ID for the object */
+  /** Unique identifier for the term */
   id: Scalars['ID'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
@@ -10495,7 +10947,7 @@ export type ProductType = Node & TermNode & DatabaseIdentifier & {
   /** The taxonomy ID that the object is associated with */
   termTaxonomyId?: Maybe<Scalars['Int']>;
   /** The unique resource identifier path */
-  uri: Scalars['String'];
+  uri?: Maybe<Scalars['String']>;
 };
 
 
@@ -10632,9 +11084,9 @@ export type ProductVariation = Node & NodeWithFeaturedImage & ContentNode & Unif
   catalogVisibility?: Maybe<CatalogVisibilityEnum>;
   /** Connection between the ContentNode type and the ContentType type */
   contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
-  /** The ID of the refund in the database */
+  /** The ID of the node in the database. */
   databaseId: Scalars['Int'];
-  /** Date variation created */
+  /** Post publishing date. */
   date?: Maybe<Scalars['String']>;
   /** The publishing date set in GMT. */
   dateGmt?: Maybe<Scalars['String']>;
@@ -10674,7 +11126,7 @@ export type ProductVariation = Node & NodeWithFeaturedImage & ContentNode & Unif
   hasAttributes?: Maybe<Scalars['Boolean']>;
   /** Product variation height */
   height?: Maybe<Scalars['String']>;
-  /** The globally unique identifier for the product variation */
+  /** The unique resource identifier path */
   id: Scalars['ID'];
   /** Product variation main image */
   image?: Maybe<MediaItem>;
@@ -10694,7 +11146,7 @@ export type ProductVariation = Node & NodeWithFeaturedImage & ContentNode & Unif
   menuOrder?: Maybe<Scalars['Int']>;
   /** Object meta data */
   metaData?: Maybe<Array<Maybe<MetaData>>>;
-  /** Date variation last updated */
+  /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
   modified?: Maybe<Scalars['String']>;
   /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
   modifiedGmt?: Maybe<Scalars['String']>;
@@ -10726,7 +11178,7 @@ export type ProductVariation = Node & NodeWithFeaturedImage & ContentNode & Unif
   sku?: Maybe<Scalars['String']>;
   /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
   slug?: Maybe<Scalars['String']>;
-  /** Variation status */
+  /** The current status of the object */
   status?: Maybe<Scalars['String']>;
   /** Product variation stock quantity */
   stockQuantity?: Maybe<Scalars['Int']>;
@@ -10740,8 +11192,8 @@ export type ProductVariation = Node & NodeWithFeaturedImage & ContentNode & Unif
   template?: Maybe<ContentTemplate>;
   /** Product type */
   type?: Maybe<ProductTypesEnum>;
-  /** URI path for the resource */
-  uri: Scalars['String'];
+  /** The unique resource identifier path */
+  uri?: Maybe<Scalars['String']>;
   /** Is product virtual? */
   virtual?: Maybe<Scalars['Boolean']>;
   /** Connection between the ProductVariation type and the visibleProduct type */
@@ -11028,6 +11480,87 @@ export type ProductsOrderbyInput = {
   order?: Maybe<OrderEnum>;
 };
 
+/** Input for the purchaseCardnet mutation */
+export type PurchaseCardnetInput = {
+  /** Información adicional que el comercio puede agregar a la transacción (Ej.: lista de datos de tipo “Clave:Valor”).Dicha información será devuelta al procesar la compra y cada vez que dicha compra sea consultada. */
+  additionalData?: Maybe<Scalars['String']>;
+  /** Monto total de la compra. El valor debe ser mayor a cero */
+  amount: Scalars['Int'];
+  capture?: Maybe<Scalars['Boolean']>;
+  /** Moneda de la compra, de acuerdo a ISO-4217 (códigos alfanuméricos). */
+  currency: Scalars['String'];
+  /** IP del cliente que utiliza el servicio. */
+  customerIP?: Maybe<Scalars['String']>;
+  /** Datos específicos para la Rep. Dominicana. Ver la definición del objeto CountryDataDo. Detalle del objeto en la sección 6.9 CountryDataDo. */
+  dataDo: CardNetCountryDataDoInput;
+  /** Descripción opcional de la compra */
+  description?: Maybe<Scalars['String']>;
+  /** Número de orden, generado por el comercio */
+  order: Scalars['String'];
+  /** Cantidad de cuotas de la compra. */
+  tip?: Maybe<Scalars['Int']>;
+  /** Token que identifica la tarjeta del cliente */
+  trxToken: Scalars['String'];
+  /** Identificador único de la compra. Este valor opcional permite identificar una compra única y evitar la duplicación de transacciones en caso de errores de comunicación (ver más en Conceptos / Identificador único). */
+  uniqueID?: Maybe<Scalars['String']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+/** The payload for the purchaseCardnet mutation */
+export type PurchaseCardnetPayload = {
+  __typename?: 'PurchaseCardnetPayload';
+  /** Información adicional que el comercio puede agregar a la transacción (Ej.: lista de datos de tipo “Clave:Valor”).Dicha información será devuelta al procesar la compra y cada vez que dicha compra sea consultada. */
+  additionalData?: Maybe<Scalars['String']>;
+  /** Monto total de la compra. El valor debe ser mayor a cero. */
+  amount?: Maybe<Scalars['Int']>;
+  /** Establece si la compra se debe realizar en uno o dos pasos. Es de tipo booleano cuyo valor por defecto es “true”. Si es false, solo se procesa la autorización y la compra queda pre-autorizada a la espera de la confirmación final a través de las llamadas commit (confirmar) y rollback (anular). Si es true, la transacción queda autorizada y capturada (confirmada). */
+  capture?: Maybe<Scalars['Boolean']>;
+  /** Utilizado para indicar al comercio una acción que deba ser realizada por él o por el customer para completar el proceso de la compra actual. Si la transacción se devolvió en estado Pending, se deberá revisar este objeto para determinar las acciones siguientes. */
+  commerceAction?: Maybe<Scalars['String']>;
+  /** Fecha y hora del momento de la creación de la compra. Este campo está presente en la respuesta a consultas. No se incluye o valida en la creación o actualizaciones del objeto. */
+  created?: Maybe<Scalars['String']>;
+  /** Moneda de la compra, de acuerdo a ISO-4217 (códigos alfanuméricos). */
+  currency?: Maybe<Scalars['String']>;
+  /** Información del cliente que realiza el pago. Algunos medios de pago pueden requerir información adicional del cliente para poder tramitar la autorización. */
+  customer?: Maybe<CardNetCustomer>;
+  /** IP del cliente que utiliza el servicio. */
+  customerIP?: Maybe<Scalars['String']>;
+  /** User Agent del cliente que utiliza el servicio, en la Web debería ser el UserAgent reportado por el navegdor, en el caso de móviles información acerca del dispositivo, S.O. utilizado, nombre de la App. */
+  customerUserAgent?: Maybe<Scalars['String']>;
+  /**
+   * Datos específicos para la Rep. Dominicana. Ver
+   *                 la definición del objeto CountryDataDo. Detalle del objeto en la sección 6.9 CountryDataDo.
+   */
+  dataDo?: Maybe<CardNetCountryDataDo>;
+  /** Descripción opcional de la compra */
+  description?: Maybe<Scalars['String']>;
+  /** Cantidad de cuotas de la compra */
+  installments?: Maybe<Scalars['Int']>;
+  /** Número de orden, generado por el comercio */
+  order?: Maybe<Scalars['String']>;
+  /** Moneda de la compra, de acuerdo a ISO-4217 (códigos alfanuméricos). */
+  originalAmount?: Maybe<Scalars['Int']>;
+  /** Reservado */
+  planID?: Maybe<Scalars['String']>;
+  /** Identificador de la compra. */
+  purchaseId?: Maybe<Scalars['Int']>;
+  /** Lista de devoluciones realizadas a la compra. */
+  refundList?: Maybe<CardNetRefund>;
+  /** Propina */
+  tip?: Maybe<Scalars['Int']>;
+  /** Contiene la información que resulta de la transacción realizada contra el medio de pago (por ej: código de respuesta, número de autorización). */
+  transaction?: Maybe<CardNetTransaction>;
+  /** Token que identifica la tarjeta del cliente */
+  trxToken?: Maybe<Scalars['String']>;
+  /** URL donde se puede acceder a la información de la Compra. Ej: {ambiente_api}/v1/api/purchase/{purchase- id}). */
+  uRL?: Maybe<Scalars['String']>;
+  /** Identificador único de la compra. Este valor opcional permite identificar una compra única y evitar la duplicación de transacciones en caso de errores de comunicación (ver más en Conceptos / Identificador único). */
+  uniqueID?: Maybe<Scalars['String']>;
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
 /** The reading setting type */
 export type ReadingSettings = {
   __typename?: 'ReadingSettings';
@@ -11061,7 +11594,7 @@ export type Refund = Node & {
   databaseId?: Maybe<Scalars['Int']>;
   /** The date of the refund */
   date?: Maybe<Scalars['String']>;
-  /** The globally unique identifier for the refund */
+  /** The globally unique ID for the object */
   id: Scalars['ID'];
   /** Connection between the Refund type and the LineItem type */
   lineItems?: Maybe<RefundToLineItemConnection>;
@@ -11090,6 +11623,68 @@ export type RefundMetaDataArgs = {
   key?: Maybe<Scalars['String']>;
   keysIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   multiple?: Maybe<Scalars['Boolean']>;
+};
+
+/** Input for the refundCardnet mutation */
+export type RefundCardnetInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** Identificador de la compra */
+  purchaseId: Scalars['Int'];
+};
+
+/** The payload for the refundCardnet mutation */
+export type RefundCardnetPayload = {
+  __typename?: 'RefundCardnetPayload';
+  /** Información adicional que el comercio puede agregar a la transacción (Ej.: lista de datos de tipo “Clave:Valor”).Dicha información será devuelta al procesar la compra y cada vez que dicha compra sea consultada. */
+  additionalData?: Maybe<Scalars['String']>;
+  /** Monto total de la compra. El valor debe ser mayor a cero. */
+  amount?: Maybe<Scalars['Int']>;
+  /** Establece si la compra se debe realizar en uno o dos pasos. Es de tipo booleano cuyo valor por defecto es “true”. Si es false, solo se procesa la autorización y la compra queda pre-autorizada a la espera de la confirmación final a través de las llamadas commit (confirmar) y rollback (anular). Si es true, la transacción queda autorizada y capturada (confirmada). */
+  capture?: Maybe<Scalars['Boolean']>;
+  /** Utilizado para indicar al comercio una acción que deba ser realizada por él o por el customer para completar el proceso de la compra actual. Si la transacción se devolvió en estado Pending, se deberá revisar este objeto para determinar las acciones siguientes. */
+  commerceAction?: Maybe<Scalars['String']>;
+  /** Fecha y hora del momento de la creación de la compra. Este campo está presente en la respuesta a consultas. No se incluye o valida en la creación o actualizaciones del objeto. */
+  created?: Maybe<Scalars['String']>;
+  /** Moneda de la compra, de acuerdo a ISO-4217 (códigos alfanuméricos). */
+  currency?: Maybe<Scalars['String']>;
+  /** Información del cliente que realiza el pago. Algunos medios de pago pueden requerir información adicional del cliente para poder tramitar la autorización. */
+  customer?: Maybe<CardNetCustomer>;
+  /** IP del cliente que utiliza el servicio. */
+  customerIP?: Maybe<Scalars['String']>;
+  /** User Agent del cliente que utiliza el servicio, en la Web debería ser el UserAgent reportado por el navegdor, en el caso de móviles información acerca del dispositivo, S.O. utilizado, nombre de la App. */
+  customerUserAgent?: Maybe<Scalars['String']>;
+  /**
+   * Datos específicos para la Rep. Dominicana. Ver
+   *                 la definición del objeto CountryDataDo. Detalle del objeto en la sección 6.9 CountryDataDo.
+   */
+  dataDo?: Maybe<CardNetCountryDataDo>;
+  /** Descripción opcional de la compra */
+  description?: Maybe<Scalars['String']>;
+  /** Cantidad de cuotas de la compra */
+  installments?: Maybe<Scalars['Int']>;
+  /** Número de orden, generado por el comercio */
+  order?: Maybe<Scalars['String']>;
+  /** Moneda de la compra, de acuerdo a ISO-4217 (códigos alfanuméricos). */
+  originalAmount?: Maybe<Scalars['Int']>;
+  /** Reservado */
+  planID?: Maybe<Scalars['String']>;
+  /** Identificador de la compra. */
+  purchaseId?: Maybe<Scalars['Int']>;
+  /** Lista de devoluciones realizadas a la compra. */
+  refundList?: Maybe<CardNetRefund>;
+  /** Propina */
+  tip?: Maybe<Scalars['Int']>;
+  /** Contiene la información que resulta de la transacción realizada contra el medio de pago (por ej: código de respuesta, número de autorización). */
+  transaction?: Maybe<CardNetTransaction>;
+  /** Token que identifica la tarjeta del cliente */
+  trxToken?: Maybe<Scalars['String']>;
+  /** URL donde se puede acceder a la información de la Compra. Ej: {ambiente_api}/v1/api/purchase/{purchase- id}). */
+  uRL?: Maybe<Scalars['String']>;
+  /** Identificador único de la compra. Este valor opcional permite identificar una compra única y evitar la duplicación de transacciones en caso de errores de comunicación (ver más en Conceptos / Identificador único). */
+  uniqueID?: Maybe<Scalars['String']>;
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']>;
 };
 
 /** The Type of Identifier used to fetch a single Refund. Default is ID. */
@@ -11354,6 +11949,10 @@ export type RestoreReviewPayload = {
 /** The root mutation */
 export type RootMutation = {
   __typename?: 'RootMutation';
+  /** The payload for the activateCardnetPayment mutation */
+  activateCardnetPayment?: Maybe<ActivateCardnetPaymentPayload>;
+  /** The payload for the addCardnetCustomer mutation */
+  addCardnetCustomer?: Maybe<AddCardnetCustomerPayload>;
   /** The payload for the addCartItems mutation */
   addCartItems?: Maybe<AddCartItemsPayload>;
   /** The payload for the addFee mutation */
@@ -11396,6 +11995,8 @@ export type RootMutation = {
   createUser?: Maybe<CreateUserPayload>;
   /** The payload for the createVisibleProduct mutation */
   createVisibleProduct?: Maybe<CreateVisibleProductPayload>;
+  /** The payload for the deleteCardnetPaymentProfile mutation */
+  deleteCardnetPaymentProfile?: Maybe<DeleteCardnetPaymentProfilePayload>;
   /** The payload for the deleteCategory mutation */
   deleteCategory?: Maybe<DeleteCategoryPayload>;
   /** The payload for the deleteComment mutation */
@@ -11440,8 +12041,12 @@ export type RootMutation = {
   increaseCount?: Maybe<Scalars['Int']>;
   /** The payload for the login mutation */
   login?: Maybe<LoginPayload>;
+  /** The payload for the purchaseCardnet mutation */
+  purchaseCardnet?: Maybe<PurchaseCardnetPayload>;
   /** The payload for the refreshJwtAuthToken mutation */
   refreshJwtAuthToken?: Maybe<RefreshJwtAuthTokenPayload>;
+  /** The payload for the refundCardnet mutation */
+  refundCardnet?: Maybe<RefundCardnetPayload>;
   /** The payload for the registerCustomer mutation */
   registerCustomer?: Maybe<RegisterCustomerPayload>;
   /** The payload for the registerUser mutation */
@@ -11460,6 +12065,10 @@ export type RootMutation = {
   restoreReview?: Maybe<RestoreReviewPayload>;
   /** The payload for the sendPasswordResetEmail mutation */
   sendPasswordResetEmail?: Maybe<SendPasswordResetEmailPayload>;
+  /** The payload for the updateCardnetCustomer mutation */
+  updateCardnetCustomer?: Maybe<UpdateCardnetCustomerPayload>;
+  /** The payload for the updateCardnetPaymentProfile mutation */
+  updateCardnetPaymentProfile?: Maybe<UpdateCardnetPaymentProfilePayload>;
   /** The payload for the UpdateCategory mutation */
   updateCategory?: Maybe<UpdateCategoryPayload>;
   /** The payload for the updateComment mutation */
@@ -11504,6 +12113,18 @@ export type RootMutation = {
   updateVisibleProduct?: Maybe<UpdateVisibleProductPayload>;
   /** The payload for the writeReview mutation */
   writeReview?: Maybe<WriteReviewPayload>;
+};
+
+
+/** The root mutation */
+export type RootMutationActivateCardnetPaymentArgs = {
+  input: ActivateCardnetPaymentInput;
+};
+
+
+/** The root mutation */
+export type RootMutationAddCardnetCustomerArgs = {
+  input: AddCardnetCustomerInput;
 };
 
 
@@ -11630,6 +12251,12 @@ export type RootMutationCreateUserArgs = {
 /** The root mutation */
 export type RootMutationCreateVisibleProductArgs = {
   input: CreateVisibleProductInput;
+};
+
+
+/** The root mutation */
+export type RootMutationDeleteCardnetPaymentProfileArgs = {
+  input: DeleteCardnetPaymentProfileInput;
 };
 
 
@@ -11766,8 +12393,20 @@ export type RootMutationLoginArgs = {
 
 
 /** The root mutation */
+export type RootMutationPurchaseCardnetArgs = {
+  input: PurchaseCardnetInput;
+};
+
+
+/** The root mutation */
 export type RootMutationRefreshJwtAuthTokenArgs = {
   input: RefreshJwtAuthTokenInput;
+};
+
+
+/** The root mutation */
+export type RootMutationRefundCardnetArgs = {
+  input: RefundCardnetInput;
 };
 
 
@@ -11822,6 +12461,18 @@ export type RootMutationRestoreReviewArgs = {
 /** The root mutation */
 export type RootMutationSendPasswordResetEmailArgs = {
   input: SendPasswordResetEmailInput;
+};
+
+
+/** The root mutation */
+export type RootMutationUpdateCardnetCustomerArgs = {
+  input: UpdateCardnetCustomerInput;
+};
+
+
+/** The root mutation */
+export type RootMutationUpdateCardnetPaymentProfileArgs = {
+  input: UpdateCardnetPaymentProfileInput;
 };
 
 
@@ -11961,6 +12612,8 @@ export type RootQuery = {
   __typename?: 'RootQuery';
   /** Entry point to get all settings for the site */
   allSettings?: Maybe<Settings>;
+  /** Describe what the field should be used for */
+  cardnetCustomer?: Maybe<CardNetCustomer>;
   /** The cart object */
   cart?: Maybe<Cart>;
   /** The cart object */
@@ -12076,6 +12729,10 @@ export type RootQuery = {
   productVariation?: Maybe<ProductVariation>;
   /** Connection between the RootQuery type and the Product type */
   products?: Maybe<RootQueryToProductConnection>;
+  /** Obtener información de una compra */
+  purchaseCardnet?: Maybe<CardNetPurchase>;
+  /** Obtener información de una compra */
+  purchaseListCarnet?: Maybe<Array<Maybe<CardNetPurchase>>>;
   /** Fields of the &#039;ReadingSettings&#039; settings group */
   readingSettings?: Maybe<ReadingSettings>;
   /** A refund object */
@@ -12136,6 +12793,12 @@ export type RootQuery = {
   visibleProducts?: Maybe<RootQueryToVisibleProductConnection>;
   /** Fields of the &#039;WritingSettings&#039; settings group */
   writingSettings?: Maybe<WritingSettings>;
+};
+
+
+/** The root entry point into the Graph */
+export type RootQueryCardnetCustomerArgs = {
+  customerId: Scalars['Int'];
 };
 
 
@@ -12557,6 +13220,12 @@ export type RootQueryProductsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   where?: Maybe<RootQueryToProductConnectionWhereArgs>;
+};
+
+
+/** The root entry point into the Graph */
+export type RootQueryPurchaseCardnetArgs = {
+  purchaseId: Scalars['Int'];
 };
 
 
@@ -13907,6 +14576,8 @@ export type RootQueryToProductConnectionWhereArgs = {
   tagIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Limit result set to products not assigned to a specific group of tags by name. */
   tagNotIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Limit result set to products with a specific tax class. */
+  taxClass?: Maybe<TaxClassEnum>;
   /** Limit result set with complex set of taxonomy filters. */
   taxonomyFilter?: Maybe<Array<Maybe<ProductTaxonomyFilterRelationInput>>>;
   /** Limit result set to products assigned a specific type. */
@@ -14574,7 +15245,7 @@ export type ShippingClass = Node & TermNode & DatabaseIdentifier & UniformResour
   contentNodes?: Maybe<ShippingClassToContentNodeConnection>;
   /** The number of objects connected to the object */
   count?: Maybe<Scalars['Int']>;
-  /** Identifies the primary key from the database. */
+  /** The unique identifier stored in the database */
   databaseId: Scalars['Int'];
   /** The description of the object */
   description?: Maybe<Scalars['String']>;
@@ -14582,7 +15253,7 @@ export type ShippingClass = Node & TermNode & DatabaseIdentifier & UniformResour
   enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
   /** Connection between the TermNode type and the EnqueuedStylesheet type */
   enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
-  /** The globally unique ID for the object */
+  /** The unique resource identifier path */
   id: Scalars['ID'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
@@ -14604,7 +15275,7 @@ export type ShippingClass = Node & TermNode & DatabaseIdentifier & UniformResour
   /** The taxonomy ID that the object is associated with */
   termTaxonomyId?: Maybe<Scalars['Int']>;
   /** The unique resource identifier path */
-  uri: Scalars['String'];
+  uri?: Maybe<Scalars['String']>;
 };
 
 
@@ -14768,7 +15439,7 @@ export type ShippingMethod = Node & {
   databaseId: Scalars['ID'];
   /** Shipping method description. */
   description?: Maybe<Scalars['String']>;
-  /** The globally unique identifier for the tax rate. */
+  /** The globally unique ID for the object */
   id: Scalars['ID'];
   /** Shipping method title. */
   title?: Maybe<Scalars['String']>;
@@ -14844,9 +15515,9 @@ export type SimpleProduct = Node & Product & NodeWithComments & NodeWithContentE
   contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
   /** Connection between the SimpleProduct type and the Product type */
   crossSell?: Maybe<SimpleProductToProductConnection>;
-  /** The ID of the product in the database */
+  /** The ID of the node in the database. */
   databaseId: Scalars['Int'];
-  /** Date product created */
+  /** Post publishing date. */
   date?: Maybe<Scalars['String']>;
   /** The publishing date set in GMT. */
   dateGmt?: Maybe<Scalars['String']>;
@@ -14892,7 +15563,7 @@ export type SimpleProduct = Node & Product & NodeWithComments & NodeWithContentE
   guid?: Maybe<Scalars['String']>;
   /** Product&#039;s height */
   height?: Maybe<Scalars['String']>;
-  /** The globally unique identifier for the product */
+  /** The unique resource identifier path */
   id: Scalars['ID'];
   /** Main image */
   image?: Maybe<MediaItem>;
@@ -14914,7 +15585,7 @@ export type SimpleProduct = Node & Product & NodeWithComments & NodeWithContentE
   menuOrder?: Maybe<Scalars['Int']>;
   /** Object meta data */
   metaData?: Maybe<Array<Maybe<MetaData>>>;
-  /** Date product last updated */
+  /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
   modified?: Maybe<Scalars['String']>;
   /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
   modifiedGmt?: Maybe<Scalars['String']>;
@@ -14968,11 +15639,11 @@ export type SimpleProduct = Node & Product & NodeWithComments & NodeWithContentE
   shortDescription?: Maybe<Scalars['String']>;
   /** Product SKU */
   sku?: Maybe<Scalars['String']>;
-  /** Product slug */
+  /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
   slug?: Maybe<Scalars['String']>;
   /** If should be sold individually */
   soldIndividually?: Maybe<Scalars['Boolean']>;
-  /** Product status */
+  /** The current status of the object */
   status?: Maybe<Scalars['String']>;
   /** Number of items available for sale */
   stockQuantity?: Maybe<Scalars['Int']>;
@@ -14990,8 +15661,8 @@ export type SimpleProduct = Node & Product & NodeWithComments & NodeWithContentE
   type?: Maybe<ProductTypesEnum>;
   /** Connection between the Product type and the Product type */
   upsell?: Maybe<ProductToUpsellConnection>;
-  /** URI path for the resource */
-  uri: Scalars['String'];
+  /** The unique resource identifier path */
+  uri?: Maybe<Scalars['String']>;
   /** Is product virtual? */
   virtual?: Maybe<Scalars['Boolean']>;
   /** Connection between the Product type and the visibleProduct type */
@@ -15309,6 +15980,8 @@ export type SimpleProductToProductConnectionWhereArgs = {
   tagIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Limit result set to products not assigned to a specific group of tags by name. */
   tagNotIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Limit result set to products with a specific tax class. */
+  taxClass?: Maybe<TaxClassEnum>;
   /** Limit result set with complex set of taxonomy filters. */
   taxonomyFilter?: Maybe<Array<Maybe<ProductTaxonomyFilterRelationInput>>>;
   /** Limit result set to products assigned a specific type. */
@@ -15355,7 +16028,7 @@ export type Tag = Node & TermNode & DatabaseIdentifier & UniformResourceIdentifi
   contentNodes?: Maybe<TagToContentNodeConnection>;
   /** The number of objects connected to the object */
   count?: Maybe<Scalars['Int']>;
-  /** Identifies the primary key from the database. */
+  /** The unique resource identifier path */
   databaseId: Scalars['Int'];
   /** The description of the object */
   description?: Maybe<Scalars['String']>;
@@ -15363,7 +16036,7 @@ export type Tag = Node & TermNode & DatabaseIdentifier & UniformResourceIdentifi
   enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
   /** Connection between the TermNode type and the EnqueuedStylesheet type */
   enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
-  /** The globally unique ID for the object */
+  /** The unique resource identifier path */
   id: Scalars['ID'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
@@ -15387,7 +16060,7 @@ export type Tag = Node & TermNode & DatabaseIdentifier & UniformResourceIdentifi
   /** The taxonomy ID that the object is associated with */
   termTaxonomyId?: Maybe<Scalars['Int']>;
   /** The unique resource identifier path */
-  uri: Scalars['String'];
+  uri?: Maybe<Scalars['String']>;
 };
 
 
@@ -15595,8 +16268,11 @@ export type TagToTaxonomyConnectionEdge = {
 
 /** Tax class enumeration */
 export enum TaxClassEnum {
+  Adv = 'ADV',
   /** Inherits Tax class from cart */
   InheritCart = 'INHERIT_CART',
+  Isc = 'ISC',
+  Itbis = 'ITBIS',
   ReducedRate = 'REDUCED_RATE',
   /** Standard Tax rate */
   Standard = 'STANDARD',
@@ -15647,7 +16323,7 @@ export type TaxRate = Node & {
   country?: Maybe<Scalars['String']>;
   /** The ID of the customer in the database */
   databaseId?: Maybe<Scalars['Int']>;
-  /** The globally unique identifier for the tax rate. */
+  /** The globally unique ID for the object */
   id: Scalars['ID'];
   /** Tax rate name. */
   name?: Maybe<Scalars['String']>;
@@ -15705,7 +16381,7 @@ export type Taxonomy = Node & {
   graphqlSingleName?: Maybe<Scalars['String']>;
   /** Whether the taxonomy is hierarchical */
   hierarchical?: Maybe<Scalars['Boolean']>;
-  /** The globally unique identifier of the taxonomy object. */
+  /** The globally unique ID for the object */
   id: Scalars['ID'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
@@ -15807,6 +16483,20 @@ export type TaxonomyToContentTypeConnectionEdge = {
   node?: Maybe<ContentType>;
 };
 
+/** The template assigned to the node */
+export type Template_FullWidth = ContentTemplate & {
+  __typename?: 'Template_FullWidth';
+  /** The name of the template */
+  templateName?: Maybe<Scalars['String']>;
+};
+
+/** The template assigned to the node */
+export type Template_Homepage = ContentTemplate & {
+  __typename?: 'Template_Homepage';
+  /** The name of the template */
+  templateName?: Maybe<Scalars['String']>;
+};
+
 /** Terms are nodes within a Taxonomy, used to group and relate other nodes. */
 export type TermNode = {
   /** The number of objects connected to the object */
@@ -15834,7 +16524,7 @@ export type TermNode = {
   /** The taxonomy ID that the object is associated with */
   termTaxonomyId?: Maybe<Scalars['Int']>;
   /** The unique resource identifier path */
-  uri: Scalars['String'];
+  uri?: Maybe<Scalars['String']>;
 };
 
 
@@ -15939,7 +16629,7 @@ export type Theme = Node & {
   authorUri?: Maybe<Scalars['String']>;
   /** The description of the theme. This field is equivalent to WP_Theme-&gt;get( &quot;Description&quot; ). */
   description?: Maybe<Scalars['String']>;
-  /** The globally unique identifier of the theme object. */
+  /** The globally unique ID for the object */
   id: Scalars['ID'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
@@ -16879,6 +17569,167 @@ export type UniformResourceIdentifiable = {
   uri?: Maybe<Scalars['String']>;
 };
 
+/** Input for the updateCardnetCustomer mutation */
+export type UpdateCardnetCustomerInput = {
+  /** Lista de datos de tipo “Clave:Valor” para almacenar información extra. */
+  additionalData?: Maybe<Scalars['String']>;
+  /** BillingAddress */
+  billingAddress?: Maybe<Scalars['String']>;
+  /**
+   * Identificador del cliente en el comercio. Este valor es generado
+   *                     y utilizado internamente por el comercio para identificar al cliente dentro de la plataforma.
+   */
+  commerceCustomerId?: Maybe<Scalars['String']>;
+  /** Documento del cliente */
+  docNumber?: Maybe<Scalars['String']>;
+  /** Tipo de documento del cliente */
+  documentTypeId?: Maybe<Scalars['Int']>;
+  /** Email del cliente */
+  email?: Maybe<Scalars['String']>;
+  /** Customer activated */
+  enabled?: Maybe<Scalars['Boolean']>;
+  /** Nombre del cliente */
+  firstName?: Maybe<Scalars['String']>;
+  /** Apellido del cliente. */
+  lastName?: Maybe<Scalars['String']>;
+  /** Teléfono de contacto del cliente. */
+  phoneNumber?: Maybe<Scalars['String']>;
+  /** ShippingAddress */
+  shippingAddress?: Maybe<Scalars['String']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** The ID of the customer */
+  customerId: Scalars['Int'];
+};
+
+/** The payload for the updateCardnetCustomer mutation */
+export type UpdateCardnetCustomerPayload = {
+  __typename?: 'UpdateCardnetCustomerPayload';
+  /** Lista de datos de tipo “Clave:Valor” para almacenar información extra. */
+  additionalData?: Maybe<Scalars['String']>;
+  /** BillingAddress */
+  billingAddress?: Maybe<Scalars['String']>;
+  /** URL de captura de datos de tarjeta (es la URL que se debe abrir en un iframe para iniciar el proceso de captura de datos sensibles). Solo es válida para Customers de tipo “Commerce”. */
+  captureURL?: Maybe<Scalars['String']>;
+  /**
+   * Identificador del cliente en el comercio. Este valor es generado
+   *                 y utilizado internamente por el comercio para identificar al cliente dentro de la plataforma.
+   */
+  commerceCustomerId?: Maybe<Scalars['String']>;
+  /**
+   * Fecha y hora del momento de la creación del cliente.
+   *               Este campo está presente en la respuesta a consultas.
+   *               No se incluye o valida en la creación o actualizaciones del objeto.
+   */
+  created?: Maybe<Scalars['String']>;
+  /** Identificador del cliente. */
+  customerId?: Maybe<Scalars['Int']>;
+  /** Documento del cliente */
+  docNumber?: Maybe<Scalars['String']>;
+  /** Tipo de documento del cliente */
+  documentTypeId?: Maybe<Scalars['Int']>;
+  /** Email del cliente */
+  email?: Maybe<Scalars['String']>;
+  /** Customer activated */
+  enabled?: Maybe<Scalars['Boolean']>;
+  /** Nombre del cliente */
+  firstName?: Maybe<Scalars['String']>;
+  /** Apellido del cliente. */
+  lastName?: Maybe<Scalars['String']>;
+  /**
+   * Determina si el usuario fue registrado por el comercio, a través de Cardnet o anónimo.
+   *               Valores posibles: “Our”, “Commerce”, “Anonymous”.
+   *               Este campo está presente en la respuesta a consultas.
+   *               No se incluye o valida en la creación o actualizaciones del objeto.
+   */
+  owner?: Maybe<Scalars['String']>;
+  /** Lista de objetos PaymentProfile con información de los medios de pago registrados por el Customer. */
+  paymentProfiles?: Maybe<Array<Maybe<PaymentProfiles>>>;
+  /** Teléfono de contacto del cliente. */
+  phoneNumber?: Maybe<Scalars['String']>;
+  /** Reservado */
+  plans?: Maybe<Scalars['String']>;
+  /** ShippingAddress */
+  shippingAddress?: Maybe<Scalars['String']>;
+  /** URL donde se puede acceder a la información del Cliente (ej. /v1/customer/{customer-id}). */
+  uRL?: Maybe<Scalars['String']>;
+  /** Identificador único de la compra. Este valor opcional permite identificar una compra única y evitar la duplicación de transacciones en caso de errores de comunicación (ver más en Conceptos / Identificador único). */
+  uniqueID?: Maybe<Scalars['String']>;
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+/** Input for the updateCardnetPaymentProfile mutation */
+export type UpdateCardnetPaymentProfileInput = {
+  /** Payment Method enable or disabled */
+  enabled?: Maybe<Scalars['Boolean']>;
+  /** credit card expiration date */
+  expiration?: Maybe<Scalars['String']>;
+  /** Payment Profile ID to update */
+  paymentProfileId: Scalars['Int'];
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** Customer ID */
+  customerId: Scalars['Int'];
+};
+
+/** The payload for the updateCardnetPaymentProfile mutation */
+export type UpdateCardnetPaymentProfilePayload = {
+  __typename?: 'UpdateCardnetPaymentProfilePayload';
+  /** Lista de datos de tipo “Clave:Valor” para almacenar información extra. */
+  additionalData?: Maybe<Scalars['String']>;
+  /** BillingAddress */
+  billingAddress?: Maybe<Scalars['String']>;
+  /** URL de captura de datos de tarjeta (es la URL que se debe abrir en un iframe para iniciar el proceso de captura de datos sensibles). Solo es válida para Customers de tipo “Commerce”. */
+  captureURL?: Maybe<Scalars['String']>;
+  /**
+   * Identificador del cliente en el comercio. Este valor es generado
+   *                 y utilizado internamente por el comercio para identificar al cliente dentro de la plataforma.
+   */
+  commerceCustomerId?: Maybe<Scalars['String']>;
+  /**
+   * Fecha y hora del momento de la creación del cliente.
+   *               Este campo está presente en la respuesta a consultas.
+   *               No se incluye o valida en la creación o actualizaciones del objeto.
+   */
+  created?: Maybe<Scalars['String']>;
+  /** Identificador del cliente. */
+  customerId?: Maybe<Scalars['Int']>;
+  /** Documento del cliente */
+  docNumber?: Maybe<Scalars['String']>;
+  /** Tipo de documento del cliente */
+  documentTypeId?: Maybe<Scalars['Int']>;
+  /** Email del cliente */
+  email?: Maybe<Scalars['String']>;
+  /** Customer activated */
+  enabled?: Maybe<Scalars['Boolean']>;
+  /** Nombre del cliente */
+  firstName?: Maybe<Scalars['String']>;
+  /** Apellido del cliente. */
+  lastName?: Maybe<Scalars['String']>;
+  /**
+   * Determina si el usuario fue registrado por el comercio, a través de Cardnet o anónimo.
+   *               Valores posibles: “Our”, “Commerce”, “Anonymous”.
+   *               Este campo está presente en la respuesta a consultas.
+   *               No se incluye o valida en la creación o actualizaciones del objeto.
+   */
+  owner?: Maybe<Scalars['String']>;
+  /** Lista de objetos PaymentProfile con información de los medios de pago registrados por el Customer. */
+  paymentProfiles?: Maybe<Array<Maybe<PaymentProfiles>>>;
+  /** Teléfono de contacto del cliente. */
+  phoneNumber?: Maybe<Scalars['String']>;
+  /** Reservado */
+  plans?: Maybe<Scalars['String']>;
+  /** ShippingAddress */
+  shippingAddress?: Maybe<Scalars['String']>;
+  /** URL donde se puede acceder a la información del Cliente (ej. /v1/customer/{customer-id}). */
+  uRL?: Maybe<Scalars['String']>;
+  /** Identificador único de la compra. Este valor opcional permite identificar una compra única y evitar la duplicación de transacciones en caso de errores de comunicación (ver más en Conceptos / Identificador único). */
+  uniqueID?: Maybe<Scalars['String']>;
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
 /** Input for the UpdateCategory mutation */
 export type UpdateCategoryInput = {
   /** The slug that the category will be an alias of */
@@ -17599,11 +18450,11 @@ export type User = Node & UniformResourceIdentifiable & Commenter & DatabaseIden
   capabilities?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Connection between the User type and the Comment type */
   comments?: Maybe<UserToCommentConnection>;
-  /** Identifies the primary key from the database. */
+  /** The unique identifier stored in the database */
   databaseId: Scalars['Int'];
   /** Description of the user. */
   description?: Maybe<Scalars['String']>;
-  /** Email address of the user. This is equivalent to the WP_User-&gt;user_email property. */
+  /** The email address of the author of a comment. */
   email?: Maybe<Scalars['String']>;
   /** Connection between the User type and the EnqueuedScript type */
   enqueuedScripts?: Maybe<UserToEnqueuedScriptConnection>;
@@ -17613,11 +18464,11 @@ export type User = Node & UniformResourceIdentifiable & Commenter & DatabaseIden
   extraCapabilities?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** First name of the user. This is equivalent to the WP_User-&gt;user_first_name property. */
   firstName?: Maybe<Scalars['String']>;
-  /** The globally unique identifier for the user object. */
+  /** The globally unique identifier for the comment author. */
   id: Scalars['ID'];
   /** Whether the JWT User secret has been revoked. If the secret has been revoked, auth tokens will not be issued until an admin, or user with proper capabilities re-issues a secret for the user. */
   isJwtAuthSecretRevoked: Scalars['Boolean'];
-  /** Whether the object is restricted from the current viewer */
+  /** Whether the author information is considered restricted. (not fully public) */
   isRestricted?: Maybe<Scalars['Boolean']>;
   /** The expiration for the JWT Token for the user. If not set custom for the user, it will use the default sitewide expiration setting */
   jwtAuthExpiration?: Maybe<Scalars['String']>;
@@ -17633,7 +18484,7 @@ export type User = Node & UniformResourceIdentifiable & Commenter & DatabaseIden
   locale?: Maybe<Scalars['String']>;
   /** Connection between the User type and the mediaItem type */
   mediaItems?: Maybe<UserToMediaItemConnection>;
-  /** Display name of the user. This is equivalent to the WP_User-&gt;dispaly_name property. */
+  /** The name of the author of a comment. */
   name?: Maybe<Scalars['String']>;
   /** The nicename for the user. This field is equivalent to WP_User-&gt;user_nicename */
   nicename?: Maybe<Scalars['String']>;
@@ -17653,7 +18504,7 @@ export type User = Node & UniformResourceIdentifiable & Commenter & DatabaseIden
   slug?: Maybe<Scalars['String']>;
   /** The unique resource identifier path */
   uri?: Maybe<Scalars['String']>;
-  /** A website url that is associated with the user. */
+  /** The url of the author of a comment. */
   url?: Maybe<Scalars['String']>;
   /**
    * The Id of the user. Equivalent to WP_User-&gt;ID
@@ -17774,7 +18625,7 @@ export type UserRole = Node & {
   capabilities?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** The display name of the role */
   displayName?: Maybe<Scalars['String']>;
-  /** The globally unique identifier for the user role object. */
+  /** The globally unique ID for the object */
   id: Scalars['ID'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
@@ -18281,9 +19132,9 @@ export type VariableProduct = Node & Product & NodeWithComments & NodeWithConten
   contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
   /** Connection between the VariableProduct type and the Product type */
   crossSell?: Maybe<VariableProductToProductConnection>;
-  /** The ID of the product in the database */
+  /** The ID of the node in the database. */
   databaseId: Scalars['Int'];
-  /** Date product created */
+  /** Post publishing date. */
   date?: Maybe<Scalars['String']>;
   /** The publishing date set in GMT. */
   dateGmt?: Maybe<Scalars['String']>;
@@ -18321,7 +19172,7 @@ export type VariableProduct = Node & Product & NodeWithComments & NodeWithConten
   guid?: Maybe<Scalars['String']>;
   /** Product&#039;s height */
   height?: Maybe<Scalars['String']>;
-  /** The globally unique identifier for the product */
+  /** The unique resource identifier path */
   id: Scalars['ID'];
   /** Main image */
   image?: Maybe<MediaItem>;
@@ -18343,7 +19194,7 @@ export type VariableProduct = Node & Product & NodeWithComments & NodeWithConten
   menuOrder?: Maybe<Scalars['Int']>;
   /** Object meta data */
   metaData?: Maybe<Array<Maybe<MetaData>>>;
-  /** Date product last updated */
+  /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
   modified?: Maybe<Scalars['String']>;
   /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
   modifiedGmt?: Maybe<Scalars['String']>;
@@ -18397,11 +19248,11 @@ export type VariableProduct = Node & Product & NodeWithComments & NodeWithConten
   shortDescription?: Maybe<Scalars['String']>;
   /** Product SKU */
   sku?: Maybe<Scalars['String']>;
-  /** Product slug */
+  /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
   slug?: Maybe<Scalars['String']>;
   /** If should be sold individually */
   soldIndividually?: Maybe<Scalars['Boolean']>;
-  /** Product status */
+  /** The current status of the object */
   status?: Maybe<Scalars['String']>;
   /** Number of items available for sale */
   stockQuantity?: Maybe<Scalars['Int']>;
@@ -18419,8 +19270,8 @@ export type VariableProduct = Node & Product & NodeWithComments & NodeWithConten
   type?: Maybe<ProductTypesEnum>;
   /** Connection between the Product type and the Product type */
   upsell?: Maybe<ProductToUpsellConnection>;
-  /** URI path for the resource */
-  uri: Scalars['String'];
+  /** The unique resource identifier path */
+  uri?: Maybe<Scalars['String']>;
   /** Connection between the VariableProduct type and the ProductVariation type */
   variations?: Maybe<VariableProductToProductVariationConnection>;
   /** Connection between the Product type and the visibleProduct type */
@@ -18748,6 +19599,8 @@ export type VariableProductToProductConnectionWhereArgs = {
   tagIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Limit result set to products not assigned to a specific group of tags by name. */
   tagNotIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Limit result set to products with a specific tax class. */
+  taxClass?: Maybe<TaxClassEnum>;
   /** Limit result set with complex set of taxonomy filters. */
   taxonomyFilter?: Maybe<Array<Maybe<ProductTaxonomyFilterRelationInput>>>;
   /** Limit result set to products assigned a specific type. */
@@ -18846,6 +19699,8 @@ export type VariableProductToProductVariationConnectionWhereArgs = {
   tagIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Limit result set to products not assigned to a specific group of tags by name. */
   tagNotIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** Limit result set to products with a specific tax class. */
+  taxClass?: Maybe<TaxClassEnum>;
   /** Limit result set with complex set of taxonomy filters. */
   taxonomyFilter?: Maybe<Array<Maybe<ProductTaxonomyFilterRelationInput>>>;
   /** Limit result set to products assigned a specific type. */
@@ -18900,7 +19755,7 @@ export type VisibleProduct = Node & TermNode & DatabaseIdentifier & {
   contentNodes?: Maybe<VisibleProductToContentNodeConnection>;
   /** The number of objects connected to the object */
   count?: Maybe<Scalars['Int']>;
-  /** Identifies the primary key from the database. */
+  /** The unique identifier stored in the database */
   databaseId: Scalars['Int'];
   /** The description of the object */
   description?: Maybe<Scalars['String']>;
@@ -18908,7 +19763,7 @@ export type VisibleProduct = Node & TermNode & DatabaseIdentifier & {
   enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
   /** Connection between the TermNode type and the EnqueuedStylesheet type */
   enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
-  /** The globally unique ID for the object */
+  /** Unique identifier for the term */
   id: Scalars['ID'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
@@ -18925,7 +19780,7 @@ export type VisibleProduct = Node & TermNode & DatabaseIdentifier & {
   /** The taxonomy ID that the object is associated with */
   termTaxonomyId?: Maybe<Scalars['Int']>;
   /** The unique resource identifier path */
-  uri: Scalars['String'];
+  uri?: Maybe<Scalars['String']>;
   /**
    * The id field matches the WP_Post-&gt;ID field.
    * @deprecated Deprecated in favor of databaseId

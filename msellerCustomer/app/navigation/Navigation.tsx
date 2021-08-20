@@ -11,6 +11,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {ScreenLinks} from 'app/navigation/ScreenLinks';
 import FRMessaging from '../services/FRMessaging';
 import CreditCardScreen from 'app/screens/CreditCardScreen';
+import AboutUsScreen from 'app/screens/AboutUsScreen';
 const RootStack = createStackNavigator();
 
 export const AppNavigator = () => {
@@ -36,7 +37,7 @@ export const AppNavigator = () => {
       <CustomerProvider>
         <ProductProvider>
           <CartProvider>
-            <RootStack.Navigator mode="modal">
+            <RootStack.Navigator mode="modal" headerMode="none">
               <RootStack.Screen name="Main" component={NavigationDrawer} />
               <RootStack.Screen
                 options={{headerShown: false, headerTitle: 'Registro'}}
@@ -49,6 +50,13 @@ export const AppNavigator = () => {
                 }}
                 name={ScreenLinks.CREDIT_CARD}
                 component={CreditCardScreen}
+              />
+              <RootStack.Screen
+                options={{
+                  headerTitle: 'About Us',
+                }}
+                name={ScreenLinks.ABOUT_US}
+                component={AboutUsScreen}
               />
             </RootStack.Navigator>
           </CartProvider>

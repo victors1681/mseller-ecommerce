@@ -12,6 +12,7 @@ import AddressScreen from '../screens/AddressScreen';
 import PlaceOrderScreen from 'app/screens/PlaceOrderScreen';
 import CongratsScreen from 'app/screens/CongratsScreen';
 import {ScreenLinks} from 'app/navigation/ScreenLinks';
+import {BackButtonAction} from 'app/modules/common';
 const Stack = createStackNavigator();
 
 const HomeStackNavigator = ({navigation}: any) => {
@@ -38,6 +39,7 @@ const HomeStackNavigator = ({navigation}: any) => {
         name={ScreenLinks.PRODUCTS}
         options={{
           headerTitle: 'Productos',
+          headerLeft: BackButtonAction,
         }}
         component={Products}
       />
@@ -45,6 +47,7 @@ const HomeStackNavigator = ({navigation}: any) => {
         name={ScreenLinks.PRODUCTS_DETAILS}
         options={{
           headerTitle: 'Detalle del Producto',
+          headerLeft: BackButtonAction,
         }}
         component={ProductDetail}
       />
@@ -52,6 +55,7 @@ const HomeStackNavigator = ({navigation}: any) => {
         name={ScreenLinks.SHOPPING_CART}
         options={{
           headerTitle: 'Carrito de Compras',
+          headerLeft: BackButtonAction,
         }}
         component={ShoppingCartScreen}
       />
@@ -59,6 +63,7 @@ const HomeStackNavigator = ({navigation}: any) => {
         name={ScreenLinks.ADDRESS}
         options={{
           headerTitle: 'Dirección de envío',
+          headerLeft: BackButtonAction,
         }}
         component={AddressScreen}
       />

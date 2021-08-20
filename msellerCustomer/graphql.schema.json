@@ -10,6 +10,776 @@
     "types": [
       {
         "kind": "INPUT_OBJECT",
+        "name": "ActivateCardnetPaymentInput",
+        "description": "Input for the activateCardnetPayment mutation",
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "activationCode",
+            "description": "Código de activación emitido por el banco emisor de la tarjeta",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "token",
+            "description": "Token de la tarjeta a activar",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "clientMutationId",
+            "description": "This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions.",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "customerId",
+            "description": "Customer ID",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "SCALAR",
+        "name": "Int",
+        "description": "The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.",
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "SCALAR",
+        "name": "String",
+        "description": "The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.",
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "ActivateCardnetPaymentPayload",
+        "description": "The payload for the activateCardnetPayment mutation",
+        "fields": [
+          {
+            "name": "additionalData",
+            "description": "Lista de datos de tipo “Clave:Valor” para almacenar información extra.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "billingAddress",
+            "description": "BillingAddress",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "captureURL",
+            "description": "URL de captura de datos de tarjeta (es la URL que se debe abrir en un iframe para iniciar el proceso de captura de datos sensibles). Solo es válida para Customers de tipo “Commerce”.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "commerceCustomerId",
+            "description": "Identificador del cliente en el comercio. Este valor es generado\n                y utilizado internamente por el comercio para identificar al cliente dentro de la plataforma.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "created",
+            "description": "Fecha y hora del momento de la creación del cliente.\n              Este campo está presente en la respuesta a consultas.\n              No se incluye o valida en la creación o actualizaciones del objeto.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "customerId",
+            "description": "Identificador del cliente.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "docNumber",
+            "description": "Documento del cliente",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "documentTypeId",
+            "description": "Tipo de documento del cliente",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "email",
+            "description": "Email del cliente",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "enabled",
+            "description": "Customer activated",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "firstName",
+            "description": "Nombre del cliente",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "lastName",
+            "description": "Apellido del cliente.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "owner",
+            "description": "Determina si el usuario fue registrado por el comercio, a través de Cardnet o anónimo.\n              Valores posibles: “Our”, “Commerce”, “Anonymous”.\n              Este campo está presente en la respuesta a consultas.\n              No se incluye o valida en la creación o actualizaciones del objeto.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "paymentProfiles",
+            "description": "Lista de objetos PaymentProfile con información de los medios de pago registrados por el Customer.",
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "PaymentProfiles",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "phoneNumber",
+            "description": "Teléfono de contacto del cliente.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "plans",
+            "description": "Reservado",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "shippingAddress",
+            "description": "ShippingAddress",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "uRL",
+            "description": "URL donde se puede acceder a la información del Cliente (ej. /v1/customer/{customer-id}).",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "uniqueID",
+            "description": "Identificador único de la compra. Este valor opcional permite identificar una compra única y evitar la duplicación de transacciones en caso de errores de comunicación (ver más en Conceptos / Identificador único).",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "clientMutationId",
+            "description": "If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "SCALAR",
+        "name": "Boolean",
+        "description": "The `Boolean` scalar type represents `true` or `false`.",
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "AddCardnetCustomerInput",
+        "description": "Input for the addCardnetCustomer mutation",
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "additionalData",
+            "description": "Lista de datos de tipo “Clave:Valor” para almacenar información extra.",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "billingAddress",
+            "description": "BillingAddress",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "commerceCustomerId",
+            "description": "Identificador del cliente en el comercio. Este valor es generado\n                    y utilizado internamente por el comercio para identificar al cliente dentro de la plataforma.",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "docNumber",
+            "description": "Documento del cliente",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "documentTypeId",
+            "description": "Tipo de documento del cliente",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "email",
+            "description": "Email del cliente",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "enabled",
+            "description": "Customer activated",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "firstName",
+            "description": "Nombre del cliente",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "lastName",
+            "description": "Apellido del cliente.",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "phoneNumber",
+            "description": "Teléfono de contacto del cliente.",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "shippingAddress",
+            "description": "ShippingAddress",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "clientMutationId",
+            "description": "This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions.",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "AddCardnetCustomerPayload",
+        "description": "The payload for the addCardnetCustomer mutation",
+        "fields": [
+          {
+            "name": "additionalData",
+            "description": "Lista de datos de tipo “Clave:Valor” para almacenar información extra.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "billingAddress",
+            "description": "BillingAddress",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "captureURL",
+            "description": "URL de captura de datos de tarjeta (es la URL que se debe abrir en un iframe para iniciar el proceso de captura de datos sensibles). Solo es válida para Customers de tipo “Commerce”.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "commerceCustomerId",
+            "description": "Identificador del cliente en el comercio. Este valor es generado\n                y utilizado internamente por el comercio para identificar al cliente dentro de la plataforma.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "created",
+            "description": "Fecha y hora del momento de la creación del cliente.\n              Este campo está presente en la respuesta a consultas.\n              No se incluye o valida en la creación o actualizaciones del objeto.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "customerId",
+            "description": "Identificador del cliente.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "docNumber",
+            "description": "Documento del cliente",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "documentTypeId",
+            "description": "Tipo de documento del cliente",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "email",
+            "description": "Email del cliente",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "enabled",
+            "description": "Customer activated",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "firstName",
+            "description": "Nombre del cliente",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "lastName",
+            "description": "Apellido del cliente.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "owner",
+            "description": "Determina si el usuario fue registrado por el comercio, a través de Cardnet o anónimo.\n              Valores posibles: “Our”, “Commerce”, “Anonymous”.\n              Este campo está presente en la respuesta a consultas.\n              No se incluye o valida en la creación o actualizaciones del objeto.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "paymentProfiles",
+            "description": "Lista de objetos PaymentProfile con información de los medios de pago registrados por el Customer.",
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "PaymentProfiles",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "phoneNumber",
+            "description": "Teléfono de contacto del cliente.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "plans",
+            "description": "Reservado",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "shippingAddress",
+            "description": "ShippingAddress",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "uRL",
+            "description": "URL donde se puede acceder a la información del Cliente (ej. /v1/customer/{customer-id}).",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "uniqueID",
+            "description": "Identificador único de la compra. Este valor opcional permite identificar una compra única y evitar la duplicación de transacciones en caso de errores de comunicación (ver más en Conceptos / Identificador único).",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "clientMutationId",
+            "description": "If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
         "name": "AddCartItemsInput",
         "description": "Input for the addCartItems mutation",
         "fields": null,
@@ -43,16 +813,6 @@
             "deprecationReason": null
           }
         ],
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "SCALAR",
-        "name": "String",
-        "description": "The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.",
-        "fields": null,
-        "inputFields": null,
         "interfaces": null,
         "enumValues": null,
         "possibleTypes": null
@@ -210,16 +970,6 @@
         "possibleTypes": null
       },
       {
-        "kind": "SCALAR",
-        "name": "Boolean",
-        "description": "The `Boolean` scalar type represents `true` or `false`.",
-        "fields": null,
-        "inputFields": null,
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
         "kind": "OBJECT",
         "name": "AddFeePayload",
         "description": "The payload for the addFee mutation",
@@ -353,16 +1103,6 @@
             "deprecationReason": null
           }
         ],
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "SCALAR",
-        "name": "Int",
-        "description": "The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.",
-        "fields": null,
-        "inputFields": null,
         "interfaces": null,
         "enumValues": null,
         "possibleTypes": null
@@ -777,6 +1517,895 @@
             "deprecationReason": null
           }
         ],
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "CardNetCountryDataDo",
+        "description": "Objeto utilizado para obtener datos de la República Dominicana (Código ISO-3166 = DO).",
+        "fields": [
+          {
+            "name": "invoice",
+            "description": "Identificador de la Transacción",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "tax",
+            "description": "Fecha y hora del momento de creación de la transacción.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "CardNetCountryDataDoInput",
+        "description": "Objeto utilizado para obtener datos de la República Dominicana (Código ISO-3166 = DO).",
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "invoice",
+            "description": "Identificador de la Transacción",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "tax",
+            "description": "Fecha y hora del momento de creación de la transacción.",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "CardNetCustomer",
+        "description": "CardNet Customer",
+        "fields": [
+          {
+            "name": "additionalData",
+            "description": "Lista de datos de tipo “Clave:Valor” para almacenar información extra.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "billingAddress",
+            "description": "BillingAddress",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "captureURL",
+            "description": "URL de captura de datos de tarjeta (es la URL que se debe abrir en un iframe para iniciar el proceso de captura de datos sensibles). Solo es válida para Customers de tipo “Commerce”.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "commerceCustomerId",
+            "description": "Identificador del cliente en el comercio. Este valor es generado\n                y utilizado internamente por el comercio para identificar al cliente dentro de la plataforma.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "created",
+            "description": "Fecha y hora del momento de la creación del cliente.\n              Este campo está presente en la respuesta a consultas.\n              No se incluye o valida en la creación o actualizaciones del objeto.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "customerId",
+            "description": "Identificador del cliente.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "docNumber",
+            "description": "Documento del cliente",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "documentTypeId",
+            "description": "Tipo de documento del cliente",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "email",
+            "description": "Email del cliente",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "enabled",
+            "description": "Customer activated",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "firstName",
+            "description": "Nombre del cliente",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "lastName",
+            "description": "Apellido del cliente.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "owner",
+            "description": "Determina si el usuario fue registrado por el comercio, a través de Cardnet o anónimo.\n              Valores posibles: “Our”, “Commerce”, “Anonymous”.\n              Este campo está presente en la respuesta a consultas.\n              No se incluye o valida en la creación o actualizaciones del objeto.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "paymentProfiles",
+            "description": "Lista de objetos PaymentProfile con información de los medios de pago registrados por el Customer.",
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "PaymentProfiles",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "phoneNumber",
+            "description": "Teléfono de contacto del cliente.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "plans",
+            "description": "Reservado",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "shippingAddress",
+            "description": "ShippingAddress",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "uRL",
+            "description": "URL donde se puede acceder a la información del Cliente (ej. /v1/customer/{customer-id}).",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "uniqueID",
+            "description": "Identificador único de la compra. Este valor opcional permite identificar una compra única y evitar la duplicación de transacciones en caso de errores de comunicación (ver más en Conceptos / Identificador único).",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "CardNetPurchase",
+        "description": "CardNet Customer",
+        "fields": [
+          {
+            "name": "additionalData",
+            "description": "Información adicional que el comercio puede agregar a la transacción (Ej.: lista de datos de tipo “Clave:Valor”).Dicha información será devuelta al procesar la compra y cada vez que dicha compra sea consultada.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "amount",
+            "description": "Monto total de la compra. El valor debe ser mayor a cero.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "capture",
+            "description": "Establece si la compra se debe realizar en uno o dos pasos. Es de tipo booleano cuyo valor por defecto es “true”. Si es false, solo se procesa la autorización y la compra queda pre-autorizada a la espera de la confirmación final a través de las llamadas commit (confirmar) y rollback (anular). Si es true, la transacción queda autorizada y capturada (confirmada).",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "commerceAction",
+            "description": "Utilizado para indicar al comercio una acción que deba ser realizada por él o por el customer para completar el proceso de la compra actual. Si la transacción se devolvió en estado Pending, se deberá revisar este objeto para determinar las acciones siguientes.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "created",
+            "description": "Fecha y hora del momento de la creación de la compra. Este campo está presente en la respuesta a consultas. No se incluye o valida en la creación o actualizaciones del objeto.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "currency",
+            "description": "Moneda de la compra, de acuerdo a ISO-4217 (códigos alfanuméricos).",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "customer",
+            "description": "Información del cliente que realiza el pago. Algunos medios de pago pueden requerir información adicional del cliente para poder tramitar la autorización.",
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "CardNetCustomer",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "customerIP",
+            "description": "IP del cliente que utiliza el servicio.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "customerUserAgent",
+            "description": "User Agent del cliente que utiliza el servicio, en la Web debería ser el UserAgent reportado por el navegdor, en el caso de móviles información acerca del dispositivo, S.O. utilizado, nombre de la App.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "dataDo",
+            "description": "Datos específicos para la Rep. Dominicana. Ver\n                la definición del objeto CountryDataDo. Detalle del objeto en la sección 6.9 CountryDataDo.",
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "CardNetCountryDataDo",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "description",
+            "description": "Descripción opcional de la compra",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "installments",
+            "description": "Cantidad de cuotas de la compra",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "order",
+            "description": "Número de orden, generado por el comercio",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "originalAmount",
+            "description": "Moneda de la compra, de acuerdo a ISO-4217 (códigos alfanuméricos).",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "planID",
+            "description": "Reservado",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "purchaseId",
+            "description": "Identificador de la compra.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "refundList",
+            "description": "Lista de devoluciones realizadas a la compra.",
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "CardNetRefund",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "tip",
+            "description": "Propina",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "transaction",
+            "description": "Contiene la información que resulta de la transacción realizada contra el medio de pago (por ej: código de respuesta, número de autorización).",
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "CardNetTransaction",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "trxToken",
+            "description": "Token que identifica la tarjeta del cliente",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "uRL",
+            "description": "URL donde se puede acceder a la información de la Compra. Ej: {ambiente_api}/v1/api/purchase/{purchase- id}).",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "uniqueID",
+            "description": "Identificador único de la compra. Este valor opcional permite identificar una compra única y evitar la duplicación de transacciones en caso de errores de comunicación (ver más en Conceptos / Identificador único).",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "CardNetRefund",
+        "description": "Objeto utilizado para obtener datos de la República Dominicana (Código ISO-3166 = DO).",
+        "fields": [
+          {
+            "name": "amount",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "created",
+            "description": "Fecha y hora del momento de creación de la transacción.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "currency",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "purchaseRefundId",
+            "description": "Identificador de la Transacción",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "status",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "uniqueID",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "CardNetTransaction",
+        "description": "El objeto Transaction está asociado a un objeto Purchase y contiene la información de requerimiento enviado y la respuesta obtenida del medio de pago correspondiente. Además, va asociado a los diferentes estados por los cuales puede pasar una transacción (autorizada, anulada, etc.)",
+        "fields": [
+          {
+            "name": "approvalCode",
+            "description": "Código de aprobación devuelto por el medio de pago",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "created",
+            "description": "Fecha y hora del momento de creación de la transacción.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "description",
+            "description": "Descripción del resultado de la transacción",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "status",
+            "description": "Estado de la transacción al momento de la consulta",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "steps",
+            "description": "Lista de los estados intermedios desde que se creó la transacción.",
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "CardNetTransactionStep",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "transactionID",
+            "description": "Identificador de la Transacción",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "transactionStatusId",
+            "description": "Identificador del Status de la transacción al momento de la consulta.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "CardNetTransactionStep",
+        "description": "El objeto Transaction está asociado a un objeto Purchase y contiene la información de requerimiento enviado y la respuesta obtenida del medio de pago correspondiente. Además, va asociado a los diferentes estados por los cuales puede pasar una transacción (autorizada, anulada, etc.)",
+        "fields": [
+          {
+            "name": "acquirerResponseDetail",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "authorizationCode",
+            "description": "Código de aprobación devuelto por el medio de pago.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "created",
+            "description": "Fecha y hora del momento de ejecución del paso.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "error",
+            "description": "Código de error generado (si corresponde) en la ejecución del paso.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "responseCode",
+            "description": "Código de respuesta obtenido luego de la ejecución del paso actual. Contiene por ejemplo el código de respuesta del medio de pago.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "responseMessage",
+            "description": "Mensaje de respuesta asociado al ResponseCode.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "status",
+            "description": "Estado final luego de la ejecución del paso.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "step",
+            "description": "Nombre del paso ejecutado.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "uniqueID",
+            "description": "Identificador único de la llamada (request) que desencadenó la ejecución de este paso. Utilizado para relacionar operaciones Refund y Rollback.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
         "possibleTypes": null
       },
       {
@@ -2246,7 +3875,7 @@
           },
           {
             "name": "databaseId",
-            "description": "Identifies the primary key from the database.",
+            "description": "The unique resource identifier path",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2396,7 +4025,7 @@
           },
           {
             "name": "id",
-            "description": "The globally unique ID for the object",
+            "description": "The unique resource identifier path",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2608,13 +4237,9 @@
             "description": "The unique resource identifier path",
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -4434,7 +6059,7 @@
           },
           {
             "name": "id",
-            "description": "The globally unique identifier for the comment object",
+            "description": "The globally unique ID for the object",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -4646,7 +6271,7 @@
           },
           {
             "name": "email",
-            "description": "The email for the comment author",
+            "description": "The email address of the author of a comment.",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -4658,7 +6283,7 @@
           },
           {
             "name": "id",
-            "description": "The globally unique identifier for the comment author object",
+            "description": "The globally unique identifier for the comment author.",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -4674,7 +6299,7 @@
           },
           {
             "name": "isRestricted",
-            "description": "Whether the object is restricted from the current viewer",
+            "description": "Whether the author information is considered restricted. (not fully public)",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -4686,7 +6311,7 @@
           },
           {
             "name": "name",
-            "description": "The name for the comment author.",
+            "description": "The name of the author of a comment.",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -4698,7 +6323,7 @@
           },
           {
             "name": "url",
-            "description": "The url the comment author.",
+            "description": "The url of the author of a comment.",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -6002,7 +7627,7 @@
           },
           {
             "name": "editingLockedBy",
-            "description": "If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn't exist or is greater than 15 seconds",
+            "description": "If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds",
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -6148,7 +7773,7 @@
           },
           {
             "name": "guid",
-            "description": "The global unique identifier for this post. This currently matches the value stored in WP_Post->guid and the guid column in the \"post_objects\" database table.",
+            "description": "The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table.",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -6272,7 +7897,7 @@
           },
           {
             "name": "slug",
-            "description": "The uri slug for the post. This is equivalent to the WP_Post->post_name field and the post_name column in the database for the \"post_objects\" table.",
+            "description": "The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table.",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -6311,13 +7936,9 @@
             "description": "URI path for the resource",
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -6706,6 +8327,16 @@
             "kind": "OBJECT",
             "name": "DefaultTemplate",
             "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "Template_FullWidth",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "Template_Homepage",
+            "ofType": null
           }
         ]
       },
@@ -6946,7 +8577,7 @@
           },
           {
             "name": "id",
-            "description": "The globally unique identifier of the post-type object.",
+            "description": "The unique resource identifier path",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -9500,7 +11131,7 @@
           },
           {
             "name": "id",
-            "description": "The globally unique identifier for the coupon",
+            "description": "The globally unique ID for the object",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -11263,6 +12894,18 @@
             "deprecationReason": null
           },
           {
+            "name": "taxClass",
+            "description": "Limit result set to products with a specific tax class.",
+            "type": {
+              "kind": "ENUM",
+              "name": "TaxClassEnum",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "taxonomyFilter",
             "description": "Limit result set with complex set of taxonomy filters.",
             "type": {
@@ -12239,6 +13882,18 @@
                 "name": "String",
                 "ofType": null
               }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "taxClass",
+            "description": "Limit result set to products with a specific tax class.",
+            "type": {
+              "kind": "ENUM",
+              "name": "TaxClassEnum",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -15080,7 +16735,7 @@
           },
           {
             "name": "id",
-            "description": "The globally unique identifier for the customer",
+            "description": "The globally unique ID for the object",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -16758,6 +18413,316 @@
             "ofType": null
           }
         ],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "DeleteCardnetPaymentProfileInput",
+        "description": "Input for the deleteCardnetPaymentProfile mutation",
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "paymentProfileId",
+            "description": "Payment Profile ID to update",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "clientMutationId",
+            "description": "This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions.",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "customerId",
+            "description": "Customer ID",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "DeleteCardnetPaymentProfilePayload",
+        "description": "The payload for the deleteCardnetPaymentProfile mutation",
+        "fields": [
+          {
+            "name": "additionalData",
+            "description": "Lista de datos de tipo “Clave:Valor” para almacenar información extra.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "billingAddress",
+            "description": "BillingAddress",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "captureURL",
+            "description": "URL de captura de datos de tarjeta (es la URL que se debe abrir en un iframe para iniciar el proceso de captura de datos sensibles). Solo es válida para Customers de tipo “Commerce”.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "commerceCustomerId",
+            "description": "Identificador del cliente en el comercio. Este valor es generado\n                y utilizado internamente por el comercio para identificar al cliente dentro de la plataforma.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "created",
+            "description": "Fecha y hora del momento de la creación del cliente.\n              Este campo está presente en la respuesta a consultas.\n              No se incluye o valida en la creación o actualizaciones del objeto.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "customerId",
+            "description": "Identificador del cliente.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "docNumber",
+            "description": "Documento del cliente",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "documentTypeId",
+            "description": "Tipo de documento del cliente",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "email",
+            "description": "Email del cliente",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "enabled",
+            "description": "Customer activated",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "firstName",
+            "description": "Nombre del cliente",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "lastName",
+            "description": "Apellido del cliente.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "owner",
+            "description": "Determina si el usuario fue registrado por el comercio, a través de Cardnet o anónimo.\n              Valores posibles: “Our”, “Commerce”, “Anonymous”.\n              Este campo está presente en la respuesta a consultas.\n              No se incluye o valida en la creación o actualizaciones del objeto.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "paymentProfiles",
+            "description": "Lista de objetos PaymentProfile con información de los medios de pago registrados por el Customer.",
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "PaymentProfiles",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "phoneNumber",
+            "description": "Teléfono de contacto del cliente.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "plans",
+            "description": "Reservado",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "shippingAddress",
+            "description": "ShippingAddress",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "uRL",
+            "description": "URL donde se puede acceder a la información del Cliente (ej. /v1/customer/{customer-id}).",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "uniqueID",
+            "description": "Identificador único de la compra. Este valor opcional permite identificar una compra única y evitar la duplicación de transacciones en caso de errores de comunicación (ver más en Conceptos / Identificador único).",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "clientMutationId",
+            "description": "If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
         "enumValues": null,
         "possibleTypes": null
       },
@@ -18831,7 +20796,7 @@
           },
           {
             "name": "id",
-            "description": "The globally unique ID for the object",
+            "description": "The ID of the enqueued asset",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -18945,7 +20910,7 @@
           },
           {
             "name": "id",
-            "description": "The globally unique ID for the object",
+            "description": "The ID of the enqueued asset",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -19177,7 +21142,7 @@
           },
           {
             "name": "databaseId",
-            "description": "The ID of the product in the database",
+            "description": "The ID of the node in the database.",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -19193,7 +21158,7 @@
           },
           {
             "name": "date",
-            "description": "Date product created",
+            "description": "Post publishing date.",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -19703,7 +21668,7 @@
           },
           {
             "name": "id",
-            "description": "The globally unique identifier for the product",
+            "description": "The unique resource identifier path",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -19921,7 +21886,7 @@
           },
           {
             "name": "modified",
-            "description": "Date product last updated",
+            "description": "The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time.",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -20749,7 +22714,7 @@
           },
           {
             "name": "slug",
-            "description": "Product slug",
+            "description": "The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table.",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -20761,7 +22726,7 @@
           },
           {
             "name": "status",
-            "description": "Product status",
+            "description": "The current status of the object",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -20906,16 +22871,12 @@
           },
           {
             "name": "uri",
-            "description": "URI path for the resource",
+            "description": "The unique resource identifier path",
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -21732,7 +23693,7 @@
           },
           {
             "name": "name",
-            "description": "Product attribute name",
+            "description": "Attribute name",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -22485,7 +24446,7 @@
           },
           {
             "name": "databaseId",
-            "description": "The ID of the product in the database",
+            "description": "The ID of the node in the database.",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -22501,7 +24462,7 @@
           },
           {
             "name": "date",
-            "description": "Date product created",
+            "description": "Post publishing date.",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -22999,7 +24960,7 @@
           },
           {
             "name": "id",
-            "description": "The globally unique identifier for the product",
+            "description": "The unique resource identifier path",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -23217,7 +25178,7 @@
           },
           {
             "name": "modified",
-            "description": "Date product last updated",
+            "description": "The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time.",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -24055,7 +26016,7 @@
           },
           {
             "name": "slug",
-            "description": "Product slug",
+            "description": "The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table.",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -24067,7 +26028,7 @@
           },
           {
             "name": "status",
-            "description": "Product status",
+            "description": "The current status of the object",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -24188,16 +26149,12 @@
           },
           {
             "name": "uri",
-            "description": "URI path for the resource",
+            "description": "The unique resource identifier path",
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -24848,6 +26805,18 @@
                 "name": "String",
                 "ofType": null
               }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "taxClass",
+            "description": "Limit result set to products with a specific tax class.",
+            "type": {
+              "kind": "ENUM",
+              "name": "TaxClassEnum",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -27088,7 +29057,7 @@
           },
           {
             "name": "databaseId",
-            "description": "The ID of the node in the database.",
+            "description": "The unique identifier stored in the database",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -27348,7 +29317,7 @@
           },
           {
             "name": "id",
-            "description": "The globally unique identifier of the attachment object.",
+            "description": "The unique resource identifier path",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -27659,7 +29628,7 @@
           },
           {
             "name": "template",
-            "description": "The template assigned to a node of content",
+            "description": "The template assigned to the node",
             "args": [],
             "type": {
               "kind": "INTERFACE",
@@ -27696,16 +29665,12 @@
           },
           {
             "name": "uri",
-            "description": "URI path for the resource",
+            "description": "The unique resource identifier path",
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -27985,12 +29950,6 @@
           {
             "name": "MEDIUM_LARGE",
             "description": "MediaItem with the medium_large size",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "POST_THUMBNAIL",
-            "description": "MediaItem with the post-thumbnail size",
             "isDeprecated": false,
             "deprecationReason": null
           },
@@ -28725,7 +30684,7 @@
           },
           {
             "name": "id",
-            "description": "The globally unique identifier of the nav menu object.",
+            "description": "The globally unique ID for the object",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -29041,7 +31000,7 @@
           },
           {
             "name": "id",
-            "description": "The globally unique identifier of the nav menu item object.",
+            "description": "The globally unique ID for the object",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -29278,13 +31237,9 @@
             "description": "The unique resource identifier path",
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -29307,11 +31262,6 @@
           {
             "kind": "OBJECT",
             "name": "Post",
-            "ofType": null
-          },
-          {
-            "kind": "OBJECT",
-            "name": "PostFormat",
             "ofType": null
           },
           {
@@ -29381,11 +31331,6 @@
           {
             "kind": "OBJECT",
             "name": "Tag",
-            "ofType": null
-          },
-          {
-            "kind": "OBJECT",
-            "name": "PostFormat",
             "ofType": null
           },
           {
@@ -29639,14 +31584,20 @@
         "interfaces": null,
         "enumValues": [
           {
-            "name": "FOOTER",
-            "description": "Put the menu in the footer location",
+            "name": "HANDHELD",
+            "description": "Put the menu in the handheld location",
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "PRIMARY",
             "description": "Put the menu in the primary location",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "SECONDARY",
+            "description": "Put the menu in the secondary location",
             "isDeprecated": false,
             "deprecationReason": null
           }
@@ -30320,6 +32271,12 @@
           {
             "name": "IMAGE_TIFF",
             "description": "MimeType image/tiff",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "IMAGE_WEBP",
+            "description": "MimeType image/webp",
             "isDeprecated": false,
             "deprecationReason": null
           },
@@ -31780,7 +33737,7 @@
           },
           {
             "name": "id",
-            "description": "The globally unique identifier for the order",
+            "description": "The globally unique ID for the object",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -34271,7 +36228,7 @@
           },
           {
             "name": "databaseId",
-            "description": "Identifies the primary key from the database.",
+            "description": "The unique identifier stored in the database",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -34421,7 +36378,7 @@
           },
           {
             "name": "id",
-            "description": "The globally unique ID for the object",
+            "description": "Unique identifier for the term",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -34609,13 +36566,9 @@
             "description": "The unique resource identifier path",
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -35626,6 +37579,18 @@
             "deprecationReason": null
           },
           {
+            "name": "taxClass",
+            "description": "Limit result set to products with a specific tax class.",
+            "type": {
+              "kind": "ENUM",
+              "name": "TaxClassEnum",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "taxonomyFilter",
             "description": "Limit result set with complex set of taxonomy filters.",
             "type": {
@@ -36239,6 +38204,18 @@
             "deprecationReason": null
           },
           {
+            "name": "taxClass",
+            "description": "Limit result set to products with a specific tax class.",
+            "type": {
+              "kind": "ENUM",
+              "name": "TaxClassEnum",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "taxonomyFilter",
             "description": "Limit result set with complex set of taxonomy filters.",
             "type": {
@@ -36430,7 +38407,7 @@
           },
           {
             "name": "databaseId",
-            "description": "Identifies the primary key from the database.",
+            "description": "The unique identifier stored in the database",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -36580,7 +38557,7 @@
           },
           {
             "name": "id",
-            "description": "The globally unique ID for the object",
+            "description": "Unique identifier for the term",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -36768,13 +38745,9 @@
             "description": "The unique resource identifier path",
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -37785,6 +39758,18 @@
             "deprecationReason": null
           },
           {
+            "name": "taxClass",
+            "description": "Limit result set to products with a specific tax class.",
+            "type": {
+              "kind": "ENUM",
+              "name": "TaxClassEnum",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "taxonomyFilter",
             "description": "Limit result set with complex set of taxonomy filters.",
             "type": {
@@ -38398,6 +40383,18 @@
             "deprecationReason": null
           },
           {
+            "name": "taxClass",
+            "description": "Limit result set to products with a specific tax class.",
+            "type": {
+              "kind": "ENUM",
+              "name": "TaxClassEnum",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "taxonomyFilter",
             "description": "Limit result set with complex set of taxonomy filters.",
             "type": {
@@ -38820,7 +40817,7 @@
           },
           {
             "name": "databaseId",
-            "description": "The ID of the node in the database.",
+            "description": "The unique resource identifier path",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -39066,7 +41063,7 @@
           },
           {
             "name": "id",
-            "description": "The globally unique identifier of the page object.",
+            "description": "The unique resource identifier path",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -39423,7 +41420,7 @@
           },
           {
             "name": "template",
-            "description": "The template assigned to a node of content",
+            "description": "The template assigned to the node",
             "args": [],
             "type": {
               "kind": "INTERFACE",
@@ -39460,16 +41457,12 @@
           },
           {
             "name": "uri",
-            "description": "URI path for the resource",
+            "description": "The unique resource identifier path",
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -40566,6 +42559,137 @@
       },
       {
         "kind": "OBJECT",
+        "name": "PaymentProfiles",
+        "description": "Payment Profiles",
+        "fields": [
+          {
+            "name": "brand",
+            "description": "Tipo de tarjeta",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "cardOwner",
+            "description": "Nombre del propietario de la tarjeta",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "enabled",
+            "description": "Determina si el perfil se encuentra habilitado para realizar pagos.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "expiration",
+            "description": "Fecha de expiración del medio de pago (si corresponde). Formato: yyyyMM",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "issuerBank",
+            "description": "Tipo de medio de pago, por ejemplo “CreditCard”",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "last4",
+            "description": "Últimos 4 dígitos de la tarjeta de pago (si corresponde).",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "paymentMediaId",
+            "description": "Nombre asociado a la marca de la tarjeta de pago, por ejemplo “VISA”.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "paymentProfileId",
+            "description": "Identificador del perfil de pago registrado para el Customer.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "token",
+            "description": "Dato que representa al medio de pago registrado sin exponer los datos sensibles del mismo.\n                Este dato será utilizado para realizar transacciones de pago mediante el medio de pago registrado.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "type",
+            "description": "Tipo de pago",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
         "name": "Plugin",
         "description": "An plugin object",
         "fields": [
@@ -40607,7 +42731,7 @@
           },
           {
             "name": "id",
-            "description": "The globally unique identifier of the plugin object.",
+            "description": "The globally unique ID for the object",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -40943,7 +43067,7 @@
           },
           {
             "name": "databaseId",
-            "description": "The ID of the node in the database.",
+            "description": "The unique resource identifier path",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -41214,7 +43338,7 @@
           },
           {
             "name": "id",
-            "description": "The globally unique identifier of the post object.",
+            "description": "The unique resource identifier path",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -41665,7 +43789,7 @@
           },
           {
             "name": "template",
-            "description": "The template assigned to a node of content",
+            "description": "The template assigned to the node",
             "args": [],
             "type": {
               "kind": "INTERFACE",
@@ -41791,16 +43915,12 @@
           },
           {
             "name": "uri",
-            "description": "URI path for the resource",
+            "description": "The unique resource identifier path",
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -42072,7 +44192,7 @@
           },
           {
             "name": "databaseId",
-            "description": "Identifies the primary key from the database.",
+            "description": "The unique identifier stored in the database",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -42222,7 +44342,7 @@
           },
           {
             "name": "id",
-            "description": "The globally unique ID for the object",
+            "description": "The unique resource identifier path",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -42410,13 +44530,9 @@
             "description": "The unique resource identifier path",
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -42442,11 +44558,6 @@
           {
             "kind": "INTERFACE",
             "name": "UniformResourceIdentifiable",
-            "ofType": null
-          },
-          {
-            "kind": "INTERFACE",
-            "name": "MenuItemLinkable",
             "ofType": null
           }
         ],
@@ -43723,12 +45834,6 @@
             "deprecationReason": null
           },
           {
-            "name": "FAILED",
-            "description": "Objects with the failed status",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "FUTURE",
             "description": "Objects with the future status",
             "isDeprecated": false,
@@ -43737,12 +45842,6 @@
           {
             "name": "INHERIT",
             "description": "Objects with the inherit status",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "IN_PROGRESS",
-            "description": "Objects with the in-progress status",
             "isDeprecated": false,
             "deprecationReason": null
           },
@@ -43821,6 +45920,12 @@
           {
             "name": "WC_PENDING",
             "description": "Objects with the wc-pending status",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "WC_PRE_ORDERED",
+            "description": "Objects with the wc-pre-ordered status",
             "isDeprecated": false,
             "deprecationReason": null
           },
@@ -48809,7 +50914,7 @@
           },
           {
             "name": "databaseId",
-            "description": "Identifies the primary key from the database.",
+            "description": "The unique resource identifier path",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -48971,7 +51076,7 @@
           },
           {
             "name": "id",
-            "description": "The globally unique ID for the object",
+            "description": "The unique resource identifier path",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -49219,13 +51324,9 @@
             "description": "The unique resource identifier path",
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -50695,6 +52796,18 @@
             "deprecationReason": null
           },
           {
+            "name": "taxClass",
+            "description": "Limit result set to products with a specific tax class.",
+            "type": {
+              "kind": "ENUM",
+              "name": "TaxClassEnum",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "taxonomyFilter",
             "description": "Limit result set with complex set of taxonomy filters.",
             "type": {
@@ -51032,7 +53145,7 @@
           },
           {
             "name": "databaseId",
-            "description": "Identifies the primary key from the database.",
+            "description": "The unique resource identifier path",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -51182,7 +53295,7 @@
           },
           {
             "name": "id",
-            "description": "The globally unique ID for the object",
+            "description": "The unique resource identifier path",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -51370,13 +53483,9 @@
             "description": "The unique resource identifier path",
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -52318,6 +54427,18 @@
                 "name": "String",
                 "ofType": null
               }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "taxClass",
+            "description": "Limit result set to products with a specific tax class.",
+            "type": {
+              "kind": "ENUM",
+              "name": "TaxClassEnum",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -55507,6 +57628,18 @@
             "deprecationReason": null
           },
           {
+            "name": "taxClass",
+            "description": "Limit result set to products with a specific tax class.",
+            "type": {
+              "kind": "ENUM",
+              "name": "TaxClassEnum",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "taxonomyFilter",
             "description": "Limit result set with complex set of taxonomy filters.",
             "type": {
@@ -57227,6 +59360,18 @@
             "deprecationReason": null
           },
           {
+            "name": "taxClass",
+            "description": "Limit result set to products with a specific tax class.",
+            "type": {
+              "kind": "ENUM",
+              "name": "TaxClassEnum",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "taxonomyFilter",
             "description": "Limit result set with complex set of taxonomy filters.",
             "type": {
@@ -57764,7 +59909,7 @@
           },
           {
             "name": "databaseId",
-            "description": "Identifies the primary key from the database.",
+            "description": "The unique identifier stored in the database",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -57914,7 +60059,7 @@
           },
           {
             "name": "id",
-            "description": "The globally unique ID for the object",
+            "description": "Unique identifier for the term",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -58029,13 +60174,9 @@
             "description": "The unique resource identifier path",
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -58616,7 +60757,7 @@
           },
           {
             "name": "databaseId",
-            "description": "The ID of the refund in the database",
+            "description": "The ID of the node in the database.",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -58632,7 +60773,7 @@
           },
           {
             "name": "date",
-            "description": "Date variation created",
+            "description": "Post publishing date.",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -58974,7 +61115,7 @@
           },
           {
             "name": "id",
-            "description": "The globally unique identifier for the product variation",
+            "description": "The unique resource identifier path",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -59143,7 +61284,7 @@
           },
           {
             "name": "modified",
-            "description": "Date variation last updated",
+            "description": "The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time.",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -59435,7 +61576,7 @@
           },
           {
             "name": "status",
-            "description": "Variation status",
+            "description": "The current status of the object",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -59519,16 +61660,12 @@
           },
           {
             "name": "uri",
-            "description": "URI path for the resource",
+            "description": "The unique resource identifier path",
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -60684,6 +62821,468 @@
         "possibleTypes": null
       },
       {
+        "kind": "INPUT_OBJECT",
+        "name": "PurchaseCardnetInput",
+        "description": "Input for the purchaseCardnet mutation",
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "additionalData",
+            "description": "Información adicional que el comercio puede agregar a la transacción (Ej.: lista de datos de tipo “Clave:Valor”).Dicha información será devuelta al procesar la compra y cada vez que dicha compra sea consultada.",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "amount",
+            "description": "Monto total de la compra. El valor debe ser mayor a cero",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "capture",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "currency",
+            "description": "Moneda de la compra, de acuerdo a ISO-4217 (códigos alfanuméricos).",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "customerIP",
+            "description": "IP del cliente que utiliza el servicio.",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "dataDo",
+            "description": "Datos específicos para la Rep. Dominicana. Ver la definición del objeto CountryDataDo. Detalle del objeto en la sección 6.9 CountryDataDo.",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "CardNetCountryDataDoInput",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "description",
+            "description": "Descripción opcional de la compra",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "order",
+            "description": "Número de orden, generado por el comercio",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "tip",
+            "description": "Cantidad de cuotas de la compra.",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "trxToken",
+            "description": "Token que identifica la tarjeta del cliente",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "uniqueID",
+            "description": "Identificador único de la compra. Este valor opcional permite identificar una compra única y evitar la duplicación de transacciones en caso de errores de comunicación (ver más en Conceptos / Identificador único).",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "clientMutationId",
+            "description": "This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions.",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "PurchaseCardnetPayload",
+        "description": "The payload for the purchaseCardnet mutation",
+        "fields": [
+          {
+            "name": "additionalData",
+            "description": "Información adicional que el comercio puede agregar a la transacción (Ej.: lista de datos de tipo “Clave:Valor”).Dicha información será devuelta al procesar la compra y cada vez que dicha compra sea consultada.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "amount",
+            "description": "Monto total de la compra. El valor debe ser mayor a cero.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "capture",
+            "description": "Establece si la compra se debe realizar en uno o dos pasos. Es de tipo booleano cuyo valor por defecto es “true”. Si es false, solo se procesa la autorización y la compra queda pre-autorizada a la espera de la confirmación final a través de las llamadas commit (confirmar) y rollback (anular). Si es true, la transacción queda autorizada y capturada (confirmada).",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "commerceAction",
+            "description": "Utilizado para indicar al comercio una acción que deba ser realizada por él o por el customer para completar el proceso de la compra actual. Si la transacción se devolvió en estado Pending, se deberá revisar este objeto para determinar las acciones siguientes.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "created",
+            "description": "Fecha y hora del momento de la creación de la compra. Este campo está presente en la respuesta a consultas. No se incluye o valida en la creación o actualizaciones del objeto.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "currency",
+            "description": "Moneda de la compra, de acuerdo a ISO-4217 (códigos alfanuméricos).",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "customer",
+            "description": "Información del cliente que realiza el pago. Algunos medios de pago pueden requerir información adicional del cliente para poder tramitar la autorización.",
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "CardNetCustomer",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "customerIP",
+            "description": "IP del cliente que utiliza el servicio.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "customerUserAgent",
+            "description": "User Agent del cliente que utiliza el servicio, en la Web debería ser el UserAgent reportado por el navegdor, en el caso de móviles información acerca del dispositivo, S.O. utilizado, nombre de la App.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "dataDo",
+            "description": "Datos específicos para la Rep. Dominicana. Ver\n                la definición del objeto CountryDataDo. Detalle del objeto en la sección 6.9 CountryDataDo.",
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "CardNetCountryDataDo",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "description",
+            "description": "Descripción opcional de la compra",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "installments",
+            "description": "Cantidad de cuotas de la compra",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "order",
+            "description": "Número de orden, generado por el comercio",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "originalAmount",
+            "description": "Moneda de la compra, de acuerdo a ISO-4217 (códigos alfanuméricos).",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "planID",
+            "description": "Reservado",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "purchaseId",
+            "description": "Identificador de la compra.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "refundList",
+            "description": "Lista de devoluciones realizadas a la compra.",
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "CardNetRefund",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "tip",
+            "description": "Propina",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "transaction",
+            "description": "Contiene la información que resulta de la transacción realizada contra el medio de pago (por ej: código de respuesta, número de autorización).",
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "CardNetTransaction",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "trxToken",
+            "description": "Token que identifica la tarjeta del cliente",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "uRL",
+            "description": "URL donde se puede acceder a la información de la Compra. Ej: {ambiente_api}/v1/api/purchase/{purchase- id}).",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "uniqueID",
+            "description": "Identificador único de la compra. Este valor opcional permite identificar una compra única y evitar la duplicación de transacciones en caso de errores de comunicación (ver más en Conceptos / Identificador único).",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "clientMutationId",
+            "description": "If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
         "kind": "OBJECT",
         "name": "ReadingSettings",
         "description": "The reading setting type",
@@ -60823,7 +63422,7 @@
           },
           {
             "name": "id",
-            "description": "The globally unique identifier for the refund",
+            "description": "The globally unique ID for the object",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -61000,6 +63599,332 @@
             "ofType": null
           }
         ],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "RefundCardnetInput",
+        "description": "Input for the refundCardnet mutation",
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "clientMutationId",
+            "description": "This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions.",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "purchaseId",
+            "description": "Identificador de la compra",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "RefundCardnetPayload",
+        "description": "The payload for the refundCardnet mutation",
+        "fields": [
+          {
+            "name": "additionalData",
+            "description": "Información adicional que el comercio puede agregar a la transacción (Ej.: lista de datos de tipo “Clave:Valor”).Dicha información será devuelta al procesar la compra y cada vez que dicha compra sea consultada.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "amount",
+            "description": "Monto total de la compra. El valor debe ser mayor a cero.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "capture",
+            "description": "Establece si la compra se debe realizar en uno o dos pasos. Es de tipo booleano cuyo valor por defecto es “true”. Si es false, solo se procesa la autorización y la compra queda pre-autorizada a la espera de la confirmación final a través de las llamadas commit (confirmar) y rollback (anular). Si es true, la transacción queda autorizada y capturada (confirmada).",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "commerceAction",
+            "description": "Utilizado para indicar al comercio una acción que deba ser realizada por él o por el customer para completar el proceso de la compra actual. Si la transacción se devolvió en estado Pending, se deberá revisar este objeto para determinar las acciones siguientes.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "created",
+            "description": "Fecha y hora del momento de la creación de la compra. Este campo está presente en la respuesta a consultas. No se incluye o valida en la creación o actualizaciones del objeto.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "currency",
+            "description": "Moneda de la compra, de acuerdo a ISO-4217 (códigos alfanuméricos).",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "customer",
+            "description": "Información del cliente que realiza el pago. Algunos medios de pago pueden requerir información adicional del cliente para poder tramitar la autorización.",
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "CardNetCustomer",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "customerIP",
+            "description": "IP del cliente que utiliza el servicio.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "customerUserAgent",
+            "description": "User Agent del cliente que utiliza el servicio, en la Web debería ser el UserAgent reportado por el navegdor, en el caso de móviles información acerca del dispositivo, S.O. utilizado, nombre de la App.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "dataDo",
+            "description": "Datos específicos para la Rep. Dominicana. Ver\n                la definición del objeto CountryDataDo. Detalle del objeto en la sección 6.9 CountryDataDo.",
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "CardNetCountryDataDo",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "description",
+            "description": "Descripción opcional de la compra",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "installments",
+            "description": "Cantidad de cuotas de la compra",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "order",
+            "description": "Número de orden, generado por el comercio",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "originalAmount",
+            "description": "Moneda de la compra, de acuerdo a ISO-4217 (códigos alfanuméricos).",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "planID",
+            "description": "Reservado",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "purchaseId",
+            "description": "Identificador de la compra.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "refundList",
+            "description": "Lista de devoluciones realizadas a la compra.",
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "CardNetRefund",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "tip",
+            "description": "Propina",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "transaction",
+            "description": "Contiene la información que resulta de la transacción realizada contra el medio de pago (por ej: código de respuesta, número de autorización).",
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "CardNetTransaction",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "trxToken",
+            "description": "Token que identifica la tarjeta del cliente",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "uRL",
+            "description": "URL donde se puede acceder a la información de la Compra. Ej: {ambiente_api}/v1/api/purchase/{purchase- id}).",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "uniqueID",
+            "description": "Identificador único de la compra. Este valor opcional permite identificar una compra única y evitar la duplicación de transacciones en caso de errores de comunicación (ver más en Conceptos / Identificador único).",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "clientMutationId",
+            "description": "If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
         "enumValues": null,
         "possibleTypes": null
       },
@@ -62305,6 +65230,64 @@
         "description": "The root mutation",
         "fields": [
           {
+            "name": "activateCardnetPayment",
+            "description": "The payload for the activateCardnetPayment mutation",
+            "args": [
+              {
+                "name": "input",
+                "description": "Input for the activateCardnetPayment mutation",
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "ActivateCardnetPaymentInput",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "ActivateCardnetPaymentPayload",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "addCardnetCustomer",
+            "description": "The payload for the addCardnetCustomer mutation",
+            "args": [
+              {
+                "name": "input",
+                "description": "Input for the addCardnetCustomer mutation",
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "AddCardnetCustomerInput",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "AddCardnetCustomerPayload",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "addCartItems",
             "description": "The payload for the addCartItems mutation",
             "args": [
@@ -62908,6 +65891,35 @@
             "type": {
               "kind": "OBJECT",
               "name": "CreateVisibleProductPayload",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "deleteCardnetPaymentProfile",
+            "description": "The payload for the deleteCardnetPaymentProfile mutation",
+            "args": [
+              {
+                "name": "input",
+                "description": "Input for the deleteCardnetPaymentProfile mutation",
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "DeleteCardnetPaymentProfileInput",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "DeleteCardnetPaymentProfilePayload",
               "ofType": null
             },
             "isDeprecated": false,
@@ -63548,6 +66560,35 @@
             "deprecationReason": null
           },
           {
+            "name": "purchaseCardnet",
+            "description": "The payload for the purchaseCardnet mutation",
+            "args": [
+              {
+                "name": "input",
+                "description": "Input for the purchaseCardnet mutation",
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "PurchaseCardnetInput",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "PurchaseCardnetPayload",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "refreshJwtAuthToken",
             "description": "The payload for the refreshJwtAuthToken mutation",
             "args": [
@@ -63571,6 +66612,35 @@
             "type": {
               "kind": "OBJECT",
               "name": "RefreshJwtAuthTokenPayload",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "refundCardnet",
+            "description": "The payload for the refundCardnet mutation",
+            "args": [
+              {
+                "name": "input",
+                "description": "Input for the refundCardnet mutation",
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "RefundCardnetInput",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "RefundCardnetPayload",
               "ofType": null
             },
             "isDeprecated": false,
@@ -63832,6 +66902,64 @@
             "type": {
               "kind": "OBJECT",
               "name": "SendPasswordResetEmailPayload",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "updateCardnetCustomer",
+            "description": "The payload for the updateCardnetCustomer mutation",
+            "args": [
+              {
+                "name": "input",
+                "description": "Input for the updateCardnetCustomer mutation",
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "UpdateCardnetCustomerInput",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "UpdateCardnetCustomerPayload",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "updateCardnetPaymentProfile",
+            "description": "The payload for the updateCardnetPaymentProfile mutation",
+            "args": [
+              {
+                "name": "input",
+                "description": "Input for the updateCardnetPaymentProfile mutation",
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "UpdateCardnetPaymentProfileInput",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "UpdateCardnetPaymentProfilePayload",
               "ofType": null
             },
             "isDeprecated": false,
@@ -64493,6 +67621,35 @@
             "type": {
               "kind": "OBJECT",
               "name": "Settings",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "cardnetCustomer",
+            "description": "Describe what the field should be used for",
+            "args": [
+              {
+                "name": "customerId",
+                "description": "The ID of the customer",
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "CardNetCustomer",
               "ofType": null
             },
             "isDeprecated": false,
@@ -67257,6 +70414,51 @@
               "kind": "OBJECT",
               "name": "RootQueryToProductConnection",
               "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "purchaseCardnet",
+            "description": "Obtener información de una compra",
+            "args": [
+              {
+                "name": "purchaseId",
+                "description": "Purchase ID number",
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "CardNetPurchase",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "purchaseListCarnet",
+            "description": "Obtener información de una compra",
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "CardNetPurchase",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -75128,6 +78330,18 @@
             "deprecationReason": null
           },
           {
+            "name": "taxClass",
+            "description": "Limit result set to products with a specific tax class.",
+            "type": {
+              "kind": "ENUM",
+              "name": "TaxClassEnum",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "taxonomyFilter",
             "description": "Limit result set with complex set of taxonomy filters.",
             "type": {
@@ -78882,7 +82096,7 @@
           },
           {
             "name": "databaseId",
-            "description": "Identifies the primary key from the database.",
+            "description": "The unique identifier stored in the database",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -79032,7 +82246,7 @@
           },
           {
             "name": "id",
-            "description": "The globally unique ID for the object",
+            "description": "The unique resource identifier path",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -79147,13 +82361,9 @@
             "description": "The unique resource identifier path",
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -79884,7 +83094,7 @@
           },
           {
             "name": "id",
-            "description": "The globally unique identifier for the tax rate.",
+            "description": "The globally unique ID for the object",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -80418,7 +83628,7 @@
           },
           {
             "name": "databaseId",
-            "description": "The ID of the product in the database",
+            "description": "The ID of the node in the database.",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -80434,7 +83644,7 @@
           },
           {
             "name": "date",
-            "description": "Date product created",
+            "description": "Post publishing date.",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -80996,7 +84206,7 @@
           },
           {
             "name": "id",
-            "description": "The globally unique identifier for the product",
+            "description": "The unique resource identifier path",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -81238,7 +84448,7 @@
           },
           {
             "name": "modified",
-            "description": "Date product last updated",
+            "description": "The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time.",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -82102,7 +85312,7 @@
           },
           {
             "name": "slug",
-            "description": "Product slug",
+            "description": "The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table.",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -82126,7 +85336,7 @@
           },
           {
             "name": "status",
-            "description": "Product status",
+            "description": "The current status of the object",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -82295,16 +85505,12 @@
           },
           {
             "name": "uri",
-            "description": "URI path for the resource",
+            "description": "The unique resource identifier path",
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -82997,6 +86203,18 @@
             "deprecationReason": null
           },
           {
+            "name": "taxClass",
+            "description": "Limit result set to products with a specific tax class.",
+            "type": {
+              "kind": "ENUM",
+              "name": "TaxClassEnum",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "taxonomyFilter",
             "description": "Limit result set with complex set of taxonomy filters.",
             "type": {
@@ -83284,7 +86502,7 @@
           },
           {
             "name": "databaseId",
-            "description": "Identifies the primary key from the database.",
+            "description": "The unique resource identifier path",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -83434,7 +86652,7 @@
           },
           {
             "name": "id",
-            "description": "The globally unique ID for the object",
+            "description": "The unique resource identifier path",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -83622,13 +86840,9 @@
             "description": "The unique resource identifier path",
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -84604,8 +87818,26 @@
         "interfaces": null,
         "enumValues": [
           {
+            "name": "ADV",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "INHERIT_CART",
             "description": "Inherits Tax class from cart",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "ISC",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "ITBIS",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
@@ -84865,7 +88097,7 @@
           },
           {
             "name": "id",
-            "description": "The globally unique identifier for the tax rate.",
+            "description": "The globally unique ID for the object",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -85209,7 +88441,7 @@
           },
           {
             "name": "id",
-            "description": "The globally unique identifier of the taxonomy object.",
+            "description": "The globally unique ID for the object",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -85629,6 +88861,64 @@
         "possibleTypes": null
       },
       {
+        "kind": "OBJECT",
+        "name": "Template_FullWidth",
+        "description": "The template assigned to the node",
+        "fields": [
+          {
+            "name": "templateName",
+            "description": "The name of the template",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [
+          {
+            "kind": "INTERFACE",
+            "name": "ContentTemplate",
+            "ofType": null
+          }
+        ],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "Template_Homepage",
+        "description": "The template assigned to the node",
+        "fields": [
+          {
+            "name": "templateName",
+            "description": "The name of the template",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [
+          {
+            "kind": "INTERFACE",
+            "name": "ContentTemplate",
+            "ofType": null
+          }
+        ],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
         "kind": "INTERFACE",
         "name": "TermNode",
         "description": "Terms are nodes within a Taxonomy, used to group and relate other nodes.",
@@ -85888,13 +89178,9 @@
             "description": "The unique resource identifier path",
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -86334,7 +89620,7 @@
           },
           {
             "name": "id",
-            "description": "The globally unique identifier of the theme object.",
+            "description": "The globally unique ID for the object",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -89308,6 +92594,766 @@
             "ofType": null
           }
         ]
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "UpdateCardnetCustomerInput",
+        "description": "Input for the updateCardnetCustomer mutation",
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "additionalData",
+            "description": "Lista de datos de tipo “Clave:Valor” para almacenar información extra.",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "billingAddress",
+            "description": "BillingAddress",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "commerceCustomerId",
+            "description": "Identificador del cliente en el comercio. Este valor es generado\n                    y utilizado internamente por el comercio para identificar al cliente dentro de la plataforma.",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "docNumber",
+            "description": "Documento del cliente",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "documentTypeId",
+            "description": "Tipo de documento del cliente",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "email",
+            "description": "Email del cliente",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "enabled",
+            "description": "Customer activated",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "firstName",
+            "description": "Nombre del cliente",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "lastName",
+            "description": "Apellido del cliente.",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "phoneNumber",
+            "description": "Teléfono de contacto del cliente.",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "shippingAddress",
+            "description": "ShippingAddress",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "clientMutationId",
+            "description": "This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions.",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "customerId",
+            "description": "The ID of the customer",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "UpdateCardnetCustomerPayload",
+        "description": "The payload for the updateCardnetCustomer mutation",
+        "fields": [
+          {
+            "name": "additionalData",
+            "description": "Lista de datos de tipo “Clave:Valor” para almacenar información extra.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "billingAddress",
+            "description": "BillingAddress",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "captureURL",
+            "description": "URL de captura de datos de tarjeta (es la URL que se debe abrir en un iframe para iniciar el proceso de captura de datos sensibles). Solo es válida para Customers de tipo “Commerce”.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "commerceCustomerId",
+            "description": "Identificador del cliente en el comercio. Este valor es generado\n                y utilizado internamente por el comercio para identificar al cliente dentro de la plataforma.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "created",
+            "description": "Fecha y hora del momento de la creación del cliente.\n              Este campo está presente en la respuesta a consultas.\n              No se incluye o valida en la creación o actualizaciones del objeto.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "customerId",
+            "description": "Identificador del cliente.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "docNumber",
+            "description": "Documento del cliente",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "documentTypeId",
+            "description": "Tipo de documento del cliente",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "email",
+            "description": "Email del cliente",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "enabled",
+            "description": "Customer activated",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "firstName",
+            "description": "Nombre del cliente",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "lastName",
+            "description": "Apellido del cliente.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "owner",
+            "description": "Determina si el usuario fue registrado por el comercio, a través de Cardnet o anónimo.\n              Valores posibles: “Our”, “Commerce”, “Anonymous”.\n              Este campo está presente en la respuesta a consultas.\n              No se incluye o valida en la creación o actualizaciones del objeto.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "paymentProfiles",
+            "description": "Lista de objetos PaymentProfile con información de los medios de pago registrados por el Customer.",
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "PaymentProfiles",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "phoneNumber",
+            "description": "Teléfono de contacto del cliente.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "plans",
+            "description": "Reservado",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "shippingAddress",
+            "description": "ShippingAddress",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "uRL",
+            "description": "URL donde se puede acceder a la información del Cliente (ej. /v1/customer/{customer-id}).",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "uniqueID",
+            "description": "Identificador único de la compra. Este valor opcional permite identificar una compra única y evitar la duplicación de transacciones en caso de errores de comunicación (ver más en Conceptos / Identificador único).",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "clientMutationId",
+            "description": "If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "UpdateCardnetPaymentProfileInput",
+        "description": "Input for the updateCardnetPaymentProfile mutation",
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "enabled",
+            "description": "Payment Method enable or disabled",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "expiration",
+            "description": "credit card expiration date",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "paymentProfileId",
+            "description": "Payment Profile ID to update",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "clientMutationId",
+            "description": "This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions.",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "customerId",
+            "description": "Customer ID",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "UpdateCardnetPaymentProfilePayload",
+        "description": "The payload for the updateCardnetPaymentProfile mutation",
+        "fields": [
+          {
+            "name": "additionalData",
+            "description": "Lista de datos de tipo “Clave:Valor” para almacenar información extra.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "billingAddress",
+            "description": "BillingAddress",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "captureURL",
+            "description": "URL de captura de datos de tarjeta (es la URL que se debe abrir en un iframe para iniciar el proceso de captura de datos sensibles). Solo es válida para Customers de tipo “Commerce”.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "commerceCustomerId",
+            "description": "Identificador del cliente en el comercio. Este valor es generado\n                y utilizado internamente por el comercio para identificar al cliente dentro de la plataforma.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "created",
+            "description": "Fecha y hora del momento de la creación del cliente.\n              Este campo está presente en la respuesta a consultas.\n              No se incluye o valida en la creación o actualizaciones del objeto.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "customerId",
+            "description": "Identificador del cliente.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "docNumber",
+            "description": "Documento del cliente",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "documentTypeId",
+            "description": "Tipo de documento del cliente",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "email",
+            "description": "Email del cliente",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "enabled",
+            "description": "Customer activated",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "firstName",
+            "description": "Nombre del cliente",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "lastName",
+            "description": "Apellido del cliente.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "owner",
+            "description": "Determina si el usuario fue registrado por el comercio, a través de Cardnet o anónimo.\n              Valores posibles: “Our”, “Commerce”, “Anonymous”.\n              Este campo está presente en la respuesta a consultas.\n              No se incluye o valida en la creación o actualizaciones del objeto.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "paymentProfiles",
+            "description": "Lista de objetos PaymentProfile con información de los medios de pago registrados por el Customer.",
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "PaymentProfiles",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "phoneNumber",
+            "description": "Teléfono de contacto del cliente.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "plans",
+            "description": "Reservado",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "shippingAddress",
+            "description": "ShippingAddress",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "uRL",
+            "description": "URL donde se puede acceder a la información del Cliente (ej. /v1/customer/{customer-id}).",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "uniqueID",
+            "description": "Identificador único de la compra. Este valor opcional permite identificar una compra única y evitar la duplicación de transacciones en caso de errores de comunicación (ver más en Conceptos / Identificador único).",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "clientMutationId",
+            "description": "If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions.",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
       },
       {
         "kind": "INPUT_OBJECT",
@@ -93224,7 +97270,7 @@
           },
           {
             "name": "databaseId",
-            "description": "Identifies the primary key from the database.",
+            "description": "The unique identifier stored in the database",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -93252,7 +97298,7 @@
           },
           {
             "name": "email",
-            "description": "Email address of the user. This is equivalent to the WP_User-&gt;user_email property.",
+            "description": "The email address of the author of a comment.",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -93414,7 +97460,7 @@
           },
           {
             "name": "id",
-            "description": "The globally unique identifier for the user object.",
+            "description": "The globally unique identifier for the comment author.",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -93446,7 +97492,7 @@
           },
           {
             "name": "isRestricted",
-            "description": "Whether the object is restricted from the current viewer",
+            "description": "Whether the author information is considered restricted. (not fully public)",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -93603,7 +97649,7 @@
           },
           {
             "name": "name",
-            "description": "Display name of the user. This is equivalent to the WP_User-&gt;dispaly_name property.",
+            "description": "The name of the author of a comment.",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -93955,7 +98001,7 @@
           },
           {
             "name": "url",
-            "description": "A website url that is associated with the user.",
+            "description": "The url of the author of a comment.",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -94110,7 +98156,7 @@
           },
           {
             "name": "id",
-            "description": "The globally unique identifier for the user role object.",
+            "description": "The globally unique ID for the object",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -97031,7 +101077,7 @@
           },
           {
             "name": "databaseId",
-            "description": "The ID of the product in the database",
+            "description": "The ID of the node in the database.",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -97047,7 +101093,7 @@
           },
           {
             "name": "date",
-            "description": "Date product created",
+            "description": "Post publishing date.",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -97557,7 +101603,7 @@
           },
           {
             "name": "id",
-            "description": "The globally unique identifier for the product",
+            "description": "The unique resource identifier path",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -97799,7 +101845,7 @@
           },
           {
             "name": "modified",
-            "description": "Date product last updated",
+            "description": "The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time.",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -98663,7 +102709,7 @@
           },
           {
             "name": "slug",
-            "description": "Product slug",
+            "description": "The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table.",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -98687,7 +102733,7 @@
           },
           {
             "name": "status",
-            "description": "Product status",
+            "description": "The current status of the object",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -98856,16 +102902,12 @@
           },
           {
             "name": "uri",
-            "description": "URI path for the resource",
+            "description": "The unique resource identifier path",
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -99619,6 +103661,18 @@
             "deprecationReason": null
           },
           {
+            "name": "taxClass",
+            "description": "Limit result set to products with a specific tax class.",
+            "type": {
+              "kind": "ENUM",
+              "name": "TaxClassEnum",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "taxonomyFilter",
             "description": "Limit result set with complex set of taxonomy filters.",
             "type": {
@@ -100232,6 +104286,18 @@
             "deprecationReason": null
           },
           {
+            "name": "taxClass",
+            "description": "Limit result set to products with a specific tax class.",
+            "type": {
+              "kind": "ENUM",
+              "name": "TaxClassEnum",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "taxonomyFilter",
             "description": "Limit result set with complex set of taxonomy filters.",
             "type": {
@@ -100565,7 +104631,7 @@
           },
           {
             "name": "databaseId",
-            "description": "Identifies the primary key from the database.",
+            "description": "The unique identifier stored in the database",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -100715,7 +104781,7 @@
           },
           {
             "name": "id",
-            "description": "The globally unique ID for the object",
+            "description": "Unique identifier for the term",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -100818,13 +104884,9 @@
             "description": "The unique resource identifier path",
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null

@@ -6,3 +6,4 @@ export * from './useCustomer';
 export * from './useOrders';
 export * from './usePaymentGateway';
 export * from './useUserLogged';
+export * from './useCreditCard';

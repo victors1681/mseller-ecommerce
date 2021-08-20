@@ -199,6 +199,7 @@ export const useCustomerStore = (): CustomerStore => {
           },
         },
       });
+      console.log('responseresponse', response);
       if (response.data?.refreshJwtAuthToken?.authToken) {
         updateToken(response.data?.refreshJwtAuthToken.authToken);
       }

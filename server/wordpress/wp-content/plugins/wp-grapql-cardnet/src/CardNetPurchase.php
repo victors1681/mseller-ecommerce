@@ -6,9 +6,12 @@ use WPGraphQL\CardNet\CardNetApi;
 
 class CardNetPurchase
 {
-    public static function init()
+
+    public function init()
     {
-        add_action('graphql_register_types', [__CLASS__, 'register_cardnet_purchase_fields']);
+        //add_action('graphql_register_types', [$this, 'register_cardnet_purchase_fields'], 10);
+
+        add_action('graphql_register_types', ['\WPGraphQL\CardNet\CardNetPurchase', 'register_cardnet_purchase_fields'], 10);
     }
 
     public static function mapStep($steps)
@@ -111,7 +114,7 @@ class CardNetPurchase
         return $s;
     }
 
-    function register_cardnet_purchase_fields()
+    public static function register_cardnet_purchase_fields()
     {
 
         $transactionSteps = [
@@ -227,6 +230,11 @@ class CardNetPurchase
          */
 
         register_graphql_object_type('CardNetCountryDataDo', [
+            'description' => __('Objeto utilizado para obtener datos de la República Dominicana (Código ISO-3166 = DO).', 'cardnet'),
+            'fields' => $countryDataDo
+        ]);
+
+        register_graphql_input_type('CardNetCountryDataDoInput', [
             'description' => __('Objeto utilizado para obtener datos de la República Dominicana (Código ISO-3166 = DO).', 'cardnet'),
             'fields' => $countryDataDo
         ]);
@@ -368,18 +376,6 @@ class CardNetPurchase
                 'type' => 'String',
                 'description' => __('URL donde se puede acceder a la información de la Compra. Ej: {ambiente_api}/v1/api/purchase/{purchase- id}).', 'cardnet'),
             ],
-            '' => [
-                'type' => 'String',
-                'description' => __('', 'cardnet'),
-            ],
-            '' => [
-                'type' => 'String',
-                'description' => __('', 'cardnet'),
-            ],
-            '' => [
-                'type' => 'String',
-                'description' => __('', 'cardnet'),
-            ],
         ];
 
         register_graphql_object_type('CardNetPurchase', [
@@ -430,10 +426,10 @@ class CardNetPurchase
                 'type' => 'Boolean',
                 'description' => __(''),
             ],
-            // 'DataDo' => [
-            //     'type' => ['non_null' => 'CardNetCountryDataDo'],
-            //     'description' => __('Datos específicos para la Rep. Dominicana. Ver la definición del objeto CountryDataDo. Detalle del objeto en la sección 6.9 CountryDataDo.'),
-            // ]
+            'DataDo' => [
+                'type' =>  ['non_null' => 'CardNetCountryDataDoInput'],
+                'description' => __('Datos específicos para la Rep. Dominicana. Ver la definición del objeto CountryDataDo. Detalle del objeto en la sección 6.9 CountryDataDo.'),
+            ]
         ];
 
 

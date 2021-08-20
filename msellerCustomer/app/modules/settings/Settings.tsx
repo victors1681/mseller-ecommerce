@@ -51,7 +51,7 @@ export const Settings = () => {
       <SettingRow
         style={styles.profileSetting}
         hint="Método de Pago"
-        onPress={navigateTo(ScreenLinks.CREDIT_CARD)}
+        onPress={navigateTo(ScreenLinks.PAYMENTS)}
         chevron
         iconName="credit-card-outline"
       />
@@ -63,6 +63,7 @@ export const Settings = () => {
       <SettingRow
         style={styles.profileSetting}
         hint="Acerca de Mobile Seller"
+        onPress={navigateTo(ScreenLinks.ABOUT_US)}
         iconName="information-variant"
         chevron
       />
