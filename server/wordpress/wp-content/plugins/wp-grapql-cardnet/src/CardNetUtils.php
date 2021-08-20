@@ -17,7 +17,7 @@ class CardNetUtils
 
     public static function isAdmin()
     {
-        if (!is_user_logged_in()) {
+        if (!current_user_can('administrator')) {
             throw new AuthError(__('User not authorized. Admin resource', 'wp-graphql-jwt-authentication'));
         }
     }

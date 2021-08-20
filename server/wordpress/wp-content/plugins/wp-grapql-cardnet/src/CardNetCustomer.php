@@ -14,6 +14,27 @@ class CardNetCustomer
         add_action('graphql_register_types', ['\WPGraphQL\CardNet\CardNetCustomer', 'register_cardnet_customer_fields'], 10);
     }
 
+
+    public static function getCurrentCardNetCustomerId()
+    {
+        $userData = wp_get_current_user();
+        $cardNetCustomerId = get_user_meta($userData->ID, 'cardnetCustomerId', true);
+
+        return $cardNetCustomerId;
+    }
+
+    /**
+     * Only Admin user can perform action using customerId from the query parameter
+     * if the user is not admin its take the customerId from the current session. 
+     */
+    public static function getCustomerId($payload)
+    {
+        if (current_user_can('administrator') && isset($payload['customerId'])) {
+            return strval($payload['customerId']);
+        }
+        return self::getCurrentCardNetCustomerId();
+    }
+
     public static function mapPaymentProfile($paymentsIn)
     {
         $payments = array();
@@ -226,15 +247,14 @@ class CardNetCustomer
             'description' => __('Describe what the field should be used for', 'cardnet'),
             'args' => [
                 'customerId' => [
-                    'type' => array('non_null' => 'Int'),
+                    'type' => 'Int',
                     'description' => __('The ID of the customer', 'cardnet'),
                 ]
             ],
             'resolve' => function ($source, $args, $context, $info) {
 
                 CardNetUtils::isAuthenticated();
-
-                $customerId = $args['customerId'];
+                $customerId = self::getCustomerId($args);
 
                 $carnetApi = new CardNetApi();
 
@@ -299,8 +319,8 @@ class CardNetCustomer
                 'description' => __('Payment Profile ID to update'),
             ],
             'customerId' => [
-                'type' => ['non_null' => 'Int'],
-                'description' => __('Customer ID'),
+                'type' =>  'Int',
+                'description' => __('Only admin can use this, if not it will use the current CustomerId'),
             ],
             'Expiration' => [
                 'type' => 'string',
@@ -314,8 +334,8 @@ class CardNetCustomer
 
         $removePaymentProfileInput = [
             'customerId' => [
-                'type' => ['non_null' => 'Int'],
-                'description' => __('Customer ID'),
+                'type' =>  'Int',
+                'description' => __('Only admin can use this, if not it will use the current CustomerId'),
             ],
             'PaymentProfileId' => [
                 'type' => ['non_null' => 'Int'],
@@ -325,8 +345,8 @@ class CardNetCustomer
 
         $enablePaymentInput = [
             'customerId' => [
-                'type' => ['non_null' => 'Int'],
-                'description' => __('Customer ID'),
+                'type' =>  'Int',
+                'description' => __('Only admin can use this, if not it will use the current CustomerId'),
             ],
             'ActivationCode' => [
                 'type' => ['non_null' => 'Int'],
@@ -376,8 +396,8 @@ class CardNetCustomer
         function getUpdateInputs($customerInput)
         {
             $customerInput["customerId"] =  [
-                'type' => array('non_null' => 'Int'),
-                'description' => __('The ID of the customer', 'cardnet'),
+                'type' =>  'Int',
+                'description' => __('Only admin can use this, if not it will use the current CustomerId'),
             ];
 
             $customerInput["Email"] = [
@@ -398,9 +418,10 @@ class CardNetCustomer
             'mutateAndGetPayload' => function ($input, $context, $info) {
 
                 CardNetUtils::isAuthenticated();
+                $customerId = self::getCustomerId($input);
 
                 $carnetApi = new CardNetApi();
-                $result = $carnetApi->update_customer($input);
+                $result = $carnetApi->update_customer($input, $customerId);
                 return self::mapCustomerObject($result);
             }
         ]);
@@ -416,9 +437,10 @@ class CardNetCustomer
             'mutateAndGetPayload' => function ($input, $context, $info) {
 
                 CardNetUtils::isAuthenticated();
+                $customerId = self::getCustomerId($input);
 
                 $carnetApi = new CardNetApi();
-                $result = $carnetApi->update_payment_profile($input);
+                $result = $carnetApi->update_payment_profile($input, $customerId);
                 return self::mapCustomerObject($result);
             }
         ]);
@@ -430,14 +452,19 @@ class CardNetCustomer
 
         register_graphql_mutation('deleteCardnetPaymentProfile', [
             'inputFields'  => $removePaymentProfileInput,
-            'outputFields' => $customerFields,
+            'outputFields' => [
+                'customer' => [
+                    'type' =>  'CardNetCustomer',
+                ]
+            ],
             'mutateAndGetPayload' => function ($input, $context, $info) {
 
                 CardNetUtils::isAuthenticated();
+                $customerId = self::getCustomerId($input);
 
                 $carnetApi = new CardNetApi();
-                $result = $carnetApi->delete_payment_profile($input);
-                return self::mapCustomerObject($result);
+                $result = $carnetApi->delete_payment_profile($input, $customerId);
+                return ["customer" => self::mapCustomerObject($result)];
             }
         ]);
 
@@ -451,9 +478,10 @@ class CardNetCustomer
             'mutateAndGetPayload' => function ($input, $context, $info) {
 
                 CardNetUtils::isAuthenticated();
+                $customerId = self::getCustomerId($input);
 
                 $carnetApi = new CardNetApi();
-                $result = $carnetApi->delete_payment_profile($input);
+                $result = $carnetApi->activate_payment($input, $customerId);
                 return self::mapCustomerObject($result);
             }
         ]);

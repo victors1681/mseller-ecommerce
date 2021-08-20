@@ -20,8 +20,8 @@ export type ActivateCardnetPaymentInput = {
   token: Scalars['Int'];
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
-  /** Customer ID */
-  customerId: Scalars['Int'];
+  /** Only admin can use this, if not it will use the current CustomerId */
+  customerId?: Maybe<Scalars['Int']>;
 };
 
 /** The payload for the activateCardnetPayment mutation */
@@ -3387,65 +3387,16 @@ export type DeleteCardnetPaymentProfileInput = {
   paymentProfileId: Scalars['Int'];
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
-  /** Customer ID */
-  customerId: Scalars['Int'];
+  /** Only admin can use this, if not it will use the current CustomerId */
+  customerId?: Maybe<Scalars['Int']>;
 };
 
 /** The payload for the deleteCardnetPaymentProfile mutation */
 export type DeleteCardnetPaymentProfilePayload = {
   __typename?: 'DeleteCardnetPaymentProfilePayload';
-  /** Lista de datos de tipo “Clave:Valor” para almacenar información extra. */
-  additionalData?: Maybe<Scalars['String']>;
-  /** BillingAddress */
-  billingAddress?: Maybe<Scalars['String']>;
-  /** URL de captura de datos de tarjeta (es la URL que se debe abrir en un iframe para iniciar el proceso de captura de datos sensibles). Solo es válida para Customers de tipo “Commerce”. */
-  captureURL?: Maybe<Scalars['String']>;
-  /**
-   * Identificador del cliente en el comercio. Este valor es generado
-   *                 y utilizado internamente por el comercio para identificar al cliente dentro de la plataforma.
-   */
-  commerceCustomerId?: Maybe<Scalars['String']>;
-  /**
-   * Fecha y hora del momento de la creación del cliente.
-   *               Este campo está presente en la respuesta a consultas.
-   *               No se incluye o valida en la creación o actualizaciones del objeto.
-   */
-  created?: Maybe<Scalars['String']>;
-  /** Identificador del cliente. */
-  customerId?: Maybe<Scalars['Int']>;
-  /** Documento del cliente */
-  docNumber?: Maybe<Scalars['String']>;
-  /** Tipo de documento del cliente */
-  documentTypeId?: Maybe<Scalars['Int']>;
-  /** Email del cliente */
-  email?: Maybe<Scalars['String']>;
-  /** Customer activated */
-  enabled?: Maybe<Scalars['Boolean']>;
-  /** Nombre del cliente */
-  firstName?: Maybe<Scalars['String']>;
-  /** Apellido del cliente. */
-  lastName?: Maybe<Scalars['String']>;
-  /**
-   * Determina si el usuario fue registrado por el comercio, a través de Cardnet o anónimo.
-   *               Valores posibles: “Our”, “Commerce”, “Anonymous”.
-   *               Este campo está presente en la respuesta a consultas.
-   *               No se incluye o valida en la creación o actualizaciones del objeto.
-   */
-  owner?: Maybe<Scalars['String']>;
-  /** Lista de objetos PaymentProfile con información de los medios de pago registrados por el Customer. */
-  paymentProfiles?: Maybe<Array<Maybe<PaymentProfiles>>>;
-  /** Teléfono de contacto del cliente. */
-  phoneNumber?: Maybe<Scalars['String']>;
-  /** Reservado */
-  plans?: Maybe<Scalars['String']>;
-  /** ShippingAddress */
-  shippingAddress?: Maybe<Scalars['String']>;
-  /** URL donde se puede acceder a la información del Cliente (ej. /v1/customer/{customer-id}). */
-  uRL?: Maybe<Scalars['String']>;
-  /** Identificador único de la compra. Este valor opcional permite identificar una compra única y evitar la duplicación de transacciones en caso de errores de comunicación (ver más en Conceptos / Identificador único). */
-  uniqueID?: Maybe<Scalars['String']>;
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
+  customer?: Maybe<CardNetCustomer>;
 };
 
 /** Input for the deleteCategory mutation */
@@ -12798,7 +12749,7 @@ export type RootQuery = {
 
 /** The root entry point into the Graph */
 export type RootQueryCardnetCustomerArgs = {
-  customerId: Scalars['Int'];
+  customerId?: Maybe<Scalars['Int']>;
 };
 
 
@@ -17598,8 +17549,8 @@ export type UpdateCardnetCustomerInput = {
   shippingAddress?: Maybe<Scalars['String']>;
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
-  /** The ID of the customer */
-  customerId: Scalars['Int'];
+  /** Only admin can use this, if not it will use the current CustomerId */
+  customerId?: Maybe<Scalars['Int']>;
 };
 
 /** The payload for the updateCardnetCustomer mutation */
@@ -17669,8 +17620,8 @@ export type UpdateCardnetPaymentProfileInput = {
   paymentProfileId: Scalars['Int'];
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
-  /** Customer ID */
-  customerId: Scalars['Int'];
+  /** Only admin can use this, if not it will use the current CustomerId */
+  customerId?: Maybe<Scalars['Int']>;
 };
 
 /** The payload for the updateCardnetPaymentProfile mutation */

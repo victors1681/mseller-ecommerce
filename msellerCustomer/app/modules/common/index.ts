@@ -7,3 +7,4 @@ export * from './LoadingIndicator';
 export * from './Empty';
 export * from './SafeAreaLayout';
 export * from './BackButtonAction';
+export * from './Modal';

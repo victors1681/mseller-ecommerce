@@ -37,9 +37,20 @@ export const CARTNET_CUSTOMER_FRAGMENT = gql`
 
 export const GET_CARDNET_CUSTOMER = gql`
   ${CARTNET_CUSTOMER_FRAGMENT}
-  query CardnetCustomer($customerId: Int!) {
+  query CardnetCustomer($customerId: Int) {
     cardnetCustomer(customerId: $customerId) {
       ...customerFields
+    }
+  }
+`;
+
+export const DELETE_CREDIT_CARD = gql`
+  ${CARTNET_CUSTOMER_FRAGMENT}
+  mutation DeleteCreditCard($input: DeleteCardnetPaymentProfileInput!) {
+    deleteCardnetPaymentProfile(input: $input) {
+      customer {
+        ...customerFields
+      }
     }
   }
 `;

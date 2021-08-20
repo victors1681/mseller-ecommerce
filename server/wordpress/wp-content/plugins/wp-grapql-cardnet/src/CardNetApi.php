@@ -95,9 +95,8 @@ class CardNetApi
 
 
 
-    function update_customer($payload)
+    function update_customer($payload, $customerId)
     {
-        $customerId = strval($payload['customerId']);
 
         $api_url = "{$this->base_url}/customer/{$customerId}/update";
 
@@ -119,9 +118,8 @@ class CardNetApi
     }
 
 
-    function update_payment_profile($payload)
+    function update_payment_profile($payload, $customerId)
     {
-        $customerId = strval($payload['customerId']);
 
         $api_url = "{$this->base_url}/customer/{$customerId}/PaymentProfileUpdate";
 
@@ -143,11 +141,33 @@ class CardNetApi
         return $result;
     }
 
-    function delete_payment_profile($payload)
+    function delete_payment_profile($payload, $customerId)
     {
-        $customerId = strval($payload['customerId']);
 
         $api_url = "{$this->base_url}/customer/{$customerId}/PaymentProfileDelete";
+
+
+        $requestData = array('headers' => $this->getApiHeaders(), 'body' => wp_json_encode($payload));
+        $response = wp_remote_post(esc_url_raw($api_url), $requestData);
+
+
+        if (is_wp_error($response)) {
+            // Work with the $result data
+            throw new UserError(__($response->get_error_message(), 'wp-graphql'));
+        }
+
+        $api_response = json_decode(wp_remote_retrieve_body($response), true);
+        $result = $api_response['Response'];
+
+        $this->isErrors($api_response);
+
+        return $result;
+    }
+
+    function activate_payment($payload, $customerId)
+    {
+
+        $api_url = "{$this->base_url}/customer/{$customerId}/activate";
 
 
         $requestData = array('headers' => $this->getApiHeaders(), 'body' => wp_json_encode($payload));

@@ -1,18 +1,23 @@
-import {Card, Modal} from '@ui-kitten/components';
+import {Card, Modal as ModalView} from '@ui-kitten/components';
 import React from 'react';
 import {StyleSheet} from 'react-native';
 
-export const Loading: React.FC = ({children}) => {
-  const [visible, setVisible] = React.useState(false);
+export const Modal: React.FC = ({children, open, handleClose}) => {
+  const [visible, setVisible] = React.useState(open);
+
+  React.useEffect(() => {
+    setVisible(!open);
+  }, [open]);
+
   return (
-    <Modal
-      visible={visible}
+    <ModalView
+      visible={true}
       backdropStyle={styles.backdrop}
-      onBackdropPress={() => setVisible(false)}>
+      onBackdropPress={() => handleClose()}>
       <Card disabled={true} style={styles.modalCard}>
         {children}
       </Card>
-    </Modal>
+    </ModalView>
   );
 };
 
@@ -25,4 +30,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Loading;
+export default Modal;
