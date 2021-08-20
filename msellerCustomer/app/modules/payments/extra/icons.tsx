@@ -1,13 +1,12 @@
 import React from 'react';
-import {ImageStyle} from 'react-native';
 import {Icon, IconElement} from '@ui-kitten/components';
 import {Maybe} from 'app/generated/graphql';
 
-export const CreditCardIcon = (style: ImageStyle): IconElement => (
+export const CreditCardIcon = (style: any): IconElement => (
   <Icon {...style} name="credit-card" />
 );
 
-export const MoreVerticalIcon = (style: ImageStyle): IconElement => (
+export const MoreVerticalIcon = (style: any): JSX.Element => (
   <Icon {...style} name="more-vertical" />
 );
 

@@ -9,6 +9,17 @@ import {Maybe, MetaData} from 'app/generated/graphql';
 export const getMetaData = (meta: Maybe<Maybe<MetaData>[]>, key: string) =>
   meta && meta.find(f => f && f.key === key);
 
+export const getMetaValue = (
+  meta: Maybe<Maybe<MetaData>[] | undefined>,
+  key: string,
+) => {
+  if (!meta) {
+    return '';
+  }
+  const data = meta.find(f => f && f.key === key);
+  return data?.value;
+};
+
 export const getMetadataFromJson = (
   meta: Maybe<Maybe<MetaData>[]> | undefined,
   key: string,

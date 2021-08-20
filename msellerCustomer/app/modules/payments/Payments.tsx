@@ -3,62 +3,54 @@ import {Image, ListRenderItemInfo, View} from 'react-native';
 import {
   Button,
   Card,
-  Layout,
   List,
-  Radio,
-  RadioGroup,
   StyleService,
   Text,
   useStyleSheet,
 } from '@ui-kitten/components';
 import {CreditCardIcon, MoreVerticalIcon, getLogo} from './extra/icons';
-import {PaymentCard} from './extra/data';
-import {useNavigation} from '@react-navigation/core';
+import {useFocusEffect, useNavigation} from '@react-navigation/core';
 import {ScreenLinks} from 'app/navigation/ScreenLinks';
 import {useCreditCard, useCustomer} from 'app/hooks';
 import {Loading} from '../common';
 import {Maybe, PaymentProfiles} from 'app/generated/graphql';
+import {getMetaValue} from 'app/utils';
 
 export const Payments = (): React.ReactElement => {
-  const [selectedIndex, setSelectedIndex] = React.useState(0);
   const navigation = useNavigation();
   const styles = useStyleSheet(themedStyles);
 
-  const {updateToken} = useCustomer();
   const {getCardNetCustomer, cardNetCustomerInfo} = useCreditCard();
+
+  const {data} = useCustomer();
+
+  const cardNetCustomerId = getMetaValue(
+    data?.customer?.metaData,
+    'cardnetCustomerId',
+  );
 
   const creditCards =
     cardNetCustomerInfo?.data?.cardnetCustomer.paymentProfiles;
-  React.useEffect(() => {
-    updateToken();
-    getCardNetCustomer({
-      variables: {
-        customerId: 17395,
-      },
-    });
-  }, []);
 
-  const onBuyButtonPress = (): void => {
-    navigation && navigation.goBack();
-  };
+  useFocusEffect(
+    React.useCallback(() => {
+      /**
+       * If cardNetCustomerId exist fetch the creditcars
+       */
+      if (cardNetCustomerId) {
+        getCardNetCustomer({
+          variables: {
+            customerId: parseInt(cardNetCustomerId),
+          },
+        });
+      }
+    }, [cardNetCustomerId]),
+  );
 
   const onPlaceholderCardPress = (): void => {
     navigation && navigation.navigate(ScreenLinks.CREDIT_CARD);
   };
 
-  const renderHeader = (): React.ReactElement => (
-    <React.Fragment>
-      <Text category="h6">{`Método de pago seleccionado: ${
-        selectedIndex + 1
-      }`}</Text>
-      <RadioGroup
-        selectedIndex={selectedIndex}
-        onChange={index => setSelectedIndex(index)}>
-        <Radio>Efectivo</Radio>
-        <Radio>Tarjeta de crédito</Radio>
-      </RadioGroup>
-    </React.Fragment>
-  );
   const renderFooter = (): React.ReactElement => (
     <Card style={styles.placeholderCard} onPress={onPlaceholderCardPress}>
       <CreditCardIcon {...styles.creditCardIcon} />
@@ -73,7 +65,10 @@ export const Payments = (): React.ReactElement => {
   ): React.ReactElement => (
     <View style={info.item?.enabled ? styles.cardItem : styles.disabledCard}>
       <View style={styles.cardLogoContainer}>
-        <Image style={styles.cardLogo} source={getLogo(info?.item?.brand)} />
+        <Image
+          style={styles.cardLogo as any}
+          source={getLogo(info?.item?.brand)}
+        />
         <Button
           style={styles.cardOptionsButton}
           appearance="ghost"
@@ -114,7 +109,6 @@ export const Payments = (): React.ReactElement => {
         ListHeaderComponent={
           (cardNetCustomerInfo.isLoading && <Loading />) || null
         }
-        // ListHeaderComponent={renderHeader}
       />
     </React.Fragment>
   );
