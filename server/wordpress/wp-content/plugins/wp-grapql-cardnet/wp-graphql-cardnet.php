@@ -118,7 +118,6 @@ endif;
  */
 function init()
 {
-	new \WPGraphQL\CardNet\CardNetConfig();
 	return CardNet::instance();
 }
 
@@ -134,6 +133,7 @@ if (!in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get
  * @param array $gateways all available WC gateways
  * @return array $gateways all WC gateways + cardnet
  */
+add_filter('woocommerce_payment_gateways', 'cardnet_add_to_gateways');
 function cardnet_add_to_gateways($gateways)
 {
 	$gateways[] = '\WPGraphQL\CardNet\CardNetWooGateway';
@@ -142,5 +142,4 @@ function cardnet_add_to_gateways($gateways)
 
 
 
-add_action('plugins_loaded', 'init', 11);
-add_filter('woocommerce_payment_gateways', 'cardnet_add_to_gateways');
+add_action('plugins_loaded', 'init', 10, 1);

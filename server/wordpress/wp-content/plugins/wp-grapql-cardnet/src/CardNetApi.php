@@ -4,7 +4,7 @@ namespace WPGraphQL\CardNet;
 
 use GraphQL\Error\UserError;
 
-class CardNetApi
+class CardNetApi extends \WC_Settings_API
 {
 
     private $base_url = '';
@@ -12,12 +12,14 @@ class CardNetApi
 
     function __construct()
     {
-        if (get_option('cardnet_test_mode') == "1") {
-            $this->base_url = get_option('cardnet_demo_base_url');
-            $this->private_key = get_option('cardnet_demo_api_key');
+        $this->id = "carnetpayment";
+
+        if ($this->get_option('cardnet_test_mode') == "yes") {
+            $this->base_url = $this->get_option('cardnet_demo_base_url') . '/api';
+            $this->private_key = $this->get_option('cardnet_demo_api_key');
         } else {
-            $this->base_url = get_option('cardnet_base_url');
-            $this->private_key = get_option('cardnet_api_key');
+            $this->base_url = $this->get_option('cardnet_base_url') . '/api';
+            $this->private_key = $this->get_option('cardnet_api_key');
         }
     }
 

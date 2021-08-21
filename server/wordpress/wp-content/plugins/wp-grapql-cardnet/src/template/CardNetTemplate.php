@@ -2,7 +2,7 @@
 
 namespace WPGraphQL\CardNet\Template;
 
-class CardNetTemplate
+class CardNetTemplate extends \WC_Settings_API
 {
 
 
@@ -17,10 +17,9 @@ class CardNetTemplate
     public function __construct()
     {
 
+        $this->id = "carnetpayment";
+
         $this->templates = array();
-
-
-
 
         // Add a filter to the attributes metabox to inject template into the cache.
         if (version_compare(floatval(get_bloginfo('version')), '4.7', '<')) {
