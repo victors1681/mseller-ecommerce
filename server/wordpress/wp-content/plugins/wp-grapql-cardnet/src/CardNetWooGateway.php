@@ -3,6 +3,7 @@
 namespace WPGraphQL\CardNet;
 
 use WC_Settings_API;
+use WP_Error;
 
 defined('ABSPATH') or exit;
 
@@ -137,13 +138,81 @@ class CardNetWooGateway extends \WC_Payment_Gateway
     {
 
         $order = wc_get_order($order_id);
+        $currency = get_woocommerce_currency();
+        $total = $order->get_total();
+        $taxes = $order->get_tax_totals();
+        $trxToken = $order->get_meta("TrxToken");
+        $ipAddress = $order->get_customer_ip_address();
+        $customerUserAgent = $order->get_customer_user_agent();
 
-        // Mark as on-hold (we're awaiting the payment)
-        $order->update_status('on-hold', __('Awaiting CardNet', 'woocommerce'));
+
+        $taxTotal = 0;
+        foreach ($taxes as $code => $tax) {
+            $taxTotal += $tax->amount;
+        }
+
+        $payload = [
+            "TrxToken" => $trxToken,
+            "Order" => strval($order_id),
+            "Amount" =>  floor(bcmul($total, 100)),
+            "Currency" => $currency,
+            "Capture" => true,
+            "CustomerIP" => $ipAddress,
+            "CustomerUserAgent" => $customerUserAgent,
+            "DataDo" =>  [
+                "Tax" => floor(bcmul($taxTotal, 100)),
+                "Invoice" => strval($order_id)
+            ]
+        ];
+
+        //debug
+        graphql_debug(json_encode($payload));
+
+        //make api request
+        $api = new \WPGraphQL\CardNet\CardNetApi();
+        $response_raw_data = $api->add_new_purchase($payload);
+        $response = \WPGraphQL\CardNet\CardNetPurchase::mapPurchase($response_raw_data);
+
+        $status = $response["transaction"]["status"];
+        $isApproved = $status == "Approved";
+        $description = $response["transaction"]["description"];
+        $transactionStatusId = $response["transaction"]["transactionStatusId"];
+        $transactionID = $response["transaction"]["transactionID"];
+        $created = $response["transaction"]["created"];
+
+        $order->update_meta_data('status', $status);
+        $order->update_meta_data('description', $description);
+        $order->update_meta_data('transactionStatusId', $transactionStatusId);
+        $order->update_meta_data('transactionID', $transactionID);
+        $order->update_meta_data('created', $created);
+
+        //TransactionStatusId
+        // 1 Approved
+        // 2 Pending
+        // 3 Preauthorized
+        // 4 Rejected
+
+        //pending  
+        if (strval($transactionID) == "2") {
+            $order->update_status('pending-payment', 'CardNet status is on pending state');
+            //$order->update_status('on-hold', __('Awaiting CardNet', 'woocommerce'));
+        }
+
+        //Rejected or preautorized
+        if (strval($status) == "4" || !$isApproved) {
+            wc_add_notice("No se pudo relizar la transacción por favor intentarlo nuevamente", 'error');
+            return;
+        }
+
+        if ($isApproved) {
+            // we received the payment
+            $order->payment_complete();
+        }
 
         // Remove cart
         WC()->cart->empty_cart();
 
+        $order->save();
         // Return thankyou redirect
         return array(
             'result'    => 'success',
