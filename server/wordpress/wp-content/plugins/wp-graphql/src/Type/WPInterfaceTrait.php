@@ -1,7 +1,9 @@
 <?php
 namespace WPGraphQL\Type;
 
+use Exception;
 use GraphQL\Type\Definition\InterfaceType;
+use WPGraphQL\Registry\TypeRegistry;
 
 /**
  * Trait WPInterfaceTrait
@@ -17,13 +19,26 @@ trait WPInterfaceTrait {
 	 * Given an array of interfaces, this gets the Interfaces the Type should implement including
 	 * inherited interfaces.
 	 *
-	 * @param array $interfaces Array of interfaces the type implements
-	 *
 	 * @return array
 	 */
-	protected function get_implemented_interfaces( array $interfaces ) {
+	protected function get_implemented_interfaces() {
 
 		$new_interfaces = [];
+
+		if ( ! isset( $this->config['interfaces'] ) || ! is_array( $this->config['interfaces'] ) || empty( $this->config['interfaces'] ) ) {
+			$interfaces = parent::getInterfaces();
+		} else {
+			$interfaces = $this->config['interfaces'];
+		}
+
+		/**
+		 * Filters the interfaces applied to an object type
+		 *
+		 * @param array        $interfaces     List of interfaces applied to the Object Type
+		 * @param array        $config         The config for the Object Type
+		 * @param mixed|WPInterfaceType|WPObjectType $type The Type instance
+		 */
+		$interfaces = apply_filters( 'graphql_type_interfaces', $interfaces, $this->config, $this );
 
 		foreach ( $interfaces as $interface ) {
 			if ( ! is_string( $interface ) ) {

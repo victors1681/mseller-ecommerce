@@ -1,0 +1,199 @@
+2021-08-21T00:10:51+00:00 CRITICAL Uncaught Error: Using $this when not in object context in /var/www/html/wp-content/plugins/woocommerce/includes/abstracts/abstract-wc-settings-api.php:281
+Stack trace:
+#0 /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/CardNetConfig.php(10): WC_Settings_API::get_option('cardnet_demo_pu...')
+#1 /var/www/html/wp-content/plugins/wp-grapql-cardnet/wp-graphql-cardnet.php(121): WPGraphQL\CardNet\CardNetConfig->__construct()
+#2 /var/www/html/wp-includes/class-wp-hook.php(303): init('')
+#3 /var/www/html/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters(NULL, Array)
+#4 /var/www/html/wp-includes/plugin.php(470): WP_Hook->do_action(Array)
+#5 /var/www/html/wp-settings.php(441): do_action('plugins_loaded')
+#6 /var/www/html/wp-config.php(131): require_once('/var/www/html/w...')
+#7 /var/www/html/wp-load.php(50): require_once('/var/www/html/w...')
+#8 /var/www/html/wp-blog-header.php(13): require_once('/var/www/html/w...')
+#9 /var/www/html/index.php(17): require('/var/www/html/w...')
+#10 {main}
+  thrown in /var/www/html/wp-content/plugins/woocommerce/includes/abstracts/abstract-wc-settings-api.php on line 281
+
+2021-08-21T00:17:00+00:00 CRITICAL syntax error, unexpected '$test' (T_VARIABLE) in /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/CardNetConfig.php on line 11
+
+2021-08-21T00:17:07+00:00 CRITICAL syntax error, unexpected '$test' (T_VARIABLE) in /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/CardNetConfig.php on line 11
+
+2021-08-21T00:31:30+00:00 CRITICAL Uncaught Error: Cannot instantiate abstract class WC_Settings_API in /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php:44
+Stack trace:
+#0 /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php(220): getPublicKey()
+#1 /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php(15): initCardNet()
+#2 /var/www/html/wp-includes/template-loader.php(106): include('/var/www/html/w...')
+#3 /var/www/html/wp-blog-header.php(19): require_once('/var/www/html/w...')
+#4 /var/www/html/index.php(17): require('/var/www/html/w...')
+#5 {main}
+  thrown in /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php on line 44
+
+2021-08-21T00:31:37+00:00 CRITICAL Uncaught Error: Cannot instantiate abstract class WC_Settings_API in /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php:44
+Stack trace:
+#0 /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php(220): getPublicKey()
+#1 /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php(15): initCardNet()
+#2 /var/www/html/wp-includes/template-loader.php(106): include('/var/www/html/w...')
+#3 /var/www/html/wp-blog-header.php(19): require_once('/var/www/html/w...')
+#4 /var/www/html/index.php(17): require('/var/www/html/w...')
+#5 {main}
+  thrown in /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php on line 44
+
+2021-08-21T00:32:03+00:00 CRITICAL Uncaught Error: Cannot instantiate abstract class WC_Settings_API in /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php:44
+Stack trace:
+#0 /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php(220): getPublicKey()
+#1 /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php(15): initCardNet()
+#2 /var/www/html/wp-includes/template-loader.php(106): include('/var/www/html/w...')
+#3 /var/www/html/wp-blog-header.php(19): require_once('/var/www/html/w...')
+#4 /var/www/html/index.php(17): require('/var/www/html/w...')
+#5 {main}
+  thrown in /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php on line 44
+
+2021-08-21T00:32:07+00:00 CRITICAL Uncaught Error: Cannot instantiate abstract class WC_Settings_API in /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php:44
+Stack trace:
+#0 /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php(220): getPublicKey()
+#1 /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php(15): initCardNet()
+#2 /var/www/html/wp-includes/template-loader.php(106): include('/var/www/html/w...')
+#3 /var/www/html/wp-blog-header.php(19): require_once('/var/www/html/w...')
+#4 /var/www/html/index.php(17): require('/var/www/html/w...')
+#5 {main}
+  thrown in /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php on line 44
+
+2021-08-21T00:32:18+00:00 CRITICAL Uncaught Error: Cannot instantiate abstract class WC_Settings_API in /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php:44
+Stack trace:
+#0 /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php(218): getPublicKey()
+#1 /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php(15): initCardNet()
+#2 /var/www/html/wp-includes/template-loader.php(106): include('/var/www/html/w...')
+#3 /var/www/html/wp-blog-header.php(19): require_once('/var/www/html/w...')
+#4 /var/www/html/index.php(17): require('/var/www/html/w...')
+#5 {main}
+  thrown in /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php on line 44
+
+2021-08-21T00:32:38+00:00 CRITICAL Uncaught Error: Call to a member function get_option() on null in /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php:46
+Stack trace:
+#0 /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php(215): getPublicKey()
+#1 /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php(15): initCardNet()
+#2 /var/www/html/wp-includes/template-loader.php(106): include('/var/www/html/w...')
+#3 /var/www/html/wp-blog-header.php(19): require_once('/var/www/html/w...')
+#4 /var/www/html/index.php(17): require('/var/www/html/w...')
+#5 {main}
+  thrown in /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php on line 46
+
+2021-08-21T00:33:08+00:00 CRITICAL Uncaught Error: Cannot instantiate abstract class WC_Settings_API in /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php:44
+Stack trace:
+#0 /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php(220): getPublicKey()
+#1 /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php(15): initCardNet()
+#2 /var/www/html/wp-includes/template-loader.php(106): include('/var/www/html/w...')
+#3 /var/www/html/wp-blog-header.php(19): require_once('/var/www/html/w...')
+#4 /var/www/html/index.php(17): require('/var/www/html/w...')
+#5 {main}
+  thrown in /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php on line 44
+
+2021-08-21T00:33:41+00:00 CRITICAL Uncaught Error: Cannot instantiate abstract class WC_Settings_API in /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php:44
+Stack trace:
+#0 /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php(220): getPublicKey()
+#1 /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php(15): initCardNet()
+#2 /var/www/html/wp-includes/template-loader.php(106): include('/var/www/html/w...')
+#3 /var/www/html/wp-blog-header.php(19): require_once('/var/www/html/w...')
+#4 /var/www/html/index.php(17): require('/var/www/html/w...')
+#5 {main}
+  thrown in /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php on line 44
+
+2021-08-21T00:33:51+00:00 CRITICAL syntax error, unexpected '}', expecting ';' or ',' in /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php on line 51
+
+2021-08-21T00:33:58+00:00 CRITICAL Uncaught Error: Cannot instantiate abstract class WC_Settings_API in /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php:44
+Stack trace:
+#0 /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php(218): getPublicKey()
+#1 /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php(15): initCardNet()
+#2 /var/www/html/wp-includes/template-loader.php(106): include('/var/www/html/w...')
+#3 /var/www/html/wp-blog-header.php(19): require_once('/var/www/html/w...')
+#4 /var/www/html/index.php(17): require('/var/www/html/w...')
+#5 {main}
+  thrown in /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php on line 44
+
+2021-08-21T00:34:23+00:00 CRITICAL Uncaught Error: Cannot instantiate abstract class WC_Settings_API in /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php:44
+Stack trace:
+#0 /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php(222): getPublicKey()
+#1 /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php(15): initCardNet()
+#2 /var/www/html/wp-includes/template-loader.php(106): include('/var/www/html/w...')
+#3 /var/www/html/wp-blog-header.php(19): require_once('/var/www/html/w...')
+#4 /var/www/html/index.php(17): require('/var/www/html/w...')
+#5 {main}
+  thrown in /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php on line 44
+
+2021-08-21T00:34:51+00:00 CRITICAL Uncaught Error: Cannot instantiate abstract class WC_Settings_API in /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php:44
+Stack trace:
+#0 /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php(228): getPublicKey()
+#1 /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php(15): initCardNet()
+#2 /var/www/html/wp-includes/template-loader.php(106): include('/var/www/html/w...')
+#3 /var/www/html/wp-blog-header.php(19): require_once('/var/www/html/w...')
+#4 /var/www/html/index.php(17): require('/var/www/html/w...')
+#5 {main}
+  thrown in /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php on line 44
+
+2021-08-21T00:35:26+00:00 CRITICAL Uncaught Error: Cannot instantiate abstract class WC_Settings_API in /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php:44
+Stack trace:
+#0 /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php(228): getPublicKey()
+#1 /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php(15): initCardNet()
+#2 /var/www/html/wp-includes/template-loader.php(106): include('/var/www/html/w...')
+#3 /var/www/html/wp-blog-header.php(19): require_once('/var/www/html/w...')
+#4 /var/www/html/index.php(17): require('/var/www/html/w...')
+#5 {main}
+  thrown in /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php on line 44
+
+2021-08-21T00:35:37+00:00 CRITICAL Uncaught Error: Cannot instantiate abstract class WC_Settings_API in /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php:44
+Stack trace:
+#0 /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php(226): getPublicKey()
+#1 /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php(15): initCardNet()
+#2 /var/www/html/wp-includes/template-loader.php(106): include('/var/www/html/w...')
+#3 /var/www/html/wp-blog-header.php(19): require_once('/var/www/html/w...')
+#4 /var/www/html/index.php(17): require('/var/www/html/w...')
+#5 {main}
+  thrown in /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php on line 44
+
+2021-08-21T00:35:59+00:00 CRITICAL Uncaught Error: Cannot instantiate abstract class WC_Settings_API in /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php:48
+Stack trace:
+#0 /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php(224): getPublicKey()
+#1 /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php(19): initCardNet()
+#2 /var/www/html/wp-includes/template-loader.php(106): include('/var/www/html/w...')
+#3 /var/www/html/wp-blog-header.php(19): require_once('/var/www/html/w...')
+#4 /var/www/html/index.php(17): require('/var/www/html/w...')
+#5 {main}
+  thrown in /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php on line 48
+
+2021-08-21T00:36:10+00:00 CRITICAL Uncaught Error: Cannot instantiate abstract class WC_Settings_API in /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php:13
+Stack trace:
+#0 /var/www/html/wp-includes/template-loader.php(106): include()
+#1 /var/www/html/wp-blog-header.php(19): require_once('/var/www/html/w...')
+#2 /var/www/html/index.php(17): require('/var/www/html/w...')
+#3 {main}
+  thrown in /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php on line 13
+
+2021-08-21T00:39:42+00:00 CRITICAL Uncaught Error: Call to undefined function getPublicKey() in /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php:228
+Stack trace:
+#0 /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php(57): initCardNet()
+#1 /var/www/html/wp-includes/template-loader.php(106): include('/var/www/html/w...')
+#2 /var/www/html/wp-blog-header.php(19): require_once('/var/www/html/w...')
+#3 /var/www/html/index.php(17): require('/var/www/html/w...')
+#4 {main}
+  thrown in /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php on line 228
+
+2021-08-21T00:39:44+00:00 CRITICAL Uncaught Error: Call to undefined function getPublicKey() in /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php:228
+Stack trace:
+#0 /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php(57): initCardNet()
+#1 /var/www/html/wp-includes/template-loader.php(106): include('/var/www/html/w...')
+#2 /var/www/html/wp-blog-header.php(19): require_once('/var/www/html/w...')
+#3 /var/www/html/index.php(17): require('/var/www/html/w...')
+#4 {main}
+  thrown in /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php on line 228
+
+2021-08-21T00:45:30+00:00 CRITICAL Uncaught Error: Using $this when not in object context in /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php:177
+Stack trace:
+#0 /var/www/html/wp-includes/class-wp-hook.php(303): CardNetTheme::loadCardnetSDK('')
+#1 /var/www/html/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters(NULL, Array)
+#2 /var/www/html/wp-includes/plugin.php(470): WP_Hook->do_action(Array)
+#3 /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php(296): do_action('wp_head')
+#4 /var/www/html/wp-includes/template-loader.php(106): include('/var/www/html/w...')
+#5 /var/www/html/wp-blog-header.php(19): require_once('/var/www/html/w...')
+#6 /var/www/html/index.php(17): require('/var/www/html/w...')
+#7 {main}
+  thrown in /var/www/html/wp-content/plugins/wp-grapql-cardnet/src/Template/cardnet-theme.php on line 177
+

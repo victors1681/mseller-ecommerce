@@ -183,21 +183,23 @@ class CardNetWooGateway extends \WC_Payment_Gateway
         $transactionID = $response["transaction"]["transactionID"];
         $approveCode = $response["transaction"]["approvalCode"];
         $created = $response["transaction"]["created"];
+        $purchaseId = $response["purchaseId"];
 
         $order->update_meta_data('status', $status);
         $order->update_meta_data('description', $description);
         $order->update_meta_data('transactionStatusId', $transactionStatusId);
         $order->update_meta_data('transactionID', $transactionID);
+        $order->update_meta_data('purchaseId', $purchaseId);
         $order->update_meta_data('created', $created);
         $order->update_meta_data('aapproveCode', $approveCode);
+        $order->update_meta_data('TrxToken', '--'); //Reset Token Meta
+        $order->update_meta_data('carnetResponse', json_encode($response));
 
         //TransactionStatusId
         // 1 Approved
         // 2 Pending
         // 3 Preauthorized
-        // 4 Rejected
-
-
+        // 4 Rejected 
 
         //pending  
         if ($transactionStatusId == 2) {

@@ -6,11 +6,9 @@ use Exception;
 use GraphQL\Error\UserError;
 use GraphQL\Executor\Executor;
 use GraphQL\Type\Definition\FieldDefinition;
-use GraphQL\Type\Definition\InterfaceType;
-use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\ResolveInfo;
+use GraphQL\Type\Definition\Type;
 use WPGraphQL\AppContext;
-use WPGraphQL\WPSchema;
 
 /**
  * Class InstrumentSchema
@@ -20,42 +18,25 @@ use WPGraphQL\WPSchema;
 class InstrumentSchema {
 
 	/**
-	 * Cache post for the resolvers so we can call the setup_postdata only when the actual
-	 * source post changes
+	 * @param Type $type Instance of the Schema.
+	 * @param string $type_name Name of the Type
 	 *
-	 * @var mixed The WP_Post object, or null
+	 * @return Type
 	 */
-	private static $cached_post = null;
+	public static function instrument_resolvers( Type $type, string $type_name ): Type {
 
-	/**
-	 * @param WPSchema $schema Instance of the Schema.
-	 *
-	 * @return WPSchema
-	 */
-	public static function instrument_schema( WPSchema $schema ): WPSchema {
-
-		$new_types = [];
-		$types     = $schema->getTypeMap();
-
-		if ( ! empty( $types ) && is_array( $types ) ) {
-			foreach ( $types as $type_name => $type_object ) {
-				if ( $type_object instanceof ObjectType || $type_object instanceof InterfaceType ) {
-					$fields                            = $type_object->getFields();
-					$new_fields                        = self::wrap_fields( $fields, $type_name );
-					$new_type_object                   = $type_object;
-					$new_type_object->name             = ucfirst( esc_html( $type_object->name ) );
-					$new_type_object->description      = ! empty( $type_object->description ) ? esc_html( $type_object->description ) : '';
-					$new_type_object->config['fields'] = $new_fields;
-					$new_types[ $type_name ]           = $new_type_object;
-				}
-			}
+		if ( ! method_exists( $type, 'getFields' ) ) {
+			return $type;
 		}
 
-		if ( ! empty( $new_types ) && is_array( $new_types ) ) {
-			$schema->config->types = array_merge( $types, $new_types );
-		}
+		$fields = $type->getFields();
 
-		return $schema;
+		$fields                 = ! empty( $fields ) ? self::wrap_fields( $fields, $type->name ) : [];
+		$type->name             = ucfirst( esc_html( $type->name ) );
+		$type->description      = ! empty( $type->description ) ? esc_html( $type->description ) : '';
+		$type->config['fields'] = $fields;
+
+		return $type;
 
 	}
 
@@ -82,7 +63,7 @@ class InstrumentSchema {
 			 * Filter the field definition
 			 *
 			 * @param FieldDefinition $field     The field definition
-			 * @param string                                   $type_name The name of the Type the field belongs to
+			 * @param string          $type_name The name of the Type the field belongs to
 			 */
 			$field = apply_filters( 'graphql_field_definition', $field, $type_name );
 
@@ -116,18 +97,7 @@ class InstrumentSchema {
 			 * @throws Exception
 			 * @since 0.0.1
 			 */
-			$field->resolveFn = static function( $source, array $args, AppContext $context, ResolveInfo $info ) use ( $field_resolver, $type_name, $field_key, $field ) {
-
-				/**
-				 * Setup the global post to the current post (if a post)
-				 * This ensures that functions like get_the_content() work correctly
-				 * so graphql queries can be used in the loop without issues.
-				 */
-				if ( is_a( $source, 'WP_Post' ) && self::$cached_post !== $source ) {
-					self::$cached_post = $source;
-					$GLOBALS['post']   = $source;
-					setup_postdata( $source );
-				}
+			$field->resolveFn = static function ( $source, array $args, AppContext $context, ResolveInfo $info ) use ( $field_resolver, $type_name, $field_key, $field ) {
 
 				/**
 				 * Fire an action BEFORE the field resolves

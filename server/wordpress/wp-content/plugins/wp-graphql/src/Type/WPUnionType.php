@@ -29,7 +29,7 @@ class WPUnionType extends UnionType {
 	 *
 	 * @since 0.0.30
 	 */
-	public function __construct( $config = [], TypeRegistry $type_registry ) {
+	public function __construct( array $config, TypeRegistry $type_registry ) {
 
 		$this->type_registry = $type_registry;
 
@@ -39,7 +39,7 @@ class WPUnionType extends UnionType {
 		$name           = ucfirst( $config['name'] );
 		$config['name'] = apply_filters( 'graphql_type_name', $name, $config, $this );
 
-		$config['types'] = function() use ( $config ) {
+		$config['types'] = function () use ( $config ) {
 			$prepared_types = [];
 			if ( ! empty( $config['typeNames'] ) && is_array( $config['typeNames'] ) ) {
 				$prepared_types = [];
@@ -51,7 +51,7 @@ class WPUnionType extends UnionType {
 			return $prepared_types;
 		};
 
-		$config['resolveType'] = function( $object ) use ( $config ) {
+		$config['resolveType'] = function ( $object ) use ( $config ) {
 			$type = null;
 			if ( is_callable( $config['resolveType'] ) ) {
 				$type = call_user_func( $config['resolveType'], $object );
