@@ -194,7 +194,8 @@ class CardNetApi extends \WC_Settings_API
     {
         $api_url = "{$this->base_url}/purchase";
 
-        $requestData = array('headers' => $this->getApiHeaders(), 'body' => wp_json_encode($payload));
+        $requestData = array('headers' => $this->getApiHeaders(), 'timeout' => 30, 'body' => wp_json_encode($payload));
+
         $response = wp_remote_post(esc_url_raw($api_url), $requestData);
 
 
