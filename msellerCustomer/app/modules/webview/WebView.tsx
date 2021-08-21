@@ -35,7 +35,6 @@ export const WebView = ({uri, callback, title}: Props): React.ReactElement => {
     }
   };
 
-  //'http://192.168.1.210:8088/cardnet/'
   return (
     <SafeAreaLayout style={styles.container} insets="top">
       <Layout style={styles.container} level="1">

@@ -12,7 +12,8 @@ import {getToken, TokenResponse, resetToken, updateToken} from 'app/utils';
 import isEmpty from 'lodash/isEmpty';
 import Config from 'react-native-config';
 
-const SERVER_URL = __DEV__ ? Config.DEV_GRAPHQL_URL : Config.PROD_GRAPHQL_URL;
+let SERVER_URL = __DEV__ ? Config.DEV_GRAPHQL_URL : Config.PROD_GRAPHQL_URL;
+SERVER_URL += '/graphql';
 
 const sessionStorage = setContext(async () => {
   try {
