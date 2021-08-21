@@ -9,6 +9,7 @@ class CardNetApi extends \WC_Settings_API
 
     private $base_url = '';
     private $private_key = '';
+    private $timeout = 100;
 
     function __construct()
     {
@@ -57,7 +58,7 @@ class CardNetApi extends \WC_Settings_API
 
         $api_url = "{$this->base_url}/customer/{$customerId}";
 
-        $response = wp_remote_get(esc_url_raw($api_url), ['headers' => $this->getApiHeaders()]);
+        $response = wp_remote_get(esc_url_raw($api_url), ['headers' => $this->getApiHeaders(), 'timeout' => $this->timeout]);
 
         if (is_wp_error($response)) {
             // Work with the $result data
@@ -77,7 +78,7 @@ class CardNetApi extends \WC_Settings_API
     {
         $api_url = "{$this->base_url}/customer";
 
-        $requestData = array('headers' => $this->getApiHeaders(), 'body' => wp_json_encode($payload));
+        $requestData = array('headers' => $this->getApiHeaders(), 'body' => wp_json_encode($payload), 'timeout' => $this->timeout);
         $response = wp_remote_post(esc_url_raw($api_url), $requestData);
 
 
@@ -102,7 +103,7 @@ class CardNetApi extends \WC_Settings_API
 
         $api_url = "{$this->base_url}/customer/{$customerId}/update";
 
-        $requestData = array('headers' => $this->getApiHeaders(), 'body' => wp_json_encode($payload));
+        $requestData = array('headers' => $this->getApiHeaders(), 'body' => wp_json_encode($payload), 'timeout' => $this->timeout);
         $response = wp_remote_post(esc_url_raw($api_url), $requestData);
 
 
@@ -126,7 +127,7 @@ class CardNetApi extends \WC_Settings_API
         $api_url = "{$this->base_url}/customer/{$customerId}/PaymentProfileUpdate";
 
 
-        $requestData = array('headers' => $this->getApiHeaders(), 'body' => wp_json_encode($payload));
+        $requestData = array('headers' => $this->getApiHeaders(), 'body' => wp_json_encode($payload), 'timeout' => $this->timeout);
         $response = wp_remote_post(esc_url_raw($api_url), $requestData);
 
 
@@ -149,7 +150,7 @@ class CardNetApi extends \WC_Settings_API
         $api_url = "{$this->base_url}/customer/{$customerId}/PaymentProfileDelete";
 
 
-        $requestData = array('headers' => $this->getApiHeaders(), 'body' => wp_json_encode($payload));
+        $requestData = array('headers' => $this->getApiHeaders(), 'body' => wp_json_encode($payload), 'timeout' => $this->timeout);
         $response = wp_remote_post(esc_url_raw($api_url), $requestData);
 
 
@@ -172,7 +173,7 @@ class CardNetApi extends \WC_Settings_API
         $api_url = "{$this->base_url}/customer/{$customerId}/activate";
 
 
-        $requestData = array('headers' => $this->getApiHeaders(), 'body' => wp_json_encode($payload));
+        $requestData = array('headers' => $this->getApiHeaders(), 'body' => wp_json_encode($payload), 'timeout' => $this->timeout);
         $response = wp_remote_post(esc_url_raw($api_url), $requestData);
 
 
@@ -194,7 +195,7 @@ class CardNetApi extends \WC_Settings_API
     {
         $api_url = "{$this->base_url}/purchase";
 
-        $requestData = array('headers' => $this->getApiHeaders(), 'timeout' => 30, 'body' => wp_json_encode($payload));
+        $requestData = array('headers' => $this->getApiHeaders(), 'timeout' => $this->timeout, 'body' => wp_json_encode($payload));
 
         $response = wp_remote_post(esc_url_raw($api_url), $requestData);
 
@@ -218,7 +219,7 @@ class CardNetApi extends \WC_Settings_API
 
         $api_url = "{$this->base_url}/purchase/{$purchaseId}";
 
-        $response = wp_remote_get(esc_url_raw($api_url), ['headers' => $this->getApiHeaders()]);
+        $response = wp_remote_get(esc_url_raw($api_url), ['headers' => $this->getApiHeaders(), 'timeout' => $this->timeout]);
 
         if (is_wp_error($response)) {
             // Work with the $result data
@@ -237,7 +238,7 @@ class CardNetApi extends \WC_Settings_API
 
         $api_url = "{$this->base_url}/purchase/";
 
-        $response = wp_remote_get(esc_url_raw($api_url), ['headers' => $this->getApiHeaders(), 'timeout' => 100,]);
+        $response = wp_remote_get(esc_url_raw($api_url), ['headers' => $this->getApiHeaders(), 'timeout' => $this->timeout]);
 
         if (is_wp_error($response)) {
             // Work with the $result data
@@ -258,7 +259,7 @@ class CardNetApi extends \WC_Settings_API
         $api_url = "{$this->base_url}/purchase/{$purchaseId}/refund";
 
 
-        $requestData = array('headers' => $this->getApiHeaders(), 'body' => wp_json_encode($payload));
+        $requestData = array('headers' => $this->getApiHeaders(), 'body' => wp_json_encode($payload), 'timeout' => $this->timeout);
         $response = wp_remote_post(esc_url_raw($api_url), $requestData);
 
 
