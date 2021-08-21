@@ -46,7 +46,7 @@ class CardNetWooGateway extends \WC_Payment_Gateway
         // Actions
         add_action('woocommerce_update_options_payment_gateways_' . $this->id, array($this, 'process_admin_options'));
         add_action('woocommerce_thankyou_' . $this->id, array($this, 'thankyou_page'));
-        add_filter('woocommerce_payment_complete_order_status', array($this, 'change_payment_complete_order_status'), 10, 3);
+        //add_filter('woocommerce_payment_complete_order_status', array($this, 'change_payment_complete_order_status'), 10, 3);
 
         // We need custom JavaScript to obtain a token
         //add_action( 'wp_enqueue_scripts', array( $this, 'payment_scripts' ) );
@@ -218,23 +218,6 @@ class CardNetWooGateway extends \WC_Payment_Gateway
             'result'    => 'success',
             'redirect'  => $this->get_return_url($order)
         );
-    }
-
-    /**
-     * Change payment complete order status to completed for COD orders.
-     *
-     * @since  3.1.0
-     * @param  string         $status Current order status.
-     * @param  int            $order_id Order ID.
-     * @param  WC_Order|false $order Order object.
-     * @return string
-     */
-    public function change_payment_complete_order_status($status, $order_id = 0, $order = false)
-    {
-        if ($order && 'cod' === $order->get_payment_method()) {
-            $status = 'completed';
-        }
-        return $status;
     }
 
 
