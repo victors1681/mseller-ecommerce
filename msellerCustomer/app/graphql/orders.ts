@@ -120,3 +120,16 @@ export const CREATE_ORDER = gql`
     }
   }
 `;
+
+export const CHECKOUT = gql`
+  ${ORDER_FRAGMENT}
+  mutation Checkout($input: CheckoutInput!) {
+    checkout(input: $input) {
+      order {
+        ...orderFields
+      }
+      redirect
+      result
+    }
+  }
+`;

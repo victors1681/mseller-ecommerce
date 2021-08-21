@@ -13,7 +13,7 @@ import {
   CheckBox,
   Spinner,
 } from '@ui-kitten/components';
-import {useCart, useCustomer, useOrders, CreateOrderResponse} from 'app/hooks';
+import {CheckoutResponse, useCart, useCustomer, useOrders} from 'app/hooks';
 import * as GraphQlTypes from 'app/generated/graphql';
 import {useNavigation} from '@react-navigation/core';
 import {PaymentGateway} from './extra/PaymentsGateway';
@@ -59,30 +59,8 @@ const usePlaceOrder = () => {
       return;
     }
 
-    const getItems = (): GraphQlTypes.Maybe<
-      GraphQlTypes.Maybe<GraphQlTypes.LineItemInput>[]
-    > => {
-      return products?.map(p => ({
-        name: p?.product?.node?.name,
-        productId: p?.product?.node?.databaseId,
-        quantity: p?.quantity,
-        subtotal: p?.subtotal,
-        total: p?.total,
-      })) as GraphQlTypes.Maybe<
-        GraphQlTypes.Maybe<GraphQlTypes.LineItemInput>[]
-      >;
-    };
-
-    const getCodes = () =>
-      cart?.appliedCoupons?.length
-        ? cart?.appliedCoupons?.map(c => c?.code || '')
-        : [];
-
     const response = await createOrder({
-      customerId: customer.databaseId,
-      coupons: getCodes(),
       paymentMethod: payment?.id,
-      paymentMethodTitle: payment?.title,
       shipping: {
         address1: customer.shipping?.address1,
         address2: customer.shipping?.address2,
@@ -94,12 +72,11 @@ const usePlaceOrder = () => {
         phone: customer.shipping?.phone,
         state: customer.shipping?.state,
       },
-      lineItems: getItems(),
       customerNote,
     });
 
     interface ResponseInterface {
-      data: CreateOrderResponse;
+      data: CheckoutResponse;
     }
 
     const isCreated = (arg: any): arg is ResponseInterface => {
@@ -112,7 +89,7 @@ const usePlaceOrder = () => {
     if (isCreated(response)) {
       await clearCart();
       setSubmitting(false);
-      gotoCongrats(response.data?.createOrder?.order?.databaseId);
+      gotoCongrats(response.data?.checkout?.order?.databaseId);
     } else if (isError(response)) {
       //error
       setSubmitting(false);
@@ -123,10 +100,7 @@ const usePlaceOrder = () => {
     customer,
     createOrder,
     payment?.id,
-    payment?.title,
     customerNote,
-    products,
-    cart?.appliedCoupons,
     clearCart,
     gotoCongrats,
   ]);

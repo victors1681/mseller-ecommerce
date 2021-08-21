@@ -1,9 +1,9 @@
-import {GET_ORDERS, CREATE_ORDER, GET_ORDER} from 'app/graphql';
+import {GET_ORDERS, GET_ORDER, CHECKOUT} from 'app/graphql';
 import {
   RootQueryToOrderConnection,
-  CreateOrderInput,
   Order,
-  CreateOrderPayload,
+  CheckoutPayload,
+  CheckoutInput,
 } from 'app/generated/graphql';
 import {
   ApolloError,
@@ -23,12 +23,12 @@ export interface OrdersResponseData {
 interface OrderResponseData {
   order: Order;
 }
-export interface CreateOrderResponse {
-  createOrder: CreateOrderPayload;
+export interface CheckoutResponse {
+  checkout: CheckoutPayload;
 }
 
-interface CreateOrderArgs {
-  input: CreateOrderInput;
+interface CheckoutArgs {
+  input: CheckoutInput;
 }
 
 export interface OrdersStore {
@@ -40,13 +40,13 @@ export interface OrdersStore {
   isLoading: boolean;
   error: ApolloError | undefined;
   createOrder: (
-    input: CreateOrderInput,
+    input: CheckoutInput,
   ) => Promise<
-    | FetchResult<CreateOrderResponse, Record<string, any>, Record<string, any>>
+    | FetchResult<CheckoutResponse, Record<string, any>, Record<string, any>>
     | ApolloError
     | undefined
   >;
-  createOrderInfo: MutationResult<CreateOrderResponse>;
+  createOrderInfo: MutationResult<CheckoutResponse>;
   getOrder: (id: string) => Promise<void>;
   orderInfo: LazyQueryResult<OrderResponseData, OperationVariables>;
 }
@@ -79,11 +79,11 @@ export const useOrders = (): OrdersStore => {
   };
 
   const [newOrder, createOrderInfo] = useMutation<
-    CreateOrderResponse,
-    CreateOrderArgs
-  >(CREATE_ORDER);
+    CheckoutResponse,
+    CheckoutArgs
+  >(CHECKOUT);
 
-  const createOrder = async (input: CreateOrderInput) => {
+  const createOrder = async (input: CheckoutInput) => {
     try {
       return await newOrder({
         variables: {

@@ -1,15 +1,9 @@
 import React from 'react';
-import {
-  GET_CARDNET_CUSTOMER,
-  CREATE_ORDER,
-  DELETE_CREDIT_CARD,
-} from 'app/graphql';
+import {GET_CARDNET_CUSTOMER, DELETE_CREDIT_CARD} from 'app/graphql';
 import {
   CardNetCustomer,
   RootQueryCardnetCustomerArgs,
-  CreateOrderInput,
   Order,
-  CreateOrderPayload,
   DeleteCardnetPaymentProfilePayload,
   DeleteCardnetPaymentProfileInput,
 } from 'app/generated/graphql';
@@ -38,13 +32,6 @@ export interface DeleteCardnetPaymentProfileResponse {
 export interface DeleteCardnetPaymentProfileArg {
   input: DeleteCardnetPaymentProfileInput;
 }
-export interface CreateOrderResponse {
-  createOrder: CreateOrderPayload;
-}
-
-interface CreateOrderArgs {
-  input: CreateOrderInput;
-}
 
 export interface CreditCard {
   getCardNetCustomer: (
@@ -68,14 +55,6 @@ export interface CreditCard {
     | undefined
   >;
   removeCreditCardInfo: MutationResult<DeleteCardnetPaymentProfileResponse>;
-  createOrder: (
-    input: CreateOrderInput,
-  ) => Promise<
-    | FetchResult<CreateOrderResponse, Record<string, any>, Record<string, any>>
-    | ApolloError
-    | undefined
-  >;
-  createOrderInfo: MutationResult<CreateOrderResponse>;
 }
 
 /**
@@ -144,24 +123,6 @@ export const useCreditCard = (): CreditCard => {
     }
   };
 
-  const [newOrder, createOrderInfo] = useMutation<
-    CreateOrderResponse,
-    CreateOrderArgs
-  >(CREATE_ORDER);
-
-  const createOrder = async (input: CreateOrderInput) => {
-    try {
-      return await newOrder({
-        variables: {
-          input,
-        },
-      });
-    } catch (err) {
-      console.error(err);
-      return error;
-    }
-  };
-
   return {
     called,
     getCardNetCustomer,
@@ -172,7 +133,5 @@ export const useCreditCard = (): CreditCard => {
     },
     removeCreditCard,
     removeCreditCardInfo,
-    createOrder,
-    createOrderInfo,
   };
 };
