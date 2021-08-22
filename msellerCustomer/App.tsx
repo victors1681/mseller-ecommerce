@@ -9,7 +9,6 @@ import {ApolloProvider} from '@apollo/client';
 import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
 import {client} from './app/services/apolloClient';
 import 'moment/locale/es';
-
 import mapping from './custom-mapping.json';
 
 const App: React.FC = () => (

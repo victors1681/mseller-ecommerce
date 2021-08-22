@@ -12,6 +12,7 @@ import {ScreenLinks} from 'app/navigation/ScreenLinks';
 import FRMessaging from '../services/FRMessaging';
 import CreditCardScreen from 'app/screens/CreditCardScreen';
 import AboutUsScreen from 'app/screens/AboutUsScreen';
+import Toast from 'react-native-toast-message';
 const RootStack = createStackNavigator();
 
 export const AppNavigator = () => {
@@ -62,6 +63,7 @@ export const AppNavigator = () => {
           </CartProvider>
         </ProductProvider>
       </CustomerProvider>
+      <Toast ref={ref => Toast.setRef(ref)} />
     </NavigationContainer>
   );
 };

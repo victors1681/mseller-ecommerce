@@ -33,6 +33,7 @@ import {
   getDefaultCreditCard,
   saveDefaultCreditCard,
 } from 'app/utils/creditCardTokenHandler';
+import Toast from 'react-native-toast-message';
 
 export const Payments = (): React.ReactElement => {
   const navigation = useNavigation();
@@ -100,7 +101,14 @@ export const Payments = (): React.ReactElement => {
   ) => {
     const paymentProfileId = cardInfo?.paymentProfileId;
     if (paymentProfileId) {
-      await removeCreditCard(paymentProfileId);
+      const response = await removeCreditCard(paymentProfileId);
+
+      if (response) {
+        Toast.show({
+          type: 'success',
+          text1: 'Tarjeta de Crédito Elimidana',
+        });
+      }
     }
   };
 
