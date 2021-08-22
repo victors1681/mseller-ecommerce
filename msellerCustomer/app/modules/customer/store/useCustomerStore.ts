@@ -9,10 +9,12 @@ import {
   Customer,
   LoginInput,
   LoginPayload,
+  Maybe,
   RefreshJwtAuthTokenInput,
   RefreshJwtAuthTokenPayload,
   RegisterCustomerInput,
   RegisterCustomerPayload,
+  Scalars,
   UpdateCustomerInput,
   UpdateCustomerPayload,
   UpdateItemQuantitiesPayload,
@@ -107,6 +109,10 @@ export interface CustomerStore {
   >;
   updateCustomerInfo: MutationResult<UpdateCustomerData>;
   performLogout: () => Promise<void>;
+  creditCardSelected: Maybe<Scalars['String']> | undefined;
+  setCreditCardSelection: React.Dispatch<
+    React.SetStateAction<Maybe<Scalars['String']> | undefined>
+  >;
 }
 
 /**
@@ -118,6 +124,9 @@ export const useCustomerStore = (): CustomerStore => {
   const [customer, setCustomer] = React.useState<Customer | undefined>(
     {} as Customer,
   );
+  const [creditCardSelected, setCreditCardSelection] = React.useState<
+    Maybe<Scalars['String']> | undefined
+  >();
   const [isCustomerLogged, setCustomerStatus] = React.useState(false);
 
   const [
@@ -285,5 +294,7 @@ export const useCustomerStore = (): CustomerStore => {
     updateCustomer: performUpdate,
     updateCustomerInfo,
     performLogout,
+    creditCardSelected,
+    setCreditCardSelection,
   };
 };

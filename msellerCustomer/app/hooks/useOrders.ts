@@ -92,7 +92,7 @@ export const useOrders = (): OrdersStore => {
       });
     } catch (err) {
       console.error(err);
-      return error;
+      return err;
     }
   };
 

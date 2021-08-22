@@ -54,10 +54,13 @@ const usePlaceOrder = () => {
 
   const handleOrderCreation = React.useCallback(async () => {
     setSubmitting(true);
-    if (!customer) {
+    if (!customer || !payment) {
       console.error('Customer not found.. is not logged');
+      setSubmitting(false);
       return;
     }
+
+    console.log('payment', payment);
 
     const response = await createOrder({
       paymentMethod: payment?.id,
@@ -96,16 +99,10 @@ const usePlaceOrder = () => {
       Alert.alert('Error al crear la orden', response.message);
       console.error(response.message);
     }
-  }, [
-    customer,
-    createOrder,
-    payment?.id,
-    customerNote,
-    clearCart,
-    gotoCongrats,
-  ]);
+  }, [customer, payment, createOrder, customerNote, clearCart, gotoCongrats]);
 
   return {
+    payment,
     clearCart,
     gotoHome,
     handleOrderCreation,
@@ -133,6 +130,7 @@ export default (): React.ReactElement => {
 
   const {
     cart,
+    payment,
     setPayment,
     products,
     termChecked,
@@ -206,7 +204,10 @@ export default (): React.ReactElement => {
           <Text category="s1">{`${cart?.total || '-'}`}</Text>
         </Layout>
       </Layout>
-      <PaymentGateway onSelect={handlePaymentSelection} />
+      <PaymentGateway
+        onSelect={handlePaymentSelection}
+        paymentSelected={payment}
+      />
       <AdditionalData />
     </Layout>
   );

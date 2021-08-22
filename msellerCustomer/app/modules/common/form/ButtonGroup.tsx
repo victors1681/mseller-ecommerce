@@ -32,6 +32,7 @@ export const CustomButtonGroup = ({options, ...props}: Props) => {
         options.map(o => {
           return (
             <Button
+              key={o.value}
               status="primary"
               disabled={props.disabled}
               style={[
