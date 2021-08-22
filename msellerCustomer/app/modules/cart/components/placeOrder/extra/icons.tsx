@@ -22,6 +22,6 @@ export const CreditCardWhiteIcon = (style: any): IconElement => (
   <Icon {...style} name="credit-card" />
 );
 
-export const Check = (style: any): IconElement => (
+export const CheckIcon = (style: any): IconElement => (
   <Icon {...style} fill="#8F9BB3" name="checkmark-circle-outline" />
 );

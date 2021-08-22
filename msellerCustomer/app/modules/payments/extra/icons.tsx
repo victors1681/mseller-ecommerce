@@ -22,3 +22,7 @@ export const DeleteIcon = (props: any) => <Icon {...props} name="trash-2" />;
 export const CheckIcon = (props: any) => (
   <Icon {...props} name="checkmark-circle-2" />
 );
+
+export const CheckDefaultIcon = (style: any): IconElement => (
+  <Icon {...style} fill="white" name="checkmark-circle-outline" />
+);

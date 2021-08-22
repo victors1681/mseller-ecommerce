@@ -9,7 +9,7 @@ import {
 import * as Graphql from 'app/generated/graphql';
 import {useCreditCard} from 'app/hooks';
 import {Error, Loading} from 'app/modules/common';
-import {CreditCardIcon, Check, CreditCardWhiteIcon} from './icons';
+import {CreditCardIcon, CheckIcon, CreditCardWhiteIcon} from './icons';
 import React from 'react';
 import {expirationCardFormat} from 'app/utils';
 import {View} from 'react-native';
@@ -102,7 +102,9 @@ export const CreditCardList: React.FC = () => {
               </View>
             </View>
             <View style={styles.cardCheckIconContainer}>
-              {selectedToken === c?.token && <Check style={styles.checkIcon} />}
+              {selectedToken === c?.token && (
+                <CheckIcon style={styles.checkIcon} />
+              )}
             </View>
           </View>
         </Card>

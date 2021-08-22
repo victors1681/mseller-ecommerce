@@ -1,5 +1,11 @@
 import React from 'react';
-import {Alert, Image, ListRenderItemInfo, View} from 'react-native';
+import {
+  Alert,
+  Image,
+  ListRenderItemInfo,
+  TouchableHighlight,
+  View,
+} from 'react-native';
 import {
   Button,
   Card,
@@ -16,16 +22,24 @@ import {
   getLogo,
   DeleteIcon,
   CheckIcon,
+  CheckDefaultIcon,
 } from './extra/icons';
 import {useFocusEffect, useNavigation} from '@react-navigation/core';
 import {ScreenLinks} from 'app/navigation/ScreenLinks';
 import {useCreditCard} from 'app/hooks';
 import {Loading} from '../common';
 import {Maybe, PaymentProfiles} from 'app/generated/graphql';
+import {
+  getDefaultCreditCard,
+  saveDefaultCreditCard,
+} from 'app/utils/creditCardTokenHandler';
 
 export const Payments = (): React.ReactElement => {
   const navigation = useNavigation();
   const styles = useStyleSheet(themedStyles);
+  const [creditCardSelected, setCreditCardSelection] = React.useState<
+    Maybe<string> | undefined
+  >();
 
   const [menuVisible, setMenuVisible] = React.useState<{
     [key: number]: boolean;
@@ -45,6 +59,29 @@ export const Payments = (): React.ReactElement => {
   } = useCreditCard();
 
   const creditCards = cardNetCustomerInfo?.data?.paymentProfiles;
+
+  const selectDefaultCreditCard = React.useCallback(async () => {
+    if (!creditCardSelected && creditCards && creditCards.length) {
+      //Try to get the default card saved if not select the first one
+
+      const token = await getDefaultCreditCard();
+      if (token) {
+        const tokenFound = creditCards.find(c => c?.token === token);
+        if (tokenFound) {
+          setCreditCardSelection(tokenFound.token);
+        }
+      } else {
+        const firstCreditCard = creditCards[0];
+        if (firstCreditCard) {
+          setCreditCardSelection(firstCreditCard.token);
+        }
+      }
+    }
+  }, [creditCardSelected, creditCards, setCreditCardSelection]);
+
+  React.useEffect(() => {
+    selectDefaultCreditCard();
+  }, [selectDefaultCreditCard, creditCards?.length]);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -105,52 +142,82 @@ export const Payments = (): React.ReactElement => {
     />
   );
 
+  const handleSelection = (token: Maybe<string> | undefined) => {
+    setCreditCardSelection(token);
+    saveDefaultCreditCard(token);
+  };
+
+  const selectedCard = React.useCallback(
+    () => creditCards?.find(c => c?.token === creditCardSelected),
+    [creditCardSelected, creditCards],
+  );
+
   const renderCardItem = (
     info: ListRenderItemInfo<Maybe<Maybe<PaymentProfiles>>>,
   ): React.ReactElement => {
+    const selectedToken = selectedCard()?.token;
     const profileId = info.item?.paymentProfileId || 0;
     return (
-      <View style={info.item?.enabled ? styles.cardItem : styles.disabledCard}>
-        <View style={styles.cardLogoContainer}>
-          <Image
-            style={styles.cardLogo as any}
-            source={getLogo(info?.item?.brand)}
-          />
-          <OverflowMenu
-            anchor={() => renderToggleButton(info.item?.paymentProfileId)}
-            visible={menuVisible[profileId] || false}
-            onBackdropPress={() => hideMenu(info.item?.paymentProfileId)}>
-            <MenuItem accessoryLeft={CheckIcon} title="Activar" />
-            <MenuItem
-              accessoryLeft={DeleteIcon}
-              title="Eliminar"
-              onPress={() => {
-                createTwoButtonAlert(info.item);
-                hideMenu(info.item?.paymentProfileId);
-              }}
+      <TouchableHighlight
+        onPress={() => handleSelection(info.item?.token)}
+        underlayColor="white">
+        <View
+          style={[
+            info.item?.enabled ? styles.cardItem : styles.disabledCard,
+            selectedToken !== info.item?.token && styles.opacity,
+          ]}>
+          <View style={styles.cardLogoContainer}>
+            <Image
+              style={styles.cardLogo as any}
+              source={getLogo(info?.item?.brand)}
             />
-          </OverflowMenu>
+            <View style={styles.cardCheckIconContainer}>
+              {selectedToken === info.item?.token && (
+                <CheckDefaultIcon style={styles.checkIcon} />
+              )}
+            </View>
+            <OverflowMenu
+              anchor={() => renderToggleButton(info.item?.paymentProfileId)}
+              visible={menuVisible[profileId] || false}
+              onBackdropPress={() => hideMenu(info.item?.paymentProfileId)}>
+              <MenuItem accessoryLeft={CheckIcon} title="Activar" />
+              <MenuItem
+                accessoryLeft={DeleteIcon}
+                title="Eliminar"
+                onPress={() => {
+                  createTwoButtonAlert(info.item);
+                  hideMenu(info.item?.paymentProfileId);
+                }}
+              />
+            </OverflowMenu>
+          </View>
+          <Text style={styles.cardNumber} category="h6" status="control">
+            {`**** **** **** ${info.item?.last4}`}
+          </Text>
+          <View style={styles.cardNameContainer}>
+            <Text
+              style={styles.cardDetailsLabel}
+              category="p2"
+              status="control">
+              Titular
+            </Text>
+            <Text category="s1" status="control">
+              {info.item?.cardOwner || ''}
+            </Text>
+          </View>
+          <View style={styles.cardExpirationContainer}>
+            <Text
+              style={styles.cardDetailsLabel}
+              category="p2"
+              status="control">
+              Fecha de expiración
+            </Text>
+            <Text category="s1" status="control">
+              {info.item?.expiration || ''}
+            </Text>
+          </View>
         </View>
-        <Text style={styles.cardNumber} category="h6" status="control">
-          {`**** **** **** ${info.item?.last4}`}
-        </Text>
-        <View style={styles.cardNameContainer}>
-          <Text style={styles.cardDetailsLabel} category="p2" status="control">
-            Titular
-          </Text>
-          <Text category="s1" status="control">
-            {info.item?.cardOwner || ''}
-          </Text>
-        </View>
-        <View style={styles.cardExpirationContainer}>
-          <Text style={styles.cardDetailsLabel} category="p2" status="control">
-            Fecha de expiración
-          </Text>
-          <Text category="s1" status="control">
-            {info.item?.expiration || ''}
-          </Text>
-        </View>
-      </View>
+      </TouchableHighlight>
     );
   };
 
@@ -169,6 +236,9 @@ export const Payments = (): React.ReactElement => {
 };
 
 const themedStyles = StyleService.create({
+  opacity: {
+    opacity: 0.5,
+  },
   container: {
     flex: 1,
   },
@@ -252,6 +322,17 @@ const themedStyles = StyleService.create({
     bottom: 0,
     paddingHorizontal: 16,
     paddingVertical: 24,
+  },
+  cardCheckIconContainer: {
+    flex: 1,
+    wight: '100%',
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+  },
+  checkIcon: {
+    marginRight: 50,
+    width: 25,
+    height: 25,
   },
 });
 
