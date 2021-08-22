@@ -19,7 +19,7 @@ import {useNavigation} from '@react-navigation/core';
 import {PaymentGateway} from './extra/PaymentsGateway';
 import {ScreenLinks} from 'app/navigation/ScreenLinks';
 import {ApolloError} from '@apollo/client';
-
+import {getDefaultCreditCard} from 'app/utils/creditCardTokenHandler';
 /**
  * Custom Hook
  * @returns
@@ -60,10 +60,17 @@ const usePlaceOrder = () => {
       return;
     }
 
-    console.log('payment', payment);
+    const TrxToken = await getDefaultCreditCard();
+    if (!TrxToken) {
+      console.error('Error al optener la tarjeta guardada');
+      Alert.alert('Error al optener la tarjeta guardada');
+      setSubmitting(false);
+      return;
+    }
 
     const response = await createOrder({
       paymentMethod: payment?.id,
+      metaData: [{key: 'TrxToken', value: TrxToken}],
       shipping: {
         address1: customer.shipping?.address1,
         address2: customer.shipping?.address2,

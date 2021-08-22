@@ -17,6 +17,11 @@ export const PlusIcon = (style: ImageStyle): IconElement => (
 export const CreditCardIcon = (style: any): IconElement => (
   <Icon {...style} fill="#8F9BB3" name="credit-card" />
 );
+
+export const CreditCardWhiteIcon = (style: any): IconElement => (
+  <Icon {...style} name="credit-card" />
+);
+
 export const Check = (style: any): IconElement => (
   <Icon {...style} fill="#8F9BB3" name="checkmark-circle-outline" />
 );

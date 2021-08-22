@@ -9,29 +9,22 @@ import {
 import * as Graphql from 'app/generated/graphql';
 import {useCreditCard} from 'app/hooks';
 import {Error, Loading} from 'app/modules/common';
-import {CreditCardIcon, Check} from './icons';
+import {CreditCardIcon, Check, CreditCardWhiteIcon} from './icons';
 import React from 'react';
 import {expirationCardFormat} from 'app/utils';
 import {View} from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-const saveDefaultCreditCard = async (
-  value: Graphql.Maybe<string> | undefined,
-) => {
-  if (value) {
-    await AsyncStorage.setItem('TrxToken', value);
-  }
-};
-
-const getDefaultCreditCard = async () => {
-  const toke = await AsyncStorage.getItem('TrxToken');
-  return toke;
-};
+import {
+  getDefaultCreditCard,
+  saveDefaultCreditCard,
+} from 'app/utils/creditCardTokenHandler';
+import {useFocusEffect, useNavigation} from '@react-navigation/core';
+import {ScreenLinks} from 'app/navigation/ScreenLinks';
 export const CreditCardList: React.FC = () => {
   //Store the creditCard token in the customer context api
   const [creditCardSelected, setCreditCardSelection] = React.useState<
     Graphql.Maybe<string> | undefined
   >();
+  const navigation = useNavigation();
 
   const styles = useStyleSheet(themedStyle);
   const {
@@ -58,22 +51,29 @@ export const CreditCardList: React.FC = () => {
     }
   }, [creditCardSelected, data?.paymentProfiles, setCreditCardSelection]);
   /**
-   * Select the first creditcard token is there any
+   * Select the first creditCard token is there any
+   * load if the list of profile changes
    */
+
   React.useEffect(() => {
     selectDefaultCreditCard();
-  }, [
-    creditCardSelected,
-    data?.paymentProfiles,
-    data?.paymentProfiles?.length,
-    selectDefaultCreditCard,
-    setCreditCardSelection,
-  ]);
+  }, [selectDefaultCreditCard, data?.paymentProfiles?.length]);
+
+  //After add a new card or after load for the first time get the list of credit cards
+
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log('LOADING ON FOCUS');
+      getCardNetCustomer();
+    }, []),
+  );
 
   const handleSelection = (token: Graphql.Maybe<string> | undefined) => {
     setCreditCardSelection(token);
     saveDefaultCreditCard(token);
   };
+
+  const addNewCard = () => navigation.navigate(ScreenLinks.CREDIT_CARD);
 
   const selectedCard = React.useCallback(
     () => data?.paymentProfiles?.find(c => c?.token === creditCardSelected),
@@ -109,17 +109,17 @@ export const CreditCardList: React.FC = () => {
       );
     });
 
-  React.useEffect(() => {
-    console.log('LOADING PAYMENTTTTTTSS');
-    getCardNetCustomer();
-  }, []);
-
   return (
     <Layout style={styles.layout}>
       {error && <Error error={error} />}
       {isLoading && <Loading />}
       {CreditCards()}
-      <Button status="success">Agregar Tarjeta</Button>
+      <Button
+        status="success"
+        onPress={addNewCard}
+        accessoryLeft={CreditCardWhiteIcon}>
+        Agregar Tarjeta
+      </Button>
     </Layout>
   );
 };
