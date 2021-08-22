@@ -1,11 +1,16 @@
 import React from 'react';
-import {GET_CARDNET_CUSTOMER, DELETE_CREDIT_CARD} from 'app/graphql';
+import {
+  GET_CARDNET_CUSTOMER,
+  DELETE_CREDIT_CARD,
+  ACTIVATE_CREDIT_CARD,
+} from 'app/graphql';
 import {
   CardNetCustomer,
   RootQueryCardnetCustomerArgs,
-  Order,
   DeleteCardnetPaymentProfilePayload,
   DeleteCardnetPaymentProfileInput,
+  ActivateCardnetPaymentPayload,
+  ActivateCardnetPaymentInput,
 } from 'app/generated/graphql';
 import {
   ApolloError,
@@ -16,13 +21,10 @@ import {
   useMutation,
 } from '@apollo/client';
 import {Alert} from 'react-native';
+import Toast from 'react-native-toast-message';
 
 export interface CardNetCustomerData {
   cardnetCustomer: CardNetCustomer;
-}
-
-interface OrderResponseData {
-  order: Order;
 }
 
 export interface DeleteCardnetPaymentProfileResponse {
@@ -33,6 +35,13 @@ export interface DeleteCardnetPaymentProfileArg {
   input: DeleteCardnetPaymentProfileInput;
 }
 
+export interface CardNetActivatePaymentData {
+  activateCardnetPayment: ActivateCardnetPaymentPayload;
+}
+
+export interface CardNetActivatePaymentArg {
+  input: ActivateCardnetPaymentInput;
+}
 export interface CreditCard {
   getCardNetCustomer: (
     options?: QueryLazyOptions<RootQueryCardnetCustomerArgs> | undefined,
@@ -55,6 +64,8 @@ export interface CreditCard {
     | undefined
   >;
   removeCreditCardInfo: MutationResult<DeleteCardnetPaymentProfileResponse>;
+  activateCreditCard: (input: ActivateCardnetPaymentInput) => Promise<any>;
+  activationInfo: MutationResult<CardNetActivatePaymentData>;
 }
 
 /**
@@ -115,10 +126,49 @@ export const useCreditCard = (): CreditCard => {
         setCustomerData(
           response.data.deleteCardnetPaymentProfile.customer as CardNetCustomer,
         );
+        Toast.show({
+          type: 'success',
+          text1: 'Tarjeta Eliminada!',
+        });
       }
     } catch (err) {
       console.error(err);
-      Alert.alert(JSON.stringify(err));
+      Toast.show({
+        type: 'error',
+        text1: err?.message,
+      });
+      return err;
+    }
+  };
+
+  const [enableCarnetCreditCard, activationInfo] = useMutation<
+    CardNetActivatePaymentData,
+    CardNetActivatePaymentArg
+  >(ACTIVATE_CREDIT_CARD);
+
+  const activateCreditCard = async (input: ActivateCardnetPaymentInput) => {
+    try {
+      const response = await enableCarnetCreditCard({
+        variables: {
+          input,
+        },
+      });
+      if (response.data?.activateCardnetPayment) {
+        //Updating customer state
+        setCustomerData(
+          response.data.activateCardnetPayment.customer as CardNetCustomer,
+        );
+        Toast.show({
+          type: 'success',
+          text1: 'Tarjeta activada!',
+        });
+      }
+    } catch (err) {
+      console.error(err);
+      Toast.show({
+        type: 'error',
+        text1: err?.message,
+      });
       return err;
     }
   };
@@ -133,5 +183,7 @@ export const useCreditCard = (): CreditCard => {
     },
     removeCreditCard,
     removeCreditCardInfo,
+    activateCreditCard,
+    activationInfo,
   };
 };

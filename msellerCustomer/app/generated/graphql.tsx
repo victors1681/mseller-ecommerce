@@ -15,9 +15,9 @@ export type Scalars = {
 /** Input for the activateCardnetPayment mutation */
 export type ActivateCardnetPaymentInput = {
   /** Código de activación emitido por el banco emisor de la tarjeta */
-  activationCode: Scalars['Int'];
+  activationCode: Scalars['String'];
   /** Token de la tarjeta a activar */
-  token: Scalars['Int'];
+  token: Scalars['String'];
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   /** Only admin can use this, if not it will use the current CustomerId */
@@ -27,58 +27,9 @@ export type ActivateCardnetPaymentInput = {
 /** The payload for the activateCardnetPayment mutation */
 export type ActivateCardnetPaymentPayload = {
   __typename?: 'ActivateCardnetPaymentPayload';
-  /** Lista de datos de tipo “Clave:Valor” para almacenar información extra. */
-  additionalData?: Maybe<Scalars['String']>;
-  /** BillingAddress */
-  billingAddress?: Maybe<Scalars['String']>;
-  /** URL de captura de datos de tarjeta (es la URL que se debe abrir en un iframe para iniciar el proceso de captura de datos sensibles). Solo es válida para Customers de tipo “Commerce”. */
-  captureURL?: Maybe<Scalars['String']>;
-  /**
-   * Identificador del cliente en el comercio. Este valor es generado
-   *                 y utilizado internamente por el comercio para identificar al cliente dentro de la plataforma.
-   */
-  commerceCustomerId?: Maybe<Scalars['String']>;
-  /**
-   * Fecha y hora del momento de la creación del cliente.
-   *               Este campo está presente en la respuesta a consultas.
-   *               No se incluye o valida en la creación o actualizaciones del objeto.
-   */
-  created?: Maybe<Scalars['String']>;
-  /** Identificador del cliente. */
-  customerId?: Maybe<Scalars['Int']>;
-  /** Documento del cliente */
-  docNumber?: Maybe<Scalars['String']>;
-  /** Tipo de documento del cliente */
-  documentTypeId?: Maybe<Scalars['Int']>;
-  /** Email del cliente */
-  email?: Maybe<Scalars['String']>;
-  /** Customer activated */
-  enabled?: Maybe<Scalars['Boolean']>;
-  /** Nombre del cliente */
-  firstName?: Maybe<Scalars['String']>;
-  /** Apellido del cliente. */
-  lastName?: Maybe<Scalars['String']>;
-  /**
-   * Determina si el usuario fue registrado por el comercio, a través de Cardnet o anónimo.
-   *               Valores posibles: “Our”, “Commerce”, “Anonymous”.
-   *               Este campo está presente en la respuesta a consultas.
-   *               No se incluye o valida en la creación o actualizaciones del objeto.
-   */
-  owner?: Maybe<Scalars['String']>;
-  /** Lista de objetos PaymentProfile con información de los medios de pago registrados por el Customer. */
-  paymentProfiles?: Maybe<Array<Maybe<PaymentProfiles>>>;
-  /** Teléfono de contacto del cliente. */
-  phoneNumber?: Maybe<Scalars['String']>;
-  /** Reservado */
-  plans?: Maybe<Scalars['String']>;
-  /** ShippingAddress */
-  shippingAddress?: Maybe<Scalars['String']>;
-  /** URL donde se puede acceder a la información del Cliente (ej. /v1/customer/{customer-id}). */
-  uRL?: Maybe<Scalars['String']>;
-  /** Identificador único de la compra. Este valor opcional permite identificar una compra única y evitar la duplicación de transacciones en caso de errores de comunicación (ver más en Conceptos / Identificador único). */
-  uniqueID?: Maybe<Scalars['String']>;
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
+  customer?: Maybe<CardNetCustomer>;
 };
 
 /** Input for the addCardnetCustomer mutation */
@@ -267,6 +218,14 @@ export type ApplyCouponPayload = {
   cart?: Maybe<Cart>;
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
+};
+
+/** Attribute object */
+export type Attribute = {
+  /** Name of attribute */
+  name?: Maybe<Scalars['String']>;
+  /** Selected value of attribute */
+  value?: Maybe<Scalars['String']>;
 };
 
 /** Avatars are profile images for users. WordPress by default uses the Gravatar service to host and fetch avatars from. */
@@ -656,8 +615,10 @@ export type CartItemQuantityInput = {
 /** Connection between the CartItem type and the Product type */
 export type CartItemToProductConnectionEdge = {
   __typename?: 'CartItemToProductConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<Product>;
+  /** Simple variation attribute data */
+  simpleVariations?: Maybe<Array<Maybe<SimpleAttribute>>>;
 };
 
 /** Connection between the CartItem type and the ProductVariation type */
@@ -665,7 +626,7 @@ export type CartItemToProductVariationConnectionEdge = {
   __typename?: 'CartItemToProductVariationConnectionEdge';
   /** Attributes of the variation. */
   attributes?: Maybe<Array<Maybe<VariationAttribute>>>;
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<ProductVariation>;
 };
 
@@ -721,7 +682,7 @@ export enum CatalogVisibilityEnum {
 }
 
 /** The category type */
-export type Category = Node & TermNode & DatabaseIdentifier & UniformResourceIdentifiable & HierarchicalTermNode & MenuItemLinkable & {
+export type Category = Node & TermNode & UniformResourceIdentifiable & DatabaseIdentifier & HierarchicalTermNode & MenuItemLinkable & {
   __typename?: 'Category';
   /** The ancestors of the node. Default ordered as lowest (closest to the child) to highest (closest to the root). */
   ancestors?: Maybe<CategoryToAncestorsCategoryConnection>;
@@ -746,8 +707,12 @@ export type Category = Node & TermNode & DatabaseIdentifier & UniformResourceIde
   enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
   /** The unique resource identifier path */
   id: Scalars['ID'];
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
   /** The link to the term */
   link?: Maybe<Scalars['String']>;
   /** The human friendly name of the object. */
@@ -949,6 +914,8 @@ export type CategoryToContentNodeConnectionEdge = {
 
 /** Arguments for filtering the CategoryToContentNodeConnection connection */
 export type CategoryToContentNodeConnectionWhereArgs = {
+  /** The Types of content to filter */
+  contentTypes?: Maybe<Array<Maybe<ContentTypesOfCategoryEnum>>>;
   /** Filter the connection based on dates */
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
@@ -988,7 +955,7 @@ export type CategoryToContentNodeConnectionWhereArgs = {
 /** Connection between the category type and the category type */
 export type CategoryToParentCategoryConnectionEdge = {
   __typename?: 'CategoryToParentCategoryConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<Category>;
 };
 
@@ -1081,7 +1048,7 @@ export type CategoryToPostConnectionWhereArgs = {
 /** Connection between the category type and the Taxonomy type */
 export type CategoryToTaxonomyConnectionEdge = {
   __typename?: 'CategoryToTaxonomyConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<Taxonomy>;
 };
 
@@ -1148,7 +1115,7 @@ export type Comment = Node & DatabaseIdentifier & {
   date?: Maybe<Scalars['String']>;
   /** Date the comment was posted in GMT. This field is equivalent to WP_Comment-&gt;date_gmt and the value matching the &quot;date_gmt&quot; column in SQL. */
   dateGmt?: Maybe<Scalars['String']>;
-  /** The globally unique ID for the object */
+  /** The globally unique identifier for the comment object */
   id: Scalars['ID'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
@@ -1193,15 +1160,15 @@ export type CommentAuthor = Node & Commenter & {
   __typename?: 'CommentAuthor';
   /** Identifies the primary key from the database. */
   databaseId: Scalars['Int'];
-  /** The email address of the author of a comment. */
+  /** The email for the comment author */
   email?: Maybe<Scalars['String']>;
-  /** The globally unique identifier for the comment author. */
+  /** The globally unique identifier for the comment author object */
   id: Scalars['ID'];
-  /** Whether the author information is considered restricted. (not fully public) */
+  /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
-  /** The name of the author of a comment. */
+  /** The name for the comment author. */
   name?: Maybe<Scalars['String']>;
-  /** The url of the author of a comment. */
+  /** The url the comment author. */
   url?: Maybe<Scalars['String']>;
 };
 
@@ -1290,21 +1257,21 @@ export type CommentToCommentConnectionWhereArgs = {
 /** Connection between the Comment type and the Commenter type */
 export type CommentToCommenterConnectionEdge = {
   __typename?: 'CommentToCommenterConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<Commenter>;
 };
 
 /** Connection between the Comment type and the ContentNode type */
 export type CommentToContentNodeConnectionEdge = {
   __typename?: 'CommentToContentNodeConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<ContentNode>;
 };
 
 /** Connection between the Comment type and the Comment type */
 export type CommentToParentCommentConnectionEdge = {
   __typename?: 'CommentToParentCommentConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<Comment>;
 };
 
@@ -1444,12 +1411,16 @@ export type ContentNode = {
   enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
   /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
   guid?: Maybe<Scalars['String']>;
-  /** The globally unique identifier of the node. */
+  /** The unique resource identifier path */
   id: Scalars['ID'];
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
   /** Whether the object is a node in the preview state */
   isPreview?: Maybe<Scalars['Boolean']>;
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
   /** The user that most recently edited the node */
   lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
   /** The permalink of the post */
@@ -1468,7 +1439,7 @@ export type ContentNode = {
   status?: Maybe<Scalars['String']>;
   /** The template assigned to a node of content */
   template?: Maybe<ContentTemplate>;
-  /** URI path for the resource */
+  /** The unique resource identifier path */
   uri?: Maybe<Scalars['String']>;
 };
 
@@ -1503,14 +1474,14 @@ export enum ContentNodeIdTypeEnum {
 /** Connection between the ContentNode type and the ContentType type */
 export type ContentNodeToContentTypeConnectionEdge = {
   __typename?: 'ContentNodeToContentTypeConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<ContentType>;
 };
 
 /** Connection between the ContentNode type and the User type */
 export type ContentNodeToEditLastConnectionEdge = {
   __typename?: 'ContentNodeToEditLastConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<User>;
 };
 
@@ -1519,7 +1490,7 @@ export type ContentNodeToEditLockConnectionEdge = {
   __typename?: 'ContentNodeToEditLockConnectionEdge';
   /** The timestamp for when the node was last edited */
   lockTimestamp?: Maybe<Scalars['String']>;
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<User>;
 };
 
@@ -1595,14 +1566,18 @@ export type ContentType = Node & UniformResourceIdentifiable & {
   hasArchive?: Maybe<Scalars['Boolean']>;
   /** Whether the content type is hierarchical, for example pages. */
   hierarchical?: Maybe<Scalars['Boolean']>;
-  /** The unique resource identifier path */
+  /** The globally unique identifier of the post-type object. */
   id: Scalars['ID'];
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
   /** Whether this page is set to the static front page. */
   isFrontPage: Scalars['Boolean'];
   /** Whether this page is set to the blog posts page. */
   isPostsPage: Scalars['Boolean'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
   /** Display name of the content type. */
   label?: Maybe<Scalars['String']>;
   /** Details about the content type labels. */
@@ -1706,6 +1681,8 @@ export type ContentTypeToContentNodeConnectionEdge = {
 
 /** Arguments for filtering the ContentTypeToContentNodeConnection connection */
 export type ContentTypeToContentNodeConnectionWhereArgs = {
+  /** The Types of content to filter */
+  contentTypes?: Maybe<Array<Maybe<ContentTypeEnum>>>;
   /** Filter the connection based on dates */
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
@@ -1761,6 +1738,70 @@ export type ContentTypeToTaxonomyConnectionEdge = {
   /** The item at the end of the edge */
   node?: Maybe<Taxonomy>;
 };
+
+/** Allowed Content Types of the Category taxonomy. */
+export enum ContentTypesOfCategoryEnum {
+  /** The Type of Content object */
+  Post = 'POST'
+}
+
+/** Allowed Content Types of the PaColor taxonomy. */
+export enum ContentTypesOfPaColorEnum {
+  /** The Type of Content object */
+  Product = 'PRODUCT'
+}
+
+/** Allowed Content Types of the PaSize taxonomy. */
+export enum ContentTypesOfPaSizeEnum {
+  /** The Type of Content object */
+  Product = 'PRODUCT'
+}
+
+/** Allowed Content Types of the PostFormat taxonomy. */
+export enum ContentTypesOfPostFormatEnum {
+  /** The Type of Content object */
+  Post = 'POST'
+}
+
+/** Allowed Content Types of the ProductCategory taxonomy. */
+export enum ContentTypesOfProductCategoryEnum {
+  /** The Type of Content object */
+  Product = 'PRODUCT'
+}
+
+/** Allowed Content Types of the ProductTag taxonomy. */
+export enum ContentTypesOfProductTagEnum {
+  /** The Type of Content object */
+  Product = 'PRODUCT'
+}
+
+/** Allowed Content Types of the ProductType taxonomy. */
+export enum ContentTypesOfProductTypeEnum {
+  /** The Type of Content object */
+  Product = 'PRODUCT'
+}
+
+/** Allowed Content Types of the ShippingClass taxonomy. */
+export enum ContentTypesOfShippingClassEnum {
+  /** The Type of Content object */
+  Product = 'PRODUCT',
+  /** The Type of Content object */
+  ProductVariation = 'PRODUCT_VARIATION'
+}
+
+/** Allowed Content Types of the Tag taxonomy. */
+export enum ContentTypesOfTagEnum {
+  /** The Type of Content object */
+  Post = 'POST'
+}
+
+/** Allowed Content Types of the VisibleProduct taxonomy. */
+export enum ContentTypesOfVisibleProductEnum {
+  /** The Type of Content object */
+  Product = 'PRODUCT',
+  /** The Type of Content object */
+  ProductVariation = 'PRODUCT_VARIATION'
+}
 
 /** Countries enumeration */
 export enum CountriesEnum {
@@ -2042,7 +2083,7 @@ export type Coupon = Node & {
   excludedProducts?: Maybe<CouponToExcludedProductsConnection>;
   /** Does this coupon grant free shipping? */
   freeShipping?: Maybe<Scalars['Boolean']>;
-  /** The globally unique ID for the object */
+  /** The globally unique identifier for the coupon */
   id: Scalars['ID'];
   /** Individual use means this coupon cannot be used in conjunction with other coupons */
   individualUse?: Maybe<Scalars['Boolean']>;
@@ -2128,17 +2169,6 @@ export type CouponUsedByArgs = {
   where?: Maybe<CouponToCustomerConnectionWhereArgs>;
 };
 
-/** Error that occurred when applying a coupon to the cart. */
-export type CouponError = CartError & {
-  __typename?: 'CouponError';
-  /** Coupon code of the coupon the failed to be applied */
-  code: Scalars['String'];
-  /** Reason for error */
-  reasons?: Maybe<Array<Maybe<Scalars['String']>>>;
-  /** Type of error */
-  type: CartErrorType;
-};
-
 /** The Type of Identifier used to fetch a single Coupon. Default is ID. */
 export enum CouponIdTypeEnum {
   /** Coupon code. */
@@ -2208,12 +2238,6 @@ export type CouponToCustomerConnectionWhereArgs = {
   order?: Maybe<OrderEnum>;
   /** Order results by a specific field. */
   orderby?: Maybe<CustomerConnectionOrderbyEnum>;
-  /** Limit result set to resources with a specific role. */
-  role?: Maybe<UserRoleEnum>;
-  /** Limit result set to resources with a specific group of roles. */
-  roleIn?: Maybe<Array<Maybe<UserRoleEnum>>>;
-  /** Limit result set to resources not within a specific group of roles. */
-  roleNotIn?: Maybe<Array<Maybe<UserRoleEnum>>>;
   /** Limit results to those matching a string. */
   search?: Maybe<Scalars['String']>;
 };
@@ -2348,8 +2372,8 @@ export type CouponToExcludedProductsConnectionWhereArgs = {
   shippingClassId?: Maybe<Scalars['Int']>;
   /** Limit result set to products with specific SKU(s). Use commas to separate. */
   sku?: Maybe<Scalars['String']>;
-  /** Limit result set to products with a specific slug. */
-  slug?: Maybe<Scalars['String']>;
+  /** Limit result set to products with specific slugs. */
+  slugIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Limit result set to products assigned a specific status. */
   status?: Maybe<Scalars['String']>;
   /** Limit result set to products in stock or out of stock. */
@@ -2371,7 +2395,7 @@ export type CouponToExcludedProductsConnectionWhereArgs = {
   /** Limit result set to products with a specific tax class. */
   taxClass?: Maybe<TaxClassEnum>;
   /** Limit result set with complex set of taxonomy filters. */
-  taxonomyFilter?: Maybe<Array<Maybe<ProductTaxonomyFilterRelationInput>>>;
+  taxonomyFilter?: Maybe<ProductTaxonomyInput>;
   /** Limit result set to products assigned a specific type. */
   type?: Maybe<ProductTypesEnum>;
   /** Limit result set to products assigned to a group of specific types. */
@@ -2512,8 +2536,8 @@ export type CouponToProductConnectionWhereArgs = {
   shippingClassId?: Maybe<Scalars['Int']>;
   /** Limit result set to products with specific SKU(s). Use commas to separate. */
   sku?: Maybe<Scalars['String']>;
-  /** Limit result set to products with a specific slug. */
-  slug?: Maybe<Scalars['String']>;
+  /** Limit result set to products with specific slugs. */
+  slugIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Limit result set to products assigned a specific status. */
   status?: Maybe<Scalars['String']>;
   /** Limit result set to products in stock or out of stock. */
@@ -2535,7 +2559,7 @@ export type CouponToProductConnectionWhereArgs = {
   /** Limit result set to products with a specific tax class. */
   taxClass?: Maybe<TaxClassEnum>;
   /** Limit result set with complex set of taxonomy filters. */
-  taxonomyFilter?: Maybe<Array<Maybe<ProductTaxonomyFilterRelationInput>>>;
+  taxonomyFilter?: Maybe<ProductTaxonomyInput>;
   /** Limit result set to products assigned a specific type. */
   type?: Maybe<ProductTypesEnum>;
   /** Limit result set to products assigned to a group of specific types. */
@@ -2612,6 +2636,61 @@ export type CreateCommentPayload = {
   comment?: Maybe<Comment>;
   /** Whether the mutation succeeded. If the comment is not approved, the server will not return the comment to a non authenticated user, but a success message can be returned if the create succeeded, and the client can optimistically add the comment to the client cache */
   success?: Maybe<Scalars['Boolean']>;
+};
+
+/** Input for the createCoupon mutation */
+export type CreateCouponInput = {
+  /** The amount of discount. Should always be numeric, even if setting a percentage. */
+  amount?: Maybe<Scalars['Float']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** Coupon code. */
+  code: Scalars['String'];
+  /** The date the coupon expires, in the site's timezone. */
+  dateExpires?: Maybe<Scalars['String']>;
+  /** The date the coupon expires, as GMT. */
+  dateExpiresGmt?: Maybe<Scalars['String']>;
+  /** Coupon description. */
+  description?: Maybe<Scalars['String']>;
+  /** Determines the type of discount that will be applied. */
+  discountType?: Maybe<DiscountTypeEnum>;
+  /** List of email addresses that can use this coupon. */
+  emailRestrictions?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** If true, this coupon will not be applied to items that have sale prices. */
+  excludeSaleItems?: Maybe<Scalars['Boolean']>;
+  /** List of category IDs the coupon does not apply to. */
+  excludedProductCategories?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  /** List of product IDs the coupon cannot be used on. */
+  excludedProductIds?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  /** If true and if the free shipping method requires a coupon, this coupon will enable free shipping. */
+  freeShipping?: Maybe<Scalars['Boolean']>;
+  /** If true, the coupon can only be used individually. Other applied coupons will be removed from the cart. */
+  individualUse?: Maybe<Scalars['Boolean']>;
+  /** Max number of items in the cart the coupon can be applied to. */
+  limitUsageToXItems?: Maybe<Scalars['Int']>;
+  /** Maximum order amount allowed when using the coupon. */
+  maximumAmount?: Maybe<Scalars['String']>;
+  /** Meta data. */
+  metaData?: Maybe<Array<Maybe<MetaDataInput>>>;
+  /** Minimum order amount that needs to be in the cart before coupon applies. */
+  minimumAmount?: Maybe<Scalars['String']>;
+  /** List of category IDs the coupon applies to. */
+  productCategories?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  /** List of product IDs the coupon can be used on. */
+  productIds?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  /** How many times the coupon can be used in total. */
+  usageLimit?: Maybe<Scalars['Int']>;
+  /** How many times the coupon can be used per customer. */
+  usageLimitPerUser?: Maybe<Scalars['Int']>;
+};
+
+/** The payload for the createCoupon mutation */
+export type CreateCouponPayload = {
+  __typename?: 'CreateCouponPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  code?: Maybe<Scalars['String']>;
+  coupon?: Maybe<Coupon>;
 };
 
 /** Input for the createMediaItem mutation */
@@ -3069,7 +3148,7 @@ export type Customer = Node & {
   firstName?: Maybe<Scalars['String']>;
   /** Has calculated shipping? */
   hasCalculatedShipping?: Maybe<Scalars['Boolean']>;
-  /** The globally unique ID for the object */
+  /** The globally unique identifier for the customer */
   id: Scalars['ID'];
   /** Whether the JWT User secret has been revoked. If the secret has been revoked, auth tokens will not be issued until an admin, or user with proper capabilities re-issues a secret for the user. */
   isJwtAuthSecretRevoked: Scalars['Boolean'];
@@ -3272,10 +3351,24 @@ export type CustomerToOrderConnectionEdge = {
 
 /** Arguments for filtering the CustomerToOrderConnection connection */
 export type CustomerToOrderConnectionWhereArgs = {
+  /** Limit result set to orders assigned a specific customer. */
+  customerId?: Maybe<Scalars['Int']>;
+  /** Limit result set to orders assigned a specific group of customers. */
+  customersIn?: Maybe<Array<Maybe<Scalars['Int']>>>;
   /** Filter the connection based on dates. */
   dateQuery?: Maybe<DateQueryInput>;
+  /** Ensure result set excludes specific IDs. */
+  exclude?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  /** Limit result set to specific ids. */
+  include?: Maybe<Array<Maybe<Scalars['Int']>>>;
   /** What paramater to use to order the objects by. */
   orderby?: Maybe<Array<Maybe<OrdersOrderbyInput>>>;
+  /** Use ID to return only children. Use 0 to return only top-level items. */
+  parent?: Maybe<Scalars['Int']>;
+  /** Specify objects whose parent is in an array. */
+  parentIn?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  /** Specify objects whose parent is not in an array. */
+  parentNotIn?: Maybe<Array<Maybe<Scalars['Int']>>>;
   /** Limit result set to orders assigned a specific product. */
   productId?: Maybe<Scalars['Int']>;
   /** Limit results to those matching a string. */
@@ -3437,6 +3530,25 @@ export type DeleteCommentPayload = {
   comment?: Maybe<Comment>;
   /** The deleted comment ID */
   deletedId?: Maybe<Scalars['ID']>;
+};
+
+/** Input for the deleteCoupon mutation */
+export type DeleteCouponInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** Delete the object. Set to "false" by default. */
+  forceDelete?: Maybe<Scalars['Boolean']>;
+  /** Unique identifier for the object. */
+  id: Scalars['ID'];
+};
+
+/** The payload for the deleteCoupon mutation */
+export type DeleteCouponPayload = {
+  __typename?: 'DeleteCouponPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  code?: Maybe<Scalars['String']>;
+  coupon?: Maybe<Coupon>;
 };
 
 /** Input for the deleteMediaItem mutation */
@@ -3759,8 +3871,11 @@ export type DeleteVisibleProductPayload = {
 
 /** Coupon discount type enumeration */
 export enum DiscountTypeEnum {
+  /** Fixed cart discount */
   FixedCart = 'FIXED_CART',
+  /** Fixed product discount */
   FixedProduct = 'FIXED_PRODUCT',
+  /** Percentage discount */
   Percent = 'PERCENT'
 }
 
@@ -3865,7 +3980,7 @@ export type EnqueuedStylesheet = Node & EnqueuedAsset & {
 };
 
 /** A external product object */
-export type ExternalProduct = Node & Product & NodeWithComments & NodeWithContentEditor & NodeWithFeaturedImage & ContentNode & UniformResourceIdentifiable & {
+export type ExternalProduct = Node & Product & NodeWithComments & NodeWithContentEditor & NodeWithFeaturedImage & ContentNode & UniformResourceIdentifiable & DatabaseIdentifier & {
   __typename?: 'ExternalProduct';
   /** Connection between the Product type and the ProductAttribute type */
   attributes?: Maybe<ProductToProductAttributeConnection>;
@@ -3883,9 +3998,9 @@ export type ExternalProduct = Node & Product & NodeWithComments & NodeWithConten
   content?: Maybe<Scalars['String']>;
   /** Connection between the ContentNode type and the ContentType type */
   contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
-  /** The ID of the node in the database. */
+  /** The ID of the product in the database */
   databaseId: Scalars['Int'];
-  /** Post publishing date. */
+  /** Date product created */
   date?: Maybe<Scalars['String']>;
   /** The publishing date set in GMT. */
   dateGmt?: Maybe<Scalars['String']>;
@@ -3923,14 +4038,18 @@ export type ExternalProduct = Node & Product & NodeWithComments & NodeWithConten
   globalAttributes?: Maybe<ProductToGlobalProductAttributeConnection>;
   /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
   guid?: Maybe<Scalars['String']>;
-  /** The unique resource identifier path */
+  /** The globally unique identifier for the product */
   id: Scalars['ID'];
   /** Main image */
   image?: Maybe<MediaItem>;
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
   /** Whether the object is a node in the preview state */
   isPreview?: Maybe<Scalars['Boolean']>;
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
   /** The user that most recently edited the node */
   lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
   /** The permalink of the post */
@@ -3941,7 +4060,7 @@ export type ExternalProduct = Node & Product & NodeWithComments & NodeWithConten
   menuOrder?: Maybe<Scalars['Int']>;
   /** Object meta data */
   metaData?: Maybe<Array<Maybe<MetaData>>>;
-  /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
+  /** Date product last updated */
   modified?: Maybe<Scalars['String']>;
   /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
   modifiedGmt?: Maybe<Scalars['String']>;
@@ -3989,9 +4108,9 @@ export type ExternalProduct = Node & Product & NodeWithComments & NodeWithConten
   shortDescription?: Maybe<Scalars['String']>;
   /** Product SKU */
   sku?: Maybe<Scalars['String']>;
-  /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
+  /** Product slug */
   slug?: Maybe<Scalars['String']>;
-  /** The current status of the object */
+  /** Product status */
   status?: Maybe<Scalars['String']>;
   /** Tax class */
   taxClass?: Maybe<TaxClassEnum>;
@@ -4347,7 +4466,7 @@ export type GlobalProductAttribute = ProductAttribute & {
   id: Scalars['ID'];
   /** Attribute label */
   label: Scalars['String'];
-  /** Attribute name */
+  /** Product attribute name */
   name: Scalars['String'];
   /** Attribute options */
   options?: Maybe<Array<Maybe<Scalars['String']>>>;
@@ -4440,7 +4559,7 @@ export type GlobalProductAttributeToTermNodeConnectionWhereArgs = {
 };
 
 /** A group product object */
-export type GroupProduct = Node & Product & NodeWithComments & NodeWithContentEditor & NodeWithFeaturedImage & ContentNode & UniformResourceIdentifiable & {
+export type GroupProduct = Node & Product & NodeWithComments & NodeWithContentEditor & NodeWithFeaturedImage & ContentNode & UniformResourceIdentifiable & DatabaseIdentifier & {
   __typename?: 'GroupProduct';
   /** Product&#039;s add to cart button text description */
   addToCartDescription?: Maybe<Scalars['String']>;
@@ -4460,9 +4579,9 @@ export type GroupProduct = Node & Product & NodeWithComments & NodeWithContentEd
   content?: Maybe<Scalars['String']>;
   /** Connection between the ContentNode type and the ContentType type */
   contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
-  /** The ID of the node in the database. */
+  /** The ID of the product in the database */
   databaseId: Scalars['Int'];
-  /** Post publishing date. */
+  /** Date product created */
   date?: Maybe<Scalars['String']>;
   /** The publishing date set in GMT. */
   dateGmt?: Maybe<Scalars['String']>;
@@ -4498,14 +4617,18 @@ export type GroupProduct = Node & Product & NodeWithComments & NodeWithContentEd
   globalAttributes?: Maybe<ProductToGlobalProductAttributeConnection>;
   /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
   guid?: Maybe<Scalars['String']>;
-  /** The unique resource identifier path */
+  /** The globally unique identifier for the product */
   id: Scalars['ID'];
   /** Main image */
   image?: Maybe<MediaItem>;
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
   /** Whether the object is a node in the preview state */
   isPreview?: Maybe<Scalars['Boolean']>;
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
   /** The user that most recently edited the node */
   lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
   /** The permalink of the post */
@@ -4516,7 +4639,7 @@ export type GroupProduct = Node & Product & NodeWithComments & NodeWithContentEd
   menuOrder?: Maybe<Scalars['Int']>;
   /** Object meta data */
   metaData?: Maybe<Array<Maybe<MetaData>>>;
-  /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
+  /** Date product last updated */
   modified?: Maybe<Scalars['String']>;
   /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
   modifiedGmt?: Maybe<Scalars['String']>;
@@ -4562,9 +4685,9 @@ export type GroupProduct = Node & Product & NodeWithComments & NodeWithContentEd
   shortDescription?: Maybe<Scalars['String']>;
   /** Product SKU */
   sku?: Maybe<Scalars['String']>;
-  /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
+  /** Product slug */
   slug?: Maybe<Scalars['String']>;
-  /** The current status of the object */
+  /** Product status */
   status?: Maybe<Scalars['String']>;
   /** The template assigned to a node of content */
   template?: Maybe<ContentTemplate>;
@@ -4849,8 +4972,8 @@ export type GroupProductToProductConnectionWhereArgs = {
   shippingClassId?: Maybe<Scalars['Int']>;
   /** Limit result set to products with specific SKU(s). Use commas to separate. */
   sku?: Maybe<Scalars['String']>;
-  /** Limit result set to products with a specific slug. */
-  slug?: Maybe<Scalars['String']>;
+  /** Limit result set to products with specific slugs. */
+  slugIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Limit result set to products assigned a specific status. */
   status?: Maybe<Scalars['String']>;
   /** Limit result set to products in stock or out of stock. */
@@ -4872,7 +4995,7 @@ export type GroupProductToProductConnectionWhereArgs = {
   /** Limit result set to products with a specific tax class. */
   taxClass?: Maybe<TaxClassEnum>;
   /** Limit result set with complex set of taxonomy filters. */
-  taxonomyFilter?: Maybe<Array<Maybe<ProductTaxonomyFilterRelationInput>>>;
+  taxonomyFilter?: Maybe<ProductTaxonomyInput>;
   /** Limit result set to products assigned a specific type. */
   type?: Maybe<ProductTypesEnum>;
   /** Limit result set to products assigned to a group of specific types. */
@@ -4959,6 +5082,8 @@ export type HierarchicalContentNodeToContentNodeAncestorsConnectionEdge = {
 
 /** Arguments for filtering the HierarchicalContentNodeToContentNodeAncestorsConnection connection */
 export type HierarchicalContentNodeToContentNodeAncestorsConnectionWhereArgs = {
+  /** The Types of content to filter */
+  contentTypes?: Maybe<Array<Maybe<ContentTypeEnum>>>;
   /** Filter the connection based on dates */
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
@@ -5017,6 +5142,8 @@ export type HierarchicalContentNodeToContentNodeChildrenConnectionEdge = {
 
 /** Arguments for filtering the HierarchicalContentNodeToContentNodeChildrenConnection connection */
 export type HierarchicalContentNodeToContentNodeChildrenConnectionWhereArgs = {
+  /** The Types of content to filter */
+  contentTypes?: Maybe<Array<Maybe<ContentTypeEnum>>>;
   /** Filter the connection based on dates */
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
@@ -5056,7 +5183,7 @@ export type HierarchicalContentNodeToContentNodeChildrenConnectionWhereArgs = {
 /** Connection between the HierarchicalContentNode type and the ContentNode type */
 export type HierarchicalContentNodeToParentContentNodeConnectionEdge = {
   __typename?: 'HierarchicalContentNodeToParentContentNodeConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<ContentNode>;
 };
 
@@ -5210,7 +5337,7 @@ export type MediaDetails = {
 };
 
 /** The mediaItem type */
-export type MediaItem = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate & UniformResourceIdentifiable & NodeWithTitle & NodeWithAuthor & NodeWithComments & HierarchicalContentNode & {
+export type MediaItem = Node & ContentNode & UniformResourceIdentifiable & DatabaseIdentifier & NodeWithTemplate & NodeWithTitle & NodeWithAuthor & NodeWithComments & HierarchicalContentNode & {
   __typename?: 'MediaItem';
   /** Alternative text to display when resource is not displayed */
   altText?: Maybe<Scalars['String']>;
@@ -5256,12 +5383,16 @@ export type MediaItem = Node & ContentNode & DatabaseIdentifier & NodeWithTempla
   fileSize?: Maybe<Scalars['Int']>;
   /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
   guid?: Maybe<Scalars['String']>;
-  /** The unique resource identifier path */
+  /** The globally unique identifier of the attachment object. */
   id: Scalars['ID'];
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
   /** Whether the object is a node in the preview state */
   isPreview?: Maybe<Scalars['Boolean']>;
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
   /** The user that most recently edited the node */
   lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
   /** The permalink of the post */
@@ -5592,7 +5723,7 @@ export type Menu = Node & DatabaseIdentifier & {
   count?: Maybe<Scalars['Int']>;
   /** The unique identifier stored in the database */
   databaseId: Scalars['Int'];
-  /** The globally unique ID for the object */
+  /** The globally unique identifier of the nav menu object. */
   id: Scalars['ID'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
@@ -5639,7 +5770,7 @@ export type MenuItem = Node & DatabaseIdentifier & {
   databaseId: Scalars['Int'];
   /** Description of the menu item. */
   description?: Maybe<Scalars['String']>;
-  /** The globally unique ID for the object */
+  /** The globally unique identifier of the nav menu item object. */
   id: Scalars['ID'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
@@ -5663,7 +5794,7 @@ export type MenuItem = Node & DatabaseIdentifier & {
   /** The globally unique identifier of the parent nav menu item object. */
   parentId?: Maybe<Scalars['ID']>;
   /** Path for the resource. Relative path for internal resources. Absolute path for external resources. */
-  path: Scalars['String'];
+  path?: Maybe<Scalars['String']>;
   /** Target attribute for the menu item link. */
   target?: Maybe<Scalars['String']>;
   /** Title attribute for the menu item link */
@@ -5706,7 +5837,7 @@ export type MenuItemObjectUnion = Post | Page | Category | Tag | ProductCategory
 /** Connection between the MenuItem type and the Menu type */
 export type MenuItemToMenuConnectionEdge = {
   __typename?: 'MenuItemToMenuConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<Menu>;
 };
 
@@ -5745,16 +5876,8 @@ export type MenuItemToMenuItemConnectionWhereArgs = {
 /** Connection between the MenuItem type and the MenuItemLinkable type */
 export type MenuItemToMenuItemLinkableConnectionEdge = {
   __typename?: 'MenuItemToMenuItemLinkableConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<MenuItemLinkable>;
-};
-
-/** Options for filtering the connection */
-export type MenuItemsWhereArgs = {
-  /** The ID of the object */
-  id?: Maybe<Scalars['Int']>;
-  /** The menu location for the menu being queried */
-  location?: Maybe<MenuLocationEnum>;
 };
 
 /** Registered menu locations */
@@ -6029,7 +6152,7 @@ export type NodeWithAuthor = {
 /** Connection between the NodeWithAuthor type and the User type */
 export type NodeWithAuthorToUserConnectionEdge = {
   __typename?: 'NodeWithAuthorToUserConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<User>;
 };
 
@@ -6067,18 +6190,86 @@ export type NodeWithExcerptExcerptArgs = {
 
 /** A node that can have a featured image set */
 export type NodeWithFeaturedImage = {
+  /** Connection between the ContentNode type and the ContentType type */
+  contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
+  /** The unique identifier stored in the database */
+  databaseId: Scalars['Int'];
+  /** Post publishing date. */
+  date?: Maybe<Scalars['String']>;
+  /** The publishing date set in GMT. */
+  dateGmt?: Maybe<Scalars['String']>;
+  /** The desired slug of the post */
+  desiredSlug?: Maybe<Scalars['String']>;
+  /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
+  editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
+  /** The RSS enclosure for the object */
+  enclosure?: Maybe<Scalars['String']>;
+  /** Connection between the ContentNode type and the EnqueuedScript type */
+  enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
+  /** Connection between the ContentNode type and the EnqueuedStylesheet type */
+  enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
   /** Connection between the NodeWithFeaturedImage type and the MediaItem type */
   featuredImage?: Maybe<NodeWithFeaturedImageToMediaItemConnectionEdge>;
   /** The database identifier for the featured image node assigned to the content node */
   featuredImageDatabaseId?: Maybe<Scalars['Int']>;
   /** Globally unique ID of the featured image assigned to the node */
   featuredImageId?: Maybe<Scalars['ID']>;
+  /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
+  guid?: Maybe<Scalars['String']>;
+  /** The unique resource identifier path */
+  id: Scalars['ID'];
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
+  /** Whether the object is a node in the preview state */
+  isPreview?: Maybe<Scalars['Boolean']>;
+  /** Whether the object is restricted from the current viewer */
+  isRestricted?: Maybe<Scalars['Boolean']>;
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
+  /** The user that most recently edited the node */
+  lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
+  /** The permalink of the post */
+  link?: Maybe<Scalars['String']>;
+  /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
+  modified?: Maybe<Scalars['String']>;
+  /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
+  modifiedGmt?: Maybe<Scalars['String']>;
+  /** The database id of the preview node */
+  previewRevisionDatabaseId?: Maybe<Scalars['Int']>;
+  /** Whether the object is a node in the preview state */
+  previewRevisionId?: Maybe<Scalars['ID']>;
+  /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
+  slug?: Maybe<Scalars['String']>;
+  /** The current status of the object */
+  status?: Maybe<Scalars['String']>;
+  /** The template assigned to a node of content */
+  template?: Maybe<ContentTemplate>;
+  /** The unique resource identifier path */
+  uri?: Maybe<Scalars['String']>;
+};
+
+
+/** A node that can have a featured image set */
+export type NodeWithFeaturedImageEnqueuedScriptsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+};
+
+
+/** A node that can have a featured image set */
+export type NodeWithFeaturedImageEnqueuedStylesheetsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
 };
 
 /** Connection between the NodeWithFeaturedImage type and the MediaItem type */
 export type NodeWithFeaturedImageToMediaItemConnectionEdge = {
   __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<MediaItem>;
 };
 
@@ -6099,7 +6290,7 @@ export type NodeWithRevisions = {
 /** Connection between the NodeWithRevisions type and the ContentNode type */
 export type NodeWithRevisionsToContentNodeConnectionEdge = {
   __typename?: 'NodeWithRevisionsToContentNodeConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<ContentNode>;
 };
 
@@ -6180,7 +6371,7 @@ export type Order = Node & NodeWithComments & {
   hasDownloadableItem?: Maybe<Scalars['Boolean']>;
   /** Order has a shipping address? */
   hasShippingAddress?: Maybe<Scalars['Boolean']>;
-  /** The globally unique ID for the object */
+  /** The globally unique identifier for the order */
   id: Scalars['ID'];
   /** Is product download is permitted */
   isDownloadPermitted?: Maybe<Scalars['Boolean']>;
@@ -6404,12 +6595,21 @@ export type OrderItemTax = {
 
 /** Order status enumeration */
 export enum OrderStatusEnum {
+  /** Cancelled */
   Cancelled = 'CANCELLED',
+  /** Completed */
   Completed = 'COMPLETED',
+  /** Failed */
   Failed = 'FAILED',
+  /** On hold */
   OnHold = 'ON_HOLD',
+  /** Pending payment */
   Pending = 'PENDING',
+  /** Pre Ordered */
+  PreOrdered = 'PRE_ORDERED',
+  /** Processing */
   Processing = 'PROCESSING',
+  /** Refunded */
   Refunded = 'REFUNDED'
 }
 
@@ -6708,7 +6908,7 @@ export type OrdersOrderbyInput = {
 };
 
 /** The paColor type */
-export type PaColor = Node & TermNode & DatabaseIdentifier & {
+export type PaColor = Node & TermNode & UniformResourceIdentifiable & DatabaseIdentifier & {
   __typename?: 'PaColor';
   /** Connection between the paColor type and the ContentNode type */
   contentNodes?: Maybe<PaColorToContentNodeConnection>;
@@ -6722,10 +6922,14 @@ export type PaColor = Node & TermNode & DatabaseIdentifier & {
   enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
   /** Connection between the TermNode type and the EnqueuedStylesheet type */
   enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
-  /** Unique identifier for the term */
+  /** The unique resource identifier path */
   id: Scalars['ID'];
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
   /** The link to the term */
   link?: Maybe<Scalars['String']>;
   /** The human friendly name of the object. */
@@ -6835,6 +7039,8 @@ export type PaColorToContentNodeConnectionEdge = {
 
 /** Arguments for filtering the PaColorToContentNodeConnection connection */
 export type PaColorToContentNodeConnectionWhereArgs = {
+  /** The Types of content to filter */
+  contentTypes?: Maybe<Array<Maybe<ContentTypesOfPaColorEnum>>>;
   /** Filter the connection based on dates */
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
@@ -6937,8 +7143,8 @@ export type PaColorToProductConnectionWhereArgs = {
   shippingClassId?: Maybe<Scalars['Int']>;
   /** Limit result set to products with specific SKU(s). Use commas to separate. */
   sku?: Maybe<Scalars['String']>;
-  /** Limit result set to products with a specific slug. */
-  slug?: Maybe<Scalars['String']>;
+  /** Limit result set to products with specific slugs. */
+  slugIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Limit result set to products assigned a specific status. */
   status?: Maybe<Scalars['String']>;
   /** Limit result set to products in stock or out of stock. */
@@ -6960,7 +7166,7 @@ export type PaColorToProductConnectionWhereArgs = {
   /** Limit result set to products with a specific tax class. */
   taxClass?: Maybe<TaxClassEnum>;
   /** Limit result set with complex set of taxonomy filters. */
-  taxonomyFilter?: Maybe<Array<Maybe<ProductTaxonomyFilterRelationInput>>>;
+  taxonomyFilter?: Maybe<ProductTaxonomyInput>;
   /** Limit result set to products assigned a specific type. */
   type?: Maybe<ProductTypesEnum>;
   /** Limit result set to products assigned to a group of specific types. */
@@ -7037,8 +7243,8 @@ export type PaColorToProductVariationConnectionWhereArgs = {
   shippingClassId?: Maybe<Scalars['Int']>;
   /** Limit result set to products with specific SKU(s). Use commas to separate. */
   sku?: Maybe<Scalars['String']>;
-  /** Limit result set to products with a specific slug. */
-  slug?: Maybe<Scalars['String']>;
+  /** Limit result set to products with specific slugs. */
+  slugIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Limit result set to products assigned a specific status. */
   status?: Maybe<Scalars['String']>;
   /** Limit result set to products in stock or out of stock. */
@@ -7060,7 +7266,7 @@ export type PaColorToProductVariationConnectionWhereArgs = {
   /** Limit result set to products with a specific tax class. */
   taxClass?: Maybe<TaxClassEnum>;
   /** Limit result set with complex set of taxonomy filters. */
-  taxonomyFilter?: Maybe<Array<Maybe<ProductTaxonomyFilterRelationInput>>>;
+  taxonomyFilter?: Maybe<ProductTaxonomyInput>;
   /** Limit result set to products assigned a specific type. */
   type?: Maybe<ProductTypesEnum>;
   /** Limit result set to products assigned to a group of specific types. */
@@ -7074,12 +7280,12 @@ export type PaColorToProductVariationConnectionWhereArgs = {
 /** Connection between the paColor type and the Taxonomy type */
 export type PaColorToTaxonomyConnectionEdge = {
   __typename?: 'PaColorToTaxonomyConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<Taxonomy>;
 };
 
 /** The paSize type */
-export type PaSize = Node & TermNode & DatabaseIdentifier & {
+export type PaSize = Node & TermNode & UniformResourceIdentifiable & DatabaseIdentifier & {
   __typename?: 'PaSize';
   /** Connection between the paSize type and the ContentNode type */
   contentNodes?: Maybe<PaSizeToContentNodeConnection>;
@@ -7093,10 +7299,14 @@ export type PaSize = Node & TermNode & DatabaseIdentifier & {
   enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
   /** Connection between the TermNode type and the EnqueuedStylesheet type */
   enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
-  /** Unique identifier for the term */
+  /** The unique resource identifier path */
   id: Scalars['ID'];
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
   /** The link to the term */
   link?: Maybe<Scalars['String']>;
   /** The human friendly name of the object. */
@@ -7206,6 +7416,8 @@ export type PaSizeToContentNodeConnectionEdge = {
 
 /** Arguments for filtering the PaSizeToContentNodeConnection connection */
 export type PaSizeToContentNodeConnectionWhereArgs = {
+  /** The Types of content to filter */
+  contentTypes?: Maybe<Array<Maybe<ContentTypesOfPaSizeEnum>>>;
   /** Filter the connection based on dates */
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
@@ -7308,8 +7520,8 @@ export type PaSizeToProductConnectionWhereArgs = {
   shippingClassId?: Maybe<Scalars['Int']>;
   /** Limit result set to products with specific SKU(s). Use commas to separate. */
   sku?: Maybe<Scalars['String']>;
-  /** Limit result set to products with a specific slug. */
-  slug?: Maybe<Scalars['String']>;
+  /** Limit result set to products with specific slugs. */
+  slugIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Limit result set to products assigned a specific status. */
   status?: Maybe<Scalars['String']>;
   /** Limit result set to products in stock or out of stock. */
@@ -7331,7 +7543,7 @@ export type PaSizeToProductConnectionWhereArgs = {
   /** Limit result set to products with a specific tax class. */
   taxClass?: Maybe<TaxClassEnum>;
   /** Limit result set with complex set of taxonomy filters. */
-  taxonomyFilter?: Maybe<Array<Maybe<ProductTaxonomyFilterRelationInput>>>;
+  taxonomyFilter?: Maybe<ProductTaxonomyInput>;
   /** Limit result set to products assigned a specific type. */
   type?: Maybe<ProductTypesEnum>;
   /** Limit result set to products assigned to a group of specific types. */
@@ -7408,8 +7620,8 @@ export type PaSizeToProductVariationConnectionWhereArgs = {
   shippingClassId?: Maybe<Scalars['Int']>;
   /** Limit result set to products with specific SKU(s). Use commas to separate. */
   sku?: Maybe<Scalars['String']>;
-  /** Limit result set to products with a specific slug. */
-  slug?: Maybe<Scalars['String']>;
+  /** Limit result set to products with specific slugs. */
+  slugIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Limit result set to products assigned a specific status. */
   status?: Maybe<Scalars['String']>;
   /** Limit result set to products in stock or out of stock. */
@@ -7431,7 +7643,7 @@ export type PaSizeToProductVariationConnectionWhereArgs = {
   /** Limit result set to products with a specific tax class. */
   taxClass?: Maybe<TaxClassEnum>;
   /** Limit result set with complex set of taxonomy filters. */
-  taxonomyFilter?: Maybe<Array<Maybe<ProductTaxonomyFilterRelationInput>>>;
+  taxonomyFilter?: Maybe<ProductTaxonomyInput>;
   /** Limit result set to products assigned a specific type. */
   type?: Maybe<ProductTypesEnum>;
   /** Limit result set to products assigned to a group of specific types. */
@@ -7445,12 +7657,12 @@ export type PaSizeToProductVariationConnectionWhereArgs = {
 /** Connection between the paSize type and the Taxonomy type */
 export type PaSizeToTaxonomyConnectionEdge = {
   __typename?: 'PaSizeToTaxonomyConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<Taxonomy>;
 };
 
 /** The page type */
-export type Page = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate & UniformResourceIdentifiable & NodeWithTitle & NodeWithContentEditor & NodeWithAuthor & NodeWithFeaturedImage & NodeWithComments & NodeWithRevisions & NodeWithPageAttributes & HierarchicalContentNode & MenuItemLinkable & {
+export type Page = Node & ContentNode & UniformResourceIdentifiable & DatabaseIdentifier & NodeWithTemplate & NodeWithTitle & NodeWithContentEditor & NodeWithAuthor & NodeWithFeaturedImage & NodeWithComments & NodeWithRevisions & NodeWithPageAttributes & HierarchicalContentNode & MenuItemLinkable & {
   __typename?: 'Page';
   /** Returns ancestors of the node. Default ordered as lowest (closest to the child) to highest (closest to the root). */
   ancestors?: Maybe<HierarchicalContentNodeToContentNodeAncestorsConnection>;
@@ -7496,8 +7708,10 @@ export type Page = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate & 
   featuredImageId?: Maybe<Scalars['ID']>;
   /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
   guid?: Maybe<Scalars['String']>;
-  /** The unique resource identifier path */
+  /** The globally unique identifier of the page object. */
   id: Scalars['ID'];
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
   /** Whether this page is set to the static front page. */
   isFrontPage: Scalars['Boolean'];
   /** Whether this page is set to the blog posts page. */
@@ -7510,6 +7724,8 @@ export type Page = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate & 
   isRestricted?: Maybe<Scalars['Boolean']>;
   /** True if the node is a revision of another node */
   isRevision?: Maybe<Scalars['Boolean']>;
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
   /** The user that most recently edited the node */
   lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
   /** The permalink of the post */
@@ -7545,7 +7761,7 @@ export type Page = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate & 
   slug?: Maybe<Scalars['String']>;
   /** The current status of the object */
   status?: Maybe<Scalars['String']>;
-  /** The template assigned to the node */
+  /** The template assigned to a node of content */
   template?: Maybe<ContentTemplate>;
   /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
   title?: Maybe<Scalars['String']>;
@@ -7718,7 +7934,7 @@ export type PageToCommentConnectionWhereArgs = {
 /** Connection between the page type and the page type */
 export type PageToPreviewConnectionEdge = {
   __typename?: 'PageToPreviewConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<Page>;
 };
 
@@ -7838,7 +8054,7 @@ export type Plugin = Node & {
   authorUri?: Maybe<Scalars['String']>;
   /** Description of the plugin. */
   description?: Maybe<Scalars['String']>;
-  /** The globally unique ID for the object */
+  /** The globally unique identifier of the plugin object. */
   id: Scalars['ID'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
@@ -7853,7 +8069,7 @@ export type Plugin = Node & {
 };
 
 /** The post type */
-export type Post = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate & UniformResourceIdentifiable & NodeWithTitle & NodeWithContentEditor & NodeWithAuthor & NodeWithFeaturedImage & NodeWithExcerpt & NodeWithComments & NodeWithTrackbacks & NodeWithRevisions & MenuItemLinkable & {
+export type Post = Node & ContentNode & UniformResourceIdentifiable & DatabaseIdentifier & NodeWithTemplate & NodeWithTitle & NodeWithContentEditor & NodeWithAuthor & NodeWithFeaturedImage & NodeWithExcerpt & NodeWithComments & NodeWithTrackbacks & NodeWithRevisions & MenuItemLinkable & {
   __typename?: 'Post';
   /** Connection between the NodeWithAuthor type and the User type */
   author?: Maybe<NodeWithAuthorToUserConnectionEdge>;
@@ -7899,8 +8115,10 @@ export type Post = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate & 
   featuredImageId?: Maybe<Scalars['ID']>;
   /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
   guid?: Maybe<Scalars['String']>;
-  /** The unique resource identifier path */
+  /** The globally unique identifier of the post object. */
   id: Scalars['ID'];
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
   /** Whether the object is a node in the preview state */
   isPreview?: Maybe<Scalars['Boolean']>;
   /** Whether the object is restricted from the current viewer */
@@ -7909,6 +8127,8 @@ export type Post = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate & 
   isRevision?: Maybe<Scalars['Boolean']>;
   /** Whether this page is sticky */
   isSticky: Scalars['Boolean'];
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
   /** The user that most recently edited the node */
   lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
   /** The permalink of the post */
@@ -7944,7 +8164,7 @@ export type Post = Node & ContentNode & DatabaseIdentifier & NodeWithTemplate & 
   status?: Maybe<Scalars['String']>;
   /** Connection between the post type and the tag type */
   tags?: Maybe<PostToTagConnection>;
-  /** The template assigned to the node */
+  /** The template assigned to a node of content */
   template?: Maybe<ContentTemplate>;
   /** Connection between the post type and the TermNode type */
   terms?: Maybe<PostToTermNodeConnection>;
@@ -8073,7 +8293,7 @@ export type PostCategoriesNodeInput = {
 };
 
 /** The postFormat type */
-export type PostFormat = Node & TermNode & DatabaseIdentifier & UniformResourceIdentifiable & {
+export type PostFormat = Node & TermNode & UniformResourceIdentifiable & DatabaseIdentifier & {
   __typename?: 'PostFormat';
   /** Connection between the postFormat type and the ContentNode type */
   contentNodes?: Maybe<PostFormatToContentNodeConnection>;
@@ -8089,8 +8309,12 @@ export type PostFormat = Node & TermNode & DatabaseIdentifier & UniformResourceI
   enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
   /** The unique resource identifier path */
   id: Scalars['ID'];
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
   /** The link to the term */
   link?: Maybe<Scalars['String']>;
   /** The human friendly name of the object. */
@@ -8188,6 +8412,8 @@ export type PostFormatToContentNodeConnectionEdge = {
 
 /** Arguments for filtering the PostFormatToContentNodeConnection connection */
 export type PostFormatToContentNodeConnectionWhereArgs = {
+  /** The Types of content to filter */
+  contentTypes?: Maybe<Array<Maybe<ContentTypesOfPostFormatEnum>>>;
   /** Filter the connection based on dates */
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
@@ -8313,7 +8539,7 @@ export type PostFormatToPostConnectionWhereArgs = {
 /** Connection between the postFormat type and the Taxonomy type */
 export type PostFormatToTaxonomyConnectionEdge = {
   __typename?: 'PostFormatToTaxonomyConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<Taxonomy>;
 };
 
@@ -8336,9 +8562,6 @@ export enum PostObjectFieldFormatEnum {
   /** Apply the default WordPress rendering */
   Rendered = 'RENDERED'
 }
-
-/** Union between the post, page and media item types */
-export type PostObjectUnion = Post | Page | MediaItem;
 
 /** The column to use when filtering by date */
 export enum PostObjectsConnectionDateColumnEnum {
@@ -8677,7 +8900,7 @@ export type PostToPostFormatConnectionWhereArgs = {
 /** Connection between the post type and the post type */
 export type PostToPreviewConnectionEdge = {
   __typename?: 'PostToPreviewConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<Post>;
 };
 
@@ -9016,6 +9239,8 @@ export type Product = {
   localAttributes?: Maybe<ProductToLocalProductAttributeConnection>;
   /** Menu order */
   menuOrder?: Maybe<Scalars['Int']>;
+  /** Object meta data */
+  metaData?: Maybe<Array<Maybe<MetaData>>>;
   /** Date product last updated */
   modified?: Maybe<Scalars['String']>;
   /** Product name */
@@ -9110,6 +9335,14 @@ export type ProductLocalAttributesArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
   where?: Maybe<ProductToLocalProductAttributeConnectionWhereArgs>;
+};
+
+
+/** Product object */
+export type ProductMetaDataArgs = {
+  key?: Maybe<Scalars['String']>;
+  keysIn?: Maybe<Array<Maybe<Scalars['String']>>>;
+  multiple?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -9264,7 +9497,7 @@ export enum ProductAttributeTypesEnum {
 }
 
 /** The productCategory type */
-export type ProductCategory = Node & TermNode & DatabaseIdentifier & UniformResourceIdentifiable & HierarchicalTermNode & MenuItemLinkable & {
+export type ProductCategory = Node & TermNode & UniformResourceIdentifiable & DatabaseIdentifier & HierarchicalTermNode & MenuItemLinkable & {
   __typename?: 'ProductCategory';
   /** The ancestors of the node. Default ordered as lowest (closest to the child) to highest (closest to the root). */
   ancestors?: Maybe<ProductCategoryToAncestorsProductCategoryConnection>;
@@ -9288,8 +9521,12 @@ export type ProductCategory = Node & TermNode & DatabaseIdentifier & UniformReso
   id: Scalars['ID'];
   /** Product category image */
   image?: Maybe<MediaItem>;
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
   /** The link to the term */
   link?: Maybe<Scalars['String']>;
   /** Product category menu order */
@@ -9446,6 +9683,8 @@ export type ProductCategoryToContentNodeConnectionEdge = {
 
 /** Arguments for filtering the ProductCategoryToContentNodeConnection connection */
 export type ProductCategoryToContentNodeConnectionWhereArgs = {
+  /** The Types of content to filter */
+  contentTypes?: Maybe<Array<Maybe<ContentTypesOfProductCategoryEnum>>>;
   /** Filter the connection based on dates */
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
@@ -9485,7 +9724,7 @@ export type ProductCategoryToContentNodeConnectionWhereArgs = {
 /** Connection between the productCategory type and the productCategory type */
 export type ProductCategoryToParentProductCategoryConnectionEdge = {
   __typename?: 'ProductCategoryToParentProductCategoryConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<ProductCategory>;
 };
 
@@ -9619,8 +9858,8 @@ export type ProductCategoryToProductConnectionWhereArgs = {
   shippingClassId?: Maybe<Scalars['Int']>;
   /** Limit result set to products with specific SKU(s). Use commas to separate. */
   sku?: Maybe<Scalars['String']>;
-  /** Limit result set to products with a specific slug. */
-  slug?: Maybe<Scalars['String']>;
+  /** Limit result set to products with specific slugs. */
+  slugIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Limit result set to products assigned a specific status. */
   status?: Maybe<Scalars['String']>;
   /** Limit result set to products in stock or out of stock. */
@@ -9642,7 +9881,7 @@ export type ProductCategoryToProductConnectionWhereArgs = {
   /** Limit result set to products with a specific tax class. */
   taxClass?: Maybe<TaxClassEnum>;
   /** Limit result set with complex set of taxonomy filters. */
-  taxonomyFilter?: Maybe<Array<Maybe<ProductTaxonomyFilterRelationInput>>>;
+  taxonomyFilter?: Maybe<ProductTaxonomyInput>;
   /** Limit result set to products assigned a specific type. */
   type?: Maybe<ProductTypesEnum>;
   /** Limit result set to products assigned to a group of specific types. */
@@ -9656,7 +9895,7 @@ export type ProductCategoryToProductConnectionWhereArgs = {
 /** Connection between the productCategory type and the Taxonomy type */
 export type ProductCategoryToTaxonomyConnectionEdge = {
   __typename?: 'ProductCategoryToTaxonomyConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<Taxonomy>;
 };
 
@@ -9694,7 +9933,7 @@ export enum ProductIdTypeEnum {
 }
 
 /** The productTag type */
-export type ProductTag = Node & TermNode & DatabaseIdentifier & UniformResourceIdentifiable & MenuItemLinkable & {
+export type ProductTag = Node & TermNode & UniformResourceIdentifiable & DatabaseIdentifier & MenuItemLinkable & {
   __typename?: 'ProductTag';
   /** Connection between the productTag type and the ContentNode type */
   contentNodes?: Maybe<ProductTagToContentNodeConnection>;
@@ -9710,8 +9949,12 @@ export type ProductTag = Node & TermNode & DatabaseIdentifier & UniformResourceI
   enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
   /** The unique resource identifier path */
   id: Scalars['ID'];
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
   /** The link to the term */
   link?: Maybe<Scalars['String']>;
   /** The human friendly name of the object. */
@@ -9809,6 +10052,8 @@ export type ProductTagToContentNodeConnectionEdge = {
 
 /** Arguments for filtering the ProductTagToContentNodeConnection connection */
 export type ProductTagToContentNodeConnectionWhereArgs = {
+  /** The Types of content to filter */
+  contentTypes?: Maybe<Array<Maybe<ContentTypesOfProductTagEnum>>>;
   /** Filter the connection based on dates */
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
@@ -9911,8 +10156,8 @@ export type ProductTagToProductConnectionWhereArgs = {
   shippingClassId?: Maybe<Scalars['Int']>;
   /** Limit result set to products with specific SKU(s). Use commas to separate. */
   sku?: Maybe<Scalars['String']>;
-  /** Limit result set to products with a specific slug. */
-  slug?: Maybe<Scalars['String']>;
+  /** Limit result set to products with specific slugs. */
+  slugIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Limit result set to products assigned a specific status. */
   status?: Maybe<Scalars['String']>;
   /** Limit result set to products in stock or out of stock. */
@@ -9934,7 +10179,7 @@ export type ProductTagToProductConnectionWhereArgs = {
   /** Limit result set to products with a specific tax class. */
   taxClass?: Maybe<TaxClassEnum>;
   /** Limit result set with complex set of taxonomy filters. */
-  taxonomyFilter?: Maybe<Array<Maybe<ProductTaxonomyFilterRelationInput>>>;
+  taxonomyFilter?: Maybe<ProductTaxonomyInput>;
   /** Limit result set to products assigned a specific type. */
   type?: Maybe<ProductTypesEnum>;
   /** Limit result set to products assigned to a group of specific types. */
@@ -9948,7 +10193,7 @@ export type ProductTagToProductConnectionWhereArgs = {
 /** Connection between the productTag type and the Taxonomy type */
 export type ProductTagToTaxonomyConnectionEdge = {
   __typename?: 'ProductTagToTaxonomyConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<Taxonomy>;
 };
 
@@ -9976,9 +10221,11 @@ export type ProductTaxonomyFilterInput = {
 };
 
 /** Product taxonomy filter type */
-export type ProductTaxonomyFilterRelationInput = {
-  and?: Maybe<Array<Maybe<ProductTaxonomyFilterInput>>>;
-  or?: Maybe<Array<Maybe<ProductTaxonomyFilterInput>>>;
+export type ProductTaxonomyInput = {
+  /** Product taxonomy rules to be filter results by */
+  filters?: Maybe<Array<Maybe<ProductTaxonomyFilterInput>>>;
+  /** Logic relation between each filter. */
+  relation?: Maybe<RelationEnum>;
 };
 
 /** Connection between the Product type and the Comment type */
@@ -10471,8 +10718,8 @@ export type ProductToProductConnectionWhereArgs = {
   shuffle?: Maybe<Scalars['Boolean']>;
   /** Limit result set to products with specific SKU(s). Use commas to separate. */
   sku?: Maybe<Scalars['String']>;
-  /** Limit result set to products with a specific slug. */
-  slug?: Maybe<Scalars['String']>;
+  /** Limit result set to products with specific slugs. */
+  slugIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Limit result set to products assigned a specific status. */
   status?: Maybe<Scalars['String']>;
   /** Limit result set to products in stock or out of stock. */
@@ -10494,7 +10741,7 @@ export type ProductToProductConnectionWhereArgs = {
   /** Limit result set to products with a specific tax class. */
   taxClass?: Maybe<TaxClassEnum>;
   /** Limit result set with complex set of taxonomy filters. */
-  taxonomyFilter?: Maybe<Array<Maybe<ProductTaxonomyFilterRelationInput>>>;
+  taxonomyFilter?: Maybe<ProductTaxonomyInput>;
   /** Limit result set to products assigned a specific type. */
   type?: Maybe<ProductTypesEnum>;
   /** Limit result set to products assigned to a group of specific types. */
@@ -10763,8 +11010,8 @@ export type ProductToUpsellConnectionWhereArgs = {
   shippingClassId?: Maybe<Scalars['Int']>;
   /** Limit result set to products with specific SKU(s). Use commas to separate. */
   sku?: Maybe<Scalars['String']>;
-  /** Limit result set to products with a specific slug. */
-  slug?: Maybe<Scalars['String']>;
+  /** Limit result set to products with specific slugs. */
+  slugIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Limit result set to products assigned a specific status. */
   status?: Maybe<Scalars['String']>;
   /** Limit result set to products in stock or out of stock. */
@@ -10786,7 +11033,7 @@ export type ProductToUpsellConnectionWhereArgs = {
   /** Limit result set to products with a specific tax class. */
   taxClass?: Maybe<TaxClassEnum>;
   /** Limit result set with complex set of taxonomy filters. */
-  taxonomyFilter?: Maybe<Array<Maybe<ProductTaxonomyFilterRelationInput>>>;
+  taxonomyFilter?: Maybe<ProductTaxonomyInput>;
   /** Limit result set to products assigned a specific type. */
   type?: Maybe<ProductTypesEnum>;
   /** Limit result set to products assigned to a group of specific types. */
@@ -10862,7 +11109,7 @@ export type ProductToVisibleProductConnectionWhereArgs = {
 };
 
 /** The productType type */
-export type ProductType = Node & TermNode & DatabaseIdentifier & {
+export type ProductType = Node & TermNode & UniformResourceIdentifiable & DatabaseIdentifier & {
   __typename?: 'ProductType';
   /** Connection between the productType type and the ContentNode type */
   contentNodes?: Maybe<ProductTypeToContentNodeConnection>;
@@ -10876,10 +11123,14 @@ export type ProductType = Node & TermNode & DatabaseIdentifier & {
   enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
   /** Connection between the TermNode type and the EnqueuedStylesheet type */
   enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
-  /** Unique identifier for the term */
+  /** The unique resource identifier path */
   id: Scalars['ID'];
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
   /** The link to the term */
   link?: Maybe<Scalars['String']>;
   /** The human friendly name of the object. */
@@ -10965,6 +11216,8 @@ export type ProductTypeToContentNodeConnectionEdge = {
 
 /** Arguments for filtering the ProductTypeToContentNodeConnection connection */
 export type ProductTypeToContentNodeConnectionWhereArgs = {
+  /** The Types of content to filter */
+  contentTypes?: Maybe<Array<Maybe<ContentTypesOfProductTypeEnum>>>;
   /** Filter the connection based on dates */
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
@@ -11004,7 +11257,7 @@ export type ProductTypeToContentNodeConnectionWhereArgs = {
 /** Connection between the productType type and the Taxonomy type */
 export type ProductTypeToTaxonomyConnectionEdge = {
   __typename?: 'ProductTypeToTaxonomyConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<Taxonomy>;
 };
 
@@ -11023,7 +11276,7 @@ export enum ProductTypesEnum {
 }
 
 /** A product variation object */
-export type ProductVariation = Node & NodeWithFeaturedImage & ContentNode & UniformResourceIdentifiable & {
+export type ProductVariation = Node & NodeWithFeaturedImage & ContentNode & UniformResourceIdentifiable & DatabaseIdentifier & {
   __typename?: 'ProductVariation';
   /** Connection between the ProductVariation type and the VariationAttribute type */
   attributes?: Maybe<ProductVariationToVariationAttributeConnection>;
@@ -11035,9 +11288,9 @@ export type ProductVariation = Node & NodeWithFeaturedImage & ContentNode & Unif
   catalogVisibility?: Maybe<CatalogVisibilityEnum>;
   /** Connection between the ContentNode type and the ContentType type */
   contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
-  /** The ID of the node in the database. */
+  /** The ID of the refund in the database */
   databaseId: Scalars['Int'];
-  /** Post publishing date. */
+  /** Date variation created */
   date?: Maybe<Scalars['String']>;
   /** The publishing date set in GMT. */
   dateGmt?: Maybe<Scalars['String']>;
@@ -11077,14 +11330,18 @@ export type ProductVariation = Node & NodeWithFeaturedImage & ContentNode & Unif
   hasAttributes?: Maybe<Scalars['Boolean']>;
   /** Product variation height */
   height?: Maybe<Scalars['String']>;
-  /** The unique resource identifier path */
+  /** The globally unique identifier for the product variation */
   id: Scalars['ID'];
   /** Product variation main image */
   image?: Maybe<MediaItem>;
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
   /** Whether the object is a node in the preview state */
   isPreview?: Maybe<Scalars['Boolean']>;
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
   /** The user that most recently edited the node */
   lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
   /** Product variation length */
@@ -11097,7 +11354,7 @@ export type ProductVariation = Node & NodeWithFeaturedImage & ContentNode & Unif
   menuOrder?: Maybe<Scalars['Int']>;
   /** Object meta data */
   metaData?: Maybe<Array<Maybe<MetaData>>>;
-  /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
+  /** Date variation last updated */
   modified?: Maybe<Scalars['String']>;
   /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
   modifiedGmt?: Maybe<Scalars['String']>;
@@ -11129,7 +11386,7 @@ export type ProductVariation = Node & NodeWithFeaturedImage & ContentNode & Unif
   sku?: Maybe<Scalars['String']>;
   /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
   slug?: Maybe<Scalars['String']>;
-  /** The current status of the object */
+  /** Variation status */
   status?: Maybe<Scalars['String']>;
   /** Product variation stock quantity */
   stockQuantity?: Maybe<Scalars['Int']>;
@@ -11303,7 +11560,7 @@ export type ProductVariationToShippingClassConnectionWhereArgs = {
 /** Connection between the ProductVariation type and the VariableProduct type */
 export type ProductVariationToVariableProductConnectionEdge = {
   __typename?: 'ProductVariationToVariableProductConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<VariableProduct>;
 };
 
@@ -11545,10 +11802,8 @@ export type Refund = Node & {
   databaseId?: Maybe<Scalars['Int']>;
   /** The date of the refund */
   date?: Maybe<Scalars['String']>;
-  /** The globally unique ID for the object */
+  /** The globally unique identifier for the refund */
   id: Scalars['ID'];
-  /** Connection between the Refund type and the LineItem type */
-  lineItems?: Maybe<RefundToLineItemConnection>;
   /** Object meta data */
   metaData?: Maybe<Array<Maybe<MetaData>>>;
   /** Reason for refund */
@@ -11557,15 +11812,6 @@ export type Refund = Node & {
   refundedBy?: Maybe<User>;
   /** A title for the new post type */
   title?: Maybe<Scalars['String']>;
-};
-
-
-/** A refund object */
-export type RefundLineItemsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
 };
 
 
@@ -11645,26 +11891,6 @@ export enum RefundIdTypeEnum {
   /** Identify a resource by the (hashed) Global ID. */
   Id = 'ID'
 }
-
-/** Connection between the Refund type and the LineItem type */
-export type RefundToLineItemConnection = {
-  __typename?: 'RefundToLineItemConnection';
-  /** Edges for the RefundToLineItemConnection connection */
-  edges?: Maybe<Array<Maybe<RefundToLineItemConnectionEdge>>>;
-  /** The nodes of the connection, without the edges */
-  nodes?: Maybe<Array<Maybe<LineItem>>>;
-  /** Information about pagination in a connection. */
-  pageInfo?: Maybe<WpPageInfo>;
-};
-
-/** An edge in a connection */
-export type RefundToLineItemConnectionEdge = {
-  __typename?: 'RefundToLineItemConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor?: Maybe<Scalars['String']>;
-  /** The item at the end of the edge */
-  node?: Maybe<LineItem>;
-};
 
 /** Input for the registerCustomer mutation */
 export type RegisterCustomerInput = {
@@ -11918,6 +12144,8 @@ export type RootMutation = {
   createCategory?: Maybe<CreateCategoryPayload>;
   /** The payload for the createComment mutation */
   createComment?: Maybe<CreateCommentPayload>;
+  /** The payload for the createCoupon mutation */
+  createCoupon?: Maybe<CreateCouponPayload>;
   /** The payload for the createMediaItem mutation */
   createMediaItem?: Maybe<CreateMediaItemPayload>;
   /** The payload for the createOrder mutation */
@@ -11952,6 +12180,8 @@ export type RootMutation = {
   deleteCategory?: Maybe<DeleteCategoryPayload>;
   /** The payload for the deleteComment mutation */
   deleteComment?: Maybe<DeleteCommentPayload>;
+  /** The payload for the deleteCoupon mutation */
+  deleteCoupon?: Maybe<DeleteCouponPayload>;
   /** The payload for the deleteMediaItem mutation */
   deleteMediaItem?: Maybe<DeleteMediaItemPayload>;
   /** The payload for the deleteOrder mutation */
@@ -12024,6 +12254,8 @@ export type RootMutation = {
   updateCategory?: Maybe<UpdateCategoryPayload>;
   /** The payload for the updateComment mutation */
   updateComment?: Maybe<UpdateCommentPayload>;
+  /** The payload for the updateCoupon mutation */
+  updateCoupon?: Maybe<UpdateCouponPayload>;
   /** The payload for the updateCustomer mutation */
   updateCustomer?: Maybe<UpdateCustomerPayload>;
   /** The payload for the updateItemQuantities mutation */
@@ -12118,6 +12350,12 @@ export type RootMutationCreateCategoryArgs = {
 /** The root mutation */
 export type RootMutationCreateCommentArgs = {
   input: CreateCommentInput;
+};
+
+
+/** The root mutation */
+export type RootMutationCreateCouponArgs = {
+  input: CreateCouponInput;
 };
 
 
@@ -12220,6 +12458,12 @@ export type RootMutationDeleteCategoryArgs = {
 /** The root mutation */
 export type RootMutationDeleteCommentArgs = {
   input: DeleteCommentInput;
+};
+
+
+/** The root mutation */
+export type RootMutationDeleteCouponArgs = {
+  input: DeleteCouponInput;
 };
 
 
@@ -12440,6 +12684,12 @@ export type RootMutationUpdateCommentArgs = {
 
 
 /** The root mutation */
+export type RootMutationUpdateCouponArgs = {
+  input: UpdateCouponInput;
+};
+
+
+/** The root mutation */
 export type RootMutationUpdateCustomerArgs = {
   input: UpdateCustomerInput;
 };
@@ -12601,6 +12851,8 @@ export type RootQuery = {
   externalProduct?: Maybe<ExternalProduct>;
   /** Fields of the &#039;GeneralSettings&#039; settings group */
   generalSettings?: Maybe<GeneralSettings>;
+  /** A simple product object */
+  groupedProduct?: Maybe<GroupProduct>;
   /** An object of the mediaItem Type.  */
   mediaItem?: Maybe<MediaItem>;
   /**
@@ -12875,6 +13127,13 @@ export type RootQueryCustomersArgs = {
 
 /** The root entry point into the Graph */
 export type RootQueryExternalProductArgs = {
+  id?: Maybe<Scalars['ID']>;
+  idType?: Maybe<ProductIdTypeEnum>;
+};
+
+
+/** The root entry point into the Graph */
+export type RootQueryGroupedProductArgs = {
   id?: Maybe<Scalars['ID']>;
   idType?: Maybe<ProductIdTypeEnum>;
 };
@@ -13631,6 +13890,8 @@ export type RootQueryToContentRevisionUnionConnectionEdge = {
 
 /** Arguments for filtering the RootQueryToContentRevisionUnionConnection connection */
 export type RootQueryToContentRevisionUnionConnectionWhereArgs = {
+  /** The Types of content to filter */
+  contentTypes?: Maybe<Array<Maybe<ContentTypeEnum>>>;
   /** Filter the connection based on dates */
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
@@ -13761,12 +14022,6 @@ export type RootQueryToCustomerConnectionWhereArgs = {
   order?: Maybe<OrderEnum>;
   /** Order results by a specific field. */
   orderby?: Maybe<CustomerConnectionOrderbyEnum>;
-  /** Limit result set to resources with a specific role. */
-  role?: Maybe<UserRoleEnum>;
-  /** Limit result set to resources with a specific group of roles. */
-  roleIn?: Maybe<Array<Maybe<UserRoleEnum>>>;
-  /** Limit result set to resources not within a specific group of roles. */
-  roleNotIn?: Maybe<Array<Maybe<UserRoleEnum>>>;
   /** Limit results to those matching a string. */
   search?: Maybe<Scalars['String']>;
 };
@@ -14507,8 +14762,8 @@ export type RootQueryToProductConnectionWhereArgs = {
   shippingClassId?: Maybe<Scalars['Int']>;
   /** Limit result set to products with specific SKU(s). Use commas to separate. */
   sku?: Maybe<Scalars['String']>;
-  /** Limit result set to products with a specific slug. */
-  slug?: Maybe<Scalars['String']>;
+  /** Limit result set to products with specific slugs. */
+  slugIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Limit result set to products assigned a specific status. */
   status?: Maybe<Scalars['String']>;
   /** Limit result set to products in stock or out of stock. */
@@ -14530,7 +14785,7 @@ export type RootQueryToProductConnectionWhereArgs = {
   /** Limit result set to products with a specific tax class. */
   taxClass?: Maybe<TaxClassEnum>;
   /** Limit result set with complex set of taxonomy filters. */
-  taxonomyFilter?: Maybe<Array<Maybe<ProductTaxonomyFilterRelationInput>>>;
+  taxonomyFilter?: Maybe<ProductTaxonomyInput>;
   /** Limit result set to products assigned a specific type. */
   type?: Maybe<ProductTypesEnum>;
   /** Limit result set to products assigned to a group of specific types. */
@@ -15190,7 +15445,7 @@ export type Settings = {
 };
 
 /** The shippingClass type */
-export type ShippingClass = Node & TermNode & DatabaseIdentifier & UniformResourceIdentifiable & {
+export type ShippingClass = Node & TermNode & UniformResourceIdentifiable & DatabaseIdentifier & {
   __typename?: 'ShippingClass';
   /** Connection between the shippingClass type and the ContentNode type */
   contentNodes?: Maybe<ShippingClassToContentNodeConnection>;
@@ -15206,8 +15461,12 @@ export type ShippingClass = Node & TermNode & DatabaseIdentifier & UniformResour
   enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
   /** The unique resource identifier path */
   id: Scalars['ID'];
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
   /** The link to the term */
   link?: Maybe<Scalars['String']>;
   /** The human friendly name of the object. */
@@ -15293,6 +15552,8 @@ export type ShippingClassToContentNodeConnectionEdge = {
 
 /** Arguments for filtering the ShippingClassToContentNodeConnection connection */
 export type ShippingClassToContentNodeConnectionWhereArgs = {
+  /** The Types of content to filter */
+  contentTypes?: Maybe<Array<Maybe<ContentTypesOfShippingClassEnum>>>;
   /** Filter the connection based on dates */
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
@@ -15332,7 +15593,7 @@ export type ShippingClassToContentNodeConnectionWhereArgs = {
 /** Connection between the shippingClass type and the Taxonomy type */
 export type ShippingClassToTaxonomyConnectionEdge = {
   __typename?: 'ShippingClassToTaxonomyConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<Taxonomy>;
 };
 
@@ -15390,23 +15651,10 @@ export type ShippingMethod = Node & {
   databaseId: Scalars['ID'];
   /** Shipping method description. */
   description?: Maybe<Scalars['String']>;
-  /** The globally unique ID for the object */
+  /** The globally unique identifier for the tax rate. */
   id: Scalars['ID'];
   /** Shipping method title. */
   title?: Maybe<Scalars['String']>;
-};
-
-/** Error that occurred when setting the chosen shipping method for the eventually order. */
-export type ShippingMethodError = CartError & {
-  __typename?: 'ShippingMethodError';
-  /** ID of chosen shipping rate */
-  chosenMethod: Scalars['String'];
-  /** Index of package for desired shipping method */
-  package: Scalars['Int'];
-  /** Reason for error */
-  reasons?: Maybe<Array<Maybe<Scalars['String']>>>;
-  /** Type of error */
-  type: CartErrorType;
 };
 
 /** The Type of Identifier used to fetch a single Shipping Method. Default is ID. */
@@ -15443,8 +15691,17 @@ export type ShippingRate = {
   methodId: Scalars['ID'];
 };
 
+/** A simple attribute object */
+export type SimpleAttribute = Attribute & {
+  __typename?: 'SimpleAttribute';
+  /** Name of attribute */
+  name?: Maybe<Scalars['String']>;
+  /** Selected value of attribute */
+  value?: Maybe<Scalars['String']>;
+};
+
 /** A product object */
-export type SimpleProduct = Node & Product & NodeWithComments & NodeWithContentEditor & NodeWithFeaturedImage & ContentNode & UniformResourceIdentifiable & {
+export type SimpleProduct = Node & Product & NodeWithComments & NodeWithContentEditor & NodeWithFeaturedImage & ContentNode & UniformResourceIdentifiable & DatabaseIdentifier & {
   __typename?: 'SimpleProduct';
   /** Connection between the Product type and the ProductAttribute type */
   attributes?: Maybe<ProductToProductAttributeConnection>;
@@ -15466,9 +15723,9 @@ export type SimpleProduct = Node & Product & NodeWithComments & NodeWithContentE
   contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
   /** Connection between the SimpleProduct type and the Product type */
   crossSell?: Maybe<SimpleProductToProductConnection>;
-  /** The ID of the node in the database. */
+  /** The ID of the product in the database */
   databaseId: Scalars['Int'];
-  /** Post publishing date. */
+  /** Date product created */
   date?: Maybe<Scalars['String']>;
   /** The publishing date set in GMT. */
   dateGmt?: Maybe<Scalars['String']>;
@@ -15514,14 +15771,18 @@ export type SimpleProduct = Node & Product & NodeWithComments & NodeWithContentE
   guid?: Maybe<Scalars['String']>;
   /** Product&#039;s height */
   height?: Maybe<Scalars['String']>;
-  /** The unique resource identifier path */
+  /** The globally unique identifier for the product */
   id: Scalars['ID'];
   /** Main image */
   image?: Maybe<MediaItem>;
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
   /** Whether the object is a node in the preview state */
   isPreview?: Maybe<Scalars['Boolean']>;
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
   /** The user that most recently edited the node */
   lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
   /** Product&#039;s length */
@@ -15536,7 +15797,7 @@ export type SimpleProduct = Node & Product & NodeWithComments & NodeWithContentE
   menuOrder?: Maybe<Scalars['Int']>;
   /** Object meta data */
   metaData?: Maybe<Array<Maybe<MetaData>>>;
-  /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
+  /** Date product last updated */
   modified?: Maybe<Scalars['String']>;
   /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
   modifiedGmt?: Maybe<Scalars['String']>;
@@ -15590,11 +15851,11 @@ export type SimpleProduct = Node & Product & NodeWithComments & NodeWithContentE
   shortDescription?: Maybe<Scalars['String']>;
   /** Product SKU */
   sku?: Maybe<Scalars['String']>;
-  /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
+  /** Product slug */
   slug?: Maybe<Scalars['String']>;
   /** If should be sold individually */
   soldIndividually?: Maybe<Scalars['Boolean']>;
-  /** The current status of the object */
+  /** Product status */
   status?: Maybe<Scalars['String']>;
   /** Number of items available for sale */
   stockQuantity?: Maybe<Scalars['Int']>;
@@ -15911,8 +16172,8 @@ export type SimpleProductToProductConnectionWhereArgs = {
   shippingClassId?: Maybe<Scalars['Int']>;
   /** Limit result set to products with specific SKU(s). Use commas to separate. */
   sku?: Maybe<Scalars['String']>;
-  /** Limit result set to products with a specific slug. */
-  slug?: Maybe<Scalars['String']>;
+  /** Limit result set to products with specific slugs. */
+  slugIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Limit result set to products assigned a specific status. */
   status?: Maybe<Scalars['String']>;
   /** Limit result set to products in stock or out of stock. */
@@ -15934,7 +16195,7 @@ export type SimpleProductToProductConnectionWhereArgs = {
   /** Limit result set to products with a specific tax class. */
   taxClass?: Maybe<TaxClassEnum>;
   /** Limit result set with complex set of taxonomy filters. */
-  taxonomyFilter?: Maybe<Array<Maybe<ProductTaxonomyFilterRelationInput>>>;
+  taxonomyFilter?: Maybe<ProductTaxonomyInput>;
   /** Limit result set to products assigned a specific type. */
   type?: Maybe<ProductTypesEnum>;
   /** Limit result set to products assigned to a group of specific types. */
@@ -15973,7 +16234,7 @@ export enum StockStatusEnum {
 }
 
 /** The tag type */
-export type Tag = Node & TermNode & DatabaseIdentifier & UniformResourceIdentifiable & MenuItemLinkable & {
+export type Tag = Node & TermNode & UniformResourceIdentifiable & DatabaseIdentifier & MenuItemLinkable & {
   __typename?: 'Tag';
   /** Connection between the tag type and the ContentNode type */
   contentNodes?: Maybe<TagToContentNodeConnection>;
@@ -15989,8 +16250,12 @@ export type Tag = Node & TermNode & DatabaseIdentifier & UniformResourceIdentifi
   enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
   /** The unique resource identifier path */
   id: Scalars['ID'];
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
   /** The link to the term */
   link?: Maybe<Scalars['String']>;
   /** The human friendly name of the object. */
@@ -16088,6 +16353,8 @@ export type TagToContentNodeConnectionEdge = {
 
 /** Arguments for filtering the TagToContentNodeConnection connection */
 export type TagToContentNodeConnectionWhereArgs = {
+  /** The Types of content to filter */
+  contentTypes?: Maybe<Array<Maybe<ContentTypesOfTagEnum>>>;
   /** Filter the connection based on dates */
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
@@ -16213,7 +16480,7 @@ export type TagToPostConnectionWhereArgs = {
 /** Connection between the tag type and the Taxonomy type */
 export type TagToTaxonomyConnectionEdge = {
   __typename?: 'TagToTaxonomyConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<Taxonomy>;
 };
 
@@ -16274,7 +16541,7 @@ export type TaxRate = Node & {
   country?: Maybe<Scalars['String']>;
   /** The ID of the customer in the database */
   databaseId?: Maybe<Scalars['Int']>;
-  /** The globally unique ID for the object */
+  /** The globally unique identifier for the tax rate. */
   id: Scalars['ID'];
   /** Tax rate name. */
   name?: Maybe<Scalars['String']>;
@@ -16332,7 +16599,7 @@ export type Taxonomy = Node & {
   graphqlSingleName?: Maybe<Scalars['String']>;
   /** Whether the taxonomy is hierarchical */
   hierarchical?: Maybe<Scalars['Boolean']>;
-  /** The globally unique ID for the object */
+  /** The globally unique identifier of the taxonomy object. */
   id: Scalars['ID'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
@@ -16460,10 +16727,14 @@ export type TermNode = {
   enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
   /** Connection between the TermNode type and the EnqueuedStylesheet type */
   enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
-  /** Unique identifier for the term */
+  /** The unique resource identifier path */
   id: Scalars['ID'];
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
   /** The link to the term */
   link?: Maybe<Scalars['String']>;
   /** The human friendly name of the object. */
@@ -16550,9 +16821,6 @@ export type TermNodeToEnqueuedStylesheetConnectionEdge = {
   node?: Maybe<EnqueuedStylesheet>;
 };
 
-/** Union between the Category, Tag and PostFormatPost types */
-export type TermObjectUnion = Category | Tag | PostFormat | ProductType | VisibleProduct | ProductCategory | ProductTag | ShippingClass | PaColor | PaSize;
-
 /** Options for ordering the connection by */
 export enum TermObjectsConnectionOrderbyEnum {
   /** Order the connection by item count. */
@@ -16580,7 +16848,7 @@ export type Theme = Node & {
   authorUri?: Maybe<Scalars['String']>;
   /** The description of the theme. This field is equivalent to WP_Theme-&gt;get( &quot;Description&quot; ). */
   description?: Maybe<Scalars['String']>;
-  /** The globally unique ID for the object */
+  /** The globally unique identifier of the theme object. */
   id: Scalars['ID'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
@@ -16598,924 +16866,14 @@ export type Theme = Node & {
   version?: Maybe<Scalars['String']>;
 };
 
-/** Available timezones */
-export enum TimezoneEnum {
-  /** Abidjan */
-  AfricaAbidjan = 'AFRICA_ABIDJAN',
-  /** Accra */
-  AfricaAccra = 'AFRICA_ACCRA',
-  /** Addis Ababa */
-  AfricaAddisAbaba = 'AFRICA_ADDIS_ABABA',
-  /** Algiers */
-  AfricaAlgiers = 'AFRICA_ALGIERS',
-  /** Asmara */
-  AfricaAsmara = 'AFRICA_ASMARA',
-  /** Bamako */
-  AfricaBamako = 'AFRICA_BAMAKO',
-  /** Bangui */
-  AfricaBangui = 'AFRICA_BANGUI',
-  /** Banjul */
-  AfricaBanjul = 'AFRICA_BANJUL',
-  /** Bissau */
-  AfricaBissau = 'AFRICA_BISSAU',
-  /** Blantyre */
-  AfricaBlantyre = 'AFRICA_BLANTYRE',
-  /** Brazzaville */
-  AfricaBrazzaville = 'AFRICA_BRAZZAVILLE',
-  /** Bujumbura */
-  AfricaBujumbura = 'AFRICA_BUJUMBURA',
-  /** Cairo */
-  AfricaCairo = 'AFRICA_CAIRO',
-  /** Casablanca */
-  AfricaCasablanca = 'AFRICA_CASABLANCA',
-  /** Ceuta */
-  AfricaCeuta = 'AFRICA_CEUTA',
-  /** Conakry */
-  AfricaConakry = 'AFRICA_CONAKRY',
-  /** Dakar */
-  AfricaDakar = 'AFRICA_DAKAR',
-  /** Dar es Salaam */
-  AfricaDarEsSalaam = 'AFRICA_DAR_ES_SALAAM',
-  /** Djibouti */
-  AfricaDjibouti = 'AFRICA_DJIBOUTI',
-  /** Douala */
-  AfricaDouala = 'AFRICA_DOUALA',
-  /** El Aaiun */
-  AfricaElAaiun = 'AFRICA_EL_AAIUN',
-  /** Freetown */
-  AfricaFreetown = 'AFRICA_FREETOWN',
-  /** Gaborone */
-  AfricaGaborone = 'AFRICA_GABORONE',
-  /** Harare */
-  AfricaHarare = 'AFRICA_HARARE',
-  /** Johannesburg */
-  AfricaJohannesburg = 'AFRICA_JOHANNESBURG',
-  /** Juba */
-  AfricaJuba = 'AFRICA_JUBA',
-  /** Kampala */
-  AfricaKampala = 'AFRICA_KAMPALA',
-  /** Khartoum */
-  AfricaKhartoum = 'AFRICA_KHARTOUM',
-  /** Kigali */
-  AfricaKigali = 'AFRICA_KIGALI',
-  /** Kinshasa */
-  AfricaKinshasa = 'AFRICA_KINSHASA',
-  /** Lagos */
-  AfricaLagos = 'AFRICA_LAGOS',
-  /** Libreville */
-  AfricaLibreville = 'AFRICA_LIBREVILLE',
-  /** Lome */
-  AfricaLome = 'AFRICA_LOME',
-  /** Luanda */
-  AfricaLuanda = 'AFRICA_LUANDA',
-  /** Lubumbashi */
-  AfricaLubumbashi = 'AFRICA_LUBUMBASHI',
-  /** Lusaka */
-  AfricaLusaka = 'AFRICA_LUSAKA',
-  /** Malabo */
-  AfricaMalabo = 'AFRICA_MALABO',
-  /** Maputo */
-  AfricaMaputo = 'AFRICA_MAPUTO',
-  /** Maseru */
-  AfricaMaseru = 'AFRICA_MASERU',
-  /** Mbabane */
-  AfricaMbabane = 'AFRICA_MBABANE',
-  /** Mogadishu */
-  AfricaMogadishu = 'AFRICA_MOGADISHU',
-  /** Monrovia */
-  AfricaMonrovia = 'AFRICA_MONROVIA',
-  /** Nairobi */
-  AfricaNairobi = 'AFRICA_NAIROBI',
-  /** Ndjamena */
-  AfricaNdjamena = 'AFRICA_NDJAMENA',
-  /** Niamey */
-  AfricaNiamey = 'AFRICA_NIAMEY',
-  /** Nouakchott */
-  AfricaNouakchott = 'AFRICA_NOUAKCHOTT',
-  /** Ouagadougou */
-  AfricaOuagadougou = 'AFRICA_OUAGADOUGOU',
-  /** Porto-Novo */
-  AfricaPortoNovo = 'AFRICA_PORTO_NOVO',
-  /** Sao Tome */
-  AfricaSaoTome = 'AFRICA_SAO_TOME',
-  /** Tripoli */
-  AfricaTripoli = 'AFRICA_TRIPOLI',
-  /** Tunis */
-  AfricaTunis = 'AFRICA_TUNIS',
-  /** Windhoek */
-  AfricaWindhoek = 'AFRICA_WINDHOEK',
-  /** Adak */
-  AmericaAdak = 'AMERICA_ADAK',
-  /** Anchorage */
-  AmericaAnchorage = 'AMERICA_ANCHORAGE',
-  /** Anguilla */
-  AmericaAnguilla = 'AMERICA_ANGUILLA',
-  /** Antigua */
-  AmericaAntigua = 'AMERICA_ANTIGUA',
-  /** Araguaina */
-  AmericaAraguaina = 'AMERICA_ARAGUAINA',
-  /** Argentina - Buenos Aires */
-  AmericaArgentinaBuenosAires = 'AMERICA_ARGENTINA_BUENOS_AIRES',
-  /** Argentina - Catamarca */
-  AmericaArgentinaCatamarca = 'AMERICA_ARGENTINA_CATAMARCA',
-  /** Argentina - Cordoba */
-  AmericaArgentinaCordoba = 'AMERICA_ARGENTINA_CORDOBA',
-  /** Argentina - Jujuy */
-  AmericaArgentinaJujuy = 'AMERICA_ARGENTINA_JUJUY',
-  /** Argentina - La Rioja */
-  AmericaArgentinaLaRioja = 'AMERICA_ARGENTINA_LA_RIOJA',
-  /** Argentina - Mendoza */
-  AmericaArgentinaMendoza = 'AMERICA_ARGENTINA_MENDOZA',
-  /** Argentina - Rio Gallegos */
-  AmericaArgentinaRioGallegos = 'AMERICA_ARGENTINA_RIO_GALLEGOS',
-  /** Argentina - Salta */
-  AmericaArgentinaSalta = 'AMERICA_ARGENTINA_SALTA',
-  /** Argentina - San Juan */
-  AmericaArgentinaSanJuan = 'AMERICA_ARGENTINA_SAN_JUAN',
-  /** Argentina - San Luis */
-  AmericaArgentinaSanLuis = 'AMERICA_ARGENTINA_SAN_LUIS',
-  /** Argentina - Tucuman */
-  AmericaArgentinaTucuman = 'AMERICA_ARGENTINA_TUCUMAN',
-  /** Argentina - Ushuaia */
-  AmericaArgentinaUshuaia = 'AMERICA_ARGENTINA_USHUAIA',
-  /** Aruba */
-  AmericaAruba = 'AMERICA_ARUBA',
-  /** Asuncion */
-  AmericaAsuncion = 'AMERICA_ASUNCION',
-  /** Atikokan */
-  AmericaAtikokan = 'AMERICA_ATIKOKAN',
-  /** Bahia */
-  AmericaBahia = 'AMERICA_BAHIA',
-  /** Bahia Banderas */
-  AmericaBahiaBanderas = 'AMERICA_BAHIA_BANDERAS',
-  /** Barbados */
-  AmericaBarbados = 'AMERICA_BARBADOS',
-  /** Belem */
-  AmericaBelem = 'AMERICA_BELEM',
-  /** Belize */
-  AmericaBelize = 'AMERICA_BELIZE',
-  /** Blanc-Sablon */
-  AmericaBlancSablon = 'AMERICA_BLANC_SABLON',
-  /** Boa Vista */
-  AmericaBoaVista = 'AMERICA_BOA_VISTA',
-  /** Bogota */
-  AmericaBogota = 'AMERICA_BOGOTA',
-  /** Boise */
-  AmericaBoise = 'AMERICA_BOISE',
-  /** Cambridge Bay */
-  AmericaCambridgeBay = 'AMERICA_CAMBRIDGE_BAY',
-  /** Campo Grande */
-  AmericaCampoGrande = 'AMERICA_CAMPO_GRANDE',
-  /** Cancun */
-  AmericaCancun = 'AMERICA_CANCUN',
-  /** Caracas */
-  AmericaCaracas = 'AMERICA_CARACAS',
-  /** Cayenne */
-  AmericaCayenne = 'AMERICA_CAYENNE',
-  /** Cayman */
-  AmericaCayman = 'AMERICA_CAYMAN',
-  /** Chicago */
-  AmericaChicago = 'AMERICA_CHICAGO',
-  /** Chihuahua */
-  AmericaChihuahua = 'AMERICA_CHIHUAHUA',
-  /** Costa Rica */
-  AmericaCostaRica = 'AMERICA_COSTA_RICA',
-  /** Creston */
-  AmericaCreston = 'AMERICA_CRESTON',
-  /** Cuiaba */
-  AmericaCuiaba = 'AMERICA_CUIABA',
-  /** Curacao */
-  AmericaCuracao = 'AMERICA_CURACAO',
-  /** Danmarkshavn */
-  AmericaDanmarkshavn = 'AMERICA_DANMARKSHAVN',
-  /** Dawson */
-  AmericaDawson = 'AMERICA_DAWSON',
-  /** Dawson Creek */
-  AmericaDawsonCreek = 'AMERICA_DAWSON_CREEK',
-  /** Denver */
-  AmericaDenver = 'AMERICA_DENVER',
-  /** Detroit */
-  AmericaDetroit = 'AMERICA_DETROIT',
-  /** Dominica */
-  AmericaDominica = 'AMERICA_DOMINICA',
-  /** Edmonton */
-  AmericaEdmonton = 'AMERICA_EDMONTON',
-  /** Eirunepe */
-  AmericaEirunepe = 'AMERICA_EIRUNEPE',
-  /** El Salvador */
-  AmericaElSalvador = 'AMERICA_EL_SALVADOR',
-  /** Fortaleza */
-  AmericaFortaleza = 'AMERICA_FORTALEZA',
-  /** Fort Nelson */
-  AmericaFortNelson = 'AMERICA_FORT_NELSON',
-  /** Glace Bay */
-  AmericaGlaceBay = 'AMERICA_GLACE_BAY',
-  /** Goose Bay */
-  AmericaGooseBay = 'AMERICA_GOOSE_BAY',
-  /** Grand Turk */
-  AmericaGrandTurk = 'AMERICA_GRAND_TURK',
-  /** Grenada */
-  AmericaGrenada = 'AMERICA_GRENADA',
-  /** Guadeloupe */
-  AmericaGuadeloupe = 'AMERICA_GUADELOUPE',
-  /** Guatemala */
-  AmericaGuatemala = 'AMERICA_GUATEMALA',
-  /** Guayaquil */
-  AmericaGuayaquil = 'AMERICA_GUAYAQUIL',
-  /** Guyana */
-  AmericaGuyana = 'AMERICA_GUYANA',
-  /** Halifax */
-  AmericaHalifax = 'AMERICA_HALIFAX',
-  /** Havana */
-  AmericaHavana = 'AMERICA_HAVANA',
-  /** Hermosillo */
-  AmericaHermosillo = 'AMERICA_HERMOSILLO',
-  /** Indiana - Indianapolis */
-  AmericaIndianaIndianapolis = 'AMERICA_INDIANA_INDIANAPOLIS',
-  /** Indiana - Knox */
-  AmericaIndianaKnox = 'AMERICA_INDIANA_KNOX',
-  /** Indiana - Marengo */
-  AmericaIndianaMarengo = 'AMERICA_INDIANA_MARENGO',
-  /** Indiana - Petersburg */
-  AmericaIndianaPetersburg = 'AMERICA_INDIANA_PETERSBURG',
-  /** Indiana - Tell City */
-  AmericaIndianaTellCity = 'AMERICA_INDIANA_TELL_CITY',
-  /** Indiana - Vevay */
-  AmericaIndianaVevay = 'AMERICA_INDIANA_VEVAY',
-  /** Indiana - Vincennes */
-  AmericaIndianaVincennes = 'AMERICA_INDIANA_VINCENNES',
-  /** Indiana - Winamac */
-  AmericaIndianaWinamac = 'AMERICA_INDIANA_WINAMAC',
-  /** Inuvik */
-  AmericaInuvik = 'AMERICA_INUVIK',
-  /** Iqaluit */
-  AmericaIqaluit = 'AMERICA_IQALUIT',
-  /** Jamaica */
-  AmericaJamaica = 'AMERICA_JAMAICA',
-  /** Juneau */
-  AmericaJuneau = 'AMERICA_JUNEAU',
-  /** Kentucky - Louisville */
-  AmericaKentuckyLouisville = 'AMERICA_KENTUCKY_LOUISVILLE',
-  /** Kentucky - Monticello */
-  AmericaKentuckyMonticello = 'AMERICA_KENTUCKY_MONTICELLO',
-  /** Kralendijk */
-  AmericaKralendijk = 'AMERICA_KRALENDIJK',
-  /** La Paz */
-  AmericaLaPaz = 'AMERICA_LA_PAZ',
-  /** Lima */
-  AmericaLima = 'AMERICA_LIMA',
-  /** Los Angeles */
-  AmericaLosAngeles = 'AMERICA_LOS_ANGELES',
-  /** Lower Princes */
-  AmericaLowerPrinces = 'AMERICA_LOWER_PRINCES',
-  /** Maceio */
-  AmericaMaceio = 'AMERICA_MACEIO',
-  /** Managua */
-  AmericaManagua = 'AMERICA_MANAGUA',
-  /** Manaus */
-  AmericaManaus = 'AMERICA_MANAUS',
-  /** Marigot */
-  AmericaMarigot = 'AMERICA_MARIGOT',
-  /** Martinique */
-  AmericaMartinique = 'AMERICA_MARTINIQUE',
-  /** Matamoros */
-  AmericaMatamoros = 'AMERICA_MATAMOROS',
-  /** Mazatlan */
-  AmericaMazatlan = 'AMERICA_MAZATLAN',
-  /** Menominee */
-  AmericaMenominee = 'AMERICA_MENOMINEE',
-  /** Merida */
-  AmericaMerida = 'AMERICA_MERIDA',
-  /** Metlakatla */
-  AmericaMetlakatla = 'AMERICA_METLAKATLA',
-  /** Mexico City */
-  AmericaMexicoCity = 'AMERICA_MEXICO_CITY',
-  /** Miquelon */
-  AmericaMiquelon = 'AMERICA_MIQUELON',
-  /** Moncton */
-  AmericaMoncton = 'AMERICA_MONCTON',
-  /** Monterrey */
-  AmericaMonterrey = 'AMERICA_MONTERREY',
-  /** Montevideo */
-  AmericaMontevideo = 'AMERICA_MONTEVIDEO',
-  /** Montserrat */
-  AmericaMontserrat = 'AMERICA_MONTSERRAT',
-  /** Nassau */
-  AmericaNassau = 'AMERICA_NASSAU',
-  /** New York */
-  AmericaNewYork = 'AMERICA_NEW_YORK',
-  /** Nipigon */
-  AmericaNipigon = 'AMERICA_NIPIGON',
-  /** Nome */
-  AmericaNome = 'AMERICA_NOME',
-  /** Noronha */
-  AmericaNoronha = 'AMERICA_NORONHA',
-  /** North Dakota - Beulah */
-  AmericaNorthDakotaBeulah = 'AMERICA_NORTH_DAKOTA_BEULAH',
-  /** North Dakota - Center */
-  AmericaNorthDakotaCenter = 'AMERICA_NORTH_DAKOTA_CENTER',
-  /** North Dakota - New Salem */
-  AmericaNorthDakotaNewSalem = 'AMERICA_NORTH_DAKOTA_NEW_SALEM',
-  /** Nuuk */
-  AmericaNuuk = 'AMERICA_NUUK',
-  /** Ojinaga */
-  AmericaOjinaga = 'AMERICA_OJINAGA',
-  /** Panama */
-  AmericaPanama = 'AMERICA_PANAMA',
-  /** Pangnirtung */
-  AmericaPangnirtung = 'AMERICA_PANGNIRTUNG',
-  /** Paramaribo */
-  AmericaParamaribo = 'AMERICA_PARAMARIBO',
-  /** Phoenix */
-  AmericaPhoenix = 'AMERICA_PHOENIX',
-  /** Porto Velho */
-  AmericaPortoVelho = 'AMERICA_PORTO_VELHO',
-  /** Port-au-Prince */
-  AmericaPortAuPrince = 'AMERICA_PORT_AU_PRINCE',
-  /** Port of Spain */
-  AmericaPortOfSpain = 'AMERICA_PORT_OF_SPAIN',
-  /** Puerto Rico */
-  AmericaPuertoRico = 'AMERICA_PUERTO_RICO',
-  /** Punta Arenas */
-  AmericaPuntaArenas = 'AMERICA_PUNTA_ARENAS',
-  /** Rainy River */
-  AmericaRainyRiver = 'AMERICA_RAINY_RIVER',
-  /** Rankin Inlet */
-  AmericaRankinInlet = 'AMERICA_RANKIN_INLET',
-  /** Recife */
-  AmericaRecife = 'AMERICA_RECIFE',
-  /** Regina */
-  AmericaRegina = 'AMERICA_REGINA',
-  /** Resolute */
-  AmericaResolute = 'AMERICA_RESOLUTE',
-  /** Rio Branco */
-  AmericaRioBranco = 'AMERICA_RIO_BRANCO',
-  /** Santarem */
-  AmericaSantarem = 'AMERICA_SANTAREM',
-  /** Santiago */
-  AmericaSantiago = 'AMERICA_SANTIAGO',
-  /** Santo Domingo */
-  AmericaSantoDomingo = 'AMERICA_SANTO_DOMINGO',
-  /** Sao Paulo */
-  AmericaSaoPaulo = 'AMERICA_SAO_PAULO',
-  /** Scoresbysund */
-  AmericaScoresbysund = 'AMERICA_SCORESBYSUND',
-  /** Sitka */
-  AmericaSitka = 'AMERICA_SITKA',
-  /** St Barthelemy */
-  AmericaStBarthelemy = 'AMERICA_ST_BARTHELEMY',
-  /** St Johns */
-  AmericaStJohns = 'AMERICA_ST_JOHNS',
-  /** St Kitts */
-  AmericaStKitts = 'AMERICA_ST_KITTS',
-  /** St Lucia */
-  AmericaStLucia = 'AMERICA_ST_LUCIA',
-  /** St Thomas */
-  AmericaStThomas = 'AMERICA_ST_THOMAS',
-  /** St Vincent */
-  AmericaStVincent = 'AMERICA_ST_VINCENT',
-  /** Swift Current */
-  AmericaSwiftCurrent = 'AMERICA_SWIFT_CURRENT',
-  /** Tegucigalpa */
-  AmericaTegucigalpa = 'AMERICA_TEGUCIGALPA',
-  /** Thule */
-  AmericaThule = 'AMERICA_THULE',
-  /** Thunder Bay */
-  AmericaThunderBay = 'AMERICA_THUNDER_BAY',
-  /** Tijuana */
-  AmericaTijuana = 'AMERICA_TIJUANA',
-  /** Toronto */
-  AmericaToronto = 'AMERICA_TORONTO',
-  /** Tortola */
-  AmericaTortola = 'AMERICA_TORTOLA',
-  /** Vancouver */
-  AmericaVancouver = 'AMERICA_VANCOUVER',
-  /** Whitehorse */
-  AmericaWhitehorse = 'AMERICA_WHITEHORSE',
-  /** Winnipeg */
-  AmericaWinnipeg = 'AMERICA_WINNIPEG',
-  /** Yakutat */
-  AmericaYakutat = 'AMERICA_YAKUTAT',
-  /** Yellowknife */
-  AmericaYellowknife = 'AMERICA_YELLOWKNIFE',
-  /** Casey */
-  AntarcticaCasey = 'ANTARCTICA_CASEY',
-  /** Davis */
-  AntarcticaDavis = 'ANTARCTICA_DAVIS',
-  /** DumontDUrville */
-  AntarcticaDumontdurville = 'ANTARCTICA_DUMONTDURVILLE',
-  /** Macquarie */
-  AntarcticaMacquarie = 'ANTARCTICA_MACQUARIE',
-  /** Mawson */
-  AntarcticaMawson = 'ANTARCTICA_MAWSON',
-  /** McMurdo */
-  AntarcticaMcmurdo = 'ANTARCTICA_MCMURDO',
-  /** Palmer */
-  AntarcticaPalmer = 'ANTARCTICA_PALMER',
-  /** Rothera */
-  AntarcticaRothera = 'ANTARCTICA_ROTHERA',
-  /** Syowa */
-  AntarcticaSyowa = 'ANTARCTICA_SYOWA',
-  /** Troll */
-  AntarcticaTroll = 'ANTARCTICA_TROLL',
-  /** Vostok */
-  AntarcticaVostok = 'ANTARCTICA_VOSTOK',
-  /** Longyearbyen */
-  ArcticLongyearbyen = 'ARCTIC_LONGYEARBYEN',
-  /** Aden */
-  AsiaAden = 'ASIA_ADEN',
-  /** Almaty */
-  AsiaAlmaty = 'ASIA_ALMATY',
-  /** Amman */
-  AsiaAmman = 'ASIA_AMMAN',
-  /** Anadyr */
-  AsiaAnadyr = 'ASIA_ANADYR',
-  /** Aqtau */
-  AsiaAqtau = 'ASIA_AQTAU',
-  /** Aqtobe */
-  AsiaAqtobe = 'ASIA_AQTOBE',
-  /** Ashgabat */
-  AsiaAshgabat = 'ASIA_ASHGABAT',
-  /** Atyrau */
-  AsiaAtyrau = 'ASIA_ATYRAU',
-  /** Baghdad */
-  AsiaBaghdad = 'ASIA_BAGHDAD',
-  /** Bahrain */
-  AsiaBahrain = 'ASIA_BAHRAIN',
-  /** Baku */
-  AsiaBaku = 'ASIA_BAKU',
-  /** Bangkok */
-  AsiaBangkok = 'ASIA_BANGKOK',
-  /** Barnaul */
-  AsiaBarnaul = 'ASIA_BARNAUL',
-  /** Beirut */
-  AsiaBeirut = 'ASIA_BEIRUT',
-  /** Bishkek */
-  AsiaBishkek = 'ASIA_BISHKEK',
-  /** Brunei */
-  AsiaBrunei = 'ASIA_BRUNEI',
-  /** Chita */
-  AsiaChita = 'ASIA_CHITA',
-  /** Choibalsan */
-  AsiaChoibalsan = 'ASIA_CHOIBALSAN',
-  /** Colombo */
-  AsiaColombo = 'ASIA_COLOMBO',
-  /** Damascus */
-  AsiaDamascus = 'ASIA_DAMASCUS',
-  /** Dhaka */
-  AsiaDhaka = 'ASIA_DHAKA',
-  /** Dili */
-  AsiaDili = 'ASIA_DILI',
-  /** Dubai */
-  AsiaDubai = 'ASIA_DUBAI',
-  /** Dushanbe */
-  AsiaDushanbe = 'ASIA_DUSHANBE',
-  /** Famagusta */
-  AsiaFamagusta = 'ASIA_FAMAGUSTA',
-  /** Gaza */
-  AsiaGaza = 'ASIA_GAZA',
-  /** Hebron */
-  AsiaHebron = 'ASIA_HEBRON',
-  /** Hong Kong */
-  AsiaHongKong = 'ASIA_HONG_KONG',
-  /** Hovd */
-  AsiaHovd = 'ASIA_HOVD',
-  /** Ho Chi Minh */
-  AsiaHoChiMinh = 'ASIA_HO_CHI_MINH',
-  /** Irkutsk */
-  AsiaIrkutsk = 'ASIA_IRKUTSK',
-  /** Jakarta */
-  AsiaJakarta = 'ASIA_JAKARTA',
-  /** Jayapura */
-  AsiaJayapura = 'ASIA_JAYAPURA',
-  /** Jerusalem */
-  AsiaJerusalem = 'ASIA_JERUSALEM',
-  /** Kabul */
-  AsiaKabul = 'ASIA_KABUL',
-  /** Kamchatka */
-  AsiaKamchatka = 'ASIA_KAMCHATKA',
-  /** Karachi */
-  AsiaKarachi = 'ASIA_KARACHI',
-  /** Kathmandu */
-  AsiaKathmandu = 'ASIA_KATHMANDU',
-  /** Khandyga */
-  AsiaKhandyga = 'ASIA_KHANDYGA',
-  /** Kolkata */
-  AsiaKolkata = 'ASIA_KOLKATA',
-  /** Krasnoyarsk */
-  AsiaKrasnoyarsk = 'ASIA_KRASNOYARSK',
-  /** Kuala Lumpur */
-  AsiaKualaLumpur = 'ASIA_KUALA_LUMPUR',
-  /** Kuching */
-  AsiaKuching = 'ASIA_KUCHING',
-  /** Kuwait */
-  AsiaKuwait = 'ASIA_KUWAIT',
-  /** Macau */
-  AsiaMacau = 'ASIA_MACAU',
-  /** Magadan */
-  AsiaMagadan = 'ASIA_MAGADAN',
-  /** Makassar */
-  AsiaMakassar = 'ASIA_MAKASSAR',
-  /** Manila */
-  AsiaManila = 'ASIA_MANILA',
-  /** Muscat */
-  AsiaMuscat = 'ASIA_MUSCAT',
-  /** Nicosia */
-  AsiaNicosia = 'ASIA_NICOSIA',
-  /** Novokuznetsk */
-  AsiaNovokuznetsk = 'ASIA_NOVOKUZNETSK',
-  /** Novosibirsk */
-  AsiaNovosibirsk = 'ASIA_NOVOSIBIRSK',
-  /** Omsk */
-  AsiaOmsk = 'ASIA_OMSK',
-  /** Oral */
-  AsiaOral = 'ASIA_ORAL',
-  /** Phnom Penh */
-  AsiaPhnomPenh = 'ASIA_PHNOM_PENH',
-  /** Pontianak */
-  AsiaPontianak = 'ASIA_PONTIANAK',
-  /** Pyongyang */
-  AsiaPyongyang = 'ASIA_PYONGYANG',
-  /** Qatar */
-  AsiaQatar = 'ASIA_QATAR',
-  /** Qostanay */
-  AsiaQostanay = 'ASIA_QOSTANAY',
-  /** Qyzylorda */
-  AsiaQyzylorda = 'ASIA_QYZYLORDA',
-  /** Riyadh */
-  AsiaRiyadh = 'ASIA_RIYADH',
-  /** Sakhalin */
-  AsiaSakhalin = 'ASIA_SAKHALIN',
-  /** Samarkand */
-  AsiaSamarkand = 'ASIA_SAMARKAND',
-  /** Seoul */
-  AsiaSeoul = 'ASIA_SEOUL',
-  /** Shanghai */
-  AsiaShanghai = 'ASIA_SHANGHAI',
-  /** Singapore */
-  AsiaSingapore = 'ASIA_SINGAPORE',
-  /** Srednekolymsk */
-  AsiaSrednekolymsk = 'ASIA_SREDNEKOLYMSK',
-  /** Taipei */
-  AsiaTaipei = 'ASIA_TAIPEI',
-  /** Tashkent */
-  AsiaTashkent = 'ASIA_TASHKENT',
-  /** Tbilisi */
-  AsiaTbilisi = 'ASIA_TBILISI',
-  /** Tehran */
-  AsiaTehran = 'ASIA_TEHRAN',
-  /** Thimphu */
-  AsiaThimphu = 'ASIA_THIMPHU',
-  /** Tokyo */
-  AsiaTokyo = 'ASIA_TOKYO',
-  /** Tomsk */
-  AsiaTomsk = 'ASIA_TOMSK',
-  /** Ulaanbaatar */
-  AsiaUlaanbaatar = 'ASIA_ULAANBAATAR',
-  /** Urumqi */
-  AsiaUrumqi = 'ASIA_URUMQI',
-  /** Ust-Nera */
-  AsiaUstNera = 'ASIA_UST_NERA',
-  /** Vientiane */
-  AsiaVientiane = 'ASIA_VIENTIANE',
-  /** Vladivostok */
-  AsiaVladivostok = 'ASIA_VLADIVOSTOK',
-  /** Yakutsk */
-  AsiaYakutsk = 'ASIA_YAKUTSK',
-  /** Yangon */
-  AsiaYangon = 'ASIA_YANGON',
-  /** Yekaterinburg */
-  AsiaYekaterinburg = 'ASIA_YEKATERINBURG',
-  /** Yerevan */
-  AsiaYerevan = 'ASIA_YEREVAN',
-  /** Azores */
-  AtlanticAzores = 'ATLANTIC_AZORES',
-  /** Bermuda */
-  AtlanticBermuda = 'ATLANTIC_BERMUDA',
-  /** Canary */
-  AtlanticCanary = 'ATLANTIC_CANARY',
-  /** Cape Verde */
-  AtlanticCapeVerde = 'ATLANTIC_CAPE_VERDE',
-  /** Faroe */
-  AtlanticFaroe = 'ATLANTIC_FAROE',
-  /** Madeira */
-  AtlanticMadeira = 'ATLANTIC_MADEIRA',
-  /** Reykjavik */
-  AtlanticReykjavik = 'ATLANTIC_REYKJAVIK',
-  /** South Georgia */
-  AtlanticSouthGeorgia = 'ATLANTIC_SOUTH_GEORGIA',
-  /** Stanley */
-  AtlanticStanley = 'ATLANTIC_STANLEY',
-  /** St Helena */
-  AtlanticStHelena = 'ATLANTIC_ST_HELENA',
-  /** Adelaide */
-  AustraliaAdelaide = 'AUSTRALIA_ADELAIDE',
-  /** Brisbane */
-  AustraliaBrisbane = 'AUSTRALIA_BRISBANE',
-  /** Broken Hill */
-  AustraliaBrokenHill = 'AUSTRALIA_BROKEN_HILL',
-  /** Darwin */
-  AustraliaDarwin = 'AUSTRALIA_DARWIN',
-  /** Eucla */
-  AustraliaEucla = 'AUSTRALIA_EUCLA',
-  /** Hobart */
-  AustraliaHobart = 'AUSTRALIA_HOBART',
-  /** Lindeman */
-  AustraliaLindeman = 'AUSTRALIA_LINDEMAN',
-  /** Lord Howe */
-  AustraliaLordHowe = 'AUSTRALIA_LORD_HOWE',
-  /** Melbourne */
-  AustraliaMelbourne = 'AUSTRALIA_MELBOURNE',
-  /** Perth */
-  AustraliaPerth = 'AUSTRALIA_PERTH',
-  /** Sydney */
-  AustraliaSydney = 'AUSTRALIA_SYDNEY',
-  /** Amsterdam */
-  EuropeAmsterdam = 'EUROPE_AMSTERDAM',
-  /** Andorra */
-  EuropeAndorra = 'EUROPE_ANDORRA',
-  /** Astrakhan */
-  EuropeAstrakhan = 'EUROPE_ASTRAKHAN',
-  /** Athens */
-  EuropeAthens = 'EUROPE_ATHENS',
-  /** Belgrade */
-  EuropeBelgrade = 'EUROPE_BELGRADE',
-  /** Berlin */
-  EuropeBerlin = 'EUROPE_BERLIN',
-  /** Bratislava */
-  EuropeBratislava = 'EUROPE_BRATISLAVA',
-  /** Brussels */
-  EuropeBrussels = 'EUROPE_BRUSSELS',
-  /** Bucharest */
-  EuropeBucharest = 'EUROPE_BUCHAREST',
-  /** Budapest */
-  EuropeBudapest = 'EUROPE_BUDAPEST',
-  /** Busingen */
-  EuropeBusingen = 'EUROPE_BUSINGEN',
-  /** Chisinau */
-  EuropeChisinau = 'EUROPE_CHISINAU',
-  /** Copenhagen */
-  EuropeCopenhagen = 'EUROPE_COPENHAGEN',
-  /** Dublin */
-  EuropeDublin = 'EUROPE_DUBLIN',
-  /** Gibraltar */
-  EuropeGibraltar = 'EUROPE_GIBRALTAR',
-  /** Guernsey */
-  EuropeGuernsey = 'EUROPE_GUERNSEY',
-  /** Helsinki */
-  EuropeHelsinki = 'EUROPE_HELSINKI',
-  /** Isle of Man */
-  EuropeIsleOfMan = 'EUROPE_ISLE_OF_MAN',
-  /** Istanbul */
-  EuropeIstanbul = 'EUROPE_ISTANBUL',
-  /** Jersey */
-  EuropeJersey = 'EUROPE_JERSEY',
-  /** Kaliningrad */
-  EuropeKaliningrad = 'EUROPE_KALININGRAD',
-  /** Kiev */
-  EuropeKiev = 'EUROPE_KIEV',
-  /** Kirov */
-  EuropeKirov = 'EUROPE_KIROV',
-  /** Lisbon */
-  EuropeLisbon = 'EUROPE_LISBON',
-  /** Ljubljana */
-  EuropeLjubljana = 'EUROPE_LJUBLJANA',
-  /** London */
-  EuropeLondon = 'EUROPE_LONDON',
-  /** Luxembourg */
-  EuropeLuxembourg = 'EUROPE_LUXEMBOURG',
-  /** Madrid */
-  EuropeMadrid = 'EUROPE_MADRID',
-  /** Malta */
-  EuropeMalta = 'EUROPE_MALTA',
-  /** Mariehamn */
-  EuropeMariehamn = 'EUROPE_MARIEHAMN',
-  /** Minsk */
-  EuropeMinsk = 'EUROPE_MINSK',
-  /** Monaco */
-  EuropeMonaco = 'EUROPE_MONACO',
-  /** Moscow */
-  EuropeMoscow = 'EUROPE_MOSCOW',
-  /** Oslo */
-  EuropeOslo = 'EUROPE_OSLO',
-  /** Paris */
-  EuropeParis = 'EUROPE_PARIS',
-  /** Podgorica */
-  EuropePodgorica = 'EUROPE_PODGORICA',
-  /** Prague */
-  EuropePrague = 'EUROPE_PRAGUE',
-  /** Riga */
-  EuropeRiga = 'EUROPE_RIGA',
-  /** Rome */
-  EuropeRome = 'EUROPE_ROME',
-  /** Samara */
-  EuropeSamara = 'EUROPE_SAMARA',
-  /** San Marino */
-  EuropeSanMarino = 'EUROPE_SAN_MARINO',
-  /** Sarajevo */
-  EuropeSarajevo = 'EUROPE_SARAJEVO',
-  /** Saratov */
-  EuropeSaratov = 'EUROPE_SARATOV',
-  /** Simferopol */
-  EuropeSimferopol = 'EUROPE_SIMFEROPOL',
-  /** Skopje */
-  EuropeSkopje = 'EUROPE_SKOPJE',
-  /** Sofia */
-  EuropeSofia = 'EUROPE_SOFIA',
-  /** Stockholm */
-  EuropeStockholm = 'EUROPE_STOCKHOLM',
-  /** Tallinn */
-  EuropeTallinn = 'EUROPE_TALLINN',
-  /** Tirane */
-  EuropeTirane = 'EUROPE_TIRANE',
-  /** Ulyanovsk */
-  EuropeUlyanovsk = 'EUROPE_ULYANOVSK',
-  /** Uzhgorod */
-  EuropeUzhgorod = 'EUROPE_UZHGOROD',
-  /** Vaduz */
-  EuropeVaduz = 'EUROPE_VADUZ',
-  /** Vatican */
-  EuropeVatican = 'EUROPE_VATICAN',
-  /** Vienna */
-  EuropeVienna = 'EUROPE_VIENNA',
-  /** Vilnius */
-  EuropeVilnius = 'EUROPE_VILNIUS',
-  /** Volgograd */
-  EuropeVolgograd = 'EUROPE_VOLGOGRAD',
-  /** Warsaw */
-  EuropeWarsaw = 'EUROPE_WARSAW',
-  /** Zagreb */
-  EuropeZagreb = 'EUROPE_ZAGREB',
-  /** Zaporozhye */
-  EuropeZaporozhye = 'EUROPE_ZAPOROZHYE',
-  /** Zurich */
-  EuropeZurich = 'EUROPE_ZURICH',
-  /** Antananarivo */
-  IndianAntananarivo = 'INDIAN_ANTANANARIVO',
-  /** Chagos */
-  IndianChagos = 'INDIAN_CHAGOS',
-  /** Christmas */
-  IndianChristmas = 'INDIAN_CHRISTMAS',
-  /** Cocos */
-  IndianCocos = 'INDIAN_COCOS',
-  /** Comoro */
-  IndianComoro = 'INDIAN_COMORO',
-  /** Kerguelen */
-  IndianKerguelen = 'INDIAN_KERGUELEN',
-  /** Mahe */
-  IndianMahe = 'INDIAN_MAHE',
-  /** Maldives */
-  IndianMaldives = 'INDIAN_MALDIVES',
-  /** Mauritius */
-  IndianMauritius = 'INDIAN_MAURITIUS',
-  /** Mayotte */
-  IndianMayotte = 'INDIAN_MAYOTTE',
-  /** Reunion */
-  IndianReunion = 'INDIAN_REUNION',
-  /** Apia */
-  PacificApia = 'PACIFIC_APIA',
-  /** Auckland */
-  PacificAuckland = 'PACIFIC_AUCKLAND',
-  /** Bougainville */
-  PacificBougainville = 'PACIFIC_BOUGAINVILLE',
-  /** Chatham */
-  PacificChatham = 'PACIFIC_CHATHAM',
-  /** Chuuk */
-  PacificChuuk = 'PACIFIC_CHUUK',
-  /** Easter */
-  PacificEaster = 'PACIFIC_EASTER',
-  /** Efate */
-  PacificEfate = 'PACIFIC_EFATE',
-  /** Enderbury */
-  PacificEnderbury = 'PACIFIC_ENDERBURY',
-  /** Fakaofo */
-  PacificFakaofo = 'PACIFIC_FAKAOFO',
-  /** Fiji */
-  PacificFiji = 'PACIFIC_FIJI',
-  /** Funafuti */
-  PacificFunafuti = 'PACIFIC_FUNAFUTI',
-  /** Galapagos */
-  PacificGalapagos = 'PACIFIC_GALAPAGOS',
-  /** Gambier */
-  PacificGambier = 'PACIFIC_GAMBIER',
-  /** Guadalcanal */
-  PacificGuadalcanal = 'PACIFIC_GUADALCANAL',
-  /** Guam */
-  PacificGuam = 'PACIFIC_GUAM',
-  /** Honolulu */
-  PacificHonolulu = 'PACIFIC_HONOLULU',
-  /** Kiritimati */
-  PacificKiritimati = 'PACIFIC_KIRITIMATI',
-  /** Kosrae */
-  PacificKosrae = 'PACIFIC_KOSRAE',
-  /** Kwajalein */
-  PacificKwajalein = 'PACIFIC_KWAJALEIN',
-  /** Majuro */
-  PacificMajuro = 'PACIFIC_MAJURO',
-  /** Marquesas */
-  PacificMarquesas = 'PACIFIC_MARQUESAS',
-  /** Midway */
-  PacificMidway = 'PACIFIC_MIDWAY',
-  /** Nauru */
-  PacificNauru = 'PACIFIC_NAURU',
-  /** Niue */
-  PacificNiue = 'PACIFIC_NIUE',
-  /** Norfolk */
-  PacificNorfolk = 'PACIFIC_NORFOLK',
-  /** Noumea */
-  PacificNoumea = 'PACIFIC_NOUMEA',
-  /** Pago Pago */
-  PacificPagoPago = 'PACIFIC_PAGO_PAGO',
-  /** Palau */
-  PacificPalau = 'PACIFIC_PALAU',
-  /** Pitcairn */
-  PacificPitcairn = 'PACIFIC_PITCAIRN',
-  /** Pohnpei */
-  PacificPohnpei = 'PACIFIC_POHNPEI',
-  /** Port Moresby */
-  PacificPortMoresby = 'PACIFIC_PORT_MORESBY',
-  /** Rarotonga */
-  PacificRarotonga = 'PACIFIC_RAROTONGA',
-  /** Saipan */
-  PacificSaipan = 'PACIFIC_SAIPAN',
-  /** Tahiti */
-  PacificTahiti = 'PACIFIC_TAHITI',
-  /** Tarawa */
-  PacificTarawa = 'PACIFIC_TARAWA',
-  /** Tongatapu */
-  PacificTongatapu = 'PACIFIC_TONGATAPU',
-  /** Wake */
-  PacificWake = 'PACIFIC_WAKE',
-  /** Wallis */
-  PacificWallis = 'PACIFIC_WALLIS',
-  /** UTC offset: UTC+0 */
-  Utc_0 = 'UTC_0',
-  /** UTC offset: UTC+0:30 */
-  Utc_0_30 = 'UTC_0_30',
-  /** UTC offset: UTC+1 */
-  Utc_1 = 'UTC_1',
-  /** UTC offset: UTC+10 */
-  Utc_10 = 'UTC_10',
-  /** UTC offset: UTC+10:30 */
-  Utc_10_30 = 'UTC_10_30',
-  /** UTC offset: UTC+11 */
-  Utc_11 = 'UTC_11',
-  /** UTC offset: UTC+11:30 */
-  Utc_11_30 = 'UTC_11_30',
-  /** UTC offset: UTC+12 */
-  Utc_12 = 'UTC_12',
-  /** UTC offset: UTC+12:45 */
-  Utc_12_45 = 'UTC_12_45',
-  /** UTC offset: UTC+13 */
-  Utc_13 = 'UTC_13',
-  /** UTC offset: UTC+13:45 */
-  Utc_13_45 = 'UTC_13_45',
-  /** UTC offset: UTC+14 */
-  Utc_14 = 'UTC_14',
-  /** UTC offset: UTC+1:30 */
-  Utc_1_30 = 'UTC_1_30',
-  /** UTC offset: UTC+2 */
-  Utc_2 = 'UTC_2',
-  /** UTC offset: UTC+2:30 */
-  Utc_2_30 = 'UTC_2_30',
-  /** UTC offset: UTC+3 */
-  Utc_3 = 'UTC_3',
-  /** UTC offset: UTC+3:30 */
-  Utc_3_30 = 'UTC_3_30',
-  /** UTC offset: UTC+4 */
-  Utc_4 = 'UTC_4',
-  /** UTC offset: UTC+4:30 */
-  Utc_4_30 = 'UTC_4_30',
-  /** UTC offset: UTC+5 */
-  Utc_5 = 'UTC_5',
-  /** UTC offset: UTC+5:30 */
-  Utc_5_30 = 'UTC_5_30',
-  /** UTC offset: UTC+5:45 */
-  Utc_5_45 = 'UTC_5_45',
-  /** UTC offset: UTC+6 */
-  Utc_6 = 'UTC_6',
-  /** UTC offset: UTC+6:30 */
-  Utc_6_30 = 'UTC_6_30',
-  /** UTC offset: UTC+7 */
-  Utc_7 = 'UTC_7',
-  /** UTC offset: UTC+7:30 */
-  Utc_7_30 = 'UTC_7_30',
-  /** UTC offset: UTC+8 */
-  Utc_8 = 'UTC_8',
-  /** UTC offset: UTC+8:30 */
-  Utc_8_30 = 'UTC_8_30',
-  /** UTC offset: UTC+8:45 */
-  Utc_8_45 = 'UTC_8_45',
-  /** UTC offset: UTC+9 */
-  Utc_9 = 'UTC_9',
-  /** UTC offset: UTC+9:30 */
-  Utc_9_30 = 'UTC_9_30'
-}
-
 /** Any node that has a URI */
 export type UniformResourceIdentifiable = {
   /** The unique resource identifier path */
   id: Scalars['ID'];
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
   /** The unique resource identifier path */
   uri?: Maybe<Scalars['String']>;
 };
@@ -17556,58 +16914,9 @@ export type UpdateCardnetCustomerInput = {
 /** The payload for the updateCardnetCustomer mutation */
 export type UpdateCardnetCustomerPayload = {
   __typename?: 'UpdateCardnetCustomerPayload';
-  /** Lista de datos de tipo “Clave:Valor” para almacenar información extra. */
-  additionalData?: Maybe<Scalars['String']>;
-  /** BillingAddress */
-  billingAddress?: Maybe<Scalars['String']>;
-  /** URL de captura de datos de tarjeta (es la URL que se debe abrir en un iframe para iniciar el proceso de captura de datos sensibles). Solo es válida para Customers de tipo “Commerce”. */
-  captureURL?: Maybe<Scalars['String']>;
-  /**
-   * Identificador del cliente en el comercio. Este valor es generado
-   *                 y utilizado internamente por el comercio para identificar al cliente dentro de la plataforma.
-   */
-  commerceCustomerId?: Maybe<Scalars['String']>;
-  /**
-   * Fecha y hora del momento de la creación del cliente.
-   *               Este campo está presente en la respuesta a consultas.
-   *               No se incluye o valida en la creación o actualizaciones del objeto.
-   */
-  created?: Maybe<Scalars['String']>;
-  /** Identificador del cliente. */
-  customerId?: Maybe<Scalars['Int']>;
-  /** Documento del cliente */
-  docNumber?: Maybe<Scalars['String']>;
-  /** Tipo de documento del cliente */
-  documentTypeId?: Maybe<Scalars['Int']>;
-  /** Email del cliente */
-  email?: Maybe<Scalars['String']>;
-  /** Customer activated */
-  enabled?: Maybe<Scalars['Boolean']>;
-  /** Nombre del cliente */
-  firstName?: Maybe<Scalars['String']>;
-  /** Apellido del cliente. */
-  lastName?: Maybe<Scalars['String']>;
-  /**
-   * Determina si el usuario fue registrado por el comercio, a través de Cardnet o anónimo.
-   *               Valores posibles: “Our”, “Commerce”, “Anonymous”.
-   *               Este campo está presente en la respuesta a consultas.
-   *               No se incluye o valida en la creación o actualizaciones del objeto.
-   */
-  owner?: Maybe<Scalars['String']>;
-  /** Lista de objetos PaymentProfile con información de los medios de pago registrados por el Customer. */
-  paymentProfiles?: Maybe<Array<Maybe<PaymentProfiles>>>;
-  /** Teléfono de contacto del cliente. */
-  phoneNumber?: Maybe<Scalars['String']>;
-  /** Reservado */
-  plans?: Maybe<Scalars['String']>;
-  /** ShippingAddress */
-  shippingAddress?: Maybe<Scalars['String']>;
-  /** URL donde se puede acceder a la información del Cliente (ej. /v1/customer/{customer-id}). */
-  uRL?: Maybe<Scalars['String']>;
-  /** Identificador único de la compra. Este valor opcional permite identificar una compra única y evitar la duplicación de transacciones en caso de errores de comunicación (ver más en Conceptos / Identificador único). */
-  uniqueID?: Maybe<Scalars['String']>;
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
+  customer?: Maybe<CardNetCustomer>;
 };
 
 /** Input for the updateCardnetPaymentProfile mutation */
@@ -17627,58 +16936,9 @@ export type UpdateCardnetPaymentProfileInput = {
 /** The payload for the updateCardnetPaymentProfile mutation */
 export type UpdateCardnetPaymentProfilePayload = {
   __typename?: 'UpdateCardnetPaymentProfilePayload';
-  /** Lista de datos de tipo “Clave:Valor” para almacenar información extra. */
-  additionalData?: Maybe<Scalars['String']>;
-  /** BillingAddress */
-  billingAddress?: Maybe<Scalars['String']>;
-  /** URL de captura de datos de tarjeta (es la URL que se debe abrir en un iframe para iniciar el proceso de captura de datos sensibles). Solo es válida para Customers de tipo “Commerce”. */
-  captureURL?: Maybe<Scalars['String']>;
-  /**
-   * Identificador del cliente en el comercio. Este valor es generado
-   *                 y utilizado internamente por el comercio para identificar al cliente dentro de la plataforma.
-   */
-  commerceCustomerId?: Maybe<Scalars['String']>;
-  /**
-   * Fecha y hora del momento de la creación del cliente.
-   *               Este campo está presente en la respuesta a consultas.
-   *               No se incluye o valida en la creación o actualizaciones del objeto.
-   */
-  created?: Maybe<Scalars['String']>;
-  /** Identificador del cliente. */
-  customerId?: Maybe<Scalars['Int']>;
-  /** Documento del cliente */
-  docNumber?: Maybe<Scalars['String']>;
-  /** Tipo de documento del cliente */
-  documentTypeId?: Maybe<Scalars['Int']>;
-  /** Email del cliente */
-  email?: Maybe<Scalars['String']>;
-  /** Customer activated */
-  enabled?: Maybe<Scalars['Boolean']>;
-  /** Nombre del cliente */
-  firstName?: Maybe<Scalars['String']>;
-  /** Apellido del cliente. */
-  lastName?: Maybe<Scalars['String']>;
-  /**
-   * Determina si el usuario fue registrado por el comercio, a través de Cardnet o anónimo.
-   *               Valores posibles: “Our”, “Commerce”, “Anonymous”.
-   *               Este campo está presente en la respuesta a consultas.
-   *               No se incluye o valida en la creación o actualizaciones del objeto.
-   */
-  owner?: Maybe<Scalars['String']>;
-  /** Lista de objetos PaymentProfile con información de los medios de pago registrados por el Customer. */
-  paymentProfiles?: Maybe<Array<Maybe<PaymentProfiles>>>;
-  /** Teléfono de contacto del cliente. */
-  phoneNumber?: Maybe<Scalars['String']>;
-  /** Reservado */
-  plans?: Maybe<Scalars['String']>;
-  /** ShippingAddress */
-  shippingAddress?: Maybe<Scalars['String']>;
-  /** URL donde se puede acceder a la información del Cliente (ej. /v1/customer/{customer-id}). */
-  uRL?: Maybe<Scalars['String']>;
-  /** Identificador único de la compra. Este valor opcional permite identificar una compra única y evitar la duplicación de transacciones en caso de errores de comunicación (ver más en Conceptos / Identificador único). */
-  uniqueID?: Maybe<Scalars['String']>;
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
+  customer?: Maybe<CardNetCustomer>;
 };
 
 /** Input for the UpdateCategory mutation */
@@ -17743,6 +17003,63 @@ export type UpdateCommentPayload = {
   comment?: Maybe<Comment>;
   /** Whether the mutation succeeded. If the comment is not approved, the server will not return the comment to a non authenticated user, but a success message can be returned if the create succeeded, and the client can optimistically add the comment to the client cache */
   success?: Maybe<Scalars['Boolean']>;
+};
+
+/** Input for the updateCoupon mutation */
+export type UpdateCouponInput = {
+  /** The amount of discount. Should always be numeric, even if setting a percentage. */
+  amount?: Maybe<Scalars['Float']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** Coupon code. */
+  code?: Maybe<Scalars['String']>;
+  /** The date the coupon expires, in the site's timezone. */
+  dateExpires?: Maybe<Scalars['String']>;
+  /** The date the coupon expires, as GMT. */
+  dateExpiresGmt?: Maybe<Scalars['String']>;
+  /** Coupon description. */
+  description?: Maybe<Scalars['String']>;
+  /** Determines the type of discount that will be applied. */
+  discountType?: Maybe<DiscountTypeEnum>;
+  /** List of email addresses that can use this coupon. */
+  emailRestrictions?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** If true, this coupon will not be applied to items that have sale prices. */
+  excludeSaleItems?: Maybe<Scalars['Boolean']>;
+  /** List of category IDs the coupon does not apply to. */
+  excludedProductCategories?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  /** List of product IDs the coupon cannot be used on. */
+  excludedProductIds?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  /** If true and if the free shipping method requires a coupon, this coupon will enable free shipping. */
+  freeShipping?: Maybe<Scalars['Boolean']>;
+  /** Unique identifier for the object. */
+  id: Scalars['ID'];
+  /** If true, the coupon can only be used individually. Other applied coupons will be removed from the cart. */
+  individualUse?: Maybe<Scalars['Boolean']>;
+  /** Max number of items in the cart the coupon can be applied to. */
+  limitUsageToXItems?: Maybe<Scalars['Int']>;
+  /** Maximum order amount allowed when using the coupon. */
+  maximumAmount?: Maybe<Scalars['String']>;
+  /** Meta data. */
+  metaData?: Maybe<Array<Maybe<MetaDataInput>>>;
+  /** Minimum order amount that needs to be in the cart before coupon applies. */
+  minimumAmount?: Maybe<Scalars['String']>;
+  /** List of category IDs the coupon applies to. */
+  productCategories?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  /** List of product IDs the coupon can be used on. */
+  productIds?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  /** How many times the coupon can be used in total. */
+  usageLimit?: Maybe<Scalars['Int']>;
+  /** How many times the coupon can be used per customer. */
+  usageLimitPerUser?: Maybe<Scalars['Int']>;
+};
+
+/** The payload for the updateCoupon mutation */
+export type UpdateCouponPayload = {
+  __typename?: 'UpdateCouponPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  code?: Maybe<Scalars['String']>;
+  coupon?: Maybe<Coupon>;
 };
 
 /** Input for the updateCustomer mutation */
@@ -18401,11 +17718,11 @@ export type User = Node & UniformResourceIdentifiable & Commenter & DatabaseIden
   capabilities?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Connection between the User type and the Comment type */
   comments?: Maybe<UserToCommentConnection>;
-  /** The unique identifier stored in the database */
+  /** Identifies the primary key from the database. */
   databaseId: Scalars['Int'];
   /** Description of the user. */
   description?: Maybe<Scalars['String']>;
-  /** The email address of the author of a comment. */
+  /** Email address of the user. This is equivalent to the WP_User-&gt;user_email property. */
   email?: Maybe<Scalars['String']>;
   /** Connection between the User type and the EnqueuedScript type */
   enqueuedScripts?: Maybe<UserToEnqueuedScriptConnection>;
@@ -18415,12 +17732,16 @@ export type User = Node & UniformResourceIdentifiable & Commenter & DatabaseIden
   extraCapabilities?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** First name of the user. This is equivalent to the WP_User-&gt;user_first_name property. */
   firstName?: Maybe<Scalars['String']>;
-  /** The globally unique identifier for the comment author. */
+  /** The globally unique identifier for the user object. */
   id: Scalars['ID'];
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
   /** Whether the JWT User secret has been revoked. If the secret has been revoked, auth tokens will not be issued until an admin, or user with proper capabilities re-issues a secret for the user. */
   isJwtAuthSecretRevoked: Scalars['Boolean'];
-  /** Whether the author information is considered restricted. (not fully public) */
+  /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
   /** The expiration for the JWT Token for the user. If not set custom for the user, it will use the default sitewide expiration setting */
   jwtAuthExpiration?: Maybe<Scalars['String']>;
   /** A JWT token that can be used in future requests for authentication/authorization */
@@ -18435,7 +17756,7 @@ export type User = Node & UniformResourceIdentifiable & Commenter & DatabaseIden
   locale?: Maybe<Scalars['String']>;
   /** Connection between the User type and the mediaItem type */
   mediaItems?: Maybe<UserToMediaItemConnection>;
-  /** The name of the author of a comment. */
+  /** Display name of the user. This is equivalent to the WP_User-&gt;dispaly_name property. */
   name?: Maybe<Scalars['String']>;
   /** The nicename for the user. This field is equivalent to WP_User-&gt;user_nicename */
   nicename?: Maybe<Scalars['String']>;
@@ -18455,7 +17776,7 @@ export type User = Node & UniformResourceIdentifiable & Commenter & DatabaseIden
   slug?: Maybe<Scalars['String']>;
   /** The unique resource identifier path */
   uri?: Maybe<Scalars['String']>;
-  /** The url of the author of a comment. */
+  /** A website url that is associated with the user. */
   url?: Maybe<Scalars['String']>;
   /**
    * The Id of the user. Equivalent to WP_User-&gt;ID
@@ -18576,7 +17897,7 @@ export type UserRole = Node & {
   capabilities?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** The display name of the role */
   displayName?: Maybe<Scalars['String']>;
-  /** The globally unique ID for the object */
+  /** The globally unique identifier for the user role object. */
   id: Scalars['ID'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
@@ -18704,6 +18025,8 @@ export type UserToContentRevisionUnionConnectionEdge = {
 
 /** Arguments for filtering the UserToContentRevisionUnionConnection connection */
 export type UserToContentRevisionUnionConnectionWhereArgs = {
+  /** The Types of content to filter */
+  contentTypes?: Maybe<Array<Maybe<ContentTypeEnum>>>;
   /** Filter the connection based on dates */
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
@@ -19061,7 +18384,7 @@ export enum UsersConnectionSearchColumnEnum {
 }
 
 /** A variable product object */
-export type VariableProduct = Node & Product & NodeWithComments & NodeWithContentEditor & NodeWithFeaturedImage & ContentNode & UniformResourceIdentifiable & {
+export type VariableProduct = Node & Product & NodeWithComments & NodeWithContentEditor & NodeWithFeaturedImage & ContentNode & UniformResourceIdentifiable & DatabaseIdentifier & {
   __typename?: 'VariableProduct';
   /** Connection between the Product type and the ProductAttribute type */
   attributes?: Maybe<ProductToProductAttributeConnection>;
@@ -19083,9 +18406,9 @@ export type VariableProduct = Node & Product & NodeWithComments & NodeWithConten
   contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
   /** Connection between the VariableProduct type and the Product type */
   crossSell?: Maybe<VariableProductToProductConnection>;
-  /** The ID of the node in the database. */
+  /** The ID of the product in the database */
   databaseId: Scalars['Int'];
-  /** Post publishing date. */
+  /** Date product created */
   date?: Maybe<Scalars['String']>;
   /** The publishing date set in GMT. */
   dateGmt?: Maybe<Scalars['String']>;
@@ -19123,14 +18446,18 @@ export type VariableProduct = Node & Product & NodeWithComments & NodeWithConten
   guid?: Maybe<Scalars['String']>;
   /** Product&#039;s height */
   height?: Maybe<Scalars['String']>;
-  /** The unique resource identifier path */
+  /** The globally unique identifier for the product */
   id: Scalars['ID'];
   /** Main image */
   image?: Maybe<MediaItem>;
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
   /** Whether the object is a node in the preview state */
   isPreview?: Maybe<Scalars['Boolean']>;
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
   /** The user that most recently edited the node */
   lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
   /** Product&#039;s length */
@@ -19145,7 +18472,7 @@ export type VariableProduct = Node & Product & NodeWithComments & NodeWithConten
   menuOrder?: Maybe<Scalars['Int']>;
   /** Object meta data */
   metaData?: Maybe<Array<Maybe<MetaData>>>;
-  /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
+  /** Date product last updated */
   modified?: Maybe<Scalars['String']>;
   /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
   modifiedGmt?: Maybe<Scalars['String']>;
@@ -19199,11 +18526,11 @@ export type VariableProduct = Node & Product & NodeWithComments & NodeWithConten
   shortDescription?: Maybe<Scalars['String']>;
   /** Product SKU */
   sku?: Maybe<Scalars['String']>;
-  /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
+  /** Product slug */
   slug?: Maybe<Scalars['String']>;
   /** If should be sold individually */
   soldIndividually?: Maybe<Scalars['Boolean']>;
-  /** The current status of the object */
+  /** Product status */
   status?: Maybe<Scalars['String']>;
   /** Number of items available for sale */
   stockQuantity?: Maybe<Scalars['Int']>;
@@ -19530,8 +18857,8 @@ export type VariableProductToProductConnectionWhereArgs = {
   shippingClassId?: Maybe<Scalars['Int']>;
   /** Limit result set to products with specific SKU(s). Use commas to separate. */
   sku?: Maybe<Scalars['String']>;
-  /** Limit result set to products with a specific slug. */
-  slug?: Maybe<Scalars['String']>;
+  /** Limit result set to products with specific slugs. */
+  slugIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Limit result set to products assigned a specific status. */
   status?: Maybe<Scalars['String']>;
   /** Limit result set to products in stock or out of stock. */
@@ -19553,7 +18880,7 @@ export type VariableProductToProductConnectionWhereArgs = {
   /** Limit result set to products with a specific tax class. */
   taxClass?: Maybe<TaxClassEnum>;
   /** Limit result set with complex set of taxonomy filters. */
-  taxonomyFilter?: Maybe<Array<Maybe<ProductTaxonomyFilterRelationInput>>>;
+  taxonomyFilter?: Maybe<ProductTaxonomyInput>;
   /** Limit result set to products assigned a specific type. */
   type?: Maybe<ProductTypesEnum>;
   /** Limit result set to products assigned to a group of specific types. */
@@ -19630,8 +18957,8 @@ export type VariableProductToProductVariationConnectionWhereArgs = {
   shippingClassId?: Maybe<Scalars['Int']>;
   /** Limit result set to products with specific SKU(s). Use commas to separate. */
   sku?: Maybe<Scalars['String']>;
-  /** Limit result set to products with a specific slug. */
-  slug?: Maybe<Scalars['String']>;
+  /** Limit result set to products with specific slugs. */
+  slugIn?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Limit result set to products assigned a specific status. */
   status?: Maybe<Scalars['String']>;
   /** Limit result set to products in stock or out of stock. */
@@ -19653,7 +18980,7 @@ export type VariableProductToProductVariationConnectionWhereArgs = {
   /** Limit result set to products with a specific tax class. */
   taxClass?: Maybe<TaxClassEnum>;
   /** Limit result set with complex set of taxonomy filters. */
-  taxonomyFilter?: Maybe<Array<Maybe<ProductTaxonomyFilterRelationInput>>>;
+  taxonomyFilter?: Maybe<ProductTaxonomyInput>;
   /** Limit result set to products assigned a specific type. */
   type?: Maybe<ProductTypesEnum>;
   /** Limit result set to products assigned to a group of specific types. */
@@ -19685,7 +19012,7 @@ export type VariableProductToVariationAttributeConnectionEdge = {
 };
 
 /** A product variation attribute object */
-export type VariationAttribute = {
+export type VariationAttribute = Attribute & {
   __typename?: 'VariationAttribute';
   /** The Database ID of the attribute. */
   attributeId?: Maybe<Scalars['Int']>;
@@ -19700,7 +19027,7 @@ export type VariationAttribute = {
 };
 
 /** The visibleProduct type */
-export type VisibleProduct = Node & TermNode & DatabaseIdentifier & {
+export type VisibleProduct = Node & TermNode & UniformResourceIdentifiable & DatabaseIdentifier & {
   __typename?: 'VisibleProduct';
   /** Connection between the visibleProduct type and the ContentNode type */
   contentNodes?: Maybe<VisibleProductToContentNodeConnection>;
@@ -19714,10 +19041,14 @@ export type VisibleProduct = Node & TermNode & DatabaseIdentifier & {
   enqueuedScripts?: Maybe<TermNodeToEnqueuedScriptConnection>;
   /** Connection between the TermNode type and the EnqueuedStylesheet type */
   enqueuedStylesheets?: Maybe<TermNodeToEnqueuedStylesheetConnection>;
-  /** Unique identifier for the term */
+  /** The unique resource identifier path */
   id: Scalars['ID'];
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean'];
   /** The link to the term */
   link?: Maybe<Scalars['String']>;
   /** The human friendly name of the object. */
@@ -19803,6 +19134,8 @@ export type VisibleProductToContentNodeConnectionEdge = {
 
 /** Arguments for filtering the VisibleProductToContentNodeConnection connection */
 export type VisibleProductToContentNodeConnectionWhereArgs = {
+  /** The Types of content to filter */
+  contentTypes?: Maybe<Array<Maybe<ContentTypesOfVisibleProductEnum>>>;
   /** Filter the connection based on dates */
   dateQuery?: Maybe<DateQueryInput>;
   /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
@@ -19842,7 +19175,7 @@ export type VisibleProductToContentNodeConnectionWhereArgs = {
 /** Connection between the visibleProduct type and the Taxonomy type */
 export type VisibleProductToTaxonomyConnectionEdge = {
   __typename?: 'VisibleProductToTaxonomyConnectionEdge';
-  /** The nodes of the connection, without the edges */
+  /** The node of the connection, without the edges */
   node?: Maybe<Taxonomy>;
 };
 

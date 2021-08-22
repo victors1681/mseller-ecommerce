@@ -39,6 +39,7 @@
     "react-devtools": "^4.13.2",
     "react-native": "0.64.0",
     "react-native-config": "^1.4.2",
+    "react-native-dialog-input": "^1.0.8",
     "react-native-dotenv": "^2.5.5",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-image-slider-box": "^1.0.12",

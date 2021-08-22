@@ -349,11 +349,11 @@ class CardNetCustomer
                 'description' => __('Only admin can use this, if not it will use the current CustomerId'),
             ],
             'ActivationCode' => [
-                'type' => ['non_null' => 'Int'],
+                'type' => ['non_null' => 'String'],
                 'description' => __('Código de activación emitido por el banco emisor de la tarjeta'),
             ],
             'Token' => [
-                'type' => ['non_null' => 'Int'],
+                'type' => ['non_null' => 'String'],
                 'description' => __('Token de la tarjeta a activar'),
             ]
         ];
@@ -414,7 +414,11 @@ class CardNetCustomer
 
         register_graphql_mutation('updateCardnetCustomer', [
             'inputFields'  => getUpdateInputs($customerInput),
-            'outputFields' => $customerFields,
+            'outputFields' => [
+                'customer' => [
+                    'type' =>  'CardNetCustomer',
+                ]
+            ],
             'mutateAndGetPayload' => function ($input, $context, $info) {
 
                 CardNetUtils::isAuthenticated();
@@ -422,7 +426,7 @@ class CardNetCustomer
 
                 $carnetApi = new CardNetApi();
                 $result = $carnetApi->update_customer($input, $customerId);
-                return self::mapCustomerObject($result);
+                return ["customer" => self::mapCustomerObject($result)];
             }
         ]);
 
@@ -433,7 +437,11 @@ class CardNetCustomer
 
         register_graphql_mutation('updateCardnetPaymentProfile', [
             'inputFields'  => $updatePaymentProfileInput,
-            'outputFields' => $customerFields,
+            'outputFields' => [
+                'customer' => [
+                    'type' =>  'CardNetCustomer',
+                ]
+            ],
             'mutateAndGetPayload' => function ($input, $context, $info) {
 
                 CardNetUtils::isAuthenticated();
@@ -441,7 +449,7 @@ class CardNetCustomer
 
                 $carnetApi = new CardNetApi();
                 $result = $carnetApi->update_payment_profile($input, $customerId);
-                return self::mapCustomerObject($result);
+                return ["customer" => self::mapCustomerObject($result)];
             }
         ]);
 
@@ -474,15 +482,18 @@ class CardNetCustomer
 
         register_graphql_mutation('activateCardnetPayment', [
             'inputFields'  => $enablePaymentInput,
-            'outputFields' => $customerFields,
+            'outputFields' => [
+                'customer' => [
+                    'type' =>  'CardNetCustomer',
+                ]
+            ],
             'mutateAndGetPayload' => function ($input, $context, $info) {
-
                 CardNetUtils::isAuthenticated();
                 $customerId = self::getCustomerId($input);
 
                 $carnetApi = new CardNetApi();
                 $result = $carnetApi->activate_payment($input, $customerId);
-                return self::mapCustomerObject($result);
+                return ["customer" => self::mapCustomerObject($result)];
             }
         ]);
     }

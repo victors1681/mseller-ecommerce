@@ -55,6 +55,17 @@ export const DELETE_CREDIT_CARD = gql`
   }
 `;
 
+export const ACTIVATE_CREDIT_CARD = gql`
+  ${CARTNET_CUSTOMER_FRAGMENT}
+  mutation DeleteCreditCard($input: ActivateCardnetPaymentInput!) {
+    activateCardnetPayment(input: $input) {
+      customer {
+        ...customerFields
+      }
+    }
+  }
+`;
+
 export const CREATE_PURCHASE = gql`
   mutation CreateOrder($input: CreateOrderInput!) {
     createOrder(input: $input) {
