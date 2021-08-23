@@ -48,6 +48,8 @@ export const CreditCardList: React.FC = () => {
         const firstCreditCard = data?.paymentProfiles[0];
         if (firstCreditCard) {
           setCreditCardSelection(firstCreditCard.token);
+          //Set Token
+          setCreditCardSelection(firstCreditCard.token);
         }
       }
     }
