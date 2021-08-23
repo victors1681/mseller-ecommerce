@@ -27,7 +27,7 @@ import {
 import {useFocusEffect, useNavigation} from '@react-navigation/core';
 import {ScreenLinks} from 'app/navigation/ScreenLinks';
 import {useCreditCard} from 'app/hooks';
-import {Error, Loading} from '../common';
+import {Loading} from '../common';
 import {Maybe, PaymentProfiles} from 'app/generated/graphql';
 import {
   getDefaultCreditCard,

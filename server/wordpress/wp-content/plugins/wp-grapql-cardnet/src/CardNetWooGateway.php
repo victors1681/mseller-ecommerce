@@ -145,6 +145,9 @@ class CardNetWooGateway extends \WC_Payment_Gateway
         $trxToken = $order->get_meta("TrxToken");
         $ipAddress = $order->get_customer_ip_address();
 
+        if (empty($trxToken)) {
+            throw new UserError(__("InvalidToken", 'wp-graphql'));
+        }
         $customerUserAgent = $order->get_customer_user_agent();
 
         graphql_debug(json_encode($order->get_transaction_id()));

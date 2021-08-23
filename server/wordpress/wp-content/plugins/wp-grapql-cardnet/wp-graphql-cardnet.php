@@ -16,6 +16,7 @@
 
 
 
+
 spl_autoload_register(function ($class) {
 
 	$namespace = 'WPGraphQL\CardNet\\';
@@ -37,9 +38,11 @@ spl_autoload_register(function ($class) {
 	if (file_exists($file)) {
 		include($file);
 	}
+
+	include_once(__DIR__ . '/src/template/CardNetTemplate.php');
 });
 
-
+use WPGraphQL\CardNet\Template\CardNetTemplate;
 
 if (!class_exists('\WPGraphQL\CardNet')) :
 
@@ -105,7 +108,7 @@ if (!class_exists('\WPGraphQL\CardNet')) :
 
 			//\WPGraphQL\CardNet\CardNetCustomer::init();
 			//\WPGraphQL\CardNet\CardNetPurchase::init();
-			new \WPGraphQL\CardNet\Template\CardNetTemplate();
+			new CardNetTemplate();
 		}
 	}
 endif;

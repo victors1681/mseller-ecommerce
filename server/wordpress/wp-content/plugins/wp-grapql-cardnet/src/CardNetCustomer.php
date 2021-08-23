@@ -4,6 +4,7 @@ namespace WPGraphQL\CardNet;
 
 use WPGraphQL\CardNet\CardNetApi;
 use WPGraphQL\CardNet\CardNetUtils;
+use GraphQL\Error\UserError;;
 
 class CardNetCustomer
 {
@@ -20,8 +21,12 @@ class CardNetCustomer
         $userData = wp_get_current_user();
         $cardNetCustomerId = get_user_meta($userData->ID, 'cardnetCustomerId', true);
 
+        if (empty($cardNetCustomerId)) {
+            throw new UserError(__("cardnetCustomerIdEmpty", 'wp-graphql'));
+        }
         return $cardNetCustomerId;
     }
+
 
     /**
      * Only Admin user can perform action using customerId from the query parameter

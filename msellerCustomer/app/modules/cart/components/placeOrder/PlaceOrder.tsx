@@ -20,6 +20,8 @@ import {PaymentGateway} from './extra/PaymentsGateway';
 import {ScreenLinks} from 'app/navigation/ScreenLinks';
 import {ApolloError} from '@apollo/client';
 import {getDefaultCreditCard} from 'app/utils/creditCardTokenHandler';
+import Toast from 'react-native-toast-message';
+import {PAYMENT_GATEWAYS} from 'app/modules/cart/components/placeOrder/extra/PaymentsGateway';
 /**
  * Custom Hook
  * @returns
@@ -33,7 +35,7 @@ const usePlaceOrder = () => {
   const [customerNote, setCustomerNote] = React.useState('');
   const navigation = useNavigation();
 
-  const {cart, isLoading, clearCart} = useCart();
+  const {cart, isLoading} = useCart();
   const {createOrder, createOrderInfo} = useOrders();
   const {customer} = useCustomer();
 
@@ -61,16 +63,19 @@ const usePlaceOrder = () => {
     }
 
     const TrxToken = await getDefaultCreditCard();
-    if (!TrxToken) {
+    if (!TrxToken && payment?.id === PAYMENT_GATEWAYS.CARTNET) {
       console.error('Error al optener la tarjeta guardada');
-      Alert.alert('Error al optener la tarjeta guardada');
+      Toast.show({
+        type: 'error',
+        text1: 'No cuenta con tarjeta de crédito vinculada.',
+      });
       setSubmitting(false);
       return;
     }
 
     const response = await createOrder({
       paymentMethod: payment?.id,
-      metaData: [{key: 'TrxToken', value: TrxToken}],
+      metaData: [{key: 'TrxToken', value: TrxToken || ''}],
       shipping: {
         address1: customer.shipping?.address1,
         address2: customer.shipping?.address2,
@@ -97,7 +102,6 @@ const usePlaceOrder = () => {
     };
 
     if (isCreated(response)) {
-      await clearCart();
       setSubmitting(false);
       gotoCongrats(response.data?.checkout?.order?.databaseId);
     } else if (isError(response)) {
@@ -106,11 +110,10 @@ const usePlaceOrder = () => {
       Alert.alert('Error al crear la orden', response.message);
       console.error(response.message);
     }
-  }, [customer, payment, createOrder, customerNote, clearCart, gotoCongrats]);
+  }, [customer, payment, createOrder, customerNote, gotoCongrats]);
 
   return {
     payment,
-    clearCart,
     gotoHome,
     handleOrderCreation,
     createOrderInfo,

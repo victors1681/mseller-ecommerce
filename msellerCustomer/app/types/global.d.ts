@@ -11,3 +11,8 @@ declare module '@env' {
 declare module 'react-native-image-slider-box' {
   export const SliderBox: any;
 }
+
+declare module 'react-native-dialog-input' {
+  export const DialogInput: any;
+  export default DialogInput;
+}

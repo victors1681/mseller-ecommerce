@@ -93,7 +93,7 @@ export const useCreditCard = (): CreditCard => {
       await getCreditCardCustomer();
     } catch (err) {
       console.error(err);
-      Alert.alert(JSON.stringify(err));
+      Alert.alert(`test:: ${err}`);
       return err;
     }
   };

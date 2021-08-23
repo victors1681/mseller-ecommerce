@@ -19,11 +19,13 @@ import {
 } from 'app/utils/creditCardTokenHandler';
 import {useFocusEffect, useNavigation} from '@react-navigation/core';
 import {ScreenLinks} from 'app/navigation/ScreenLinks';
+import {useState} from 'react';
 export const CreditCardList: React.FC = () => {
   //Store the creditCard token in the customer context api
   const [creditCardSelected, setCreditCardSelection] = React.useState<
     Graphql.Maybe<string> | undefined
   >();
+  const [emptyCardMsg, setEmptyCardMsg] = useState<string | undefined>();
   const navigation = useNavigation();
 
   const styles = useStyleSheet(themedStyle);
@@ -63,10 +65,23 @@ export const CreditCardList: React.FC = () => {
 
   useFocusEffect(
     React.useCallback(() => {
-      console.log('LOADING ON FOCUS');
       getCardNetCustomer();
     }, []),
   );
+
+  /**
+   * Handling empty card Message
+   */
+
+  React.useEffect(() => {
+    if (error && error?.message === 'cardnetCustomerIdEmpty') {
+      setEmptyCardMsg(
+        'Por favor agregue una tarjeta de crédito utilizando el botón a continuación.',
+      );
+    } else if (!error) {
+      setEmptyCardMsg(undefined);
+    }
+  }, [error]);
 
   const handleSelection = (token: Graphql.Maybe<string> | undefined) => {
     setCreditCardSelection(token);
@@ -113,7 +128,9 @@ export const CreditCardList: React.FC = () => {
 
   return (
     <Layout style={styles.layout}>
-      {error && <Error error={error} />}
+      {emptyCardMsg && (
+        <Text style={styles.creditCardEmptyTitle}>{emptyCardMsg}</Text>
+      )}
       {isLoading && <Loading />}
       {CreditCards()}
       <Button
@@ -131,6 +148,9 @@ export default CreditCardList;
 const themedStyle = StyleService.create({
   layout: {
     paddingTop: 10,
+  },
+  creditCardEmptyTitle: {
+    marginBottom: 10,
   },
   title: {
     paddingLeft: 15,

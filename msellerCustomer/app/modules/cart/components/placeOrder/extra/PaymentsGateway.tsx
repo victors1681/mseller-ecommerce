@@ -19,6 +19,10 @@ interface Props {
   paymentSelected: Graphql.Maybe<Graphql.PaymentGateway> | undefined;
 }
 
+export enum PAYMENT_GATEWAYS {
+  CARTNET = 'carnetpayment',
+  CASH = 'cod',
+}
 export const PaymentGateway: React.FC<Props> = ({
   onSelect,
   paymentSelected,
@@ -62,10 +66,9 @@ export const PaymentGateway: React.FC<Props> = ({
         return null;
       }
 
-      if (selected.id === 'carnetpayment') {
+      if (selected.id === PAYMENT_GATEWAYS.CARTNET) {
         return (
           <Card disabled>
-            <Text>{selected.description || ''}</Text>
             <CreditCardList />
           </Card>
         );
