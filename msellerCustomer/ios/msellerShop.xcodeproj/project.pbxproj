@@ -516,7 +516,7 @@
 				CODE_SIGN_ENTITLEMENTS = msellerShop/msellerShop.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_TEAM = HDYHZ227JK;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = msellerShop/Info.plist;
@@ -547,7 +547,7 @@
 				CODE_SIGN_ENTITLEMENTS = msellerShop/msellerShop.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_TEAM = HDYHZ227JK;
 				INFOPLIST_FILE = msellerShop/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

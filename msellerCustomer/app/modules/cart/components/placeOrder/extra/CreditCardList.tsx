@@ -8,7 +8,7 @@ import {
 } from '@ui-kitten/components';
 import * as Graphql from 'app/generated/graphql';
 import {useCreditCard} from 'app/hooks';
-import {Error, Loading} from 'app/modules/common';
+import {Loading} from 'app/modules/common';
 import {CreditCardIcon, CheckIcon, CreditCardWhiteIcon} from './icons';
 import React from 'react';
 import {expirationCardFormat} from 'app/utils';
