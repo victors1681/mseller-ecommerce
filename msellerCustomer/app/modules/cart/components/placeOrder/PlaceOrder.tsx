@@ -263,8 +263,8 @@ export default (): React.ReactElement => {
 
   const renderItem = (info: ListRenderItemInfo<GraphQlTypes.CartItem>) => (
     <ListItem
-      title={`${info?.item?.product?.node?.name}`}
-      description={`${info?.item?.product?.node?.shortDescription}`}
+      title={`${info?.item?.product?.node?.name || ''}`}
+      description={`${info?.item?.product?.node?.shortDescription || ''}`}
       accessoryLeft={() => renderItemAccessory(info?.item?.quantity)}
       accessoryRight={() => renderItemAPrice(info?.item.total)}
     />
