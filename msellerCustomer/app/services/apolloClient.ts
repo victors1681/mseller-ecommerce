@@ -104,7 +104,7 @@ const resolvePendingRequests = () => {
  * @param forward
  * @returns
  */
-const getTokenTest = async (operation: any, forward: any) => {
+const tryToRefreshToken = async (operation: any, forward: any) => {
   try {
     const {tokenData, headers: oldHeaders} = operation.getContext();
     const tokenInfo = tokenData as TokenResponse;
@@ -167,22 +167,20 @@ const errorLink = onError(
           case 'auth':
             let _forward;
             const {tokenData} = operation.getContext();
-
             if (!isRefreshing && tokenData) {
               isRefreshing = true;
 
-              _forward = fromPromise(getTokenTest(operation, forward));
+              _forward = fromPromise(tryToRefreshToken(operation, forward));
             } else {
-              console.log('Next Promise');
               _forward = fromPromise(
-                new Promise(resolve => {
+                new Promise<void>(resolve => {
                   pendingRequests.push(() => resolve());
                 }),
               );
 
               //Allow to keep performing task if the token doesn't exist
               // updating the cart on anonymous mode
-              _forward = fromPromise(getTokenTest(operation, forward));
+              _forward = fromPromise(tryToRefreshToken(operation, forward));
             }
             _forward.flatMap(() => {
               return forward(operation);

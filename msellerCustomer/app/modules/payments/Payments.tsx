@@ -200,8 +200,6 @@ export const Payments = (): React.ReactElement => {
     const profileId = info.item?.paymentProfileId || 0;
     return (
       <>
-        {/* {isError && <Error error={isError} />} */}
-        {activationCardModalView()}
         <TouchableHighlight
           onPress={() => handleSelection(info.item?.token)}
           underlayColor="white">
@@ -275,6 +273,7 @@ export const Payments = (): React.ReactElement => {
 
   return (
     <React.Fragment>
+      {activationCardModalView()}
       {isLoading && <Loading fullScreen />}
       <List
         style={styles.list}

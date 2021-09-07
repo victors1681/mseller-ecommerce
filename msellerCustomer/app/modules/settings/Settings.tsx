@@ -13,6 +13,8 @@ export const Settings = () => {
   const navigation = useNavigation();
   const {fetchCustomer, performLogout} = useCustomer();
   const styles = useStyleSheet(themedStyle);
+
+  //Open SignUp form
   useUserLogged();
 
   const navigateTo = (destination: string, params?: any) => () =>
