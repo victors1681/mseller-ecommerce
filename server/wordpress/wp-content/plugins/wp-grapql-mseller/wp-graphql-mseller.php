@@ -41,7 +41,37 @@ spl_autoload_register(function ($class) {
   }
 });
 
-// add_action( 'graphql_register_types', 'mseller_wpgraphql_schema' );
+//add_action('graphql_register_types', 'mseller_save_token_firebase');
+
+
+/**
+ * Register new field to Login to send the APN Token
+ */
+add_filter('graphql_input_fields', function ($input_fields, $type_name) {
+  if ($type_name === "LoginInput") {
+    $input_fields['apnToken'] = [
+      'type' => 'String',
+      'description' => __('Send mobile token for Firebase Push Notification', 'wp-graphql'),
+    ];
+  }
+
+  return $input_fields;
+}, 10, 2);
+
+ 
+
+// add_action('graphql_register_types', function () {
+//   register_graphql_field('LoginInput', 'apnToken', [
+//     'type' => 'String',
+//     'description' => __('The color of the post', 'wp-graphql'),
+//     'resolve' => function ($post) {
+//       graphql_debug("Test value,");
+//       return ['test', 'ss'];
+//     }
+//   ]);
+// });
+  
+
 
 // function mseller_wpgraphql_schema() {
 //     register_graphql_object_type( 'CustomType', [
