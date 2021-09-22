@@ -75,7 +75,6 @@ class Auth
 			'user'         => DataSource::resolve_user($user->data->ID, \WPGraphQL::get_app_context()),
 			'id'           => $user->data->ID,
 		];
-
 		/**
 		 * Let the user modify the data before send it back
 		 */

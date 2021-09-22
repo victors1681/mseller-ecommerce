@@ -1,0 +1,304 @@
+2021-09-21T18:56:00+00:00 CRITICAL syntax error, unexpected ')', expecting ';' in /var/www/html/wp-content/plugins/wp-graphql-jwt-authentication-develop/src/Login.php on line 55
+
+2021-09-21T22:30:30+00:00 CRITICAL Uncaught Error: Class 'MSeller\MSellerAdmin\MSellerAdmin' not found in /var/www/html/wp-content/plugins/wp-grapql-mseller/wp-graphql-mseller.php:148
+Stack trace:
+#0 /var/www/html/wp-includes/class-wp-hook.php(303): MSeller\init('')
+#1 /var/www/html/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters(Object(WPGraphQL\JWT_Authentication\JWT_Authentication), Array)
+#2 /var/www/html/wp-includes/plugin.php(470): WP_Hook->do_action(Array)
+#3 /var/www/html/wp-settings.php(441): do_action('plugins_loaded')
+#4 /var/www/html/wp-config.php(131): require_once('/var/www/html/w...')
+#5 /var/www/html/wp-load.php(50): require_once('/var/www/html/w...')
+#6 /var/www/html/wp-blog-header.php(13): require_once('/var/www/html/w...')
+#7 /var/www/html/index.php(17): require('/var/www/html/w...')
+#8 {main}
+  thrown in /var/www/html/wp-content/plugins/wp-grapql-mseller/wp-graphql-mseller.php on line 148
+
+2021-09-21T22:31:25+00:00 CRITICAL Uncaught Error: Class 'Mseller\Admin' not found in /var/www/html/wp-content/plugins/wp-grapql-mseller/wp-graphql-mseller.php:148
+Stack trace:
+#0 /var/www/html/wp-includes/class-wp-hook.php(303): MSeller\init('')
+#1 /var/www/html/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters(Object(WPGraphQL\JWT_Authentication\JWT_Authentication), Array)
+#2 /var/www/html/wp-includes/plugin.php(470): WP_Hook->do_action(Array)
+#3 /var/www/html/wp-settings.php(441): do_action('plugins_loaded')
+#4 /var/www/html/wp-config.php(131): require_once('/var/www/html/w...')
+#5 /var/www/html/wp-load.php(50): require_once('/var/www/html/w...')
+#6 /var/www/html/wp-blog-header.php(13): require_once('/var/www/html/w...')
+#7 /var/www/html/index.php(17): require('/var/www/html/w...')
+#8 {main}
+  thrown in /var/www/html/wp-content/plugins/wp-grapql-mseller/wp-graphql-mseller.php on line 148
+
+2021-09-21T22:31:26+00:00 CRITICAL Uncaught Error: Class 'Mseller\Admin' not found in /var/www/html/wp-content/plugins/wp-grapql-mseller/wp-graphql-mseller.php:148
+Stack trace:
+#0 /var/www/html/wp-includes/class-wp-hook.php(303): MSeller\init('')
+#1 /var/www/html/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters(Object(WPGraphQL\JWT_Authentication\JWT_Authentication), Array)
+#2 /var/www/html/wp-includes/plugin.php(470): WP_Hook->do_action(Array)
+#3 /var/www/html/wp-settings.php(441): do_action('plugins_loaded')
+#4 /var/www/html/wp-config.php(131): require_once('/var/www/html/w...')
+#5 /var/www/html/wp-load.php(50): require_once('/var/www/html/w...')
+#6 /var/www/html/wp-blog-header.php(13): require_once('/var/www/html/w...')
+#7 /var/www/html/index.php(17): require('/var/www/html/w...')
+#8 {main}
+  thrown in /var/www/html/wp-content/plugins/wp-grapql-mseller/wp-graphql-mseller.php on line 148
+
+2021-09-21T22:31:26+00:00 CRITICAL Uncaught Error: Class 'Mseller\Admin' not found in /var/www/html/wp-content/plugins/wp-grapql-mseller/wp-graphql-mseller.php:148
+Stack trace:
+#0 /var/www/html/wp-includes/class-wp-hook.php(303): MSeller\init('')
+#1 /var/www/html/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters(Object(WPGraphQL\JWT_Authentication\JWT_Authentication), Array)
+#2 /var/www/html/wp-includes/plugin.php(470): WP_Hook->do_action(Array)
+#3 /var/www/html/wp-settings.php(441): do_action('plugins_loaded')
+#4 /var/www/html/wp-config.php(131): require_once('/var/www/html/w...')
+#5 /var/www/html/wp-load.php(50): require_once('/var/www/html/w...')
+#6 /var/www/html/wp-blog-header.php(13): require_once('/var/www/html/w...')
+#7 /var/www/html/index.php(17): require('/var/www/html/w...')
+#8 {main}
+  thrown in /var/www/html/wp-content/plugins/wp-grapql-mseller/wp-graphql-mseller.php on line 148
+
+2021-09-21T22:31:27+00:00 CRITICAL Uncaught Error: Class 'Mseller\Admin' not found in /var/www/html/wp-content/plugins/wp-grapql-mseller/wp-graphql-mseller.php:148
+Stack trace:
+#0 /var/www/html/wp-includes/class-wp-hook.php(303): MSeller\init('')
+#1 /var/www/html/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters(Object(WPGraphQL\JWT_Authentication\JWT_Authentication), Array)
+#2 /var/www/html/wp-includes/plugin.php(470): WP_Hook->do_action(Array)
+#3 /var/www/html/wp-settings.php(441): do_action('plugins_loaded')
+#4 /var/www/html/wp-config.php(131): require_once('/var/www/html/w...')
+#5 /var/www/html/wp-load.php(50): require_once('/var/www/html/w...')
+#6 /var/www/html/wp-blog-header.php(13): require_once('/var/www/html/w...')
+#7 /var/www/html/index.php(17): require('/var/www/html/w...')
+#8 {main}
+  thrown in /var/www/html/wp-content/plugins/wp-grapql-mseller/wp-graphql-mseller.php on line 148
+
+2021-09-21T22:31:33+00:00 CRITICAL Uncaught Error: Call to undefined function MSeller\add_options_page() in /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php:21
+Stack trace:
+#0 /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php(10): MSeller\Admin::initPlugin()
+#1 /var/www/html/wp-content/plugins/wp-grapql-mseller/wp-graphql-mseller.php(148): MSeller\Admin::init()
+#2 /var/www/html/wp-includes/class-wp-hook.php(303): MSeller\init('')
+#3 /var/www/html/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters(Object(WPGraphQL\JWT_Authentication\JWT_Authentication), Array)
+#4 /var/www/html/wp-includes/plugin.php(470): WP_Hook->do_action(Array)
+#5 /var/www/html/wp-settings.php(441): do_action('plugins_loaded')
+#6 /var/www/html/wp-config.php(131): require_once('/var/www/html/w...')
+#7 /var/www/html/wp-load.php(50): require_once('/var/www/html/w...')
+#8 /var/www/html/wp-blog-header.php(13): require_once('/var/www/html/w...')
+#9 /var/www/html/index.php(17): require('/var/www/html/w...')
+#10 {main}
+  thrown in /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php on line 21
+
+2021-09-21T22:31:57+00:00 CRITICAL Uncaught Error: Call to undefined function MSeller\add_options_page() in /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php:21
+Stack trace:
+#0 /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php(10): MSeller\Admin::initPlugin()
+#1 /var/www/html/wp-content/plugins/wp-grapql-mseller/wp-graphql-mseller.php(148): MSeller\Admin::init()
+#2 /var/www/html/wp-includes/class-wp-hook.php(303): MSeller\init('')
+#3 /var/www/html/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters(Object(WPGraphQL\JWT_Authentication\JWT_Authentication), Array)
+#4 /var/www/html/wp-includes/plugin.php(470): WP_Hook->do_action(Array)
+#5 /var/www/html/wp-settings.php(441): do_action('plugins_loaded')
+#6 /var/www/html/wp-config.php(131): require_once('/var/www/html/w...')
+#7 /var/www/html/wp-load.php(50): require_once('/var/www/html/w...')
+#8 /var/www/html/wp-blog-header.php(13): require_once('/var/www/html/w...')
+#9 /var/www/html/index.php(17): require('/var/www/html/w...')
+#10 {main}
+  thrown in /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php on line 21
+
+2021-09-21T22:32:00+00:00 CRITICAL Uncaught Error: Call to undefined function MSeller\add_options_page() in /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php:21
+Stack trace:
+#0 /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php(10): MSeller\Admin::initPlugin()
+#1 /var/www/html/wp-content/plugins/wp-grapql-mseller/wp-graphql-mseller.php(148): MSeller\Admin::init()
+#2 /var/www/html/wp-includes/class-wp-hook.php(303): MSeller\init('')
+#3 /var/www/html/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters(Object(WPGraphQL\JWT_Authentication\JWT_Authentication), Array)
+#4 /var/www/html/wp-includes/plugin.php(470): WP_Hook->do_action(Array)
+#5 /var/www/html/wp-settings.php(441): do_action('plugins_loaded')
+#6 /var/www/html/wp-config.php(131): require_once('/var/www/html/w...')
+#7 /var/www/html/wp-load.php(50): require_once('/var/www/html/w...')
+#8 /var/www/html/wp-blog-header.php(13): require_once('/var/www/html/w...')
+#9 /var/www/html/index.php(17): require('/var/www/html/w...')
+#10 {main}
+  thrown in /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php on line 21
+
+2021-09-21T22:32:18+00:00 CRITICAL Uncaught Error: Call to undefined function MSeller\add_options_page() in /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php:21
+Stack trace:
+#0 /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php(10): MSeller\Admin::initPlugin()
+#1 /var/www/html/wp-content/plugins/wp-grapql-mseller/wp-graphql-mseller.php(148): MSeller\Admin::init()
+#2 /var/www/html/wp-includes/class-wp-hook.php(303): MSeller\init('')
+#3 /var/www/html/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters(Object(WPGraphQL\JWT_Authentication\JWT_Authentication), Array)
+#4 /var/www/html/wp-includes/plugin.php(470): WP_Hook->do_action(Array)
+#5 /var/www/html/wp-settings.php(441): do_action('plugins_loaded')
+#6 /var/www/html/wp-config.php(131): require_once('/var/www/html/w...')
+#7 /var/www/html/wp-load.php(50): require_once('/var/www/html/w...')
+#8 /var/www/html/wp-blog-header.php(13): require_once('/var/www/html/w...')
+#9 /var/www/html/index.php(17): require('/var/www/html/w...')
+#10 {main}
+  thrown in /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php on line 21
+
+2021-09-21T22:32:19+00:00 CRITICAL Uncaught Error: Call to undefined function MSeller\add_options_page() in /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php:21
+Stack trace:
+#0 /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php(10): MSeller\Admin::initPlugin()
+#1 /var/www/html/wp-content/plugins/wp-grapql-mseller/wp-graphql-mseller.php(148): MSeller\Admin::init()
+#2 /var/www/html/wp-includes/class-wp-hook.php(303): MSeller\init('')
+#3 /var/www/html/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters(Object(WPGraphQL\JWT_Authentication\JWT_Authentication), Array)
+#4 /var/www/html/wp-includes/plugin.php(470): WP_Hook->do_action(Array)
+#5 /var/www/html/wp-settings.php(441): do_action('plugins_loaded')
+#6 /var/www/html/wp-config.php(131): require_once('/var/www/html/w...')
+#7 /var/www/html/wp-load.php(50): require_once('/var/www/html/w...')
+#8 /var/www/html/wp-blog-header.php(13): require_once('/var/www/html/w...')
+#9 /var/www/html/index.php(17): require('/var/www/html/w...')
+#10 {main}
+  thrown in /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php on line 21
+
+2021-09-21T22:32:38+00:00 CRITICAL Uncaught Error: Call to undefined function MSeller\add_options_page() in /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php:21
+Stack trace:
+#0 /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php(10): MSeller\Admin::initPlugin()
+#1 /var/www/html/wp-content/plugins/wp-grapql-mseller/wp-graphql-mseller.php(148): MSeller\Admin::init()
+#2 /var/www/html/wp-includes/class-wp-hook.php(303): MSeller\init('')
+#3 /var/www/html/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters(Object(WPGraphQL\JWT_Authentication\JWT_Authentication), Array)
+#4 /var/www/html/wp-includes/plugin.php(470): WP_Hook->do_action(Array)
+#5 /var/www/html/wp-settings.php(441): do_action('plugins_loaded')
+#6 /var/www/html/wp-config.php(131): require_once('/var/www/html/w...')
+#7 /var/www/html/wp-load.php(50): require_once('/var/www/html/w...')
+#8 /var/www/html/wp-blog-header.php(13): require_once('/var/www/html/w...')
+#9 /var/www/html/index.php(17): require('/var/www/html/w...')
+#10 {main}
+  thrown in /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php on line 21
+
+2021-09-21T22:33:27+00:00 CRITICAL Uncaught Error: Call to undefined function MSeller\add_options_page() in /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php:21
+Stack trace:
+#0 /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php(10): MSeller\Admin::initPlugin()
+#1 /var/www/html/wp-content/plugins/wp-grapql-mseller/wp-graphql-mseller.php(148): MSeller\Admin::init()
+#2 /var/www/html/wp-includes/class-wp-hook.php(303): MSeller\init('')
+#3 /var/www/html/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters(Object(WPGraphQL\JWT_Authentication\JWT_Authentication), Array)
+#4 /var/www/html/wp-includes/plugin.php(470): WP_Hook->do_action(Array)
+#5 /var/www/html/wp-settings.php(441): do_action('plugins_loaded')
+#6 /var/www/html/wp-config.php(131): require_once('/var/www/html/w...')
+#7 /var/www/html/wp-load.php(50): require_once('/var/www/html/w...')
+#8 /var/www/html/wp-blog-header.php(13): require_once('/var/www/html/w...')
+#9 /var/www/html/index.php(17): require('/var/www/html/w...')
+#10 {main}
+  thrown in /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php on line 21
+
+2021-09-21T22:35:20+00:00 CRITICAL Uncaught Error: Call to undefined function MSeller\add_options_page() in /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php:21
+Stack trace:
+#0 /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php(10): MSeller\Admin::initPlugin()
+#1 /var/www/html/wp-content/plugins/wp-grapql-mseller/wp-graphql-mseller.php(148): MSeller\Admin::init()
+#2 /var/www/html/wp-includes/class-wp-hook.php(303): MSeller\init('')
+#3 /var/www/html/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters(Object(WPGraphQL\JWT_Authentication\JWT_Authentication), Array)
+#4 /var/www/html/wp-includes/plugin.php(470): WP_Hook->do_action(Array)
+#5 /var/www/html/wp-settings.php(441): do_action('plugins_loaded')
+#6 /var/www/html/wp-config.php(131): require_once('/var/www/html/w...')
+#7 /var/www/html/wp-load.php(50): require_once('/var/www/html/w...')
+#8 /var/www/html/wp-blog-header.php(13): require_once('/var/www/html/w...')
+#9 /var/www/html/index.php(17): require('/var/www/html/w...')
+#10 {main}
+  thrown in /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php on line 21
+
+2021-09-21T22:35:21+00:00 CRITICAL Uncaught Error: Call to undefined function MSeller\add_options_page() in /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php:21
+Stack trace:
+#0 /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php(10): MSeller\Admin::initPlugin()
+#1 /var/www/html/wp-content/plugins/wp-grapql-mseller/wp-graphql-mseller.php(148): MSeller\Admin::init()
+#2 /var/www/html/wp-includes/class-wp-hook.php(303): MSeller\init('')
+#3 /var/www/html/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters(Object(WPGraphQL\JWT_Authentication\JWT_Authentication), Array)
+#4 /var/www/html/wp-includes/plugin.php(470): WP_Hook->do_action(Array)
+#5 /var/www/html/wp-settings.php(441): do_action('plugins_loaded')
+#6 /var/www/html/wp-config.php(131): require_once('/var/www/html/w...')
+#7 /var/www/html/wp-load.php(50): require_once('/var/www/html/w...')
+#8 /var/www/html/wp-blog-header.php(13): require_once('/var/www/html/w...')
+#9 /var/www/html/index.php(17): require('/var/www/html/w...')
+#10 {main}
+  thrown in /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php on line 21
+
+2021-09-21T22:37:24+00:00 CRITICAL Uncaught Error: Call to undefined function MSeller\add_options_page() in /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php:21
+Stack trace:
+#0 /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php(10): MSeller\Admin::initPlugin()
+#1 /var/www/html/wp-content/plugins/wp-grapql-mseller/wp-graphql-mseller.php(148): MSeller\Admin::init()
+#2 /var/www/html/wp-includes/class-wp-hook.php(303): MSeller\init('')
+#3 /var/www/html/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters(Object(WPGraphQL\JWT_Authentication\JWT_Authentication), Array)
+#4 /var/www/html/wp-includes/plugin.php(470): WP_Hook->do_action(Array)
+#5 /var/www/html/wp-settings.php(441): do_action('plugins_loaded')
+#6 /var/www/html/wp-config.php(131): require_once('/var/www/html/w...')
+#7 /var/www/html/wp-load.php(50): require_once('/var/www/html/w...')
+#8 /var/www/html/wp-blog-header.php(13): require_once('/var/www/html/w...')
+#9 /var/www/html/index.php(17): require('/var/www/html/w...')
+#10 {main}
+  thrown in /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php on line 21
+
+2021-09-21T22:37:26+00:00 CRITICAL Uncaught Error: Call to undefined function MSeller\add_options_page() in /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php:21
+Stack trace:
+#0 /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php(10): MSeller\Admin::initPlugin()
+#1 /var/www/html/wp-content/plugins/wp-grapql-mseller/wp-graphql-mseller.php(148): MSeller\Admin::init()
+#2 /var/www/html/wp-includes/class-wp-hook.php(303): MSeller\init('')
+#3 /var/www/html/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters(Object(WPGraphQL\JWT_Authentication\JWT_Authentication), Array)
+#4 /var/www/html/wp-includes/plugin.php(470): WP_Hook->do_action(Array)
+#5 /var/www/html/wp-settings.php(441): do_action('plugins_loaded')
+#6 /var/www/html/wp-config.php(131): require_once('/var/www/html/w...')
+#7 /var/www/html/wp-load.php(50): require_once('/var/www/html/w...')
+#8 /var/www/html/wp-blog-header.php(13): require_once('/var/www/html/w...')
+#9 /var/www/html/index.php(17): require('/var/www/html/w...')
+#10 {main}
+  thrown in /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php on line 21
+
+2021-09-21T22:37:33+00:00 CRITICAL Uncaught Error: Call to undefined function MSeller\add_options_page() in /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php:21
+Stack trace:
+#0 /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php(10): MSeller\Admin::initPlugin()
+#1 /var/www/html/wp-content/plugins/wp-grapql-mseller/wp-graphql-mseller.php(148): MSeller\Admin::init()
+#2 /var/www/html/wp-includes/class-wp-hook.php(303): MSeller\init('')
+#3 /var/www/html/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters(Object(WPGraphQL\JWT_Authentication\JWT_Authentication), Array)
+#4 /var/www/html/wp-includes/plugin.php(470): WP_Hook->do_action(Array)
+#5 /var/www/html/wp-settings.php(441): do_action('plugins_loaded')
+#6 /var/www/html/wp-config.php(131): require_once('/var/www/html/w...')
+#7 /var/www/html/wp-load.php(50): require_once('/var/www/html/w...')
+#8 /var/www/html/wp-blog-header.php(13): require_once('/var/www/html/w...')
+#9 /var/www/html/index.php(17): require('/var/www/html/w...')
+#10 {main}
+  thrown in /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php on line 21
+
+2021-09-21T23:16:39+00:00 CRITICAL Uncaught Error: Call to undefined function MSeller\add_options_page() in /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php:21
+Stack trace:
+#0 /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php(10): MSeller\Admin::initPlugin()
+#1 /var/www/html/wp-content/plugins/wp-grapql-mseller/wp-graphql-mseller.php(148): MSeller\Admin::init()
+#2 /var/www/html/wp-includes/class-wp-hook.php(303): MSeller\init('')
+#3 /var/www/html/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters(Object(WPGraphQL\JWT_Authentication\JWT_Authentication), Array)
+#4 /var/www/html/wp-includes/plugin.php(470): WP_Hook->do_action(Array)
+#5 /var/www/html/wp-settings.php(441): do_action('plugins_loaded')
+#6 /var/www/html/wp-config.php(131): require_once('/var/www/html/w...')
+#7 /var/www/html/wp-load.php(50): require_once('/var/www/html/w...')
+#8 /var/www/html/wp-blog-header.php(13): require_once('/var/www/html/w...')
+#9 /var/www/html/index.php(17): require('/var/www/html/w...')
+#10 {main}
+  thrown in /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php on line 21
+
+2021-09-21T23:17:41+00:00 CRITICAL Uncaught Error: Call to undefined function MSeller\add_options_page() in /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php:10
+Stack trace:
+#0 /var/www/html/wp-content/plugins/wp-grapql-mseller/wp-graphql-mseller.php(148): MSeller\Admin::init()
+#1 /var/www/html/wp-includes/class-wp-hook.php(303): MSeller\init('')
+#2 /var/www/html/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters(Object(WPGraphQL\JWT_Authentication\JWT_Authentication), Array)
+#3 /var/www/html/wp-includes/plugin.php(470): WP_Hook->do_action(Array)
+#4 /var/www/html/wp-settings.php(441): do_action('plugins_loaded')
+#5 /var/www/html/wp-config.php(131): require_once('/var/www/html/w...')
+#6 /var/www/html/wp-load.php(50): require_once('/var/www/html/w...')
+#7 /var/www/html/wp-blog-header.php(13): require_once('/var/www/html/w...')
+#8 /var/www/html/index.php(17): require('/var/www/html/w...')
+#9 {main}
+  thrown in /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php on line 10
+
+2021-09-21T23:18:12+00:00 CRITICAL Uncaught Error: Call to undefined function MSeller\add_options_page() in /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php:10
+Stack trace:
+#0 /var/www/html/wp-content/plugins/wp-grapql-mseller/wp-graphql-mseller.php(148): MSeller\Admin::init()
+#1 /var/www/html/wp-includes/class-wp-hook.php(303): MSeller\init('')
+#2 /var/www/html/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters(Object(WPGraphQL\JWT_Authentication\JWT_Authentication), Array)
+#3 /var/www/html/wp-includes/plugin.php(470): WP_Hook->do_action(Array)
+#4 /var/www/html/wp-settings.php(441): do_action('plugins_loaded')
+#5 /var/www/html/wp-config.php(131): require_once('/var/www/html/w...')
+#6 /var/www/html/wp-load.php(50): require_once('/var/www/html/w...')
+#7 /var/www/html/wp-blog-header.php(13): require_once('/var/www/html/w...')
+#8 /var/www/html/index.php(17): require('/var/www/html/w...')
+#9 {main}
+  thrown in /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php on line 10
+
+2021-09-21T23:18:13+00:00 CRITICAL Uncaught Error: Call to undefined function MSeller\add_options_page() in /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php:10
+Stack trace:
+#0 /var/www/html/wp-content/plugins/wp-grapql-mseller/wp-graphql-mseller.php(148): MSeller\Admin::init()
+#1 /var/www/html/wp-includes/class-wp-hook.php(303): MSeller\init('')
+#2 /var/www/html/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters(Object(WPGraphQL\JWT_Authentication\JWT_Authentication), Array)
+#3 /var/www/html/wp-includes/plugin.php(470): WP_Hook->do_action(Array)
+#4 /var/www/html/wp-settings.php(441): do_action('plugins_loaded')
+#5 /var/www/html/wp-config.php(131): require_once('/var/www/html/w...')
+#6 /var/www/html/wp-load.php(50): require_once('/var/www/html/w...')
+#7 /var/www/html/wp-blog-header.php(13): require_once('/var/www/html/w...')
+#8 /var/www/html/index.php(17): require('/var/www/html/w...')
+#9 {main}
+  thrown in /var/www/html/wp-content/plugins/wp-grapql-mseller/src/Admin.php on line 10
+

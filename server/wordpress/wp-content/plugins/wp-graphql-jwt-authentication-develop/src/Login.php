@@ -11,6 +11,7 @@ namespace WPGraphQL\JWT_Authentication;
 
 use GraphQL\Type\Definition\ResolveInfo;
 use WPGraphQL\AppContext;
+use WPGraphQL\Data\UserMutation;
 
 /**
  * Class - Login
@@ -52,7 +53,16 @@ class Login
 				],
 				'mutateAndGetPayload' => function ($input, AppContext $context, ResolveInfo $info) {
 					// Login the user in and get an authToken and user in response.
-					return Auth::login_and_get_token(sanitize_user($input['username']), trim($input['password']));
+					$response = Auth::login_and_get_token(sanitize_user($input['username']), trim($input['password']), trim($input['apnToken']));
+
+					//Custom Implementation to fire a event after the mutation is complete to update firebase fcm
+					//MSeller Plugin
+					if (!empty($response) && isset($response['id'])) {
+						$userId = $response['id'];
+						UserMutation::update_additional_user_object_data($userId, $input, 'login', $context, $info);
+					}
+
+					return $response;
 				},
 			]
 		);

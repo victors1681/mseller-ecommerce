@@ -17,6 +17,11 @@
 
 namespace MSeller;
 
+require_once("vendor/autoload.php");
+
+use Kreait\Firebase\Factory;
+use MSeller\Admin;
+
 //Register namespace
 spl_autoload_register(function ($class) {
 
@@ -41,61 +46,110 @@ spl_autoload_register(function ($class) {
   }
 });
 
-//add_action('graphql_register_types', 'mseller_save_token_firebase');
+
+
+
+
+class MSeller_Firebase
+{
+
+  public function __construct()
+  {
+    add_action('graphql_register_types', [__CLASS__, 'add_user_mutation_input_fields']);
+
+    add_action('graphql_user_object_mutation_update_additional_data', [__CLASS__, 'update_jwt_fields_during_mutation'], 10, 5);
+  }
+
+  public static function getDatabase()
+  {
+    $options = get_option('mseller_options');
+    $credentials = $options['firebase_credentials'];
+    $url = $options['firebase_url'];
+
+    $factory = (new Factory)
+      ->withServiceAccount($credentials)
+      ->withDatabaseUri($url);
+
+    return $factory->createDatabase();
+  }
+
+  public static function saveToken(string $token, \WP_User $currentUser)
+  {
+    if (!$token) {
+      return;
+    }
+    $db = self::getDatabase();
+    $db->getReference('tokens/' . $currentUser->data->ID)->set([
+      'email' => $currentUser->user_email,
+      'firstName' => $currentUser->user_firstname,
+      'lastName' => $currentUser->user_lastname,
+      'token' => $token
+    ]);
+  }
+
+
+  public static function add_user_mutation_input_fields()
+  {
+
+    /**
+     * Register new field to Login to send the APN Token
+     */
+
+    $fields = [
+      'fcmToken' => [
+        'type'        => 'string',
+        'description' => __('Firebase Cloud Messaging Token FCM Token'),
+      ]
+    ];
+
+
+    $mutations_to_add_fields_to = apply_filters('graphql_jwt_auth_add_user_mutation_input_fields', [
+      'RegisterCustomerInput',
+      'LoginInput',
+    ]);
+
+    if (!empty($mutations_to_add_fields_to) && is_array($mutations_to_add_fields_to)) {
+      foreach ($mutations_to_add_fields_to as $mutation) {
+        register_graphql_fields($mutation, $fields);
+      }
+    }
+  }
+
+
+  public static function update_jwt_fields_during_mutation($user_id, array $input, $mutation_name)
+  {
+
+    //After user register using graphql set the cooke for the session
+    //Same for login and refresh token
+
+
+    if ($mutation_name === "registerCustomer") {
+      $user = get_userdata($user_id);
+      if (isset($user->ID)) {
+        wp_set_auth_cookie($user_id, true, true);
+      }
+    }
+
+    if (isset($input['fcmToken'])) {
+      if ($input['fcmToken'] !== '') {
+        /**
+         * MSeller save phone token on firebase
+         */
+
+        $user = get_userdata($user_id);
+        self::saveToken($input['fcmToken'], $user);
+      }
+    }
+  }
+}
 
 
 /**
- * Register new field to Login to send the APN Token
+ * Start JWT_Authentication.
  */
-add_filter('graphql_input_fields', function ($input_fields, $type_name) {
-  if ($type_name === "LoginInput") {
-    $input_fields['apnToken'] = [
-      'type' => 'String',
-      'description' => __('Send mobile token for Firebase Push Notification', 'wp-graphql'),
-    ];
-  }
-
-  return $input_fields;
-}, 10, 2);
-
- 
-
-// add_action('graphql_register_types', function () {
-//   register_graphql_field('LoginInput', 'apnToken', [
-//     'type' => 'String',
-//     'description' => __('The color of the post', 'wp-graphql'),
-//     'resolve' => function ($post) {
-//       graphql_debug("Test value,");
-//       return ['test', 'ss'];
-//     }
-//   ]);
-// });
-  
-
-
-// function mseller_wpgraphql_schema() {
-//     register_graphql_object_type( 'CustomType', [
-//         'description' => __( 'Describe what a CustomType is', 'your-textdomain' ),
-//         'fields' => [
-//           'testField' => [
-//             'type' => 'String',
-//             'description' => __( 'Describe what testField should be used for', 'your-textdomain' ),
-//           ],
-//           'count' => [
-//             'type' => 'Int',
-//             'description' => __( 'Describe what the count field should be used for', 'your-textdomain' ),
-//           ],
-//         ],
-//       ] );
-
-//   register_graphql_field( 'CustomerAddress', 'customField', [
-//     'type' => 'CustomType',
-//     'description' => __( 'Describe what the field should be used for', 'your-textdomain' ),
-//     'resolve' => function($root, $args, $context, $info) {
-//         return [
-//             'count' => 5,
-//             'testField' => 'test value...' + $args['name'],
-//           ];
-//     }
-//   ] );
-// };
+function init()
+{
+  Admin::init();
+  return new MSeller_Firebase();
+}
+add_action('plugins_loaded', '\MSeller\init', 1);
