@@ -6,7 +6,7 @@ import Config from 'react-native-config';
 
 export class FRMessaging {
   navigationRef?: React.RefObject<NavigationContainerRef>;
-  constructor(navigationRef: React.RefObject<NavigationContainerRef>) {
+  constructor(navigationRef?: React.RefObject<NavigationContainerRef>) {
     this.navigationRef = navigationRef;
   }
   requestUserPermission = async () => {
@@ -26,6 +26,14 @@ export class FRMessaging {
       await messaging().subscribeToTopic(Config.APP_NAME || 'gobal');
       console.log(`Subscribed to topic ${Config.APP_NAME}`);
     }
+  };
+
+  getFCMToken = async (): Promise<string> => {
+    const permitted = await messaging().hasPermission();
+    if (permitted) {
+      return await messaging().getToken();
+    }
+    return '';
   };
 
   //Foreground state messages

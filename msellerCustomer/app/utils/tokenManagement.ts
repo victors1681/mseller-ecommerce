@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import isEmpty from 'lodash/isEmpty';
-
+import {client} from 'app/services/apolloClient';
 export interface TokenResponse {
   authToken: string;
   refreshToken: string;
@@ -71,6 +71,7 @@ export const updateToken = async (authToken: string): Promise<void> => {
 export const resetToken = async () => {
   try {
     await AsyncStorage.clear();
+    await client.resetStore();
   } catch (err) {
     console.error('error resetting token', err);
   }

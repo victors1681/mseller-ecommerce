@@ -20,6 +20,7 @@ import {signInValidationSchema} from './extra/signInValidationSchema';
 import {useCustomer} from 'app/hooks';
 
 import Toast from 'react-native-toast-message';
+import FRMessaging from 'app/services/FRMessaging';
 
 interface LoginFormProps {
   email: string;
@@ -43,9 +44,13 @@ export const SignIn = (): React.ReactElement => {
   ): Promise<void> => {
     const {email, password} = values;
 
+    const FCM = new FRMessaging();
+    const token = await FCM.getFCMToken();
+
     const response = await login({
       username: email,
       password,
+      fcmToken: token,
     });
 
     if (response) {

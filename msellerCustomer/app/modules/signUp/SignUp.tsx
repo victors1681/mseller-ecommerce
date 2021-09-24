@@ -13,6 +13,7 @@ import {LoadingIndicator} from 'app/modules/common';
 import {useCustomer} from 'app/hooks';
 import {ScreenLinks} from 'app/navigation/ScreenLinks';
 import FRDatabase from 'app/services/FRDatabase';
+import FRMessaging from 'app/services/FRMessaging';
 
 export const SignUp = (): React.ReactElement => {
   const navigation = useNavigation();
@@ -66,12 +67,16 @@ export const SignUp = (): React.ReactElement => {
   ): Promise<void> => {
     const {firstName, lastName, dob, phoneNumber, email, password} = values;
     const bod = `${dob.month}-${dob.day}-${dob.year}`;
+    const FCM = new FRMessaging();
+    const token = await FCM.getFCMToken();
+
     const response = await registerCustomer({
       displayName: `${firstName} ${lastName}`,
       firstName,
       lastName,
       email,
       password,
+      fcmToken: token,
       billing: {
         firstName,
         lastName,

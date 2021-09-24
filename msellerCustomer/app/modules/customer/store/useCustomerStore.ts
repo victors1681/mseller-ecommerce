@@ -33,7 +33,6 @@ import React from 'react';
 import {saveToken, updateToken, getToken, resetToken} from 'app/utils';
 import crashlytics from '@react-native-firebase/crashlytics';
 import Toast from 'react-native-toast-message';
-//import FRDatabase from 'app/services/FRDatabase';
 interface Data {
   customer?: Customer;
 }
@@ -206,7 +205,7 @@ export const useCustomerStore = (): CustomerStore => {
       crashlytics().recordError(error);
       Toast.show({
         type: 'error',
-        text1: err?.message,
+        text1: error?.message,
       });
       console.log('error', err);
     }
@@ -255,7 +254,6 @@ export const useCustomerStore = (): CustomerStore => {
         },
       });
 
-      console.log('responseresponseresponseresponseresponse', response);
       //save authorization token
       const authToken = response.data?.registerCustomer?.customer?.jwtAuthToken;
       const refreshToken =
@@ -272,7 +270,7 @@ export const useCustomerStore = (): CustomerStore => {
       crashlytics().recordError(error);
       Toast.show({
         type: 'error',
-        text1: err?.message,
+        text1: error?.message,
       });
       console.log('error', err);
       //Send event if the account is not successfully created with the email address
@@ -295,7 +293,7 @@ export const useCustomerStore = (): CustomerStore => {
       setCustomer(response.data?.updateCustomer?.customer as Customer);
       return response;
     } catch (err) {
-      crashlytics().recordError(err);
+      crashlytics().recordError(err?.message);
       console.error(err);
     }
   };

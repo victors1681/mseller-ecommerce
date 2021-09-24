@@ -5291,6 +5291,8 @@ export type LocalProductAttribute = ProductAttribute & {
 export type LoginInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
+  /** Firebase Cloud Messaging Token FCM Token */
+  fcmToken?: Maybe<Scalars['String']>;
   /** The plain-text password for the user logging in. */
   password: Scalars['String'];
   /** The username used for login. Typically a unique or email address depending on specific configuration */
@@ -11906,6 +11908,8 @@ export type RegisterCustomerInput = {
   displayName?: Maybe<Scalars['String']>;
   /** A string containing the user's email address. */
   email?: Maybe<Scalars['String']>;
+  /** Firebase Cloud Messaging Token FCM Token */
+  fcmToken?: Maybe<Scalars['String']>;
   /** 	The user's first name. */
   firstName?: Maybe<Scalars['String']>;
   /** User's Jabber account. */

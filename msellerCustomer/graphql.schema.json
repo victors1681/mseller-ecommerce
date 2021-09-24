@@ -28986,6 +28986,18 @@
             "deprecationReason": null
           },
           {
+            "name": "fcmToken",
+            "description": "Firebase Cloud Messaging Token FCM Token",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "password",
             "description": "The plain-text password for the user logging in.",
             "type": {
@@ -65311,6 +65323,18 @@
           {
             "name": "email",
             "description": "A string containing the user's email address.",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "fcmToken",
+            "description": "Firebase Cloud Messaging Token FCM Token",
             "type": {
               "kind": "SCALAR",
               "name": "String",
