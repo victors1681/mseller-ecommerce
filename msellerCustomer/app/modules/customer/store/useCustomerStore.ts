@@ -4,11 +4,14 @@ import {
   UPDATE_CUSTOMER,
   GET_CUSTOMER_INFO,
   REFRESH_TOKEN,
+  LOGOUT,
 } from 'app/graphql';
 import {
   Customer,
   LoginInput,
   LoginPayload,
+  LogoutInput,
+  LogoutPayload,
   Maybe,
   RefreshJwtAuthTokenInput,
   RefreshJwtAuthTokenPayload,
@@ -44,8 +47,16 @@ interface UpdateQuantitiesResponse {
 interface LoginInputArg {
   input: LoginInput;
 }
+
+interface LogoutInputArg {
+  input: LogoutInput;
+}
+
 interface LoginData {
   login: LoginPayload;
+}
+interface LogoutData {
+  logout: LogoutPayload;
 }
 
 interface RegisterCustomerArg {
@@ -108,7 +119,13 @@ export interface CustomerStore {
     | undefined
   >;
   updateCustomerInfo: MutationResult<UpdateCustomerData>;
-  performLogout: () => Promise<void>;
+  performLogout: (
+    input: LogoutInput,
+  ) => Promise<
+    | FetchResult<LogoutData, Record<string, any>, Record<string, any>>
+    | undefined
+  >;
+  logoutInfo: MutationResult<LogoutData>;
   creditCardSelected: Maybe<Scalars['String']> | undefined;
   setCreditCardSelection: React.Dispatch<
     React.SetStateAction<Maybe<Scalars['String']> | undefined>
@@ -144,6 +161,8 @@ export const useCustomerStore = (): CustomerStore => {
   }, [isLoading, networkStatus]);
 
   const [login, loginInfo] = useMutation<LoginData, LoginInputArg>(LOGIN);
+  const [logout, logoutInfo] = useMutation<LogoutData, LogoutInputArg>(LOGOUT);
+
   const [refreshToken] = useMutation<RefreshTokenData, RefreshTokenArg>(
     REFRESH_TOKEN,
   );
@@ -185,20 +204,32 @@ export const useCustomerStore = (): CustomerStore => {
       if (authToken && refreshToken && sessionToken) {
         saveToken({authToken, refreshToken, sessionToken});
       }
+      return response;
+    } catch (err) {
+      const error = err as Error;
+      crashlytics().recordError(error);
+      Toast.show({
+        type: 'error',
+        text1: error?.message,
+      });
+      console.log('error', err);
+    }
+  };
 
-      // const currentCustomer = response.data?.login?.customer;
-      // console.log('customer', customer);
-      // if (currentCustomer) {
-      //   const db = new FRDatabase();
-      //   const options = {
-      //     firstName: currentCustomer.firstName,
-      //     lastName: currentCustomer.lastName,
-      //     email: currentCustomer.email,
-      //   };
-      //   //Save phone token on firebase
-      //   await db.saveToken(currentCustomer.id, options);
-      // }
+  const performLogout = async (
+    input: LogoutInput,
+  ): Promise<
+    | FetchResult<LogoutData, Record<string, any>, Record<string, any>>
+    | undefined
+  > => {
+    try {
+      const response = await logout({
+        variables: {
+          input,
+        },
+      });
 
+      resetToken();
       return response;
     } catch (err) {
       const error = err as Error;
@@ -293,12 +324,11 @@ export const useCustomerStore = (): CustomerStore => {
       setCustomer(response.data?.updateCustomer?.customer as Customer);
       return response;
     } catch (err) {
-      crashlytics().recordError(err?.message);
+      const error = err as Error;
+      crashlytics().recordError(error);
       console.error(err);
     }
   };
-
-  const performLogout = () => resetToken();
 
   return {
     isCustomerLogged,
@@ -316,6 +346,7 @@ export const useCustomerStore = (): CustomerStore => {
     updateCustomer: performUpdate,
     updateCustomerInfo,
     performLogout,
+    logoutInfo,
     creditCardSelected,
     setCreditCardSelection,
   };

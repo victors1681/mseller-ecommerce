@@ -78,6 +78,14 @@ export const LOGIN = gql`
     }
   }
 `;
+export const LOGOUT = gql`
+  mutation Logout($input: LogoutInput!) {
+    __typename
+    logout(input: $input) {
+      status
+    }
+  }
+`;
 
 export const REFRESH_TOKEN = gql`
   mutation RefreshToken($input: RefreshJwtAuthTokenInput!) {

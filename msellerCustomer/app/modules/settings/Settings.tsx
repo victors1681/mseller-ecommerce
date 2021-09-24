@@ -26,9 +26,9 @@ export const Settings = () => {
     }, [fetchCustomer]),
   );
 
-  const handleLogout = () => {
-    performLogout();
-    fetchCustomer();
+  const handleLogout = async () => {
+    await performLogout({clientMutationId: ''});
+    await fetchCustomer();
   };
 
   return (

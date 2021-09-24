@@ -5316,6 +5316,21 @@ export type LoginPayload = {
   user?: Maybe<User>;
 };
 
+/** Input for the logout mutation */
+export type LogoutInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
+/** The payload for the logout mutation */
+export type LogoutPayload = {
+  __typename?: 'LogoutPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** response */
+  status?: Maybe<Scalars['Boolean']>;
+};
+
 /** Product manage stock enumeration */
 export enum ManageStockEnum {
   False = 'FALSE',
@@ -12226,6 +12241,8 @@ export type RootMutation = {
   increaseCount?: Maybe<Scalars['Int']>;
   /** The payload for the login mutation */
   login?: Maybe<LoginPayload>;
+  /** The payload for the logout mutation */
+  logout?: Maybe<LogoutPayload>;
   /** The payload for the purchaseCardnet mutation */
   purchaseCardnet?: Maybe<PurchaseCardnetPayload>;
   /** The payload for the refreshJwtAuthToken mutation */
@@ -12588,6 +12605,12 @@ export type RootMutationIncreaseCountArgs = {
 /** The root mutation */
 export type RootMutationLoginArgs = {
   input: LoginInput;
+};
+
+
+/** The root mutation */
+export type RootMutationLogoutArgs = {
+  input: LogoutInput;
 };
 
 
