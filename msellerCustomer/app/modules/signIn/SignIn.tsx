@@ -18,7 +18,7 @@ import {LoadingIndicator} from 'app/modules/common';
 import {CustomInput} from 'app/modules/common/form';
 import {signInValidationSchema} from './extra/signInValidationSchema';
 import {useCustomer} from 'app/hooks';
-
+import {ScreenLinks} from 'app/navigation/ScreenLinks';
 import Toast from 'react-native-toast-message';
 import FRMessaging from 'app/services/FRMessaging';
 
@@ -36,6 +36,9 @@ export const SignIn = (): React.ReactElement => {
   const {login} = useCustomer();
   const onSignUpButtonPress = (): void => {
     navigation && navigation.goBack();
+  };
+  const goToRecovery = (): void => {
+    navigation && navigation.navigate(ScreenLinks.RECOVERY_PASSWORD);
   };
 
   const onSubmit = async (
@@ -131,6 +134,14 @@ export const SignIn = (): React.ReactElement => {
                 onPress={handleSubmit}>
                 {isSubmitting ? 'Iniciando Sessión' : 'Iniciar Sessión'}
               </Button>
+
+              <Button
+                style={styles.recoveryPassword}
+                appearance="ghost"
+                onPress={goToRecovery}
+                status="primary">
+                Olvidó la contraseña?
+              </Button>
             </View>
           </ImageOverlay>
         )}
@@ -151,6 +162,10 @@ const styles = StyleSheet.create({
   logo: {
     height: 50,
     marginBottom: 30,
+  },
+  recoveryPassword: {
+    marginTop: 10,
+    textAlign: 'right',
   },
   signInContainer: {
     flexDirection: 'row',

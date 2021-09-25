@@ -10,6 +10,7 @@ export enum ScreenLinks {
   SIGN_UP_STACK = 'signUpStack',
 
   SIGN_IN = 'signIn',
+  RECOVERY_PASSWORD = 'recoveryPassword',
   ORDERS = 'orders',
   ORDER_DETAIL = 'orderDetail',
   SETTINGS = 'settings',

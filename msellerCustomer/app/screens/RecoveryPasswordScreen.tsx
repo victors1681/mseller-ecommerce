@@ -1,7 +1,7 @@
 import React from 'react';
-import {SignUp} from 'app/modules/signUp';
-export const ProductsScreen = () => {
-  return <SignUp />;
+import {RecoveryPassword} from 'app/modules/recoveryPassword';
+export const RecoveryPasswordScreen = () => {
+  return <RecoveryPassword />;
 };
 
-export default ProductsScreen;
+export default RecoveryPasswordScreen;

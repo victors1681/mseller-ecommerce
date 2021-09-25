@@ -88,7 +88,7 @@ export const RecoveryPassword = (): React.ReactElement => {
             source={require('app/assets/images/image-background.jpg')}>
             <View style={styles.signInContainer}>
               <Text style={styles.signInLabel} category="h4">
-                Acceder
+                Contraseña
               </Text>
               <Button
                 style={styles.signUpButton}
@@ -98,7 +98,7 @@ export const RecoveryPassword = (): React.ReactElement => {
                   ArrowForwardIcon as RenderProp<Partial<ImageProps>>
                 }
                 onPress={onSignUpButtonPress}>
-                Registro
+                Acceder
               </Button>
             </View>
             <View style={styles.formContainer}>
