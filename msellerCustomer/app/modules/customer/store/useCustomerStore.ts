@@ -229,7 +229,7 @@ export const useCustomerStore = (): CustomerStore => {
         },
       });
 
-      resetToken();
+      await resetToken();
       return response;
     } catch (err) {
       const error = err as Error;
@@ -274,14 +274,14 @@ export const useCustomerStore = (): CustomerStore => {
     | undefined
   > => {
     try {
+      await performLogout({clientMutationId: ''});
+
       const response = await registerCustomer({
         variables: {
           input,
         },
         context: {
-          Headers: {
-            Authorization: '',
-          },
+          Headers: null,
         },
       });
 

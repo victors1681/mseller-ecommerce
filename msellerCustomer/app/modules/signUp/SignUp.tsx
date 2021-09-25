@@ -12,7 +12,6 @@ import {CustomInput, CustomCheckbox} from 'app/modules/common/form';
 import {LoadingIndicator} from 'app/modules/common';
 import {useCustomer} from 'app/hooks';
 import {ScreenLinks} from 'app/navigation/ScreenLinks';
-import FRDatabase from 'app/services/FRDatabase';
 import FRMessaging from 'app/services/FRMessaging';
 
 export const SignUp = (): React.ReactElement => {
@@ -68,7 +67,9 @@ export const SignUp = (): React.ReactElement => {
     const {firstName, lastName, dob, phoneNumber, email, password} = values;
     const bod = `${dob.month}-${dob.day}-${dob.year}`;
     const FCM = new FRMessaging();
-    const token = await FCM.getFCMToken();
+
+    //APN Token for cloud messaging
+    const fcmToken = await FCM.getFCMToken();
 
     const response = await registerCustomer({
       displayName: `${firstName} ${lastName}`,
@@ -76,7 +77,7 @@ export const SignUp = (): React.ReactElement => {
       lastName,
       email,
       password,
-      fcmToken: token,
+      fcmToken,
       billing: {
         firstName,
         lastName,
@@ -86,18 +87,6 @@ export const SignUp = (): React.ReactElement => {
       metaData: [{key: 'bod', value: bod}],
     });
     if (response) {
-      const customer = response.data?.registerCustomer?.customer;
-
-      if (customer) {
-        const db = new FRDatabase();
-        const options = {
-          firstName: customer.firstName,
-          lastName: customer.lastName,
-          email: customer.email,
-        };
-        await db.saveToken(customer.id, options);
-      }
-
       setSubmitting(false);
       resetForm();
       navigation.goBack();
