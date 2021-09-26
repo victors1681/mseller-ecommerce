@@ -86,6 +86,16 @@ export const LOGOUT = gql`
     }
   }
 `;
+export const RECOVERY_PASSWORD = gql`
+  mutation Recovery($input: SendPasswordResetEmailInput!) {
+    __typename
+    sendPasswordResetEmail(input: $input) {
+      user {
+        email
+      }
+    }
+  }
+`;
 
 export const REFRESH_TOKEN = gql`
   mutation RefreshToken($input: RefreshJwtAuthTokenInput!) {

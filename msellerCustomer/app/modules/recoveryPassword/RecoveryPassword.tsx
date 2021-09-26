@@ -1,78 +1,70 @@
 import React from 'react';
 import {
+  Alert,
+  AlertButton,
   Image,
   ImageProps,
-  NativeSyntheticEvent,
   StyleSheet,
-  TextInputKeyPressEventData,
   View,
 } from 'react-native';
 import {Button, Text} from '@ui-kitten/components';
 import {ImageOverlay} from 'app/modules/common/ImageOverlay';
 import {ArrowForwardIcon} from './extra/icons';
 import {KeyboardAvoidingView} from './extra/3rd-party';
-import {StackActions, useNavigation} from '@react-navigation/core';
+import {useNavigation} from '@react-navigation/core';
 import {RenderProp} from '@ui-kitten/components/devsupport/components/falsyFC/falsyFC.component';
 import {Formik, FormikHelpers} from 'formik';
 import {LoadingIndicator} from 'app/modules/common';
 import {CustomInput} from 'app/modules/common/form';
-import {signInValidationSchema} from './extra/signInValidationSchema';
+import {RecoveryValidationSchema} from './extra/RecoveryValidationSchema';
 import {useCustomer} from 'app/hooks';
 
 import Toast from 'react-native-toast-message';
-import FRMessaging from 'app/services/FRMessaging';
 
-interface LoginFormProps {
+interface RecoveryPasswordFormProps {
   email: string;
-  password: string;
 }
-const initialValues: LoginFormProps = {
+const initialValues: RecoveryPasswordFormProps = {
   email: '',
-  password: '',
 };
 
 export const RecoveryPassword = (): React.ReactElement => {
   const navigation = useNavigation();
-  const {login} = useCustomer();
+  const {performRecoveryPassword} = useCustomer();
   const onSignUpButtonPress = (): void => {
     navigation && navigation.goBack();
   };
 
   const onSubmit = async (
-    values: LoginFormProps,
-    {setSubmitting, resetForm}: FormikHelpers<LoginFormProps>,
+    values: RecoveryPasswordFormProps,
+    {setSubmitting, resetForm}: FormikHelpers<RecoveryPasswordFormProps>,
   ): Promise<void> => {
-    const {email, password} = values;
+    const {email} = values;
 
-    const FCM = new FRMessaging();
-    const token = await FCM.getFCMToken();
-
-    const response = await login({
+    const response = await performRecoveryPassword({
       username: email,
-      password,
-      fcmToken: token,
     });
 
     if (response) {
       setSubmitting(false);
       resetForm();
-      navigation.dispatch(StackActions.popToTop());
-      navigation.goBack();
+
+      const alertBtn: AlertButton = {
+        text: 'OK',
+        onPress: () => {
+          navigation.goBack();
+        },
+      };
+      Alert.alert(
+        'Restaurar Contraseña',
+        `Se generó un correo electónico a ${email}. Revise su correo electrónico y bandeja de no deseados para restablecer la contraseña`,
+        [alertBtn],
+      );
     } else {
       Toast.show({
         type: 'error',
-        text1: 'Usuario/contraseña incorrecta',
+        text1: 'Usuario Incorrecto',
       });
-    }
-  };
-
-  const handleKeyDown = (
-    e: NativeSyntheticEvent<TextInputKeyPressEventData>,
-    handleSubmit: (e?: React.FormEvent<HTMLFormElement> | undefined) => void,
-  ) => {
-    console.log('tess');
-    if (e.nativeEvent.key === 'Enter') {
-      handleSubmit();
     }
   };
 
@@ -80,7 +72,7 @@ export const RecoveryPassword = (): React.ReactElement => {
     <KeyboardAvoidingView>
       <Formik
         initialValues={initialValues}
-        validationSchema={signInValidationSchema}
+        validationSchema={RecoveryValidationSchema}
         onSubmit={onSubmit}>
         {({handleSubmit, values, isSubmitting}) => (
           <ImageOverlay
@@ -116,12 +108,14 @@ export const RecoveryPassword = (): React.ReactElement => {
                 keyboardType="email-address"
               />
               <Button
-                disabled={(!values.email && !values.password) || isSubmitting}
+                disabled={!values.email || isSubmitting}
                 style={styles.session}
                 size="large"
                 accessoryLeft={(isSubmitting ? LoadingIndicator : null) as any}
                 onPress={handleSubmit}>
-                {isSubmitting ? 'Iniciando Sessión' : 'Iniciar Sessión'}
+                {isSubmitting
+                  ? 'Restaurando Contraseña'
+                  : 'Restaurar Contraseña'}
               </Button>
             </View>
           </ImageOverlay>
@@ -179,4 +173,4 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
 });
-export default SignIn;
+export default RecoveryPassword;

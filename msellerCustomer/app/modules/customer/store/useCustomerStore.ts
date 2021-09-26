@@ -5,6 +5,7 @@ import {
   GET_CUSTOMER_INFO,
   REFRESH_TOKEN,
   LOGOUT,
+  RECOVERY_PASSWORD,
 } from 'app/graphql';
 import {
   Customer,
@@ -18,6 +19,8 @@ import {
   RegisterCustomerInput,
   RegisterCustomerPayload,
   Scalars,
+  SendPasswordResetEmailInput,
+  SendPasswordResetEmailPayload,
   UpdateCustomerInput,
   UpdateCustomerPayload,
   UpdateItemQuantitiesPayload,
@@ -57,6 +60,13 @@ interface LoginData {
 }
 interface LogoutData {
   logout: LogoutPayload;
+}
+
+interface RecoveryPasswordInputArg {
+  input: SendPasswordResetEmailInput;
+}
+interface RecoveryPasswordData {
+  logout: SendPasswordResetEmailPayload;
 }
 
 interface RegisterCustomerArg {
@@ -130,6 +140,16 @@ export interface CustomerStore {
   setCreditCardSelection: React.Dispatch<
     React.SetStateAction<Maybe<Scalars['String']> | undefined>
   >;
+  performRecoveryPassword: (
+    input: SendPasswordResetEmailInput,
+  ) => Promise<
+    | FetchResult<
+        RecoveryPasswordData,
+        Record<string, any>,
+        Record<string, any>
+      >
+    | undefined
+  >;
 }
 
 /**
@@ -162,6 +182,10 @@ export const useCustomerStore = (): CustomerStore => {
 
   const [login, loginInfo] = useMutation<LoginData, LoginInputArg>(LOGIN);
   const [logout, logoutInfo] = useMutation<LogoutData, LogoutInputArg>(LOGOUT);
+  const [sendPasswordResetEmail] = useMutation<
+    RecoveryPasswordData,
+    RecoveryPasswordInputArg
+  >(RECOVERY_PASSWORD);
 
   const [refreshToken] = useMutation<RefreshTokenData, RefreshTokenArg>(
     REFRESH_TOKEN,
@@ -330,6 +354,31 @@ export const useCustomerStore = (): CustomerStore => {
     }
   };
 
+  const performRecoveryPassword = async (
+    input: SendPasswordResetEmailInput,
+  ): Promise<
+    | FetchResult<
+        RecoveryPasswordData,
+        Record<string, any>,
+        Record<string, any>
+      >
+    | undefined
+  > => {
+    try {
+      const response = await sendPasswordResetEmail({
+        variables: {
+          input,
+        },
+      });
+
+      return response;
+    } catch (err) {
+      const error = err as Error;
+      crashlytics().recordError(error);
+      console.error(err);
+    }
+  };
+
   return {
     isCustomerLogged,
     fetchCustomer,
@@ -349,5 +398,6 @@ export const useCustomerStore = (): CustomerStore => {
     logoutInfo,
     creditCardSelected,
     setCreditCardSelection,
+    performRecoveryPassword,
   };
 };
