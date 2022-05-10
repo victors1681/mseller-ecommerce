@@ -11,7 +11,7 @@ Full Stack - React Native E-Commerce App
 [VIEWO DEMO 2](https://youtu.be/Q3IX6saGy4k)
 
 
-![Mobile Seller Shopping App](/doc/mseller-shopping.jpeg)
+![Mobile Seller Shopping App](/mseller-shopping.jpeg)
 
 
 
